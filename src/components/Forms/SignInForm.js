@@ -17,7 +17,7 @@ import {
 import { makeStyles } from "@mui/styles";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
-import isEmpty from "../../helpers";
+import isEmpty from "helpers";
 
 const useStyles = makeStyles((theme) => ({
   submitButton: {

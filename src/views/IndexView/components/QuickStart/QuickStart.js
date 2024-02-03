@@ -1,10 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import SyntaxHighlighter from 'react-syntax-highlighter';
-import { vs2015 } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import { vs2015 } from "react-syntax-highlighter/dist/cjs/styles/hljs";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 const QuickStart = () => {
   const theme = useTheme();
@@ -15,7 +15,7 @@ const QuickStart = () => {
           <Typography
             variant="h4"
             color="text.primary"
-            align={'center'}
+            align={"center"}
             gutterBottom
             sx={{
               fontWeight: 700,
@@ -28,7 +28,7 @@ const QuickStart = () => {
             component="p"
             color="text.secondary"
             sx={{ fontWeight: 400 }}
-            align={'center'}
+            align={"center"}
           >
             Components, plugins, and build tools are all thoroughly documented
             with live examples and markup for easier use and customization.
@@ -37,12 +37,12 @@ const QuickStart = () => {
       </Box>
       <Box
         component={SyntaxHighlighter}
-        language={'javascript'}
+        language={"javascript"}
         style={vs2015}
         padding={`${theme.spacing(2)} !important`}
         borderRadius={2}
         margin={`${theme.spacing(0)} !important`}
-        bgcolor={'#21325b !important'}
+        bgcolor={"#21325b !important"}
       >
         {`
 > $ yarn install

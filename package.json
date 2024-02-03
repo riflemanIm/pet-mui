@@ -32,8 +32,11 @@
     "prop-types": "15.8.1",
     "react": "^18.2.0",
     "react-apexcharts": "^1.4.1",
+    "react-countup": "^6.5.0",
     "react-dom": "^18.2.0",
     "react-input-mask": "^2.0.4",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-visibility-sensor": "^5.1.1",
     "sharp": "^0.33.2",
     "tinycolor": "^0.0.1",
     "tinycolor2": "^1.6.0"
@@ -43,5 +46,8 @@
     "build": "next build",
     "start": "next start",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+  },
+  "devDependencies": {
+    "typescript": "5.3.3"
   }
 }

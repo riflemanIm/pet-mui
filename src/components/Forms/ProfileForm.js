@@ -7,7 +7,7 @@ import FormHelperText from "@mui/material/FormHelperText";
 
 import Select from "@mui/material/Select";
 // context
-import { useUserStateDispatch } from "../../context/UserContext";
+import { useUserStateDispatch } from "context/UserContext";
 
 //form func
 import { useTranslation } from "react-i18next";

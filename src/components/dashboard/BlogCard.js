@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardContent, Typography, Button, Grid } from "@mui/material";
 import Image from "next/image";
-import news from "../../../data/news";
-//import educationContent from "../../data/education";
+import news from "../data/news";
+//import educationContent from "data/education";
 
 const BlogCard = () => {
   return (

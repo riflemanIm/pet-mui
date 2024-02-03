@@ -5,8 +5,8 @@ import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import { alpha, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import IconSoundcloud from "../../../../svg/IconSoundcloud";
-import IconEmail from "../../../../svg/IconEmail";
+import IconSoundcloud from "svg/IconSoundcloud";
+import IconEmail from "svg/IconEmail";
 
 const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
   const theme = useTheme();

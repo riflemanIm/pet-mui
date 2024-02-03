@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 
 // context
-import { useUserStateDispatch } from "../../context/UserContext";
+import { useUserStateDispatch } from "context/UserContext";
 
-import { loginUser } from "../../actions/user";
+import { loginUser } from "actions/user";
 
 //form func
-import useForm from "../../hooks/useForm";
-import validate from "../../validation/validationSignIn";
+import useForm from "hooks/useForm";
+import validate from "validation/validationSignIn";
 
 import SignInForm from "./SignInForm";
 import { Button, Typography } from "@mui/material";

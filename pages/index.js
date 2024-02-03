@@ -1,6 +1,6 @@
 import React from "react";
-import Home from "../src/views/Home";
+import IndexView from "../src/views/IndexView";
 
 export default function Index({ menu }) {
-  return <Home />;
+  return <IndexView />;
 }

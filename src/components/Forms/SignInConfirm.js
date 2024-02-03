@@ -9,21 +9,21 @@ import {
 } from "@mui/material";
 
 // context
-import { useUserStateDispatch } from "../../context/UserContext";
+import { useUserStateDispatch } from "context/UserContext";
 
-import { confirmLogin } from "../../actions/user";
+import { confirmLogin } from "actions/user";
 
 //components
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
 //form func
-import useForm from "../../hooks/useForm";
+import useForm from "hooks/useForm";
 import validate from "./validationSignInCode";
 
 //i18n
 import { useTranslation } from "react-i18next";
-import isEmpty from "../../helpers";
+import isEmpty from "helpers";
 
 const useStyles = makeStyles((theme) => ({
   submitButton: {

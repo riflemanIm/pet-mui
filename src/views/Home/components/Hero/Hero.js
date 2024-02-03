@@ -1,18 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { alpha, useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Avatar from '@mui/material/Avatar';
-import Grid from '@mui/material/Grid';
+import React from "react";
+import { alpha, useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import Grid from "@mui/material/Grid";
 
 const mock = [
   {
-    title: 'Built for developers',
+    title: "Built for developers",
     subtitle:
-      'theFront is built to make your life easier. Variables, build tooling, documentation, and reusable components.',
+      "theFront is built to make your life easier. Variables, build tooling, documentation, and reusable components.",
     icon: (
       <svg
         height={24}
@@ -32,9 +32,9 @@ const mock = [
     ),
   },
   {
-    title: 'Designed to be modern',
+    title: "Designed to be modern",
     subtitle:
-      'Designed with the latest design trends in mind. theFront feels modern, minimal, and beautiful.',
+      "Designed with the latest design trends in mind. theFront feels modern, minimal, and beautiful.",
     icon: (
       <svg
         height={24}
@@ -54,9 +54,9 @@ const mock = [
     ),
   },
   {
-    title: 'Documentation for everything',
+    title: "Documentation for everything",
     subtitle:
-      'We\'ve written extensive documentation for components and tools, so you never have to reverse engineer anything.',
+      "We've written extensive documentation for components and tools, so you never have to reverse engineer anything.",
     icon: (
       <svg
         height={24}
@@ -79,7 +79,7 @@ const mock = [
 
 const Hero = () => {
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
 
@@ -90,7 +90,7 @@ const Hero = () => {
           <Typography
             variant="h3"
             color="text.primary"
-            align={'center'}
+            align={"center"}
             sx={{
               fontWeight: 700,
             }}
@@ -104,7 +104,7 @@ const Hero = () => {
             component="p"
             color="text.secondary"
             sx={{ fontWeight: 400 }}
-            align={'center'}
+            align={"center"}
           >
             Build a beautiful, modern website with flexible, fully customizable,
             atomic MUI components.
@@ -112,29 +112,29 @@ const Hero = () => {
         </Box>
         <Box
           display="flex"
-          flexDirection={{ xs: 'column', sm: 'row' }}
-          alignItems={{ xs: 'stretched', sm: 'center' }}
-          justifyContent={'center'}
+          flexDirection={{ xs: "column", sm: "row" }}
+          alignItems={{ xs: "stretched", sm: "center" }}
+          justifyContent={"center"}
         >
           <Button
-            component={'a'}
+            component={"a"}
             variant="contained"
             color="primary"
             size="large"
             fullWidth={isMd ? false : true}
-            href={'https://mui.com/store/items/the-front-landing-page/'}
-            target={'_blank'}
+            href={"https://mui.com/store/items/the-front-landing-page/"}
+            target={"_blank"}
           >
             Purchase now
           </Button>
           <Box
             marginTop={{ xs: 2, sm: 0 }}
             marginLeft={{ sm: 2 }}
-            width={{ xs: '100%', md: 'auto' }}
+            width={{ xs: "100%", md: "auto" }}
           >
             <Button
-              component={'a'}
-              href={'/docs/introduction'}
+              component={"a"}
+              href={"/docs/introduction"}
               variant="outlined"
               color="primary"
               size="large"
@@ -148,11 +148,11 @@ const Hero = () => {
       <Grid container spacing={2}>
         {mock.map((item, i) => (
           <Grid item xs={12} md={4} key={i}>
-            <Box width={1} height={1} data-aos={'fade-up'}>
+            <Box width={1} height={1} data-aos={"fade-up"}>
               <Box
-                display={'flex'}
-                flexDirection={'column'}
-                alignItems={'center'}
+                display={"flex"}
+                flexDirection={"column"}
+                alignItems={"center"}
               >
                 <Box
                   component={Avatar}
@@ -165,14 +165,14 @@ const Hero = () => {
                   {item.icon}
                 </Box>
                 <Typography
-                  variant={'h6'}
+                  variant={"h6"}
                   gutterBottom
                   sx={{ fontWeight: 500 }}
-                  align={'center'}
+                  align={"center"}
                 >
                   {item.title}
                 </Typography>
-                <Typography align={'center'} color="text.secondary">
+                <Typography align={"center"} color="text.secondary">
                   {item.subtitle}
                 </Typography>
               </Box>

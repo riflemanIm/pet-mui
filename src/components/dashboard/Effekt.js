@@ -1,7 +1,7 @@
 import React from "react";
 import { Typography, Button, Box } from "@mui/material";
 // import Image from "next/image";
-// import effectImg from "../../../public/img/effect.png";
+// import effectImg from "../public/img/effect.png";
 import BaseCard from "../baseCard/BaseCard";
 
 const Effect = () => {

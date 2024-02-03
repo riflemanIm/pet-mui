@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import Dialog from '@mui/material/Dialog';
-import DialogContent from '@mui/material/DialogContent';
+import React, { useState } from "react";
+import Dialog from "@mui/material/Dialog";
+import DialogContent from "@mui/material/DialogContent";
 //import DialogTitle from "@mui/material/DialogTitle";
-import Slide from '@mui/material/Slide';
-import { Button, Typography } from '@mui/material';
-import Alert from '@mui/material/Alert';
-import { makeStyles } from '@mui/styles';
-import Grid from '@mui/material/Grid';
-import { useTranslation } from 'react-i18next';
-import Loading from '../Loading';
-import Marked from 'react-markdown';
-import { useUserStateDispatch } from '../../context/UserContext';
+import Slide from "@mui/material/Slide";
+import { Button, Typography } from "@mui/material";
+import Alert from "@mui/material/Alert";
+import { makeStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
+import { useTranslation } from "react-i18next";
+import Loading from "../Loading";
+import Marked from "react-markdown";
+import { useUserStateDispatch } from "context/UserContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -18,21 +18,21 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   containerInfo: {
-    padding: '32px 64px',
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignContent: 'center',
-    [theme.breakpoints.down('md')]: {
-      padding: '8px 8px',
+    padding: "32px 64px",
+    alignItems: "center",
+    justifyContent: "center",
+    alignContent: "center",
+    [theme.breakpoints.down("md")]: {
+      padding: "8px 8px",
     },
   },
   root: {
-    '& .MuiPaper-rounded': {
+    "& .MuiPaper-rounded": {
       borderRadius: 24,
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down("md")]: {
         borderRadius: 4,
       },
     },
@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     height: theme.spacing(6),
   },
   marked: {
-    '& p': { margin: theme.spacing(2) },
+    "& p": { margin: theme.spacing(2) },
   },
 }));
 
@@ -57,7 +57,7 @@ export default function AlertDialogSlide({
   doCallbackWhenErr = null,
   doOnClose = null,
   buttonTitle = null,
-  keyImg = 'alterDone',
+  keyImg = "alterDone",
   showLoading = false,
 }) {
   const classes = useStyles();
@@ -92,9 +92,9 @@ export default function AlertDialogSlide({
   };
 
   const severity =
-    state?.serverError != null && state?.serverError !== ''
-      ? 'error'
-      : 'success';
+    state?.serverError != null && state?.serverError !== ""
+      ? "error"
+      : "success";
 
   return (
     <Dialog
@@ -110,47 +110,38 @@ export default function AlertDialogSlide({
     >
       <DialogContent className={classes.container}>
         <Grid container spacing={2} className={classes.containerInfo}>
-          {state.isLoaded &&
-            contentTextOk &&
-            severity === 'success' && (
-              <Grid item xs={12} style={{ textAlign: 'center' }}>
-                <img
-                  src={appInfo[keyImg]}
-                  alt={contentTextOk}
-                  style={{ margin: '8px auto' }}
-                />
+          {state.isLoaded && contentTextOk && severity === "success" && (
+            <Grid item xs={12} style={{ textAlign: "center" }}>
+              <img
+                src={appInfo[keyImg]}
+                alt={contentTextOk}
+                style={{ margin: "8px auto" }}
+              />
 
+              <Typography variant="h5" style={{ margin: "24px auto" }}>
+                {contentTextOk}
+              </Typography>
+              {contentTextOkDetail && (
                 <Typography
-                  variant="h5"
-                  style={{ margin: '24px auto' }}
+                  variant="h6"
+                  className={classes.marked}
+                  style={{
+                    textAlign:
+                      contentTextOkDetail.length > 40 ? "left" : "center",
+                  }}
                 >
-                  {contentTextOk}
+                  {<Marked>{contentTextOkDetail}</Marked>}
                 </Typography>
-                {contentTextOkDetail && (
-                  <Typography
-                    variant="h6"
-                    className={classes.marked}
-                    style={{
-                      textAlign:
-                        contentTextOkDetail.length > 40
-                          ? 'left'
-                          : 'center',
-                    }}
-                  >
-                    {<Marked>{contentTextOkDetail}</Marked>}
-                  </Typography>
-                )}
-              </Grid>
-            )}
-          <Grid item xs={12} style={{ textAlign: 'center' }}>
+              )}
+            </Grid>
+          )}
+          <Grid item xs={12} style={{ textAlign: "center" }}>
             {state.isLoaded &&
               state?.serverError != null &&
-              state?.serverError !== '' &&
+              state?.serverError !== "" &&
               (!showLoading ? (
                 <Alert severity="error">
-                  <Typography variant="body2">
-                    {state.serverError}
-                  </Typography>
+                  <Typography variant="body2">{state.serverError}</Typography>
                 </Alert>
               ) : (
                 <Loading msg={state.serverError} isLinear={true} />
@@ -163,7 +154,7 @@ export default function AlertDialogSlide({
               <Grid
                 item
                 xs={12}
-                style={{ textAlign: 'center', margin: '8px auto' }}
+                style={{ textAlign: "center", margin: "8px auto" }}
               >
                 <Button
                   className={classes.buttonSubmit}
@@ -171,23 +162,23 @@ export default function AlertDialogSlide({
                   variant="contained"
                   color="primary"
                 >
-                  {buttonTitle != null && severity === 'success'
+                  {buttonTitle != null && severity === "success"
                     ? buttonTitle
-                    : t('COMPONENT.BUT_CLOSE')}
+                    : t("COMPONENT.BUT_CLOSE")}
                 </Button>
               </Grid>
-              {buttonTitle != null && severity === 'success' && (
+              {buttonTitle != null && severity === "success" && (
                 <Grid
                   item
                   xs={12}
-                  style={{ textAlign: 'center', margin: '8px auto' }}
+                  style={{ textAlign: "center", margin: "8px auto" }}
                 >
                   <Button
                     onClick={handleClose}
                     variant="outlined"
                     color="primary"
                   >
-                    {t('COMPONENT.BUT_CLOSE')}
+                    {t("COMPONENT.BUT_CLOSE")}
                   </Button>
                 </Grid>
               )}

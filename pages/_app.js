@@ -8,7 +8,6 @@ import { UserProvider } from "../src/context/UserContext";
 import Paper from "@mui/material/Paper";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../src/theme";
-import AOS from "aos";
 
 import Head from "next/head";
 
@@ -54,10 +53,6 @@ const MyApp = (props) => {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   const [themeMode, themeToggler, mountedComponent] = useDarkMode();
-
-  React.useEffect(() => {
-    AOS.refresh();
-  }, [mountedComponent, themeMode]);
 
   return (
     <CacheProvider value={emotionCache}>

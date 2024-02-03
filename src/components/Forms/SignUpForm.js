@@ -26,7 +26,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
-import isEmpty from "../../helpers";
+import isEmpty from "helpers";
 
 const useStyles = makeStyles((theme) => ({
   creatingButtonContainer: {

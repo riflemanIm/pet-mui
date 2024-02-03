@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import { makeStyles } from "@mui/styles";
 import Select from "@mui/material/Select";
-import isEmpty from "../../helpers";
+import isEmpty from "helpers";
 
 const useStyles = makeStyles((theme) => ({
   form: { maxWidth: 400, margin: "auto" },
