@@ -4,73 +4,65 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/top-view-dog-food.jpg";
+import img from "assets/images/imgbin_cat-food-dog-ant-insect.png";
+import img1 from "assets/images/hero/28512781.jpg";
+import img2 from "assets/images/hero/25155454.jpg";
+import img3 from "assets/images/hero/32019654.jpg";
+import img4 from "assets/images/hero/49075129.jpg";
+import img5 from "assets/images/hero/80523856.jpg";
+import img6 from "assets/images/hero/54742642.jpg";
+import img7 from "assets/images/hero/98293007.jpg";
+import img8 from "assets/images/hero/98440207.jpg";
+import img9 from "assets/images/hero/57706547.jpg";
+
 import Container from "components/Container";
 
 const images = [
   {
     group: [
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img1.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img1--dark.png",
+        cover: img1,
+        coverDark: img1,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img4.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img4--dark.png",
+        cover: img2,
+        coverDark: img2,
       },
     ],
   },
   {
     group: [
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img13.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img13--dark.png",
+        cover: img3,
+        coverDark: img3,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img10.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img10--dark.png",
+        cover: img4,
+        coverDark: img4,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img7.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img7--dark.png",
+        cover: img5,
+        coverDark: img5,
       },
     ],
   },
   {
     group: [
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img6.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img6--dark.png",
+        cover: img6,
+        coverDark: img6,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img24.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img24--dark.png",
+        cover: img7,
+        coverDark: img7,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img17.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img17--dark.png",
+        cover: img8,
+        coverDark: img8,
       },
       {
-        cover:
-          "https://assets.maccarianagency.com/screenshots/the-front/img12.png",
-        coverDark:
-          "https://assets.maccarianagency.com/screenshots/the-front/img12--dark.png",
+        cover: img9,
+        coverDark: img9,
       },
     ],
   },
@@ -97,9 +89,10 @@ const Hero = () => {
         paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}
         sx={{
           backgroundImage: `url("${img.src}")`,
-          backgroundPposition: "center center",
+          backgroundPosition: "center center",
           transform: "translate3d(0px,0px,0px)",
-          backgroundSize: "cover",
+          backgroundSize: "contain",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <Container>
@@ -161,10 +154,10 @@ const Hero = () => {
             display: { xs: "none", sm: "block" },
           }}
         >
-          {/* <Box
+          <Box
             display={"flex"}
             width={"50rem"}
-            left={"50%"}
+            left={"55%"}
             top={0}
             position={"absolute"}
             sx={{ transform: "translate3d(20%, -50%, 0)" }}
@@ -184,7 +177,9 @@ const Hero = () => {
                       component={"img"}
                       loading="lazy"
                       src={
-                        theme.palette.mode === "dark" ? g.coverDark : g.cover
+                        theme.palette.mode === "dark"
+                          ? g.coverDark.src
+                          : g.cover.src
                       }
                       height={1}
                       width={1}
@@ -194,7 +189,7 @@ const Hero = () => {
                 ))}
               </Box>
             ))}
-          </Box> */}
+          </Box>
         </Box>
       </Box>
       <Box

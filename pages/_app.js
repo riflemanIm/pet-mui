@@ -4,15 +4,15 @@ import * as React from "react";
 //import App from "next/app";
 import { CacheProvider } from "@emotion/react";
 import { ThemeProvider } from "@mui/material/styles";
-import { UserProvider } from "../src/context/UserContext";
+import { UserProvider } from "context/UserContext";
 import Paper from "@mui/material/Paper";
 import CssBaseline from "@mui/material/CssBaseline";
-import getTheme from "../src/theme";
+import getTheme from "theme";
 
 import Head from "next/head";
 
-import createEmotionCache from "../src/createEmotionCache";
-import "../styles/style.css";
+import createEmotionCache from "createEmotionCache";
+//import "styles/style.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
