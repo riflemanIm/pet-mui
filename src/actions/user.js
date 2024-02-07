@@ -11,7 +11,8 @@ export async function getOzonGoodsCategory() {
       {
         headers: {
           "Content-Type": "application/json",
-          "Api-Key": "6961876b-50d6-4128-9fad-ecacaf6b4c60",
+          "Api-Key": process.env.OZON_API_KEY,
+
           "Client-Id": "1468751",
         },
       }
@@ -36,7 +37,7 @@ export async function getOzonGoods() {
       {
         headers: {
           "Content-Type": "application/json",
-          "Api-Key": "6961876b-50d6-4128-9fad-ecacaf6b4c60",
+          "Api-Key": process.env.OZON_API_KEY,
           "Client-Id": "1468751",
         },
       }
