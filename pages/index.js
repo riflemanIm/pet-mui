@@ -1,26 +1,11 @@
 import React, { useEffect } from "react";
 import IndexView from "../src/views/IndexView";
+import { getOzonGoods, getOzonGoodsCategory } from "../src/actions/user";
 
 export default function Index() {
   useEffect(async () => {
-    try {
-      const res = await fetch(
-        "https://api-seller.ozon.ru/v1/description-category/tree",
-        {
-          method: "post",
-          body: JSON.stringify({
-            language: "RU",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            "Api-Key": "ae****************16",
-            "Client-Id": "1468751",
-          },
-        }
-      );
-    } catch (error) {
-      console.log("error", error);
-    }
+    getOzonGoodsCategory();
+    getOzonGoods();
   }, []);
   return <IndexView />;
 }

@@ -1,6 +1,53 @@
 import axios from "axios";
 import isEmpty, { getError } from "../helpers";
 
+export async function getOzonGoodsCategory() {
+  try {
+    const { data } = await axios.post(
+      "https://api-seller.ozon.ru/v1/description-category/tree",
+      {
+        //category_id: 17027487,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Api-Key": "6961876b-50d6-4128-9fad-ecacaf6b4c60",
+          "Client-Id": "1468751",
+        },
+      }
+    );
+    console.log("data--", data);
+    return data;
+  } catch (error) {
+    console.log("error", getError(error));
+  }
+}
+
+export async function getOzonGoods() {
+  try {
+    const { data } = await axios.post(
+      "https://api-seller.ozon.ru/v1/description-category/attribute",
+      {
+        description_category_id: 17028670,
+        language: "DEFAULT",
+
+        type_id: 91926,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Api-Key": "6961876b-50d6-4128-9fad-ecacaf6b4c60",
+          "Client-Id": "1468751",
+        },
+      }
+    );
+    console.log("data--", data);
+    return data;
+  } catch (error) {
+    console.log("error", getError(error));
+  }
+}
+
 export async function getCountries() {
   try {
     const postData = {
