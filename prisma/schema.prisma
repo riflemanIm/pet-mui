@@ -134,23 +134,28 @@ model Food {
 
   createdAt DateTime @default(now()) @map("ordered_at") @db.DateTime(0)
   stock     Int      @default(0)
-  Package   Package? @relation(fields: [packageId], references: [id])
-  packageId Int?
 
+  @@index([brandId])
+  @@index([tasteId])
+  @@index([designedForId])
+  @@index([ingridientId])
+  @@index([specialNeedsId])
+  @@index([hardnessId])
+  @@index([madeInId])
   @@map("foods")
 }
 
 model MadeIn {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("country_made_in")
 }
 
 model Feature {
-  id    Int           @id
-  name  String        @db.VarChar(100)
+  id    Int           @id @default(autoincrement())
+  name  String        @unique @db.VarChar(100)
   foods FoodFeature[]
 
   @@map("features")
@@ -168,16 +173,16 @@ model FoodFeature {
 }
 
 model SpecialNeeds {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("special_needs")
 }
 
 model PetSize {
-  id    Int           @id
-  name  String        @db.VarChar(100)
+  id    Int           @id @default(autoincrement())
+  name  String        @unique @db.VarChar(100)
   foods FoodPetSize[]
 
   @@map("pet_sizes")
@@ -195,24 +200,24 @@ model FoodPetSize {
 }
 
 model Ingridient {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("ingridients")
 }
 
 model Hardness {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("hardness")
 }
 
 model TypeTreat {
-  id    Int             @id
-  name  String          @db.VarChar(100)
+  id    Int             @id @default(autoincrement())
+  name  String          @unique @db.VarChar(100)
   foods FoodTypeTreat[]
 
   @@map("type_treats")
@@ -249,10 +254,9 @@ model FoodTypeTreat {
 // }
 
 model Package {
-  id          Int           @id
-  name        String        @db.VarChar(100)
-  food        Food[]
-  FoodPackage FoodPackage[]
+  id    Int           @id @default(autoincrement())
+  name  String        @unique @db.VarChar(100)
+  foods FoodPackage[]
 
   @@map("packages")
 }
@@ -269,32 +273,32 @@ model FoodPackage {
 }
 
 model DesignedFor {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("designed_for")
 }
 
 model Brand {
-  id   Int    @id
-  name String @db.VarChar(100)
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
   food Food[]
 
   @@map("brands")
 }
 
 model Taste {
-  id        Int    @id
-  tasteName String @map("taste_name") @db.VarChar(100)
-  food      Food[]
+  id   Int    @id @default(autoincrement())
+  name String @unique @db.VarChar(100)
+  food Food[]
 
   @@map("tastes")
 }
 
 model Age {
-  id    Int       @id
-  name  String    @db.VarChar(100)
+  id    Int       @id @default(autoincrement())
+  name  String    @unique @db.VarChar(100)
   foods FoodAge[]
 
   @@map("ages")
@@ -312,7 +316,7 @@ model FoodAge {
 }
 
 model User {
-  id       Int      @id
+  id       Int      @id @default(autoincrement())
   balance  Decimal  @default(0.0) @db.Decimal(15, 2)
   nickname String   @unique(map: "nickname") @db.VarChar(100)
   ratings  Rating[]
@@ -354,12 +358,4 @@ enum FoodType {
   Treat // "S": "Лакомство",
 
   @@map("foods_type")
-}
-
-enum AgePet {
-  Young
-  Adult
-  Old
-
-  @@map("age_pet")
 }

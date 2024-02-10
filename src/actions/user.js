@@ -66,10 +66,10 @@ export async function getOzonGoodsCategoryAttributeValue(attribute_id, name) {
         },
       }
     );
-    console.log("-- name--", name, data);
+    //if (!data.has_next) console.log("-- name--", name);
     return data;
   } catch (error) {
-    //console.log("-- name--", name, "error", getError(error));
+    console.log("-- name--", name, "error", getError(error));
   }
 }
 

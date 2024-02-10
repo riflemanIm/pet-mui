@@ -14,6 +14,6 @@ fs.writeFile(
     if (err) {
       return console.log(err);
     }
-    console.log("The file was saved!");
+    console.log("The data.json file was saved!");
   }
 );

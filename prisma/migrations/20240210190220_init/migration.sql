@@ -40,24 +40,32 @@ CREATE TABLE `foods` (
     `made_in_id` INTEGER NULL,
     `ordered_at` DATETIME(0) NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
     `stock` INTEGER NOT NULL DEFAULT 0,
-    `packageId` INTEGER NULL,
 
+    INDEX `foods_brand_id_idx`(`brand_id`),
+    INDEX `foods_taste_id_idx`(`taste_id`),
+    INDEX `foods_designed_for_id_idx`(`designed_for_id`),
+    INDEX `foods_ingridient_id_idx`(`ingridient_id`),
+    INDEX `foods_special_needs_id_idx`(`special_needs_id`),
+    INDEX `foods_hardness_id_idx`(`hardness_id`),
+    INDEX `foods_made_in_id_idx`(`made_in_id`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `country_made_in` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `country_made_in_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `features` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `features_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -71,17 +79,19 @@ CREATE TABLE `food_feature` (
 
 -- CreateTable
 CREATE TABLE `special_needs` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `special_needs_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `pet_sizes` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `pet_sizes_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -95,25 +105,28 @@ CREATE TABLE `food_pet_size` (
 
 -- CreateTable
 CREATE TABLE `ingridients` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `ingridients_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `hardness` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `hardness_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `type_treats` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `type_treats_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -127,9 +140,10 @@ CREATE TABLE `food_type_treat` (
 
 -- CreateTable
 CREATE TABLE `packages` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `packages_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -143,33 +157,37 @@ CREATE TABLE `food_package` (
 
 -- CreateTable
 CREATE TABLE `designed_for` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `designed_for_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `brands` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `brands_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `tastes` (
-    `id` INTEGER NOT NULL,
-    `taste_name` VARCHAR(100) NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `tastes_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
 CREATE TABLE `ages` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
 
+    UNIQUE INDEX `ages_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -183,7 +201,7 @@ CREATE TABLE `food_age` (
 
 -- CreateTable
 CREATE TABLE `users` (
-    `id` INTEGER NOT NULL,
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
     `balance` DECIMAL(15, 2) NOT NULL DEFAULT 0.0,
     `nickname` VARCHAR(100) NOT NULL,
 

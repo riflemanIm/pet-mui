@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
 import IndexView from "../src/views/IndexView";
 import {
-  getOzonGoods,
+  //getOzonGoods,
   getOzonGoodsCategoryAttributeValue,
   getOzonGoodsCategoryAttributes,
-  getOzonGoodsCategoryTree,
+  //getOzonGoodsCategoryTree,
 } from "../src/actions/user";
 
 export default function Index() {
   useEffect(async () => {
-    await getOzonGoodsCategoryTree();
+    //await getOzonGoodsCategoryTree();
     const data = await getOzonGoodsCategoryAttributes();
     data.result.forEach(
       async ({ id, is_required, name, attribute_complex_id }) => {
