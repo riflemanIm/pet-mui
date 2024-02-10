@@ -21,97 +21,255 @@ datasource db {
   relationMode = "prisma"
 }
 
-// 
-// https://www.prisma.io/docs/concepts/components/prisma-schema/data-model
-
-model Author {
-  id        BigInt       @id
-  name      String       @db.VarChar(100)
-  gender    Boolean?
-  birthYear Int?         @map("birth_year") @db.SmallInt
-  deathYear Int?         @map("death_year") @db.SmallInt
-  foods     FoodAuthor[]
-
-  @@map("authors")
-}
-
-model FoodAuthor {
-  food     Food   @relation(fields: [foodId], references: [id])
-  foodId   BigInt @map("food_id")
-  author   Author @relation(fields: [authorId], references: [id])
-  authorId BigInt @map("author_id")
-
-  @@id([foodId, authorId])
-  @@map("food_authors")
-}
-
 model Food {
-  id      BigInt @id
-  articul String @db.VarChar(12)
-  title   String @db.VarChar(256)
-
+  id            BigInt   @id @default(autoincrement())
+  // "B": "SPRD-02250",
+  artikul       String   @db.VarChar(12)
+  // "C": "Бараний бибер (корень), натуральное сушёное лакомство для собак SHEPHERD TM., 100гр.",
+  title         String   @db.VarChar(256)
+  // "D": 550,
   price         Decimal  @default(0.0) @db.Decimal(15, 2)
+  // "E": 650,
   priceDiscount Decimal  @default(0.0) @map("price_discount") @db.Decimal(15, 2)
+  //"F": "Не облагается",
   vat           Boolean?
+  //"G": "Нет",
   isPromo       Boolean?
-  ozonId        String   @map("ozon_id") @db.VarChar(256)
+
+  ozonId String? @map("ozon_id") @db.VarChar(256)
+
+  //"I": "4680614022504",
   barcode       String   @db.VarChar(256)
+  //    "J": 108,
   packageWeight Int      @map("package_weight")
+  //"K": 20,
   packageWidth  Int      @map("package_width")
+  //"L": 420,
   packageHeight Int      @map("package_height")
+  //"M": 120,
   lengthHeight  Int      @map("length_height")
-  img1          String   @db.VarChar(256)
-  img2          String?  @db.VarChar(256)
-  img3          String?  @db.VarChar(256)
-  img4          String?  @db.VarChar(256)
+  //"N": 
+  img           String   @db.VarChar(256)
+  //"O":
+  imgs          String?  @db.Text
+  //"R": "SHEPHERD",
+  brand         Brand    @relation(fields: [brandId], references: [id])
+  brandId       Int      @map("brand_id")
+  //"S": "Лакомство",
+  type          FoodType
+  //"T": "Бараний бибер (корень), сушеное для собак, 100% натуральное.",
+  feature       String?  @db.VarChar(256)
 
-  brand   Brand  @relation(fields: [brandId], references: [id])
-  brandId BigInt @map("brand_id")
+  //"U": "Для взрослых;Для маленьких;Для пожилых",
+  ages             FoodAge[]
+  //"V": 100,
+  weight           Int             @map("weight")
+  //"W": 1,
+  quantity         Int?
+  //"X": "Баранина",
+  taste            Taste           @relation(fields: [tasteId], references: [id])
+  tasteId          Int             @map("taste_id")
+  //"Y": 1,
+  quantityPackages Int?            @map("quantity_packages")
+  //"Z": "Для собак",
+  designedFor      DesignedFor     @relation(fields: [designedForId], references: [id])
+  designedForId    Int             @map("designed_for_id")
+  //"AA": 365,
+  expiration       Int
+  //picking    String? @db.VarChar(256)
+  //"AC": "Вакуумная упаковка",
+  packages         FoodPackage[]
+  //"AD": 72.4,
+  proteins         Decimal?        @default(0.0) @db.Decimal(3, 1)
+  //"AE": 8.5,
+  fats             Decimal?        @default(0.0) @db.Decimal(3, 1)
+  //"AK": "Корень",
+  typeTreats       FoodTypeTreat[]
+  //  "AL": "Это лакомство для собак является отличным источником
+  anatation        String?         @db.Text
+  // "AM": "Мясо",
+  ingridient       Ingridient      @relation(fields: [ingridientId], references: [id])
+  ingridientId     Int             @map("ingridient_id")
 
-  type     FoodType
-  feature1 String?  @db.VarChar(256)
+  //    "AN": "корень, бараний корень, бибер, лакомства, собака, натуральное, сушёное",
+  keywords String? @db.Text
 
-  typeAgePet   TypeAgePet @relation(fields: [typeAgePetId], references: [id])
-  typeAgePetId BigInt     @map("type_age_pet_id")
+  //"AO": "Твердые",
+  hardness   Hardness @relation(fields: [hardnessId], references: [id])
+  hardnessId Int      @map("hardness_id")
 
-  weight   Int  @map("weight")
-  quantity Int?
+  // "AP": "Крупный;Малый;Средний",
+  petSizes FoodPetSize[]
 
-  taste   Taste  @relation(fields: [tasteId], references: [id])
-  tasteId BigInt @map("taste_id")
+  //"AQ": 3,
+  posibleStartMoth Int @map("posible_start_moth")
 
-  quantityPackage Int?
-  designedFor     DesignedFor @relation(fields: [designedForId], references: [id])
-  designedForId   BigInt      @map("designed_for_id")
-  expiration      Int
-  picking         String?     @db.VarChar(100)
+  //"AR": "Профилактика зубного налета",
+  specialNeeds   SpecialNeeds? @relation(fields: [specialNeedsId], references: [id])
+  specialNeedsId Int?          @map("special_needs_id")
 
-  package   Package @relation(fields: [packageId], references: [id])
-  packageId BigInt  @map("package_id")
+  //  "AS": "Без ароматизаторов;Без вкусовых добавок;Без глютена
+  features FoodFeature[]
 
-  proteins Decimal? @default(0.0) @db.Decimal(3, 1)
-  fats     Decimal? @default(0.0) @db.Decimal(3, 1)
+  //"AT": 1,
+  numInPackage Int?
+
+  //"AU": "100% бараний бибер (корень)",
+  composition String? @db.VarChar(256)
+
+  //"AV": "Фосфор,железо,цинк",
+  materials     String? @db.VarChar(256)
+  //"AW": 100,
+  contentOfMeet Int?    @map("content_of_meet")
+  //"AX": 489,
+  energyValue   Int?    @map("energy_value")
+  //"AZ": "Россия",
+  madeIn        MadeIn? @relation(fields: [madeInId], references: [id])
+  madeInId      Int?    @map("made_in_id")
+
+  //diets FoodDiet[]
+
+  ratings Rating[]
+  orders  Order[]
 
   createdAt DateTime @default(now()) @map("ordered_at") @db.DateTime(0)
   stock     Int      @default(0)
-
-  authors FoodAuthor[]
-  ratings Rating[]
-  orders  Order[]
+  Package   Package? @relation(fields: [packageId], references: [id])
+  packageId Int?
 
   @@map("foods")
 }
 
-model Package {
-  id   BigInt @id
+model MadeIn {
+  id   Int    @id
   name String @db.VarChar(100)
   food Food[]
+
+  @@map("country_made_in")
+}
+
+model Feature {
+  id    Int           @id
+  name  String        @db.VarChar(100)
+  foods FoodFeature[]
+
+  @@map("features")
+}
+
+model FoodFeature {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  feature   Feature @relation(fields: [featureId], references: [id])
+  featureId Int     @map("feature_id")
+
+  @@id([foodId, featureId])
+  @@map("food_feature")
+}
+
+model SpecialNeeds {
+  id   Int    @id
+  name String @db.VarChar(100)
+  food Food[]
+
+  @@map("special_needs")
+}
+
+model PetSize {
+  id    Int           @id
+  name  String        @db.VarChar(100)
+  foods FoodPetSize[]
+
+  @@map("pet_sizes")
+}
+
+model FoodPetSize {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  pet_size   PetSize @relation(fields: [pet_sizeId], references: [id])
+  pet_sizeId Int     @map("pet_size_id")
+
+  @@id([foodId, pet_sizeId])
+  @@map("food_pet_size")
+}
+
+model Ingridient {
+  id   Int    @id
+  name String @db.VarChar(100)
+  food Food[]
+
+  @@map("ingridients")
+}
+
+model Hardness {
+  id   Int    @id
+  name String @db.VarChar(100)
+  food Food[]
+
+  @@map("hardness")
+}
+
+model TypeTreat {
+  id    Int             @id
+  name  String          @db.VarChar(100)
+  foods FoodTypeTreat[]
+
+  @@map("type_treats")
+}
+
+model FoodTypeTreat {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  type_treat   TypeTreat @relation(fields: [type_treatId], references: [id])
+  type_treatId Int       @map("type_treat_id")
+
+  @@id([foodId, type_treatId])
+  @@map("food_type_treat")
+}
+
+// model Diet {
+//   id    Int     @id
+//   name  String     @db.VarChar(100)
+//   foods FoodDiet[]
+
+//   @@map("diets")
+// }
+
+// model FoodDiet {
+//   food   Food   @relation(fields: [foodId], references: [id])
+//   foodId BigInt @map("food_id")
+
+//   diet   Diet   @relation(fields: [dietId], references: [id])
+//   dietId Int @map("diet_id")
+
+//   @@id([foodId, dietId])
+//   @@map("food_diet")
+// }
+
+model Package {
+  id          Int           @id
+  name        String        @db.VarChar(100)
+  food        Food[]
+  FoodPackage FoodPackage[]
 
   @@map("packages")
 }
 
+model FoodPackage {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  package   Package @relation(fields: [packageId], references: [id])
+  packageId Int     @map("package_id")
+
+  @@id([foodId, packageId])
+  @@map("food_package")
+}
+
 model DesignedFor {
-  id   BigInt @id
+  id   Int    @id
   name String @db.VarChar(100)
   food Food[]
 
@@ -119,7 +277,7 @@ model DesignedFor {
 }
 
 model Brand {
-  id   BigInt @id
+  id   Int    @id
   name String @db.VarChar(100)
   food Food[]
 
@@ -127,23 +285,34 @@ model Brand {
 }
 
 model Taste {
-  id        BigInt @id
+  id        Int    @id
   tasteName String @map("taste_name") @db.VarChar(100)
   food      Food[]
 
   @@map("tastes")
 }
 
-model TypeAgePet {
-  id       BigInt @id
-  typeName String @unique(map: "type_name") @db.VarChar(100)
-  food     Food[]
+model Age {
+  id    Int       @id
+  name  String    @db.VarChar(100)
+  foods FoodAge[]
 
-  @@map("type_age_pet")
+  @@map("ages")
+}
+
+model FoodAge {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  age   Age @relation(fields: [ageId], references: [id])
+  ageId Int @map("age_id")
+
+  @@id([foodId, ageId])
+  @@map("food_age")
 }
 
 model User {
-  id       BigInt   @id
+  id       Int      @id
   balance  Decimal  @default(0.0) @db.Decimal(15, 2)
   nickname String   @unique(map: "nickname") @db.VarChar(100)
   ratings  Rating[]
@@ -157,7 +326,7 @@ model Order {
   food      Food     @relation(fields: [foodId], references: [id])
   foodId    BigInt   @map("food_id")
   user      User     @relation(fields: [userId], references: [id])
-  userId    BigInt   @map("user_id")
+  userId    Int      @map("user_id")
   quality   Int      @db.TinyInt
   orderedAt DateTime @default(now()) @map("ordered_at") @db.DateTime(0)
 
@@ -169,7 +338,7 @@ model Rating {
   food    Food     @relation(fields: [foodId], references: [id])
   foodId  BigInt   @map("food_id")
   user    User     @relation(fields: [userId], references: [id])
-  userId  BigInt   @map("user_id")
+  userId  Int      @map("user_id")
   score   Int      @db.TinyInt
   ratedAt DateTime @default(now()) @map("rated_at") @db.DateTime(0)
 
@@ -182,7 +351,7 @@ model Rating {
 // We use `_nbsp_` to represent one space and use `_amp_` to represent `&`.
 
 enum FoodType {
-  Treat
+  Treat // "S": "Лакомство",
 
   @@map("foods_type")
 }

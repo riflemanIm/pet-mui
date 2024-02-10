@@ -1,7 +1,7 @@
 import axios from "axios";
 import isEmpty, { getError } from "../helpers";
 
-export async function getOzonGoodsCategory() {
+export async function getOzonGoodsCategoryTree() {
   try {
     const { data } = await axios.post(
       "https://api-seller.ozon.ru/v1/description-category/tree",
@@ -11,8 +11,7 @@ export async function getOzonGoodsCategory() {
       {
         headers: {
           "Content-Type": "application/json",
-          "Api-Key": process.env.OZON_API_KEY,
-
+          "Api-Key": process.env.NEXT_PUBLIC_OZ_API_KEY,
           "Client-Id": "1468751",
         },
       }
@@ -24,28 +23,81 @@ export async function getOzonGoodsCategory() {
   }
 }
 
-export async function getOzonGoods() {
+export async function getOzonGoodsCategoryAttributes() {
+  console.log("--", process.env.NEXT_PUBLIC_OZ_API_KEY);
   try {
     const { data } = await axios.post(
       "https://api-seller.ozon.ru/v1/description-category/attribute",
       {
         description_category_id: 17028670,
         language: "DEFAULT",
-
         type_id: 91926,
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "Api-Key": process.env.OZON_API_KEY,
+          "Api-Key": process.env.NEXT_PUBLIC_OZ_API_KEY,
           "Client-Id": "1468751",
         },
       }
     );
-    console.log("data--", data);
+    console.log("getOzonGoodsCategoryAttributes--", data);
     return data;
   } catch (error) {
     console.log("error", getError(error));
+  }
+}
+export async function getOzonGoodsCategoryAttributeValue(attribute_id, name) {
+  try {
+    const { data } = await axios.post(
+      "https://api-seller.ozon.ru/v1/description-category/attribute/values",
+      {
+        description_category_id: 17028670,
+        language: "DEFAULT",
+        type_id: 91926,
+        attribute_id,
+        limit: 1000,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Api-Key": process.env.NEXT_PUBLIC_OZ_API_KEY,
+          "Client-Id": "1468751",
+        },
+      }
+    );
+    console.log("-- name--", name, data);
+    return data;
+  } catch (error) {
+    //console.log("-- name--", name, "error", getError(error));
+  }
+}
+
+export async function getOzonGoods() {
+  try {
+    const { data } = await axios.post(
+      "https://api-seller.ozon.ru/v4/product/info/prices",
+      {
+        filter: {
+          offer_id: [],
+          product_id: [],
+          visibility: "ALL",
+        },
+        last_id: "",
+        limit: 1000,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "Api-Key": process.env.NEXT_PUBLIC_OZ_API_KEY,
+          "Client-Id": "1468751",
+        },
+      }
+    );
+    console.log("-- getOzonGoods--", data);
+    return data;
+  } catch (error) {
+    //console.log("-- name--", name, "error", getError(error));
   }
 }
 
