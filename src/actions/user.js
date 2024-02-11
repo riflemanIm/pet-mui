@@ -24,7 +24,6 @@ export async function getOzonGoodsCategoryTree() {
 }
 
 export async function getOzonGoodsCategoryAttributes() {
-  console.log("--", process.env.NEXT_PUBLIC_OZ_API_KEY);
   try {
     const { data } = await axios.post(
       "https://api-seller.ozon.ru/v1/description-category/attribute",
@@ -41,13 +40,16 @@ export async function getOzonGoodsCategoryAttributes() {
         },
       }
     );
-    console.log("getOzonGoodsCategoryAttributes--", data);
+
     return data;
   } catch (error) {
     console.log("error", getError(error));
   }
 }
-export async function getOzonGoodsCategoryAttributeValue(attribute_id, name) {
+export async function getOzonGoodsCategoryAttributeValue(
+  attribute_id,
+  name = ""
+) {
   try {
     const { data } = await axios.post(
       "https://api-seller.ozon.ru/v1/description-category/attribute/values",
@@ -66,10 +68,11 @@ export async function getOzonGoodsCategoryAttributeValue(attribute_id, name) {
         },
       }
     );
-    //if (!data.has_next) console.log("-- name--", name);
+    console.log("--", name, data);
     return data;
   } catch (error) {
-    console.log("-- name--", name, "error", getError(error));
+    return;
+    console.log("-- name--", "error", getError(error));
   }
 }
 
