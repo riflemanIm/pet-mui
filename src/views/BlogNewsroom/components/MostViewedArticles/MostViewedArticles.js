@@ -1,60 +1,60 @@
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
+import React from "react";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Grid from "@mui/material/Grid";
 
 const mock = [
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img21.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img21.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    title: 'Eiusmod tempor incididunt',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Clara Bertoletti',
-      avatar: 'https://assets.maccarianagency.com/avatars/img1.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    title: "Eiusmod tempor incididunt",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Clara Bertoletti",
+      avatar: "https://assets.maccarianagency.com/avatars/img1.jpg",
     },
-    date: '10 Sep',
+    date: "10 Sep",
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img22.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img22.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    title: 'Sed ut perspiciatis',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Jhon Anderson',
-      avatar: 'https://assets.maccarianagency.com/avatars/img2.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    title: "Sed ut perspiciatis",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Jhon Anderson",
+      avatar: "https://assets.maccarianagency.com/avatars/img2.jpg",
     },
-    date: '02 Aug',
+    date: "02 Aug",
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img23.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img23.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    title: 'Unde omnis iste natus',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Chary Smith',
-      avatar: 'https://assets.maccarianagency.com/avatars/img3.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    title: "Unde omnis iste natus",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Chary Smith",
+      avatar: "https://assets.maccarianagency.com/avatars/img3.jpg",
     },
-    date: '05 Mar',
+    date: "05 Mar",
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img24.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img24.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    title: 'Eiusmod tempor incididunt',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Clara Bertoletti',
-      avatar: 'https://assets.maccarianagency.com/avatars/img1.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    title: "Eiusmod tempor incididunt",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Clara Bertoletti",
+      avatar: "https://assets.maccarianagency.com/avatars/img1.jpg",
     },
-    date: '10 Sep',
+    date: "10 Sep",
   },
 ];
 
@@ -63,17 +63,17 @@ const MostViewedArticles = () => {
   return (
     <Box>
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={{ xs: 'flex-start', sm: 'center' }}
-        flexDirection={{ xs: 'column', sm: 'row' }}
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        flexDirection={{ xs: "column", sm: "row" }}
         marginBottom={4}
       >
         <Box>
-          <Typography fontWeight={700} variant={'h6'} gutterBottom>
+          <Typography fontWeight={700} variant={"h6"} gutterBottom>
             Latest stories
           </Typography>
-          <Typography color={'text.secondary'}>
+          <Typography color={"text.secondary"}>
             Here’s what we’ve been up to recently.
           </Typography>
         </Box>
@@ -98,64 +98,64 @@ const MostViewedArticles = () => {
               height={1}
               borderRadius={0}
               boxShadow={0}
-              display={'flex'}
-              flexDirection={{ xs: 'column', md: 'row' }}
-              sx={{ backgroundImage: 'none', bgcolor: 'transparent' }}
+              display={"flex"}
+              flexDirection={{ xs: "column", md: "row" }}
+              sx={{ backgroundImage: "none", bgcolor: "transparent" }}
             >
               <Box
                 sx={{
-                  width: { xs: 1, md: '30%' },
+                  width: { xs: 1, md: "30%" },
                 }}
               >
                 <Box
-                  component={'img'}
+                  component={"img"}
                   loading="lazy"
                   height={1}
                   width={1}
                   src={item.image}
                   alt="..."
                   sx={{
-                    objectFit: 'cover',
+                    objectFit: "cover",
                     maxHeight: 200,
                     borderRadius: 2,
                     filter:
-                      theme.palette.mode === 'dark'
-                        ? 'brightness(0.7)'
-                        : 'none',
+                      theme.palette.mode === "dark"
+                        ? "brightness(0.7)"
+                        : "none",
                   }}
                 />
               </Box>
               <CardContent
                 sx={{
-                  width: { xs: 1, md: '70%' },
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
+                  width: { xs: 1, md: "70%" },
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
                 }}
               >
                 <Typography
                   fontWeight={700}
-                  sx={{ textTransform: 'uppercase' }}
+                  sx={{ textTransform: "uppercase" }}
                 >
                   {item.title}
                 </Typography>
                 <Box marginY={1}>
                   <Typography
-                    variant={'caption'}
-                    color={'text.secondary'}
-                    component={'i'}
+                    variant={"caption"}
+                    color={"text.secondary"}
+                    component={"i"}
                   >
-                    {item.author.name} - {item.date}
+                    {item.age.name} - {item.date}
                   </Typography>
                 </Box>
                 <Typography color="text.secondary">
                   {item.description}
                 </Typography>
-                <Box marginTop={2} display={'flex'} justifyContent={'flex-end'}>
+                <Box marginTop={2} display={"flex"} justifyContent={"flex-end"}>
                   <Button
                     endIcon={
                       <Box
-                        component={'svg'}
+                        component={"svg"}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

@@ -1,38 +1,38 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
+import React from "react";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
 
 const mock = [
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img3.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img3.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    title: 'Lorem ipsum dolor sit amet',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Clara Bertoletti',
-      avatar: 'https://assets.maccarianagency.com/avatars/img3.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    title: "Lorem ipsum dolor sit amet",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Clara Bertoletti",
+      avatar: "https://assets.maccarianagency.com/avatars/img3.jpg",
     },
-    date: '04 Aug',
+    date: "04 Aug",
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img25.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img25.jpg",
     description:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-    title: 'Consectetur adipiscing elit',
-    tags: ['UX', 'Design', 'Themes', 'Photography'],
-    author: {
-      name: 'Jhon Anderson',
-      avatar: 'https://assets.maccarianagency.com/avatars/img5.jpg',
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+    title: "Consectetur adipiscing elit",
+    tags: ["UX", "Design", "Themes", "Photography"],
+    age: {
+      name: "Jhon Anderson",
+      avatar: "https://assets.maccarianagency.com/avatars/img5.jpg",
     },
-    date: '12 Sep',
+    date: "12 Sep",
   },
 ];
 
@@ -43,8 +43,8 @@ const PopularNews = () => {
       <Box marginBottom={4}>
         <Typography
           variant="h4"
-          data-aos={'fade-up'}
-          align={'center'}
+          data-aos={"fade-up"}
+          align={"center"}
           gutterBottom
           sx={{
             fontWeight: 700,
@@ -54,9 +54,9 @@ const PopularNews = () => {
         </Typography>
         <Typography
           variant="h6"
-          color={'text.secondary'}
-          align={'center'}
-          data-aos={'fade-up'}
+          color={"text.secondary"}
+          align={"center"}
+          data-aos={"fade-up"}
         >
           Keep up to date with what we're working on!
           <br />
@@ -72,33 +72,33 @@ const PopularNews = () => {
               height={1}
               borderRadius={0}
               boxShadow={0}
-              display={'flex'}
+              display={"flex"}
               flexDirection={{
-                xs: 'column',
-                md: i % 2 === 0 ? 'row-reverse' : 'row',
+                xs: "column",
+                md: i % 2 === 0 ? "row-reverse" : "row",
               }}
-              sx={{ backgroundImage: 'none', bgcolor: 'transparent' }}
+              sx={{ backgroundImage: "none", bgcolor: "transparent" }}
             >
               <Box
                 sx={{
-                  width: { xs: 1, md: '50%' },
+                  width: { xs: 1, md: "50%" },
                 }}
               >
                 <Box
-                  component={'img'}
+                  component={"img"}
                   loading="lazy"
                   height={1}
                   width={1}
                   src={item.image}
                   alt="..."
                   sx={{
-                    objectFit: 'cover',
+                    objectFit: "cover",
                     maxHeight: 360,
                     borderRadius: 2,
                     filter:
-                      theme.palette.mode === 'dark'
-                        ? 'brightness(0.7)'
-                        : 'none',
+                      theme.palette.mode === "dark"
+                        ? "brightness(0.7)"
+                        : "none",
                   }}
                 />
               </Box>
@@ -106,10 +106,10 @@ const PopularNews = () => {
                 sx={{
                   paddingX: { xs: 1, sm: 2, md: 4 },
                   paddingY: { xs: 2, sm: 4 },
-                  width: { xs: 1, md: '50%' },
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'center',
+                  width: { xs: 1, md: "50%" },
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
                 }}
               >
                 <Box>
@@ -120,36 +120,36 @@ const PopularNews = () => {
                       component="a"
                       href=""
                       clickable
-                      size={'small'}
-                      color={'primary'}
+                      size={"small"}
+                      color={"primary"}
                       sx={{ marginBottom: 1, marginRight: 1 }}
                     />
                   ))}
                 </Box>
                 <Typography
-                  variant={'h6'}
+                  variant={"h6"}
                   fontWeight={700}
-                  sx={{ textTransform: 'uppercase' }}
+                  sx={{ textTransform: "uppercase" }}
                 >
                   {item.title}
                 </Typography>
                 <Box marginY={1}>
                   <Typography
-                    variant={'caption'}
-                    color={'text.secondary'}
-                    component={'i'}
+                    variant={"caption"}
+                    color={"text.secondary"}
+                    component={"i"}
                   >
-                    {item.author.name} - {item.date}
+                    {item.age.name} - {item.date}
                   </Typography>
                 </Box>
                 <Typography color="text.secondary">
                   {item.description}
                 </Typography>
-                <Box marginTop={2} display={'flex'} justifyContent={'flex-end'}>
+                <Box marginTop={2} display={"flex"} justifyContent={"flex-end"}>
                   <Button
                     endIcon={
                       <Box
-                        component={'svg'}
+                        component={"svg"}
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"

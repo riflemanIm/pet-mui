@@ -1,46 +1,46 @@
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Grid from '@mui/material/Grid';
-import Avatar from '@mui/material/Avatar';
+import React from "react";
+import { useTheme } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Grid from "@mui/material/Grid";
+import Avatar from "@mui/material/Avatar";
 
 const mock = [
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img23.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img23.jpg",
     description:
-      'Sed ut perspiciatis unde omnis iste natus error sit voluptatem',
-    title: 'Eiusmod tempor incididunt',
-    author: {
-      name: 'Clara Bertoletti',
-      avatar: 'https://assets.maccarianagency.com/avatars/img1.jpg',
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem",
+    title: "Eiusmod tempor incididunt",
+    age: {
+      name: "Clara Bertoletti",
+      avatar: "https://assets.maccarianagency.com/avatars/img1.jpg",
     },
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img24.jpg',
-    description: 'At vero eos et accusamus et iusto odio dignissimos ducimus',
-    title: 'Sed ut perspiciatis',
-    author: {
-      name: 'Jhon Anderson',
-      avatar: 'https://assets.maccarianagency.com/avatars/img2.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img24.jpg",
+    description: "At vero eos et accusamus et iusto odio dignissimos ducimus",
+    title: "Sed ut perspiciatis",
+    age: {
+      name: "Jhon Anderson",
+      avatar: "https://assets.maccarianagency.com/avatars/img2.jpg",
     },
-    date: '02 Aug',
+    date: "02 Aug",
   },
   {
-    image: 'https://assets.maccarianagency.com/backgrounds/img25.jpg',
+    image: "https://assets.maccarianagency.com/backgrounds/img25.jpg",
     description:
-      'Qui blanditiis praesentium voluptatum deleniti atque corrupti',
-    title: 'Unde omnis iste natus',
-    author: {
-      name: 'Chary Smith',
-      avatar: 'https://assets.maccarianagency.com/avatars/img3.jpg',
+      "Qui blanditiis praesentium voluptatum deleniti atque corrupti",
+    title: "Unde omnis iste natus",
+    age: {
+      name: "Chary Smith",
+      avatar: "https://assets.maccarianagency.com/avatars/img3.jpg",
     },
-    date: '05 Mar',
+    date: "05 Mar",
   },
 ];
 
@@ -49,17 +49,17 @@ const SimilarStories = () => {
   return (
     <Box>
       <Box
-        display={'flex'}
-        justifyContent={'space-between'}
-        alignItems={{ xs: 'flex-start', sm: 'center' }}
-        flexDirection={{ xs: 'column', sm: 'row' }}
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={{ xs: "flex-start", sm: "center" }}
+        flexDirection={{ xs: "column", sm: "row" }}
         marginBottom={4}
       >
         <Box>
-          <Typography fontWeight={700} variant={'h6'} gutterBottom>
+          <Typography fontWeight={700} variant={"h6"} gutterBottom>
             Similar stories
           </Typography>
-          <Typography color={'text.secondary'}>
+          <Typography color={"text.secondary"}>
             Here’s what we’ve been up to recently.
           </Typography>
         </Box>
@@ -79,15 +79,15 @@ const SimilarStories = () => {
         {mock.map((item, i) => (
           <Grid item xs={12} md={4} key={i}>
             <Box
-              component={'a'}
-              href={''}
-              display={'block'}
+              component={"a"}
+              href={""}
+              display={"block"}
               width={1}
               height={1}
               sx={{
-                textDecoration: 'none',
-                transition: 'all .2s ease-in-out',
-                '&:hover': {
+                textDecoration: "none",
+                transition: "all .2s ease-in-out",
+                "&:hover": {
                   transform: `translateY(-${theme.spacing(1 / 2)})`,
                 },
               }}
@@ -97,31 +97,31 @@ const SimilarStories = () => {
                 width={1}
                 height={1}
                 boxShadow={4}
-                display={'flex'}
-                flexDirection={'column'}
-                sx={{ backgroundImage: 'none' }}
+                display={"flex"}
+                flexDirection={"column"}
+                sx={{ backgroundImage: "none" }}
               >
                 <CardMedia
                   image={item.image}
                   title={item.title}
                   sx={{
                     height: { xs: 300, md: 360 },
-                    position: 'relative',
+                    position: "relative",
                   }}
                 >
                   <Box
-                    component={'svg'}
+                    component={"svg"}
                     viewBox="0 0 2880 480"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     sx={{
-                      position: 'absolute',
+                      position: "absolute",
                       bottom: 0,
                       color: theme.palette.background.paper,
-                      transform: 'scale(2)',
-                      height: 'auto',
+                      transform: "scale(2)",
+                      height: "auto",
                       width: 1,
-                      transformOrigin: 'top center',
+                      transformOrigin: "top center",
                     }}
                   >
                     <path
@@ -132,8 +132,8 @@ const SimilarStories = () => {
                     />
                   </Box>
                 </CardMedia>
-                <Box component={CardContent} position={'relative'}>
-                  <Typography variant={'h6'} gutterBottom>
+                <Box component={CardContent} position={"relative"}>
+                  <Typography variant={"h6"} gutterBottom>
                     {item.title}
                   </Typography>
                   <Typography color="text.secondary">
@@ -141,25 +141,22 @@ const SimilarStories = () => {
                   </Typography>
                 </Box>
                 <Box flexGrow={1} />
-                <Box padding={2} display={'flex'} flexDirection={'column'}>
+                <Box padding={2} display={"flex"} flexDirection={"column"}>
                   <Box marginBottom={2}>
                     <Divider />
                   </Box>
                   <Box
-                    display={'flex'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
                   >
-                    <Box display={'flex'} alignItems={'center'}>
-                      <Avatar
-                        src={item.author.avatar}
-                        sx={{ marginRight: 1 }}
-                      />
-                      <Typography color={'text.secondary'}>
-                        {item.author.name}
+                    <Box display={"flex"} alignItems={"center"}>
+                      <Avatar src={item.age.avatar} sx={{ marginRight: 1 }} />
+                      <Typography color={"text.secondary"}>
+                        {item.age.name}
                       </Typography>
                     </Box>
-                    <Typography color={'text.secondary'}>
+                    <Typography color={"text.secondary"}>
                       {item.date}
                     </Typography>
                   </Box>
