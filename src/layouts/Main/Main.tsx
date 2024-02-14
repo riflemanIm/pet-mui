@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
+//import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Box from "@mui/material/Box";
@@ -13,8 +13,17 @@ import TopNav from "components/TopNav";
 import { Topbar, Sidebar, Footer } from "./components";
 
 import pages from "../navigation";
+type Props = {
+  children: string | JSX.Element | JSX.Element[];
+  colorInvert?: boolean;
+  bgcolor?: string;
+};
 
-const Main = ({ children, colorInvert = false, bgcolor = "transparent" }) => {
+const Main = ({
+  children,
+  colorInvert = false,
+  bgcolor = "transparent",
+}: Props) => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
@@ -75,12 +84,6 @@ const Main = ({ children, colorInvert = false, bgcolor = "transparent" }) => {
       </Container>
     </Box>
   );
-};
-
-Main.propTypes = {
-  children: PropTypes.node,
-  colorInvert: PropTypes.bool,
-  bgcolor: PropTypes.string,
 };
 
 export default Main;

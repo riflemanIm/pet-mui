@@ -6,7 +6,12 @@ export async function fetchFoods(data: {
   size?: number;
   type?: string;
   sort?: string;
-}): Promise<{ content: FoodProps[]; total: number; error?: any }> {
+}): Promise<{
+  [x: string]: any;
+  content: FoodProps[];
+  total: number;
+  error?: any;
+}> {
   try {
     const queryArray = Object.keys(data).reduce((prev: string[], item) => {
       const value = data[item as keyof typeof data];
@@ -15,7 +20,9 @@ export async function fetchFoods(data: {
       }
       return prev;
     }, []);
-    const response = await axios.get(`/api/foods?${queryArray.join(`&`)}`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/food?${queryArray.join(`&`)}`
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -31,7 +38,9 @@ export async function fetchFoodTypes(): Promise<{
   error?: any;
 }> {
   try {
-    const response = await axios.get<string[]>(`/api/foods/types`);
+    const response = await axios.get<string[]>(
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/types`
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -47,7 +56,9 @@ export async function fetchFoodDetailsById(id: string): Promise<{
   error?: any;
 }> {
   try {
-    const response = await axios.get(`/api/foods/${id}`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${id}`
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -63,7 +74,9 @@ export async function fetchFoodRatingsById(id: string): Promise<{
   error?: any;
 }> {
   try {
-    const response = await axios.get(`/api/foods/${id}/ratings`);
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${id}/ratings`
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -82,7 +95,10 @@ export async function updateFoodDetails(
   error?: any;
 }> {
   try {
-    const response = await axios.put(`/api/foods/${id}`, params);
+    const response = await axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${id}`,
+      params
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -103,7 +119,10 @@ export async function addRatingByFoodID(
   error?: any;
 }> {
   try {
-    const response = await axios.post(`/api/foods/${foodID}/ratings`, params);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${foodID}/ratings`,
+      params
+    );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
@@ -123,7 +142,7 @@ export async function deleteRating(
 }> {
   try {
     const response = await axios.delete(
-      `/api/foods/${foodID}/ratings?userId=${userID}`
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${foodID}/ratings?userId=${userID}`
     );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
@@ -144,7 +163,7 @@ export async function buyFood(
 }> {
   try {
     const response = await axios.post(
-      `/api/foods/${foodID}/buy?userId=${params.userID}&quality=${params.quality}`
+      `${process.env.NEXT_PUBLIC_API_URL}/foods/${foodID}/buy?userId=${params.userID}&quality=${params.quality}`
     );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);

@@ -1,3 +1,8 @@
+export interface ProductsPageProps {
+  page: number;
+  pageSize: number;
+}
+
 export type AgeType = {
   id: string;
   name: string;
@@ -7,6 +12,8 @@ export interface FoodProps {
   id: string;
   title: string;
   type: string;
+  img: string;
+
   createdAt: string;
   priceDiscount: number;
   price: string;

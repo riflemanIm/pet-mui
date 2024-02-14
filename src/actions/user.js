@@ -111,7 +111,7 @@ export async function getCountries() {
       headers: { "Content-Type": "application/json" },
     };
     const { data } = await axios.get(
-      `${process.env.API_URL}/countries`,
+      `${process.env.NEXT_PUBLIC_API_URL}/countries`,
       postData
     );
     console.log("data--", data);

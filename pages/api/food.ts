@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { FoodType } from "@prisma/client";
 import prisma from "../../lib/prisma";
+import { bigIntToSrt } from "helpers";
 
 const DEFAULT_PAGE_NUM = 1;
 const DEFAULT_PAGE_SIZE = 8;
@@ -24,7 +25,9 @@ const foodListHandler = async (
 ) => {
   if (req.method === "GET") {
     try {
-      res.status(200).json(await getfoodList(req));
+      const result = await getfoodList(req);
+      const data = bigIntToSrt(result?.content || []);
+      res.status(200).json(data);
     } catch (err: any) {
       console.error(err);
       res.status(500).json({

@@ -1,4 +1,4 @@
-import md5 from "md5";
+// import md5 from "md5";
 import { NextApiRequest } from "next";
 
 const SOL1 = "kj5tph324gd;";
@@ -57,17 +57,17 @@ export const clientIp = (req: NextApiRequest) => {
   return ip;
 };
 
-export const password = (pass: string) => md5(`${SOL1}${pass}${SOL2}`);
+// export const password = (pass: string) => md5(`${SOL1}${pass}${SOL2}`);
 
-export const sign = (
-  merchId: number,
-  price: number,
-  secret: string,
-  currency: string,
-  ordId: number
-) => {
-  return md5(`${merchId}:${price}:${secret}:${currency}:${ordId}`);
-};
+// export const sign = (
+//   merchId: number,
+//   price: number,
+//   secret: string,
+//   currency: string,
+//   ordId: number
+// ) => {
+//   return md5(`${merchId}:${price}:${secret}:${currency}:${ordId}`);
+// };
 
 export function getError(err: any) {
   //  console.log("=== err ===", err);
@@ -139,6 +139,13 @@ export function isNumeric(n: string | number) {
 //     return acc;
 //   }, initialValue);
 //}
+
+export function bigIntToSrt<T extends { id: bigint }>(arr: T[]) {
+  return arr.map((it: T) => ({
+    ...it,
+    id: typeof it.id === "bigint" ? it.id.toString() : it.id,
+  }));
+}
 
 // export function groupByKey<T, K extends keyof T>(
 //   list: T[],
