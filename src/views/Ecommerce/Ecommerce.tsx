@@ -17,7 +17,8 @@ import {
 import { useRecoilState } from "recoil";
 import { homePageFoodSumState, homePageQueryState } from "atoms";
 import { PAGE_SIZE } from "types";
-import Pagination from "./components/Products/Pagination";
+import PaginationCus from "./components/Products/Pagination";
+import { Pagination, Stack } from "@mui/material";
 
 const Ecommerce: FC = () => {
   const [homePageQueryData, setHomePageQueryData] =
@@ -46,13 +47,15 @@ const Ecommerce: FC = () => {
       </Box> */}
       <Container>
         <Products page={homePageQueryData?.page || 1} pageSize={PAGE_SIZE} />
-        <Box className="flex justify-center pt-6">
+
+        <Stack spacing={2} alignItems="center" mt={3}>
           <Pagination
-            currentPage={homePageQueryData?.page || 1}
-            pages={Math.round(homePageFoodSum / PAGE_SIZE)}
-            onClick={handleClickPagination}
+            count={Math.round(homePageFoodSum / PAGE_SIZE)}
+            variant="outlined"
+            page={homePageQueryData?.page || 1}
+            onChange={(_, page: number) => handleClickPagination(page)}
           />
-        </Box>
+        </Stack>
       </Container>
       {/* <Box bgcolor={'alternate.main'}>
         <Container>
