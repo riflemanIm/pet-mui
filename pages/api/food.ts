@@ -25,9 +25,7 @@ const foodListHandler = async (
 ) => {
   if (req.method === "GET") {
     try {
-      const result = await getfoodList(req);
-      const data = bigIntToSrt(result?.content || []);
-      res.status(200).json(data);
+      res.status(200).json(await getfoodList(req));
     } catch (err: any) {
       console.error(err);
       res.status(500).json({
@@ -115,7 +113,7 @@ async function getfoodList(req: NextApiRequest) {
   const total = await prisma.food.count(parsefoodListQuery(req.query));
   if (foods)
     return {
-      content: foods,
+      content: bigIntToSrt(foods || []),
       total: total,
     };
 }

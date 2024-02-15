@@ -10,39 +10,6 @@ import { homePageFoodSumState } from "atoms";
 import { FoodProps, ProductsPageProps } from "types";
 import ProductItem from "./ProductItem";
 
-const mock = [
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img37.png",
-    title: "Music player",
-    price: "$320",
-  },
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img38.png",
-    title: "Headphones",
-    price: "$450",
-  },
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img39.png",
-    title: "Wireless headpohones",
-    price: "$280",
-  },
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img40.png",
-    title: "Bluetooth headphones",
-    price: "$300",
-  },
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img41.png",
-    title: "Headphones",
-    price: "$280",
-  },
-  {
-    media: "https://assets.maccarianagency.com/backgrounds/img42.png",
-    title: "Music player",
-    price: "$340",
-  },
-];
-
 const Products = (props: ProductsPageProps) => {
   const theme = useTheme();
   const { page, pageSize } = props;
@@ -51,6 +18,7 @@ const Products = (props: ProductsPageProps) => {
   const [homePageFoodSum, setHomePageFoodSum] =
     useRecoilState(homePageFoodSumState);
 
+  console.log("foodListLoadable.contents", foodListLoadable.contents);
   const RenderItems = () => {
     {
       switch (foodListLoadable.state) {
@@ -67,7 +35,7 @@ const Products = (props: ProductsPageProps) => {
               )}
 
               <Grid container spacing={4}>
-                {foodListLoadable.contents.map(
+                {foodListLoadable.contents.content.map(
                   (food: FoodProps, inx: number) => (
                     <ProductItem item={food} key={food.id} i={inx} />
                   )
