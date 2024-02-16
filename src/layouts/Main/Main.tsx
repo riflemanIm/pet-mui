@@ -57,7 +57,9 @@ const Main = ({
         position={"sticky"}
         sx={{
           top: 0,
-          backgroundColor: trigger ? theme.palette.background.paper : bgcolor,
+          backgroundColor: trigger
+            ? theme.palette.primary.main
+            : theme.palette.secondary.main,
         }}
         elevation={trigger ? 1 : 0}
       >

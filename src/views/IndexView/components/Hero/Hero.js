@@ -4,7 +4,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/imgbin_cat-food-dog-ant-insect.png";
+import img from "assets/images/hero/dog_food_PNG37.png";
 import img1 from "assets/images/hero/28512781.jpg";
 import img2 from "assets/images/hero/25155454.jpg";
 import img3 from "assets/images/hero/32019654.jpg";
@@ -96,7 +96,7 @@ const Hero = () => {
         }}
       >
         <Container>
-          <Box maxWidth={{ xs: 1, sm: "30%" }}>
+          <Box maxWidth={{ xs: 1, sm: "35%" }}>
             {/* <Box
               component={"img"}
               src={img.src}

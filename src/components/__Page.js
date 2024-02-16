@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { ThemeProvider } from '@mui/material/styles';
-import Paper from '@mui/material/Paper';
-import CssBaseline from '@mui/material/CssBaseline';
-import getTheme from 'theme';
-import AOS from 'aos';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { ThemeProvider } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import CssBaseline from "@mui/material/CssBaseline";
+import getTheme from "theme";
+import AOS from "aos";
 
 export const useDarkMode = () => {
-  const [themeMode, setTheme] = useState('light');
+  const [themeMode, setTheme] = useState("light");
   const [mountedComponent, setMountedComponent] = useState(false);
 
   const setMode = (mode) => {
     try {
-      window.localStorage.setItem('themeMode', mode);
+      window.localStorage.setItem("themeMode", mode);
     } catch {
       /* do nothing */
     }
@@ -21,15 +21,15 @@ export const useDarkMode = () => {
   };
 
   const themeToggler = () => {
-    themeMode === 'light' ? setMode('dark') : setMode('light');
+    themeMode === "light" ? setMode("dark") : setMode("light");
   };
 
   useEffect(() => {
     try {
-      const localTheme = window.localStorage.getItem('themeMode');
-      localTheme ? setTheme(localTheme) : setMode('light');
+      const localTheme = window.localStorage.getItem("themeMode");
+      localTheme ? setTheme(localTheme) : setMode("light");
     } catch {
-      setMode('light');
+      setMode("light");
     }
 
     setMountedComponent(true);
@@ -41,7 +41,7 @@ export const useDarkMode = () => {
 export default function Page({ children }) {
   React.useEffect(() => {
     // Remove the server-side injected CSS.
-    const jssStyles = document.querySelector('#jss-server-side');
+    const jssStyles = document.querySelector("#jss-server-side");
     if (jssStyles) {
       jssStyles.parentElement.removeChild(jssStyles);
     }
@@ -51,7 +51,7 @@ export default function Page({ children }) {
       delay: 0,
       duration: 800,
       offset: 0,
-      easing: 'ease-in-out',
+      easing: "ease-in-out",
     });
   }, []);
 

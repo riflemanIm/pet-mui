@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import getTheme from "theme";
+import getTheme from "../src/theme";
 import { AppProps } from "next/app";
 
 function DebugObserver() {

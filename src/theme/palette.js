@@ -1,3 +1,10 @@
+import tinycolor from "tinycolor2";
+const lighterenRate = 1.5;
+const lightenRate = 7.5;
+const darkenRate = 15;
+const darkerRate = 30;
+const PRIMARY = "#2D4465";
+const SECONDARY = "#2C394B";
 export const light = {
   alternate: {
     main: "#f7faff",
@@ -6,16 +13,25 @@ export const light = {
   cardShadow: "rgba(23, 70, 161, .11)",
   mode: "light",
   primary: {
-    main: "#0D3C3C",
-    light: "#2f3134",
-    dark: "#2f3134",
-    contrastText: "#fff",
+    main: PRIMARY,
+    light: tinycolor(PRIMARY).lighten(lightenRate).toHexString(),
+    dark: tinycolor(PRIMARY).darken(darkenRate).toHexString(),
+    darker: tinycolor(PRIMARY).darken(darkerRate).toHexString(),
+    contrastText: "#E7EDF6",
   },
   secondary: {
-    light: "#ffb74d",
-    main: "#f9b934",
-    dark: "#FF9800",
-    contrastText: "rgba(0, 0, 0, 0.87)",
+    main: SECONDARY,
+    light: tinycolor(SECONDARY).lighten(lightenRate).toHexString(),
+    dark: tinycolor(SECONDARY).darken(darkenRate).toHexString(),
+    darker: tinycolor(SECONDARY).darken(darkerRate).toHexString(),
+    contrastText: "#E7EDF6",
+  },
+  secondary: {
+    main: SECONDARY,
+    light: tinycolor(SECONDARY).lighten(lightenRate).toHexString(),
+    dark: tinycolor(SECONDARY).darken(darkenRate).toHexString(),
+    darker: tinycolor(SECONDARY).darken(darkerRate).toHexString(),
+    contrastText: "#E7EDF6",
   },
   text: {
     primary: "#0D3C3C",
@@ -23,10 +39,10 @@ export const light = {
   },
   divider: "rgba(0, 0, 0, 0.12)",
   background: {
-    paper: "#F0F5E5",
-    default: "#F0F5E5",
-    level2: "#FFF8F7",
-    level1: "#F0F5E5",
+    paper: "#FFFBFB",
+    default: "#FFFBFB",
+    level2: "#f2fff0",
+    level1: "#FFFBFB",
   },
 };
 

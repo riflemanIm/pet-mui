@@ -30,8 +30,8 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           component={"img"}
           src={
             mode === "light" && !colorInvert
-              ? "/images/logo_shepherd.svg"
-              : "/images/logo_shepherd.svg"
+              ? "/images/logo_shepherd_light.svg"
+              : "/images/logo_shepherd_light.svg"
           }
           height={1}
           width={1}
@@ -43,7 +43,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/catalog"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             каталог
@@ -54,7 +54,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/music"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             music
@@ -65,7 +65,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/fundraising"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             fundraising
@@ -76,7 +76,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/about"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             about
@@ -89,7 +89,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="https://soundcloud.com/baaahs"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center" }}
           >
             <IconSoundcloud />
@@ -100,7 +100,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="mailto:info@baaahs.org?subject=Writing%20from%20the%20web"
-            color={colorInvert ? "common.white" : "text.primary"}
+            color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center" }}
           >
             <IconEmail />
