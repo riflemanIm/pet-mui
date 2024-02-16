@@ -6,7 +6,7 @@ export const light = {
   cardShadow: "rgba(23, 70, 161, .11)",
   mode: "light",
   primary: {
-    main: "#1e2022",
+    main: "#0D3C3C",
     light: "#2f3134",
     dark: "#2f3134",
     contrastText: "#fff",
@@ -18,15 +18,15 @@ export const light = {
     contrastText: "rgba(0, 0, 0, 0.87)",
   },
   text: {
-    primary: "#1e2022",
+    primary: "#0D3C3C",
     secondary: "#677788",
   },
   divider: "rgba(0, 0, 0, 0.12)",
   background: {
-    paper: "#fff8ee",
-    default: "#fff8ee",
-    level2: "#f5f5f5",
-    level1: "#fff8ee",
+    paper: "#f8fff7",
+    default: "#f8fff7",
+    level2: "#f2fff0",
+    level1: "#f8fff7",
   },
 };
 
