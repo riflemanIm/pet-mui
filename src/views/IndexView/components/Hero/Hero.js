@@ -96,7 +96,7 @@ const Hero = () => {
         }}
       >
         <Container>
-          <Box maxWidth={{ xs: 1, sm: "50%" }}>
+          <Box maxWidth={{ xs: 1, sm: "30%" }}>
             {/* <Box
               component={"img"}
               src={img.src}
@@ -108,12 +108,13 @@ const Hero = () => {
               variant="h6"
               component="p"
               color="text.primary"
-              sx={{ fontWeight: 700 }}
+              sx={{ fontWeight: 600 }}
             >
-              The Big Ass Amazingly Awesome Homosexual Sheep (BAAAHS) is a
-              mutant vehicle, a mobile disco, and a penetrable social statement.
+              Мы готовы доставить наш продукт в любую точку России и мира.
+              <br /> Также у нас есть удобный вариант самовывоза для жителей
+              Краснодара.
             </Typography>
-            <Box
+            {/* <Box
               display="flex"
               flexDirection={{ xs: "column", sm: "row" }}
               alignItems={{ xs: "stretched", sm: "flex-start" }}
@@ -145,7 +146,7 @@ const Hero = () => {
                   Learn more
                 </Button>
               </Box>
-            </Box>
+            </Box> */}
           </Box>
         </Container>
         <Box
