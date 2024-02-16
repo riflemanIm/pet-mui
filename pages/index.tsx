@@ -1,9 +1,9 @@
 import React from "react";
-import Ecommerce from "../src/views/Ecommerce";
+import IndexView from "../src/views/IndexView";
 import { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <Ecommerce />;
+  return <IndexView />;
 };
 
 export default Home;

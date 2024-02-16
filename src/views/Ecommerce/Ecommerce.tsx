@@ -17,7 +17,7 @@ import {
 import { useRecoilState } from "recoil";
 import { homePageFoodSumState, homePageQueryState } from "atoms";
 import { PAGE_SIZE } from "types";
-import PaginationCus from "./components/Products/Pagination";
+//import PaginationCustom from "./components/Products/Pagination";
 import { Pagination, Stack } from "@mui/material";
 
 const Ecommerce: FC = () => {

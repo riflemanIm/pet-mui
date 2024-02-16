@@ -1,10 +1,10 @@
-import React from 'react';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
+import React from "react";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import Typography from "@mui/material/Typography";
+import { useTheme } from "@mui/material/styles";
 
 const Footer = () => {
   const theme = useTheme();
@@ -14,40 +14,40 @@ const Footer = () => {
     <Grid container spacing={2}>
       <Grid item xs={12}>
         <Box
-          display={'flex'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
+          display={"flex"}
+          justifyContent={"space-between"}
+          alignItems={"center"}
           width={1}
-          flexDirection={{ xs: 'column', sm: 'row' }}
+          flexDirection={{ xs: "column", sm: "row" }}
         >
           <Box
-            display={'flex'}
+            display={"flex"}
             component="a"
             href="/"
             title="theFront"
             width={100}
           >
             <Box
-              component={'img'}
+              component={"img"}
               src={
-                mode === 'light'
-                  ? '/images/baaahs-logo.svg'
-                  : '/images/baaahs-logo.svg'
+                mode === "light"
+                  ? "/images/baaahs-logo.svg"
+                  : "/images/baaahs-logo.svg"
               }
               height={1}
               width={1}
             />
           </Box>
-          <Box display="flex" flexWrap={'wrap'} alignItems={'center'}>
+          <Box display="flex" flexWrap={"wrap"} alignItems={"center"}>
             <Box marginTop={1} marginRight={2}>
               <Link
                 underline="none"
                 component="a"
-                href="/events"
+                href="/catalog"
                 color="text.primary"
-                variant={'subtitle2'}
+                variant={"subtitle2"}
               >
-                events
+                каталог
               </Link>
             </Box>
             <Box marginTop={1} marginRight={2}>
@@ -56,7 +56,7 @@ const Footer = () => {
                 component="a"
                 href="/music"
                 color="text.primary"
-                variant={'subtitle2'}
+                variant={"subtitle2"}
               >
                 music
               </Link>
@@ -67,7 +67,7 @@ const Footer = () => {
                 component="a"
                 href="/fundraising"
                 color="text.primary"
-                variant={'subtitle2'}
+                variant={"subtitle2"}
               >
                 fundraising
               </Link>
@@ -78,7 +78,7 @@ const Footer = () => {
                 component="a"
                 href="/about"
                 color="text.primary"
-                variant={'subtitle2'}
+                variant={"subtitle2"}
               >
                 about
               </Link>
@@ -100,18 +100,18 @@ const Footer = () => {
       </Grid>
       <Grid item xs={12}>
         <Typography
-          align={'center'}
-          variant={'subtitle2'}
+          align={"center"}
+          variant={"subtitle2"}
           color="text.secondary"
           gutterBottom
         >
           Footer main
         </Typography>
         <Typography
-          align={'center'}
-          variant={'caption'}
+          align={"center"}
+          variant={"caption"}
           color="text.secondary"
-          component={'p'}
+          component={"p"}
         >
           Footer description
         </Typography>

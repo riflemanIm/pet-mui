@@ -1,3 +1,5 @@
+source_materials/
+
 .now
 node_modules/
 *.env*

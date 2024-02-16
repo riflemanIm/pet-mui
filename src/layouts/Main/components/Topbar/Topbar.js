@@ -24,14 +24,14 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
         component="a"
         href="/"
         title="theFront"
-        width={{ xs: 120, md: 150 }}
+        width={{ xs: 120, md: 280 }}
       >
         <Box
           component={"img"}
           src={
             mode === "light" && !colorInvert
-              ? "/images/baaahs-logo.svg"
-              : "/images/baaahs-logo.svg"
+              ? "/images/logo_shepherd.svg"
+              : "/images/logo_shepherd.svg"
           }
           height={1}
           width={1}
@@ -42,11 +42,11 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           <Link
             underline="none"
             component="a"
-            href="/events"
+            href="/catalog"
             color={colorInvert ? "common.white" : "text.primary"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            events
+            каталог
           </Link>
         </Box>
         <Box marginRight={{ xs: 2, sm: 4 }}>
