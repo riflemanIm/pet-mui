@@ -2,58 +2,24 @@ import prisma from "../../lib/prisma";
 import axios from "axios";
 import { isArray } from "../../src/helpers";
 
-const getId = async (tableName, name) => {
+import fs from "fs";
+
+const fsPromises = fs.promises;
+
+const downloadFile = async (filePath, url) => {
   try {
-    const res = await prisma[tableName].findFirst({
-      where: {
-        name,
-      },
+    const fileResponse = await axios({
+      url,
+      method: "GET",
+      responseType: "stream",
     });
-    console.log("getId tableName", tableName, res.id);
-    return res.id;
+
+    await fsPromises.writeFile(filePath, fileResponse.data);
+    console.log(" successful");
   } catch (error) {
-    console.log("getId error:", error);
+    console.error(" failed", error);
   }
 };
-const getIds = async (tableName, valsStr) => {
-  const vals = valsStr.split(";");
-  try {
-    const res = await prisma[tableName].findMany({
-      where: {
-        name: { in: vals },
-      },
-    });
-    console.log("getIds", tableName, res);
-    return res;
-  } catch (error) {
-    console.log("getId error:", error);
-  }
-};
-
-const creatBound = async (foodId, tableName, boundTable, fieldName, val) => {
-  const data = await getIds(tableName, val);
-  const records = data.map((itt) => ({
-    foodId,
-    [fieldName]: itt.id,
-  }));
-  await prisma[boundTable].createMany({
-    data: records,
-    skipDuplicates: true,
-  });
-};
-
-async function downloadFile(url, filename) {
-  axios
-    .get(url, {
-      responseType: "blob",
-    })
-    .then((res) => {
-      fileDownload(res.data, filename);
-    })
-    .catch((err) => {
-      console.log("---- Error downloadFile", err);
-    });
-}
 const fileName = (url) => {
   const tmp = url.split("/");
   return (
@@ -80,15 +46,19 @@ function groupByKey(array, key) {
 export default async function handler(req, res) {
   try {
     const foods = await prisma.food.findMany();
-    const destdir = `${__dirname}/../../../../src/assets/images/catalog`;
 
-    console.log("----", destdir);
     const allImgs = [];
     foods.forEach(async (item, inx) => {
-      console.log(inx, "-----", fileName(item["imgUrl"]));
-      await prisma.food.update({
-        data: { img: fileName(item["imgUrl"]) },
-      });
+      const destFile = `${__dirname}/../../../../src/assets/images/catalog/${item.img}`;
+
+      console.log(inx, "-----", fileName(item.imgUrl));
+      downloadFile(destFile, item.imgUrl);
+      // await prisma.food.update({
+      //   data: { img: fileName(item.imgUrl) },
+      //   where: {
+      //     id: item.id,
+      //   },
+      // });
       const urls = item["imgs"].split("\n");
       if (isArray(urls)) {
         urls.forEach((it) => {
