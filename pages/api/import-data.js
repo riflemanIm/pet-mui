@@ -51,33 +51,33 @@ const getIds = async (tableName, valsStr) => {
 };
 
 // Seed books and authors data.
-async function seedBooksAndAuthors(client, books, authors) {
-  const records = books.map((book) => {
-    const authorIndex = faker.datatype.number({
-      min: 0,
-      max: authors.length - 1,
-    });
-    const author = authors[authorIndex];
+// async function seedBooksAndAuthors(client, books, authors) {
+//   const records = books.map((book) => {
+//     const authorIndex = faker.datatype.number({
+//       min: 0,
+//       max: authors.length - 1,
+//     });
+//     const author = authors[authorIndex];
 
-    return {
-      bookId: book.id,
-      authorId: author.id,
-    };
-  });
+//     return {
+//       bookId: book.id,
+//       authorId: author.id,
+//     };
+//   });
 
-  const added = await client.bookAuthor.createMany({
-    data: records,
-    skipDuplicates: true,
-  });
+//   const added = await client.bookAuthor.createMany({
+//     data: records,
+//     skipDuplicates: true,
+//   });
 
-  if (added.count > 0) {
-    console.log(
-      `Successfully inserted ${added.count} book and author relation records.`
-    );
-  }
+//   if (added.count > 0) {
+//     console.log(
+//       `Successfully inserted ${added.count} book and author relation records.`
+//     );
+//   }
 
-  return records;
-}
+//   return records;
+// }
 const creatBound = async (foodId, tableName, boundTable, fieldName, val) => {
   const data = await getIds(tableName, val);
   const records = data.map((itt) => ({

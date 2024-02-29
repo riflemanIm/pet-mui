@@ -28,26 +28,29 @@ model Food {
   ozonId String? @map("ozon_id") @db.VarChar(256)
 
   //"I": "4680614022504",
-  barcode       String   @db.VarChar(256)
+  barcode       String       @db.VarChar(256)
   //    "J": 108,
-  packageWeight Int      @map("package_weight")
+  packageWeight Int          @map("package_weight")
   //"K": 20,
-  packageWidth  Int      @map("package_width")
+  packageWidth  Int          @map("package_width")
   //"L": 420,
-  packageHeight Int      @map("package_height")
+  packageHeight Int          @map("package_height")
   //"M": 120,
-  lengthHeight  Int      @map("length_height")
+  lengthHeight  Int          @map("length_height")
   //"N": 
-  img           String   @db.VarChar(256)
+  img           String       @db.VarChar(256)
+  imgUrl        String?      @db.VarChar(256)
   //"O":
-  imgs          String?  @db.Text
-  //"R": "SHEPHERD",
-  brand         Brand    @relation(fields: [brandId], references: [id])
-  brandId       Int      @map("brand_id")
+  imgs          String?      @db.Text
+  //"O": "доп фотки",
+  imgsAdd       FoodImgAdd[]
+
+  brand   Brand    @relation(fields: [brandId], references: [id])
+  brandId Int      @map("brand_id")
   //"S": "Лакомство",
-  type          FoodType
+  type    FoodType
   //"T": "Бараний бибер (корень), сушеное для собак, 100% натуральное.",
-  feature       String?  @db.VarChar(256)
+  feature String?  @db.VarChar(256)
 
   //"U": "Для взрослых;Для маленьких;Для пожилых",
   ages             FoodAge[]
@@ -291,6 +294,16 @@ model Age {
   foods FoodAge[]
 
   @@map("ages")
+}
+
+model FoodImgAdd {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  img String @db.VarChar(256)
+
+  @@id([foodId, img])
+  @@map("food_imgsadd")
 }
 
 model FoodAge {
