@@ -16,6 +16,7 @@ import img8 from "assets/images/hero/98440207.jpg";
 import img9 from "assets/images/hero/57706547.jpg";
 
 import Container from "components/Container";
+import Image from "next/image";
 
 const images = [
   {
@@ -174,17 +175,16 @@ const Hero = () => {
                     boxShadow={3}
                     marginTop={2}
                   >
-                    <Box
-                      component={"img"}
+                    <Image
                       loading="lazy"
                       src={
                         theme.palette.mode === "dark"
                           ? g.coverDark.src
                           : g.cover.src
                       }
-                      height={1}
-                      width={1}
-                      maxWidth={320}
+                      height={190}
+                      width={190}
+                      maxWidth={310}
                     />
                   </Box>
                 ))}

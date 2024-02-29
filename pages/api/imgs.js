@@ -50,35 +50,36 @@ export default async function handler(req, res) {
     const allImgs = [];
     const mainImgs = [];
 
-    const path = `${__dirname}/../../../../src/assets/images/catalog`;
+    const path = `${__dirname}/../../../../public/images/catalog`;
     foods.forEach(async (item, inx) => {
       //console.log(inx, "-----", fileName(item.imgUrl));
       // downloadFile(destFile, item.imgUrl);
-      // await prisma.food.update({
-      //   data: { img: fileName(item.imgUrl) },
-      //   where: {
-      //     id: item.id,
-      //   },
-      // });
-      mainImgs.push(fileName(item.imgUrl));
-      const urls = item.imgs.split("\n");
-      if (isArray(urls)) {
-        urls.forEach((it) => {
-          if (!mainImgs.includes(fileName(it))) {
-            console.log(item.id, it, "--");
-            //allImgs.push(itemImg(parseInt(item.id, 10), it));
-            allImgs.push(it);
-          }
-          //allImgs.push(itemImg(parseInt(item.id, 10), it));
-          //console.log(inxx, itemImg(it), "--");
-        });
-      }
+      await prisma.food.update({
+        data: { img: fileName(item.imgUrl) },
+        where: {
+          id: item.id,
+        },
+      });
+      // mainImgs.push(fileName(item.imgUrl));
+      // const urls = item.imgs.split("\n");
+      // if (isArray(urls)) {
+      //   urls.forEach((it) => {
+      //     if (!mainImgs.includes(fileName(it))) {
+      //       console.log(item.id, it, "--");
+      //       //allImgs.push(itemImg(parseInt(item.id, 10), it));
+      //       allImgs.push(it);
+      //     }
+      //     //allImgs.push(itemImg(parseInt(item.id, 10), it));
+      //     //console.log(inxx, itemImg(it), "--");
+      //   });
+      // }
     });
-    const allImgsUniq = [...new Set(allImgs)];
-    allImgsUniq.forEach((url) => {
-      const destFile = `${path}/${fileName(url)}`;
-      //downloadFile(destFile, url);
-    });
+
+    // const allImgsUniq = [...new Set(allImgs)];
+    // allImgsUniq.forEach((url) => {
+    //   const destFile = `${path}/${fileName(url)}`;
+    //   //downloadFile(destFile, url);
+    // });
 
     // const allImgsUniq = [...new Set(allImgs.map((it) => it.img))].map((img) =>
     //   allImgs.find((it) => it.img === img)
