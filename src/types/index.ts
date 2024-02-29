@@ -13,7 +13,7 @@ export interface FoodProps {
   title: string;
   type: string;
   img: string;
-
+  anatation: string;
   createdAt: string;
   priceDiscount: number;
   price: string;
