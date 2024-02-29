@@ -88,7 +88,6 @@ const Hero = () => {
     >
       <Box paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}>
         <Container>
-          <Image src={img.src} height={210} width={210} />
           <Box maxWidth={{ xs: 1, sm: "35%" }}>
             {/* <Box
               component={"img"}
@@ -97,6 +96,7 @@ const Hero = () => {
               width={{ xs: 300, md: 580 }}
               marginBottom={{ xs: 1, sm: 2 }}
             /> */}
+            <Image src={img.src} height={210} width={210} />
             <Typography
               variant="h6"
               component="p"
