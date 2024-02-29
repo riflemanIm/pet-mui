@@ -86,17 +86,9 @@ const Hero = () => {
         position: "relative",
       }}
     >
-      <Box
-        paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}
-        sx={{
-          backgroundImage: `url("${img.src}")`,
-          backgroundPosition: "center center",
-          transform: "translate3d(0px,0px,0px)",
-          backgroundSize: "contain",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+      <Box paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}>
         <Container>
+          <Image src={img.src} height={210} width={210} />
           <Box maxWidth={{ xs: 1, sm: "35%" }}>
             {/* <Box
               component={"img"}
