@@ -55,6 +55,7 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
               src={`/images/catalog/${item.img}`}
               width={380}
               height={380}
+              alt=""
             />
             <Box
               display={"flex"}
