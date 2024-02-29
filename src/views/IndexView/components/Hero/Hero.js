@@ -176,15 +176,13 @@ const Hero = () => {
                     marginTop={2}
                   >
                     <Image
-                      loading="lazy"
                       src={
                         theme.palette.mode === "dark"
                           ? g.coverDark.src
                           : g.cover.src
                       }
-                      height={190}
-                      width={190}
-                      maxWidth={310}
+                      height={210}
+                      width={210}
                     />
                   </Box>
                 ))}

@@ -52,12 +52,9 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
             }}
           >
             <Image
-              loading="lazy"
               src={`/images/catalog/${item.img}`}
-              style={{ objectFit: "cover" }}
               width={380}
               height={380}
-              alt={item.anatation}
             />
             <Box
               display={"flex"}
