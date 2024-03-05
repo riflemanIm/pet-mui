@@ -56,10 +56,10 @@ const SidebarNav = ({ pages }) => {
           <Link
             underline="none"
             component="a"
-            href="/music"
+            href="/about"
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            music
+            о нас
           </Link>
         </Box>
         <Box>
@@ -120,9 +120,9 @@ const SidebarNav = ({ pages }) => {
             fullWidth
             component="a"
             target="blank"
-            href="/crew"
+            href="/login"
           >
-            Crew login
+            Вход
           </Button>
         </Box>
       </Box>

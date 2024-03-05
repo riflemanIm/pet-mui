@@ -39,8 +39,9 @@ export async function fetchFoodTypes(): Promise<{
 }> {
   try {
     const response = await axios.get<string[]>(
-      `${process.env.NEXT_PUBLIC_API_URL}/foods/types`
+      `${process.env.NEXT_PUBLIC_API_URL}/types`
     );
+    console.log("response.data", response.data);
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }

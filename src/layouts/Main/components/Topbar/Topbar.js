@@ -53,33 +53,11 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           <Link
             underline="none"
             component="a"
-            href="/music"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            music
-          </Link>
-        </Box>
-        <Box marginRight={{ xs: 2, sm: 4 }}>
-          <Link
-            underline="none"
-            component="a"
-            href="/fundraising"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            fundraising
-          </Link>
-        </Box>
-        <Box marginRight={{ xs: 2, sm: 4 }}>
-          <Link
-            underline="none"
-            component="a"
             href="/about"
             color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            about
+            о нас
           </Link>
         </Box>
       </Box>
@@ -92,7 +70,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center" }}
           >
-            <IconSoundcloud />
+            <IconSoundcloud color="white" />
           </Link>
         </Box>
         <Box marginLeft={4}>
@@ -112,10 +90,10 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             color="primary"
             component="a"
             target="blank"
-            href="/crew"
+            href="/login"
             size="large"
           >
-            Crew login
+            Вход
           </Button>
         </Box>
       </Box>

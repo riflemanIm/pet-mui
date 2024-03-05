@@ -54,35 +54,14 @@ const Footer = () => {
               <Link
                 underline="none"
                 component="a"
-                href="/music"
-                color="text.primary"
-                variant={"subtitle2"}
-              >
-                music
-              </Link>
-            </Box>
-            <Box marginTop={1} marginRight={2}>
-              <Link
-                underline="none"
-                component="a"
-                href="/fundraising"
-                color="text.primary"
-                variant={"subtitle2"}
-              >
-                fundraising
-              </Link>
-            </Box>
-            <Box marginTop={1} marginRight={2}>
-              <Link
-                underline="none"
-                component="a"
                 href="/about"
                 color="text.primary"
                 variant={"subtitle2"}
               >
-                about
+                о нас
               </Link>
             </Box>
+
             <Box marginTop={1}>
               <Button
                 variant="outlined"
@@ -92,7 +71,7 @@ const Footer = () => {
                 href="mailto:info@baaahs.org?subject=Writing%20from%20the%20web"
                 size="small"
               >
-                Contact
+                Контакты
               </Button>
             </Box>
           </Box>

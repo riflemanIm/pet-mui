@@ -9,6 +9,7 @@ import { homePageQuery } from "selectors";
 import { homePageFoodSumState } from "atoms";
 import { FoodProps, ProductsPageProps } from "types";
 import ProductItem from "./ProductItem";
+import ProductFilter from "./ProductFilter";
 
 const Products = (props: ProductsPageProps) => {
   const theme = useTheme();
@@ -86,9 +87,7 @@ const Products = (props: ProductsPageProps) => {
           accessories online.
         </Typography>
         <Box display="flex" justifyContent={"center"} marginTop={2}>
-          <Button variant="contained" color="primary" size="large">
-            View all
-          </Button>
+          <ProductFilter />
         </Box>
       </Box>
       <RenderItems />
