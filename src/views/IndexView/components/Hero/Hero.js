@@ -86,22 +86,23 @@ const Hero = () => {
         position: "relative",
       }}
     >
-      <Box paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}>
+      <Box
+        paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}
+        sx={{
+          backgroundImage: `url("${img.src}")`,
+          backgroundPosition: "50% 30%",
+          transform: "translate3d(0px,0px,0px)",
+          backgroundSize: "350px auto",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <Container>
           <Box maxWidth={{ xs: 1, sm: "35%" }}>
-            {/* <Box
-              component={"img"}
-              src={img.src}
-              alt="BAAAAHS"
-              width={{ xs: 300, md: 580 }}
-              marginBottom={{ xs: 1, sm: 2 }}
-            /> */}
-            <Image src={img.src} height={210} width={210} />
             <Typography
               variant="h6"
               component="p"
               color="text.primary"
-              sx={{ fontWeight: 600 }}
+              sx={{ fontWeight: 450 }}
             >
               Мы готовы доставить наш продукт в любую точку России и мира.
               <br /> Также у нас есть удобный вариант самовывоза для жителей
