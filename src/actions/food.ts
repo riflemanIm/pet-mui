@@ -1,10 +1,11 @@
 import axios from "axios";
-import { FoodProps, FoodDetailProps, FoodRatingsProps } from "types";
+import { FoodProps, FoodDicts, FoodDetailProps, FoodRatingsProps } from "types";
 
 export async function fetchFoods(data: {
   page?: number;
   size?: number;
   type?: string;
+  ages?: string;
   sort?: string;
 }): Promise<{
   [x: string]: any;
@@ -33,13 +34,13 @@ export async function fetchFoods(data: {
   }
 }
 
-export async function fetchFoodTypes(): Promise<{
-  content: string[];
+export async function fetchFoodDicts(): Promise<{
+  content: FoodDicts;
   error?: any;
 }> {
   try {
-    const response = await axios.get<string[]>(
-      `${process.env.NEXT_PUBLIC_API_URL}/types`
+    const response = await axios.get<FoodDicts>(
+      `${process.env.NEXT_PUBLIC_API_URL}/dicts`
     );
     console.log("response.data", response.data);
     if (response.status !== 200) {
@@ -48,7 +49,13 @@ export async function fetchFoodTypes(): Promise<{
     return { content: response.data };
   } catch (error) {
     console.error(error);
-    return { error, content: [] };
+    return {
+      error,
+      content: {
+        foodTypes: [],
+        ages: [],
+      },
+    };
   }
 }
 

@@ -16,8 +16,8 @@ import {
 export const homePageQuery = selector({
   key: "homePage",
   get: async ({ get }) => {
-    const { page, size, type, sort } = get(homePageQueryState);
-    const response = await fetchFoods({ page, size, type, sort });
+    const { page, size, type, ages, sort } = get(homePageQueryState);
+    const response = await fetchFoods({ page, size, type, ages, sort });
     return response;
   },
 });

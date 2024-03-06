@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import { FoodType } from "@prisma/client";
+import { FoodType, FoodAge } from "@prisma/client";
 import prisma from "../../lib/prisma";
 import { bigIntToSrt } from "helpers";
 
@@ -9,7 +9,7 @@ const DEFAULT_PAGE_SIZE = 8;
 
 enum SortType {
   PRICE = "price",
-  PUBLISHED_AT = "createdAt",
+  PUBLISHED_AT = "publishedAt",
 }
 enum SortOrder {
   ASC = "asc",
@@ -135,6 +135,16 @@ function parsefoodListQuery(
       );
     }
     q.where.type = query.type;
+  }
+  if (typeof query.ages === "string") {
+    const ages = query.ages
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.ages = { some: { ageId: { in: ages } } };
+  }
+  if (typeof query.taste === "string") {
+    q.where.tasteId = 1;
   }
 
   // Sorting.

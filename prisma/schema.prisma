@@ -121,11 +121,11 @@ model Food {
 
   //diets FoodDiet[]
 
-  ratings Rating[]
-  orders  Order[]
-
-  createdAt DateTime @default(now()) @map("ordered_at") @db.DateTime(0)
-  stock     Int      @default(0)
+  ratings     Rating[]
+  orders      Order[]
+  publishedAt DateTime @default(now()) @map("published_at") @db.DateTime(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  stock       Int      @default(0)
 
   @@index([brandId])
   @@index([tasteId])
