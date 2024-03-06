@@ -14,7 +14,13 @@ export const shoppingCartState = atom<shoppingCartItemProps[]>({
 
 export const foodDictsState = atom<FoodDicts>({
   key: "foodDictsState",
-  default: { foodTypes: [], ages: [], taste: [] },
+  default: {
+    foodTypes: [],
+    ages: [],
+    taste: [],
+    designedFor: [],
+    packages: [],
+  },
 });
 
 export const homePageQueryState = atom({
@@ -24,6 +30,8 @@ export const homePageQueryState = atom({
     type: "",
     ages: "",
     taste: "",
+    designedFor: "",
+    packages: "",
     sort: "",
     size: PAGE_SIZE,
   },

@@ -13,6 +13,8 @@ export interface FoodDicts {
   foodTypes: FoodType[];
   ages: Dict[];
   taste: Dict[];
+  designedFor: Dict[];
+  packages: Dict[];
 }
 
 export interface FoodProps {

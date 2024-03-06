@@ -150,7 +150,20 @@ function parsefoodListQuery(
       .map((it: string) => parseInt(it, 10));
     q.where.tasteId = { in: taste };
   }
-
+  if (typeof query.designedFor === "string") {
+    const designedFor = query.designedFor
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.designedForId = { in: designedFor };
+  }
+  if (typeof query.packages === "string") {
+    const packages = query.packages
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.packages = { some: { packageId: { in: packages } } };
+  }
   // Sorting.
   if (sorting) {
     if (sortTypes.includes(query.sort)) {

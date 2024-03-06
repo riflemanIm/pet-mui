@@ -49,7 +49,7 @@ export default function ProductFilter() {
       const res = await fetchFoodDicts();
       const {
         error,
-        content: { foodTypes, ages, taste },
+        content: { foodTypes, ages, taste, designedFor, packages },
       } = res;
       if (error) {
         setLoadingFoodType(false);
@@ -58,7 +58,7 @@ export default function ProductFilter() {
         });
         return;
       }
-      setFoodDicts({ foodTypes, ages, taste });
+      setFoodDicts({ foodTypes, ages, taste, designedFor, packages });
       setLoadingFoodType(false);
     };
     func();
@@ -200,6 +200,100 @@ export default function ProductFilter() {
                 item.id.toString(),
                 homePageQueryData?.taste
                   ? homePageQueryData?.taste.split(",")
+                  : []
+              )}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-designedFor-label">Разработано для</InputLabel>
+        <Select
+          labelId="demo-designedFor-label"
+          id="demo-designedFor"
+          multiple
+          value={
+            homePageQueryData?.designedFor
+              ? homePageQueryData?.designedFor.split(",")
+              : []
+          }
+          onChange={(e) => handleChangeMulty(e, "designedFor")}
+          input={
+            <OutlinedInput id="select-designedFor" label="Разработано для" />
+          }
+          renderValue={(selected) => {
+            return (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((val) => (
+                  <Chip
+                    key={val}
+                    label={
+                      foodDicts.designedFor.find((item) => item.id == val)?.name
+                    }
+                  />
+                ))}
+              </Box>
+            );
+          }}
+          MenuProps={MenuProps}
+        >
+          {foodDicts.designedFor.map((item) => (
+            <MenuItem
+              key={item.id}
+              value={item.id.toString()}
+              style={getStyles(
+                item.id.toString(),
+                homePageQueryData?.designedFor
+                  ? homePageQueryData?.designedFor.split(",")
+                  : []
+              )}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-packages-label">Упаковка</InputLabel>
+        <Select
+          labelId="demo-packages-label"
+          id="demo-packages"
+          multiple
+          value={
+            homePageQueryData?.packages
+              ? homePageQueryData?.packages.split(",")
+              : []
+          }
+          onChange={(e) => handleChangeMulty(e, "packages")}
+          input={<OutlinedInput id="select-packages" label="Упаковка" />}
+          renderValue={(selected) => {
+            return (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((val) => (
+                  <Chip
+                    key={val}
+                    label={
+                      foodDicts.packages.find((item) => item.id == val)?.name
+                    }
+                  />
+                ))}
+              </Box>
+            );
+          }}
+          MenuProps={MenuProps}
+        >
+          {foodDicts.packages.map((item) => (
+            <MenuItem
+              key={item.id}
+              value={item.id.toString()}
+              style={getStyles(
+                item.id.toString(),
+                homePageQueryData?.packages
+                  ? homePageQueryData?.packages.split(",")
                   : []
               )}
             >

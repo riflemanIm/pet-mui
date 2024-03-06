@@ -7,6 +7,8 @@ export async function fetchFoods(data: {
   type?: string;
   ages?: string;
   taste?: string;
+  designedFor?: string;
+  packages?: string;
   sort?: string;
 }): Promise<{
   [x: string]: any;
@@ -57,6 +59,8 @@ export async function fetchFoodDicts(): Promise<{
         foodTypes: [],
         ages: [],
         taste: [],
+        designedFor: [],
+        packages: [],
       },
     };
   }
