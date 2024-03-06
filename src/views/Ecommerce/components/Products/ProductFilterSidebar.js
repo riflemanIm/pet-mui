@@ -2,7 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 import ProductFilter from "./ProductFilter";
+
 const ProductFilterSidebar = ({ open, variant, onClose }) => {
   const theme = useTheme();
   return (
@@ -21,7 +24,20 @@ const ProductFilterSidebar = ({ open, variant, onClose }) => {
         },
       }}
     >
-      <ProductFilter />
+      <Box p={3}>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "medium",
+          }}
+          gutterBottom
+          color={"secondary"}
+          //align={"center"}
+        >
+          Фильтры
+        </Typography>
+        <ProductFilter />
+      </Box>
     </Drawer>
   );
 };

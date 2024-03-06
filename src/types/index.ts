@@ -1,7 +1,3 @@
-export interface ProductsPageProps {
-  page: number;
-  pageSize: number;
-}
 export type FoodType = "Treat" | "Souvenirs";
 
 export type Dict = {

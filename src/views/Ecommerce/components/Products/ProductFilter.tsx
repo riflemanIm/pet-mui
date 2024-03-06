@@ -16,7 +16,6 @@ import {
   OutlinedInput,
   Select,
   SelectChangeEvent,
-  Typography,
 } from "@mui/material";
 
 const ITEM_HEIGHT = 48;
@@ -93,29 +92,25 @@ export default function ProductFilter() {
       [name]: vals.join(","),
     });
   };
-  console.log("homePageQueryData", homePageQueryData);
+  //console.log("homePageQueryData", homePageQueryData);
 
   return (
-    <Grid container spacing={3} p={3}>
-      <Grid item xs={12}>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "medium",
-          }}
-          gutterBottom
-          color={"secondary"}
-          //align={"center"}
-        >
-          Фильтры
-        </Typography>
-      </Grid>
+    <Grid
+      container
+      spacing={3}
+      data-aos={"fade-up"}
+      data-aos-delay={100}
+      data-aos-offset={100}
+      data-aos-duration={600}
+    >
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label"> Тип</InputLabel>
+          <InputLabel id="demo-simple-select-label">
+            Категория товара
+          </InputLabel>
           <Select
             value={homePageQueryData.type}
-            label="Тип"
+            label="Категория товара"
             onChange={handleChangeType}
           >
             {foodDicts.foodTypes.map((foodType) => (
@@ -127,13 +122,14 @@ export default function ProductFilter() {
         </FormControl>
       </Grid>
 
-      <Grid item xs={12} sm={12}>
+      {/* <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label"> Сортировать по</InputLabel>
           <Select
             value={homePageQueryData?.sort}
             label="Сортировать по"
             onChange={handleChangeOrder}
+            variant="standard"
           >
             {SORT_VALUE.map((sortType) => (
               <MenuItem key={sortType} value={sortType}>
@@ -142,7 +138,7 @@ export default function ProductFilter() {
             ))}
           </Select>
         </FormControl>
-      </Grid>
+      </Grid> */}
 
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
