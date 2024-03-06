@@ -1,15 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import { alpha, useTheme } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
+
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { useTheme } from "@mui/material/styles";
+
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
 import { homePageFoodSumState } from "atoms";
 import { FoodProps, ProductsPageProps } from "types";
 import ProductItem from "./ProductItem";
-import ProductFilter from "./ProductFilter";
+import ProductFilterSidebar from "./ProductFilterSidebar";
 
 const Products = (props: ProductsPageProps) => {
   const theme = useTheme();
@@ -51,7 +54,10 @@ const Products = (props: ProductsPageProps) => {
       }
     }
   };
-
+  const [openFiltersBar, setOpenFiltersBar] = useState(false);
+  const handleToggleFilters = () => {
+    setOpenFiltersBar(!openFiltersBar);
+  };
   return (
     <Box>
       <Box marginBottom={4}>
@@ -87,7 +93,24 @@ const Products = (props: ProductsPageProps) => {
           accessories online.
         </Typography>
         <Box display="flex" justifyContent={"center"} marginTop={2}>
-          <ProductFilter />
+          <Button
+            onClick={() => handleToggleFilters()}
+            aria-label="Menu"
+            variant={"outlined"}
+            sx={{
+              borderRadius: 2,
+              minWidth: "auto",
+              padding: 1,
+              borderColor: alpha(theme.palette.divider, 0.2),
+            }}
+          >
+            <MenuIcon />
+          </Button>
+          <ProductFilterSidebar
+            onClose={handleToggleFilters}
+            open={openFiltersBar}
+            variant="temporary"
+          />
         </Box>
       </Box>
       <RenderItems />
