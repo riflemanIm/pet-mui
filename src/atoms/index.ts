@@ -1,12 +1,6 @@
-import { atom, selector, useRecoilState, useRecoilValue } from "recoil";
+import { atom } from "recoil";
 
-import {
-  shoppingCartItemProps,
-  FoodProps,
-  PAGE_SIZE,
-  FoodType,
-  Age,
-} from "types";
+import { shoppingCartItemProps, PAGE_SIZE, FoodDicts } from "types";
 
 export const homePageFoodSumState = atom({
   key: "homePageFoodSumState",
@@ -18,18 +12,21 @@ export const shoppingCartState = atom<shoppingCartItemProps[]>({
   default: [],
 });
 
-export const foodTypeListState = atom<FoodType[]>({
-  key: "foodTypeListState",
-  default: [],
-});
-export const foodAgeListState = atom<Age[]>({
-  key: "foodAgeListState",
-  default: [],
+export const foodDictsState = atom<FoodDicts>({
+  key: "foodDictsState",
+  default: { foodTypes: [], ages: [], taste: [] },
 });
 
 export const homePageQueryState = atom({
   key: "homePageQueryState",
-  default: { page: 1, type: "", ages: "", sort: "", size: PAGE_SIZE },
+  default: {
+    page: 1,
+    type: "",
+    ages: "",
+    taste: "",
+    sort: "",
+    size: PAGE_SIZE,
+  },
 });
 
 export const foodDetailsIdState = atom({

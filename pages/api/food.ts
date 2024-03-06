@@ -144,7 +144,11 @@ function parsefoodListQuery(
     q.where.ages = { some: { ageId: { in: ages } } };
   }
   if (typeof query.taste === "string") {
-    q.where.tasteId = 1;
+    const taste = query.taste
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.tasteId = { in: taste };
   }
 
   // Sorting.

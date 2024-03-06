@@ -4,14 +4,15 @@ export interface ProductsPageProps {
 }
 export type FoodType = "Treat" | "Souvenirs";
 
-export type Age = {
+export type Dict = {
   id: string;
   name: string;
 };
 
 export interface FoodDicts {
   foodTypes: FoodType[];
-  ages: Age[];
+  ages: Dict[];
+  taste: Dict[];
 }
 
 export interface FoodProps {
@@ -23,7 +24,7 @@ export interface FoodProps {
   createdAt: string;
   priceDiscount: number;
   price: string;
-  ages: { age: Age }[];
+  //  ages: { age: Dict }[];
   averageRating: number;
   ratings: number;
 }

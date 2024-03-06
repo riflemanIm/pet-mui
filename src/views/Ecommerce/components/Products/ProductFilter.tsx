@@ -2,11 +2,10 @@ import * as React from "react";
 import { useSnackbar } from "notistack";
 
 import { useRecoilState } from "recoil";
-import { foodAgeListState, foodTypeListState, homePageQueryState } from "atoms";
-import clsx from "clsx";
+import { foodDictsState, homePageQueryState } from "atoms";
+
 import { fetchFoodDicts } from "actions/food";
-import { Age, SORT_VALUE } from "types";
-import { upperCaseEachWord } from "helpers/utils";
+import { SORT_VALUE } from "types";
 import {
   Box,
   Chip,
@@ -29,22 +28,16 @@ const MenuProps = {
     },
   },
 };
-function getStyles(name: string, personName: readonly string[], theme: Theme) {
+function getStyles(name: string, vals: readonly string[]) {
   return {
-    fontWeight:
-      personName.indexOf(name) === -1
-        ? theme.typography.fontWeightRegular
-        : theme.typography.fontWeightMedium,
+    fontWeight: !vals.includes(name) ? 400 : 550,
   };
 }
 
 export default function ProductFilter() {
-  const theme = useTheme();
-
   const [loadingFoodType, setLoadingFoodType] = React.useState(false);
 
-  const [foodTypeList, setFoodTypeList] = useRecoilState(foodTypeListState);
-  const [ageList, setAgeList] = useRecoilState(foodAgeListState);
+  const [foodDicts, setFoodDicts] = useRecoilState(foodDictsState);
 
   const [homePageQueryData, setHomePageQueryData] =
     useRecoilState(homePageQueryState);
@@ -56,7 +49,7 @@ export default function ProductFilter() {
       const res = await fetchFoodDicts();
       const {
         error,
-        content: { foodTypes, ages },
+        content: { foodTypes, ages, taste },
       } = res;
       if (error) {
         setLoadingFoodType(false);
@@ -65,13 +58,11 @@ export default function ProductFilter() {
         });
         return;
       }
-      setFoodTypeList(foodTypes);
-      setAgeList(ages);
-
+      setFoodDicts({ foodTypes, ages, taste });
       setLoadingFoodType(false);
     };
     func();
-  }, [foodTypeList.length, ageList.length, enqueueSnackbar]);
+  }, []);
 
   const handleChangeType = (event: SelectChangeEvent) => {
     setHomePageQueryData({
@@ -87,17 +78,21 @@ export default function ProductFilter() {
       sort: event.target.value,
     });
   };
-  const handleChangeAges = (event: SelectChangeEvent<string[]>) => {
+  const handleChangeMulty = (
+    event: SelectChangeEvent<string[]>,
+    name: string
+  ) => {
     const {
       target: { value },
     } = event;
-    const ages = typeof value === "string" ? value.split(",") : value;
+    const vals = typeof value === "string" ? value.split(",") : value;
     setHomePageQueryData({
       ...homePageQueryData,
       page: 1,
-      ages: ages.join(","),
+      [name]: vals.join(","),
     });
   };
+  console.log("homePageQueryData", homePageQueryData);
 
   return (
     <>
@@ -108,7 +103,7 @@ export default function ProductFilter() {
           label="Тип"
           onChange={handleChangeType}
         >
-          {foodTypeList.map((foodType) => (
+          {foodDicts.foodTypes.map((foodType) => (
             <MenuItem key={foodType} value={foodType}>
               {foodType.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
             </MenuItem>
@@ -131,32 +126,83 @@ export default function ProductFilter() {
       </FormControl>
 
       <FormControl fullWidth>
-        <InputLabel id="demo-multiple-chip-label">Возраст</InputLabel>
+        <InputLabel id="demo-ages-label">Возраст</InputLabel>
         <Select
-          labelId="demo-multiple-chip-label"
-          id="demo-multiple-chip"
+          labelId="demo-ages-label"
+          id="demo-ages"
           multiple
           value={
             homePageQueryData?.ages ? homePageQueryData?.ages.split(",") : []
           }
-          onChange={handleChangeAges}
-          input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
+          onChange={(e) => handleChangeMulty(e, "ages")}
+          input={<OutlinedInput id="select-ages" label="Возраст" />}
           renderValue={(selected) => {
-            console.log("selected", selected);
             return (
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                 {selected.map((val) => (
                   <Chip
                     key={val}
-                    label={ageList.find((item) => item.id == val)?.name}
+                    label={foodDicts.ages.find((item) => item.id == val)?.name}
                   />
                 ))}
               </Box>
             );
           }}
+          MenuProps={MenuProps}
         >
-          {ageList.map((item) => (
-            <MenuItem key={item.id} value={item.id.toString()}>
+          {foodDicts.ages.map((item) => (
+            <MenuItem
+              key={item.id}
+              value={item.id.toString()}
+              style={getStyles(
+                item.id.toString(),
+                homePageQueryData?.ages
+                  ? homePageQueryData?.ages.split(",")
+                  : []
+              )}
+            >
+              {item.name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl fullWidth>
+        <InputLabel id="demo-taste-label">Вкус</InputLabel>
+        <Select
+          labelId="demo-taste-label"
+          id="demo-taste"
+          multiple
+          value={
+            homePageQueryData?.taste ? homePageQueryData?.taste.split(",") : []
+          }
+          onChange={(e) => handleChangeMulty(e, "taste")}
+          input={<OutlinedInput id="select-taste" label="Вкус" />}
+          renderValue={(selected) => {
+            return (
+              <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                {selected.map((val) => (
+                  <Chip
+                    key={val}
+                    label={foodDicts.taste.find((item) => item.id == val)?.name}
+                  />
+                ))}
+              </Box>
+            );
+          }}
+          MenuProps={MenuProps}
+        >
+          {foodDicts.taste.map((item) => (
+            <MenuItem
+              key={item.id}
+              value={item.id.toString()}
+              style={getStyles(
+                item.id.toString(),
+                homePageQueryData?.taste
+                  ? homePageQueryData?.taste.split(",")
+                  : []
+              )}
+            >
               {item.name}
             </MenuItem>
           ))}

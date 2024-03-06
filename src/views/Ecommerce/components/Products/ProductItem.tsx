@@ -94,9 +94,7 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
             </Box>
           </CardMedia>
           <CardContent>
-            <Typography variant={"h6"} align={"left"} sx={{ fontWeight: 700 }}>
-              {item.title}
-            </Typography>
+            <Typography align={"left"}>{item.title}</Typography>
             <Box display={"flex"} justifyContent={"flex-start"} marginY={1}>
               <Box display={"flex"} justifyContent={"center"}>
                 {[1, 2, 3, 4, 5].map((item) => (
