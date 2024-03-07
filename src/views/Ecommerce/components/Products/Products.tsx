@@ -39,23 +39,13 @@ const Products: FC = () => {
         case "hasValue":
           setHomePageFoodSum(foodListLoadable.contents.total);
           return (
-            <>
-              {!!homePageFoodSum && (
-                <Box>{`${PAGE_SIZE * (page - 1) + 1} ~ ${
-                  PAGE_SIZE * page > homePageFoodSum
-                    ? homePageFoodSum
-                    : PAGE_SIZE * page
-                } of over ${homePageFoodSum} results`}</Box>
+            <Grid container spacing={4}>
+              {foodListLoadable.contents.content.map(
+                (food: FoodProps, inx: number) => (
+                  <ProductItem item={food} key={food.id} i={inx} />
+                )
               )}
-
-              <Grid container spacing={4}>
-                {foodListLoadable.contents.content.map(
-                  (food: FoodProps, inx: number) => (
-                    <ProductItem item={food} key={food.id} i={inx} />
-                  )
-                )}
-              </Grid>
-            </>
+            </Grid>
           );
         case "loading":
           return <Box>Loading...</Box>;
@@ -94,7 +84,7 @@ const Products: FC = () => {
         </Typography> */}
       </Box>
       <Grid container spacing={3} p={3}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6} md={9}>
           <Typography
             variant="h4"
             data-aos={"fade-up"}
@@ -106,7 +96,13 @@ const Products: FC = () => {
             Каталог товаров
           </Typography>
         </Grid>
-        <Grid item xs={3}>
+        <Grid
+          item
+          xs={6}
+          sm={3}
+          textAlign="right"
+          sx={{ display: { sm: "block", md: "none" } }}
+        >
           <Button
             onClick={() => handleToggleFilters()}
             aria-label="Menu"
@@ -127,24 +123,55 @@ const Products: FC = () => {
             variant="temporary"
           />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={6} sm={3} md={3}>
           <ProductSort />
         </Grid>
-        <Grid item xs={3}>
+        <Grid
+          item
+          md={3}
+          sx={{ display: { md: "block", sm: "none", xs: "none" } }}
+        >
           <ProductFilter />
         </Grid>
-        <Grid item xs={9}>
+        <Grid item sm={12} md={9}>
           <RenderItems />
+          {homePageFoodSum > PAGE_SIZE && (
+            <Stack spacing={2} alignItems="center" mt={3}>
+              <Pagination
+                count={Math.round(homePageFoodSum / PAGE_SIZE)}
+                variant="outlined"
+                page={page}
+                onChange={(_, page: number) => handleClickPagination(page)}
+              />
+            </Stack>
+          )}
+          {homePageFoodSum === 0 ? (
+            <Typography
+              variant="h5"
+              gutterBottom
+              color="secodary"
+              align="center"
+              data-aos="fade-up"
+              mt={5}
+            >
+              По заданным фильтрам товаров не найдено
+            </Typography>
+          ) : (
+            <Typography
+              variant="body2"
+              gutterBottom
+              color="secodary"
+              align="center"
+              data-aos="fade-up"
+              mt={5}
+            >{`${PAGE_SIZE * (page - 1) + 1} ~ ${
+              PAGE_SIZE * page > homePageFoodSum
+                ? homePageFoodSum
+                : PAGE_SIZE * page
+            } из ${homePageFoodSum} товаров`}</Typography>
+          )}
         </Grid>
       </Grid>
-      <Stack spacing={2} alignItems="center" mt={3}>
-        <Pagination
-          count={Math.round(homePageFoodSum / PAGE_SIZE)}
-          variant="outlined"
-          page={page}
-          onChange={(_, page: number) => handleClickPagination(page)}
-        />
-      </Stack>
     </>
   );
 };

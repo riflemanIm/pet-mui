@@ -5,7 +5,7 @@ import { useRecoilState } from "recoil";
 import { foodDictsState, homePageQueryState } from "atoms";
 
 import { fetchFoodDicts } from "actions/food";
-import { SORT_VALUE } from "types";
+
 import {
   Box,
   Chip,
