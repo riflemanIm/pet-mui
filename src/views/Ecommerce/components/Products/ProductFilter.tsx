@@ -10,10 +10,14 @@ import {
   Box,
   Chip,
   FormControl,
+  FormControlLabel,
+  FormLabel,
   Grid,
   InputLabel,
   MenuItem,
   OutlinedInput,
+  Radio,
+  RadioGroup,
   Select,
   SelectChangeEvent,
 } from "@mui/material";
@@ -64,20 +68,21 @@ export default function ProductFilter() {
     func();
   }, []);
 
-  const handleChangeType = (event: SelectChangeEvent) => {
+  // const handleChangeType = (event: SelectChangeEvent) => {
+  //   setHomePageQueryData({
+  //     ...homePageQueryData,
+  //     page: 1,
+  //     type: event.target.value,
+  //   });
+  // };
+  const handleChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
     setHomePageQueryData({
       ...homePageQueryData,
       page: 1,
-      type: event.target.value,
+      type: (event.target as HTMLInputElement).value,
     });
   };
-  const handleChangeOrder = (event: SelectChangeEvent) => {
-    setHomePageQueryData({
-      ...homePageQueryData,
-      page: 1,
-      sort: event.target.value,
-    });
-  };
+
   const handleChangeMulty = (
     event: SelectChangeEvent<string[]>,
     name: string
@@ -104,7 +109,32 @@ export default function ProductFilter() {
       data-aos-duration={600}
     >
       <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
+        <FormControl>
+          <FormLabel
+            id="demo-row-radio-buttons-group-label"
+            sx={{ fontSize: 13, color: "secondary" }}
+          >
+            Категория товара
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="demo-row-radio-buttons-group-label"
+            onChange={handleChangeType}
+          >
+            <FormControlLabel
+              value="Treat"
+              control={<Radio />}
+              label="Лакомства"
+            />
+            <FormControlLabel
+              value="Souvenirs"
+              control={<Radio />}
+              label="Аксессуары"
+            />
+          </RadioGroup>
+        </FormControl>
+
+        {/* <FormControl fullWidth>
           <InputLabel id="demo-simple-select-label">
             Категория товара
           </InputLabel>
@@ -119,7 +149,7 @@ export default function ProductFilter() {
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> */}
       </Grid>
 
       {/* <Grid item xs={12} sm={12}>
@@ -158,6 +188,7 @@ export default function ProductFilter() {
                   {selected.map((val) => (
                     <Chip
                       key={val}
+                      color="primary"
                       label={
                         foodDicts.ages.find((item) => item.id == val)?.name
                       }
@@ -206,6 +237,7 @@ export default function ProductFilter() {
                   {selected.map((val) => (
                     <Chip
                       key={val}
+                      color="warning"
                       label={
                         foodDicts.taste.find((item) => item.id == val)?.name
                       }
@@ -256,6 +288,7 @@ export default function ProductFilter() {
                   {selected.map((val) => (
                     <Chip
                       key={val}
+                      color="info"
                       label={
                         foodDicts.designedFor.find((item) => item.id == val)
                           ?.name

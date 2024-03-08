@@ -32,7 +32,7 @@ export default function ProductSort() {
   //console.log("homePageQueryData", homePageQueryData);
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth size="medium">
       <InputLabel id="demo-simple-select-label"> Сортировать по</InputLabel>
       <Select
         value={homePageQueryData?.sort}

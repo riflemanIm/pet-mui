@@ -124,7 +124,7 @@ const Products: FC = () => {
           />
         </Grid>
         <Grid item xs={6} sm={3} md={3}>
-          <ProductSort />
+          {homePageFoodSum > 0 && <ProductSort />}
         </Grid>
         <Grid
           item

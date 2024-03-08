@@ -41,6 +41,8 @@
     "react-syntax-highlighter": "^15.5.0",
     "react-visibility-sensor": "^5.1.1",
     "recoil": "^0.7.7",
+    "recoil-sync": "^0.2.0",
+    "recoil-sync-next": "^0.0.5",
     "sharp": "^0.33.2",
     "tinycolor": "^0.0.1",
     "tinycolor2": "^1.6.0"

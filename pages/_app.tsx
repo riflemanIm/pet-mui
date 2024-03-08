@@ -1,10 +1,12 @@
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
+import { RecoilURLSyncJSON } from "recoil-sync";
 import { useEffect, useState } from "react";
 import { SnackbarProvider } from "notistack";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../src/theme";
 import { AppProps } from "next/app";
+import { useRouter } from "next/router";
 
 function DebugObserver() {
   const snapshot = useRecoilSnapshot();
@@ -53,16 +55,28 @@ export const useDarkMode = () => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [themeMode, themeToggler, mountedComponent] = useDarkMode();
-
+  const router = useRouter();
   return (
     <RecoilRoot>
-      <DebugObserver />
-      <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-        <ThemeProvider theme={getTheme(themeMode, themeToggler)}>
-          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-          <CssBaseline /> <Component {...pageProps} />
-        </ThemeProvider>{" "}
-      </SnackbarProvider>
+      <RecoilURLSyncJSON
+        location={{ part: "queryParams" }}
+        // SSR: https://github.com/facebookexperimental/Recoil/issues/1777
+        browserInterface={{
+          getURL: () => {
+            return typeof window === "undefined"
+              ? `http://localhost:3000${router.route}`
+              : window.location.href;
+          },
+        }}
+      >
+        <DebugObserver />
+        <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
+          <ThemeProvider theme={getTheme(themeMode, themeToggler)}>
+            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+            <CssBaseline /> <Component {...pageProps} />
+          </ThemeProvider>{" "}
+        </SnackbarProvider>
+      </RecoilURLSyncJSON>
     </RecoilRoot>
   );
 }

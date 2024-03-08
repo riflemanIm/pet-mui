@@ -1,6 +1,14 @@
 import { atom } from "recoil";
+import { syncEffect } from "recoil-sync";
 
 import { shoppingCartItemProps, PAGE_SIZE, FoodDicts } from "types";
+import {
+  CheckerReturnType,
+  number,
+  string,
+  object,
+  optional,
+} from "@recoiljs/refine";
 
 export const homePageFoodSumState = atom({
   key: "homePageFoodSumState",
@@ -23,7 +31,20 @@ export const foodDictsState = atom<FoodDicts>({
   },
 });
 
-export const homePageQueryState = atom({
+const viewChecker = object({
+  page: optional(number()),
+  type: optional(string()),
+  ages: optional(string()),
+  taste: optional(string()),
+  designedFor: optional(string()),
+  packages: optional(string()),
+  sort: optional(string()),
+  size: optional(number()),
+});
+
+type ViewState = CheckerReturnType<typeof viewChecker>;
+
+export const homePageQueryState = atom<ViewState>({
   key: "homePageQueryState",
   default: {
     page: 1,
@@ -35,6 +56,7 @@ export const homePageQueryState = atom({
     sort: "",
     size: PAGE_SIZE,
   },
+  effects: [syncEffect({ refine: viewChecker })],
 });
 
 export const foodDetailsIdState = atom({
