@@ -27,7 +27,10 @@ export const foodDictsState = atom<FoodDicts>({
     ages: [],
     taste: [],
     designedFor: [],
+    ingridient: [],
+    hardness: [],
     packages: [],
+    petSizes: [],
   },
 });
 
@@ -37,7 +40,10 @@ const viewChecker = object({
   ages: optional(string()),
   taste: optional(string()),
   designedFor: optional(string()),
+  ingridient: optional(string()),
+  hardness: optional(string()),
   packages: optional(string()),
+  petSizes: optional(string()),
   sort: optional(string()),
   size: optional(number()),
 });
@@ -52,7 +58,10 @@ export const homePageQueryState = atom<ViewState>({
     ages: "",
     taste: "",
     designedFor: "",
+    ingridient: "",
+    hardness: "",
     packages: "",
+    petSizes: "",
     sort: "",
     size: PAGE_SIZE,
   },

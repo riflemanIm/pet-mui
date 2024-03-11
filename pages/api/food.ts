@@ -157,12 +157,33 @@ function parsefoodListQuery(
       .map((it: string) => parseInt(it, 10));
     q.where.designedForId = { in: designedFor };
   }
+  if (typeof query.ingridient === "string") {
+    const ingridient = query.ingridient
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.designedForId = { in: ingridient };
+  }
+  if (typeof query.hardness === "string") {
+    const hardness = query.hardness
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.designedForId = { in: hardness };
+  }
   if (typeof query.packages === "string") {
     const packages = query.packages
       .split(",")
       .filter((it: string) => parseInt(it, 10))
       .map((it: string) => parseInt(it, 10));
     q.where.packages = { some: { packageId: { in: packages } } };
+  }
+  if (typeof query.petSizes === "string") {
+    const petSizes = query.petSizes
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.petSizes = { some: { petSizeId: { in: petSizes } } };
   }
   // Sorting.
   if (sorting) {

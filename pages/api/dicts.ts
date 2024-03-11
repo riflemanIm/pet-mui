@@ -14,9 +14,22 @@ const foodAgeListHandler = async (
   const taste = await prisma.taste.findMany();
   const packages = await prisma.package.findMany();
   const designedFor = await prisma.designedFor.findMany();
+  const ingridient = await prisma.ingridient.findMany();
+  const hardness = await prisma.hardness.findMany();
+  const petSizes = await prisma.petSize.findMany();
 
+  //console.log("hardness", hardness);
   if (req.method === "GET") {
-    res.status(200).json({ foodTypes, ages, taste, packages, designedFor });
+    res.status(200).json({
+      foodTypes,
+      ages,
+      taste,
+      packages,
+      designedFor,
+      ingridient,
+      hardness,
+      petSizes,
+    });
   } else {
     res.status(401).json({
       message: `HTTP method ${req.method} is not supported.`,

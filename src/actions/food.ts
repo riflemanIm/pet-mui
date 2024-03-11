@@ -8,7 +8,10 @@ export async function fetchFoods(data: {
   ages?: string;
   taste?: string;
   designedFor?: string;
+  ingridient?: string;
+  hardness?: string;
   packages?: string;
+  petSizes?: string;
   sort?: string;
 }): Promise<{
   [x: string]: any;
@@ -16,7 +19,6 @@ export async function fetchFoods(data: {
   total: number;
   error?: any;
 }> {
-  console.log("data", data);
   try {
     const queryArray = Object.keys(data).reduce((prev: string[], item) => {
       const value = data[item as keyof typeof data];
@@ -60,7 +62,10 @@ export async function fetchFoodDicts(): Promise<{
         ages: [],
         taste: [],
         designedFor: [],
+        ingridient: [],
+        hardness: [],
         packages: [],
+        petSizes: [],
       },
     };
   }
