@@ -3017,6 +3017,11 @@ native-duplexpair@^1.0.0:
   resolved "https://registry.yarnpkg.com/native-duplexpair/-/native-duplexpair-1.0.0.tgz#7899078e64bf3c8a3d732601b3d40ff05db58fa0"
   integrity sha512-E7QQoM+3jvNtlmyfqRZ0/U75VFgCls+fSkbml2MpgWkWyz3ox8Y58gNhfuziuQYGNNQAbFZJQck55LHCnCK6CA==
 
+next-recoil-url-sync@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/next-recoil-url-sync/-/next-recoil-url-sync-0.1.6.tgz#780b7a24fd691fea5435c6c95624dd9bf08fb3f1"
+  integrity sha512-V8yqFwFIIGA4Cw7ugj7enLMpZq+3TX3LLZfSau9ahVuErGjXMJZ57IhuOO5x03IcVS6J0/SLD96DoDnltH1P2Q==
+
 next-session@^4.0.5:
   version "4.0.5"
   resolved "https://registry.yarnpkg.com/next-session/-/next-session-4.0.5.tgz#e663248b4021e03901c5c943b6f764f6c0057cce"

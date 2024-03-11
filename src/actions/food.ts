@@ -48,7 +48,7 @@ export async function fetchFoodDicts(): Promise<{
     const response = await axios.get<FoodDicts>(
       `${process.env.NEXT_PUBLIC_API_URL}/dicts`
     );
-    console.log("response.data", response.data);
+    //console.log("response.data", response.data);
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }

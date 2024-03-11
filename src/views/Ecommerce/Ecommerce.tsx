@@ -13,20 +13,8 @@ import {
   // QuickSearch,
   // Reviews,
 } from "./components";
-import { useRecoilState } from "recoil";
-import { homePageFoodSumState, homePageQueryState } from "atoms";
 
 const Ecommerce: FC = () => {
-  const [homePageQueryData, setHomePageQueryData] =
-    useRecoilState(homePageQueryState);
-  const [homePageFoodSum] = useRecoilState(homePageFoodSumState);
-
-  console.log("homePageFoodSum", homePageFoodSum);
-
-  const handleClickPagination = (page: number) => {
-    setHomePageQueryData({ ...homePageQueryData, page });
-  };
-
   return (
     <Main>
       {/* <Container>

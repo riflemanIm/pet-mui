@@ -28,6 +28,7 @@
     "mssql": "^10.0.2",
     "mysql2": "^3.9.1",
     "next": "^14.1.0",
+    "next-recoil-url-sync": "^0.1.6",
     "next-session": "^4.0.5",
     "nodemailer": "^6.9.9",
     "notistack": "^3.0.1",

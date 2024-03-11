@@ -83,7 +83,7 @@ export default function ProductFilter() {
       });
       setLoadingFoodType(false);
     };
-    func();
+    if (typeof window !== "undefined") func();
   }, []);
 
   const handleChangeRadio = (

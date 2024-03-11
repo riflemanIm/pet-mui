@@ -65,7 +65,7 @@ export const homePageQueryState = atom<ViewState>({
     sort: "",
     size: PAGE_SIZE,
   },
-  effects: [syncEffect({ refine: viewChecker })],
+  effects: [syncEffect({ storeKey: "url-json-store", refine: viewChecker })],
 });
 
 export const foodDetailsIdState = atom({
