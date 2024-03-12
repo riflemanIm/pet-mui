@@ -46,6 +46,16 @@ const SidebarNav = ({ pages }) => {
           <Link
             underline="none"
             component="a"
+            href="/"
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            главная
+          </Link>
+        </Box>
+        <Box>
+          <Link
+            underline="none"
+            component="a"
             href="/catalog"
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
@@ -79,7 +89,7 @@ const SidebarNav = ({ pages }) => {
             href="/about"
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            about
+            О нас
           </Link>
         </Box>
 

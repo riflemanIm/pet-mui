@@ -27,6 +27,7 @@ export const homePageQuery = selector({
       hardness,
       packages,
       petSizes,
+      specialNeeds,
       sort,
     } = get(homePageQueryState);
     const response = await fetchFoods({
@@ -40,6 +41,7 @@ export const homePageQuery = selector({
       hardness,
       packages,
       petSizes,
+      specialNeeds,
       sort,
     });
     return response;

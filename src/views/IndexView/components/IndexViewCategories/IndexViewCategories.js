@@ -8,58 +8,30 @@ import Card from "@mui/material/Card";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 //import { CardActionArea } from '@mui/material';
-import img from "assets/images/full-food.jpg";
-import NextLink from "next/link";
+import img from "assets/images/pets.jpg";
+import img1 from "assets/images/hero/25155454.jpg";
+import img2 from "assets/images/puppies.jpg";
 const mock = [
   {
     title: "Разработано для",
     subtitle: "Наши товары разработаны для конкретного вида питомца",
     icon: img.src,
-    href: "/catalog?homePageQueryState=designedFor:{1}",
+    //href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ages":"","taste":"","designedFor":"1","ingridient":"","hardness":"","packages":"","petSizes":"","sort":"","size":6}',
+    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"1"}',
   },
   {
-    title: "Light and dark UI",
+    title: "Игридиенты",
     subtitle:
-      "Optimized for multiple color modes. Use light or dark, your choice.",
-    icon: (
-      <svg
-        height={24}
-        width={24}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
-        />
-      </svg>
-    ),
+      "Вам следует изучить, какие продукты питания будут наиболее полезными для вашего питомца",
+    icon: img1.src,
+    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ingridient":"1"}',
   },
   {
-    title: "Composable",
+    title: "Особые потребности",
     subtitle:
-      "Designed with composition in mind. Compose new components with ease.",
-    icon: (
-      <svg
-        height={24}
-        width={24}
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth={2}
-          d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
-        />
-      </svg>
-    ),
+      "Здесь можно сделать акцент на определенной потребности для здоровья Вашего питомца ",
+    icon: img2.src,
+    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","specialNeeds":"1"}',
   },
   {
     title: "Developer experience",
@@ -154,13 +126,27 @@ const IndexViewCategories = () => {
         >
           На нашем сайте мы вам поможем подобрать идельный балас продуктов,
           <br />
-          который подходить именно Вашего питомца
+          или выбрать просто вкусняшку который подходить именно для Вашего
+          питомца
         </Typography>
       </Box>
       <Grid container spacing={4}>
         {mock.map((item, i) => (
           <Grid item xs={12} sm={6} md={4} key={i}>
-            <NextLink href={item.href ?? "/"} passHref>
+            <Box
+              component={"a"}
+              display={"block"}
+              sx={{
+                textDecoration: "none",
+                transition: "all .2s ease-in-out",
+                "&:hover": {
+                  transform: `translateY(-${theme.spacing(1 / 2)})`,
+                },
+              }}
+              href={item.href ?? "/"}
+              passHref
+              style={{ textDecoration: "none", height: "100%" }}
+            >
               <Box
                 component={Card}
                 padding={4}
@@ -169,6 +155,11 @@ const IndexViewCategories = () => {
                 height={1}
                 data-aos={"fade-up"}
                 data-aos-delay={i * 100}
+                sx={{
+                  "&:hover": {
+                    backgroundColor: `${theme.palette.grey[100]} !important`,
+                  },
+                }}
               >
                 <Box
                   display={"flex"}
@@ -189,6 +180,7 @@ const IndexViewCategories = () => {
                   <Typography
                     variant={"h6"}
                     gutterBottom
+                    color="text.primary"
                     sx={{ fontWeight: 500 }}
                   >
                     {item.title}
@@ -198,7 +190,7 @@ const IndexViewCategories = () => {
                   </Typography>
                 </Box>
               </Box>
-            </NextLink>
+            </Box>
           </Grid>
         ))}
       </Grid>

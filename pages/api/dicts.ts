@@ -17,6 +17,7 @@ const foodAgeListHandler = async (
   const ingridient = await prisma.ingridient.findMany();
   const hardness = await prisma.hardness.findMany();
   const petSizes = await prisma.petSize.findMany();
+  const specialNeeds = await prisma.specialNeeds.findMany();
 
   //console.log("hardness", hardness);
   if (req.method === "GET") {
@@ -29,6 +30,7 @@ const foodAgeListHandler = async (
       ingridient,
       hardness,
       petSizes,
+      specialNeeds,
     });
   } else {
     res.status(401).json({

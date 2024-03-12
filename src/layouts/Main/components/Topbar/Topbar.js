@@ -42,6 +42,17 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           <Link
             underline="none"
             component="a"
+            href="/"
+            color={colorInvert ? "common.white" : "primary.contrastText"}
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            главная
+          </Link>
+        </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
+          <Link
+            underline="none"
+            component="a"
             href="/catalog"
             color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
@@ -60,14 +71,25 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             о нас
           </Link>
         </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
+          <Link
+            underline="none"
+            component="a"
+            href="/about"
+            color={colorInvert ? "common.white" : "primary.contrastText"}
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            контакты
+          </Link>
+        </Box>
       </Box>
       <Box sx={{ display: { xs: "none", md: "flex" } }} alignItems={"right"}>
-        <Box marginLeft={4}>
+        {/* <Box marginLeft={4}>
           <Link
             underline="none"
             component="a"
             href="https://soundcloud.com/baaahs"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "common.white"}
             sx={{ display: "flex", alignItems: "center" }}
           >
             <IconSoundcloud color="white" />
@@ -83,7 +105,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           >
             <IconEmail />
           </Link>
-        </Box>
+        </Box> */}
         <Box marginLeft={4}>
           <Button
             variant="contained"

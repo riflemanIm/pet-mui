@@ -185,6 +185,13 @@ function parsefoodListQuery(
       .map((it: string) => parseInt(it, 10));
     q.where.petSizes = { some: { petSizeId: { in: petSizes } } };
   }
+  if (typeof query.specialNeeds === "string") {
+    const specialNeeds = query.specialNeeds
+      .split(",")
+      .filter((it: string) => parseInt(it, 10))
+      .map((it: string) => parseInt(it, 10));
+    q.where.specialNeedsId = { in: specialNeeds };
+  }
   // Sorting.
   if (sorting) {
     if (sortTypes.includes(query.sort)) {

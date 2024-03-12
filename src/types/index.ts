@@ -14,6 +14,7 @@ export interface FoodDicts {
   hardness: Dict[];
   packages: Dict[];
   petSizes: Dict[];
+  specialNeeds: Dict[];
 }
 
 export interface FoodProps {

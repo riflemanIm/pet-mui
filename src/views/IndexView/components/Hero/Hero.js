@@ -1,18 +1,17 @@
 import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
 import img from "assets/images/hero/dog_food_PNG37.png";
-import img1 from "assets/images/hero/28512781.jpg";
-import img2 from "assets/images/hero/25155454.jpg";
+import img1 from "assets/images/accessoires/back.jpg";
+import img2 from "assets/images/accessoires/123.jpg";
 import img3 from "assets/images/hero/32019654.jpg";
-import img4 from "assets/images/hero/49075129.jpg";
+import img4 from "assets/images/accessoires/t-short.jpg";
 import img5 from "assets/images/hero/80523856.jpg";
 import img6 from "assets/images/hero/54742642.jpg";
 import img7 from "assets/images/hero/98293007.jpg";
-import img8 from "assets/images/hero/98440207.jpg";
+import img8 from "assets/images/hero/49075129.jpg";
 import img9 from "assets/images/hero/57706547.jpg";
 
 import Container from "components/Container";

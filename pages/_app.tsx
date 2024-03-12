@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../src/theme";
 import { AppProps } from "next/app";
-import { useRouter } from "next/router";
+
 import { RecoilURLSyncJSONNext } from "recoil-sync-next";
 
 function DebugObserver() {
@@ -56,13 +56,10 @@ export const useDarkMode = () => {
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [themeMode, themeToggler, mountedComponent] = useDarkMode();
-  const router = useRouter();
+
   return (
     <RecoilRoot>
-      <RecoilURLSyncJSONNext
-        storeKey="url-json-store"
-        location={{ part: "queryParams" }}
-      >
+      <RecoilURLSyncJSONNext location={{ part: "queryParams" }}>
         <DebugObserver />
         <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
           <ThemeProvider theme={getTheme(themeMode, themeToggler)}>

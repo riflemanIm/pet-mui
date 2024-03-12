@@ -12,6 +12,7 @@ export async function fetchFoods(data: {
   hardness?: string;
   packages?: string;
   petSizes?: string;
+  specialNeeds?: string;
   sort?: string;
 }): Promise<{
   [x: string]: any;
@@ -66,6 +67,7 @@ export async function fetchFoodDicts(): Promise<{
         hardness: [],
         packages: [],
         petSizes: [],
+        specialNeeds: [],
       },
     };
   }

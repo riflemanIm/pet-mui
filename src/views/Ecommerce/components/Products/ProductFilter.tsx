@@ -62,6 +62,7 @@ export default function ProductFilter() {
           hardness,
           packages,
           petSizes,
+          specialNeeds,
         },
       } = res;
       if (error) {
@@ -80,6 +81,7 @@ export default function ProductFilter() {
         hardness,
         packages,
         petSizes,
+        specialNeeds,
       });
       setLoadingFoodType(false);
     };
@@ -137,11 +139,13 @@ export default function ProductFilter() {
           >
             <FormControlLabel
               value="Treat"
+              checked={homePageQueryData?.type === "Treat"}
               control={<Radio />}
               label="Лакомства"
             />
             <FormControlLabel
               value="Souvenirs"
+              checked={homePageQueryData?.type === "Souvenirs"}
               control={<Radio />}
               label="Аксессуары"
             />
@@ -167,53 +171,6 @@ export default function ProductFilter() {
         </FormControl>
       </Grid> */}
 
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-ages-label">Возраст</InputLabel>
-          <Select
-            labelId="demo-ages-label"
-            id="demo-ages"
-            multiple
-            value={
-              homePageQueryData?.ages ? homePageQueryData?.ages.split(",") : []
-            }
-            onChange={(e) => handleChangeMulty(e, "ages")}
-            input={<OutlinedInput id="select-ages" label="Возраст" />}
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="primary"
-                      label={
-                        foodDicts.ages.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.ages.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.ages
-                    ? homePageQueryData?.ages.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
       {/* <Grid item xs={12} sm={12}>
         <FormControl>
           <FormLabel
@@ -237,57 +194,6 @@ export default function ProductFilter() {
           </RadioGroup>
         </FormControl>
       </Grid> */}
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-hardness-label">Консистенция корма</InputLabel>
-          <Select
-            labelId="demo-hardness-label"
-            id="demo-hardness"
-            multiple
-            value={
-              homePageQueryData?.hardness
-                ? homePageQueryData?.hardness.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "hardness")}
-            input={
-              <OutlinedInput id="select-hardness" label="Консистенция корма" />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.hardness.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.hardness.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.hardness
-                    ? homePageQueryData?.hardness.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
 
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
@@ -393,6 +299,62 @@ export default function ProductFilter() {
 
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
+          <InputLabel id="demo-specialNeeds-label">
+            Особые потребности
+          </InputLabel>
+          <Select
+            labelId="demo-specialNeeds-label"
+            id="demo-specialNeeds"
+            multiple
+            value={
+              homePageQueryData?.specialNeeds
+                ? homePageQueryData?.specialNeeds.split(",")
+                : []
+            }
+            onChange={(e) => handleChangeMulty(e, "specialNeeds")}
+            input={
+              <OutlinedInput
+                id="select-specialNeeds"
+                label="Особые потребности"
+              />
+            }
+            renderValue={(selected) => {
+              return (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((val) => (
+                    <Chip
+                      key={val}
+                      color="info"
+                      label={
+                        foodDicts.specialNeeds.find((item) => item.id == val)
+                          ?.name
+                      }
+                    />
+                  ))}
+                </Box>
+              );
+            }}
+            MenuProps={MenuProps}
+          >
+            {foodDicts.specialNeeds.map((item) => (
+              <MenuItem
+                key={item.id}
+                value={item.id.toString()}
+                style={getStyles(
+                  item.id.toString(),
+                  homePageQueryData?.specialNeeds
+                    ? homePageQueryData?.specialNeeds.split(",")
+                    : []
+                )}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+      <Grid item xs={12} sm={12}>
+        <FormControl fullWidth>
           <InputLabel id="demo-petSizes-label">Размер питомца</InputLabel>
           <Select
             labelId="demo-petSizes-label"
@@ -490,6 +452,105 @@ export default function ProductFilter() {
           </Select>
         </FormControl>
       </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-hardness-label">Консистенция корма</InputLabel>
+          <Select
+            labelId="demo-hardness-label"
+            id="demo-hardness"
+            multiple
+            value={
+              homePageQueryData?.hardness
+                ? homePageQueryData?.hardness.split(",")
+                : []
+            }
+            onChange={(e) => handleChangeMulty(e, "hardness")}
+            input={
+              <OutlinedInput id="select-hardness" label="Консистенция корма" />
+            }
+            renderValue={(selected) => {
+              return (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((val) => (
+                    <Chip
+                      key={val}
+                      color="info"
+                      label={
+                        foodDicts.hardness.find((item) => item.id == val)?.name
+                      }
+                    />
+                  ))}
+                </Box>
+              );
+            }}
+            MenuProps={MenuProps}
+          >
+            {foodDicts.hardness.map((item) => (
+              <MenuItem
+                key={item.id}
+                value={item.id.toString()}
+                style={getStyles(
+                  item.id.toString(),
+                  homePageQueryData?.hardness
+                    ? homePageQueryData?.hardness.split(",")
+                    : []
+                )}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-ages-label">Возраст</InputLabel>
+          <Select
+            labelId="demo-ages-label"
+            id="demo-ages"
+            multiple
+            value={
+              homePageQueryData?.ages ? homePageQueryData?.ages.split(",") : []
+            }
+            onChange={(e) => handleChangeMulty(e, "ages")}
+            input={<OutlinedInput id="select-ages" label="Возраст" />}
+            renderValue={(selected) => {
+              return (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((val) => (
+                    <Chip
+                      key={val}
+                      color="primary"
+                      label={
+                        foodDicts.ages.find((item) => item.id == val)?.name
+                      }
+                    />
+                  ))}
+                </Box>
+              );
+            }}
+            MenuProps={MenuProps}
+          >
+            {foodDicts.ages.map((item) => (
+              <MenuItem
+                key={item.id}
+                value={item.id.toString()}
+                style={getStyles(
+                  item.id.toString(),
+                  homePageQueryData?.ages
+                    ? homePageQueryData?.ages.split(",")
+                    : []
+                )}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid>
+
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
           <InputLabel id="demo-packages-label">Упаковка</InputLabel>

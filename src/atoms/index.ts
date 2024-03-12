@@ -31,6 +31,7 @@ export const foodDictsState = atom<FoodDicts>({
     hardness: [],
     packages: [],
     petSizes: [],
+    specialNeeds: [],
   },
 });
 
@@ -44,6 +45,7 @@ const viewChecker = object({
   hardness: optional(string()),
   packages: optional(string()),
   petSizes: optional(string()),
+  specialNeeds: optional(string()),
   sort: optional(string()),
   size: optional(number()),
 });
@@ -54,7 +56,7 @@ export const homePageQueryState = atom<ViewState>({
   key: "homePageQueryState",
   default: {
     page: 1,
-    type: "",
+    type: "Treat",
     ages: "",
     taste: "",
     designedFor: "",
@@ -62,10 +64,11 @@ export const homePageQueryState = atom<ViewState>({
     hardness: "",
     packages: "",
     petSizes: "",
+    specialNeeds: "",
     sort: "",
     size: PAGE_SIZE,
   },
-  effects: [syncEffect({ storeKey: "url-json-store", refine: viewChecker })],
+  effects: [syncEffect({ refine: viewChecker })],
 });
 
 export const foodDetailsIdState = atom({

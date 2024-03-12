@@ -3,7 +3,13 @@ import { alpha, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Main from "layouts/Main";
 import Container from "components/Container";
-import { GetStarted, Features, Music, Events, Hero } from "./components";
+import {
+  GetStarted,
+  Features,
+  IndexViewCategories,
+  Events,
+  Hero,
+} from "./components";
 
 const IndexView = () => {
   const theme = useTheme();
@@ -22,7 +28,7 @@ const IndexView = () => {
           }}
         >
           <Container>
-            <Music />
+            <IndexViewCategories />
           </Container>
           <Container>
             <Events />

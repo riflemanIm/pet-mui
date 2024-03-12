@@ -43,11 +43,22 @@ const Footer = () => {
               <Link
                 underline="none"
                 component="a"
+                href="/"
+                color="text.primary"
+                variant={"subtitle2"}
+              >
+                Главная
+              </Link>
+            </Box>
+            <Box marginTop={1} marginRight={2}>
+              <Link
+                underline="none"
+                component="a"
                 href="/catalog"
                 color="text.primary"
                 variant={"subtitle2"}
               >
-                каталог
+                Каталог
               </Link>
             </Box>
             <Box marginTop={1} marginRight={2}>
@@ -58,7 +69,7 @@ const Footer = () => {
                 color="text.primary"
                 variant={"subtitle2"}
               >
-                о нас
+                О нас
               </Link>
             </Box>
 
