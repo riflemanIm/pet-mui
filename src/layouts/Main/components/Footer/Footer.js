@@ -95,7 +95,7 @@ const Footer = () => {
           color="text.secondary"
           gutterBottom
         >
-          Footer main
+          Shepherd TM - лакомства для животных
         </Typography>
         <Typography
           align={"center"}
@@ -103,7 +103,7 @@ const Footer = () => {
           color="text.secondary"
           component={"p"}
         >
-          Footer description
+          © Shepherd TM 2024. Все права защищены
         </Typography>
       </Grid>
     </Grid>

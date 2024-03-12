@@ -23,9 +23,9 @@ const Events = () => {
           fontWeight: 700,
         }}
       >
-        upcoming events
+        Новости и события
       </Typography>
-      <HorizontallyAlignedBlogCardWithShapedImage></HorizontallyAlignedBlogCardWithShapedImage>
+      <HorizontallyAlignedBlogCardWithShapedImage />
     </Box>
   );
 };
