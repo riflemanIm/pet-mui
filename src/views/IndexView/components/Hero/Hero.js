@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/hero/dog_food_PNG37.png";
+import img from "assets/images/hero.png";
 import img1 from "assets/images/accessoires/back.jpg";
 import img2 from "assets/images/accessoires/123.jpg";
 import img3 from "assets/images/hero/32019654.jpg";

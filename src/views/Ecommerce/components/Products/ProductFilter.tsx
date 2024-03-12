@@ -113,7 +113,7 @@ export default function ProductFilter() {
       [name]: vals.join(","),
     });
   };
-  //console.log("homePageQueryData", homePageQueryData);
+  console.log("homePageQueryData", homePageQueryData);
 
   return (
     <Grid
@@ -150,100 +150,6 @@ export default function ProductFilter() {
               label="Аксессуары"
             />
           </RadioGroup>
-        </FormControl>
-      </Grid>
-
-      {/* <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label"> Сортировать по</InputLabel>
-          <Select
-            value={homePageQueryData?.sort}
-            label="Сортировать по"
-            onChange={handleChangeOrder}
-            variant="standard"
-          >
-            {SORT_VALUE.map((sortType) => (
-              <MenuItem key={sortType} value={sortType}>
-                {sortType.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid> */}
-
-      {/* <Grid item xs={12} sm={12}>
-        <FormControl>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            sx={{ fontSize: 13, color: "secondary" }}
-          >
-            Консистенция корма
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            onChange={(e) => handleChangeRadio(e, "hardness")}
-          >
-            {foodDicts.hardness.map((item) => (
-              <FormControlLabel
-                value={item.id}
-                control={<Radio />}
-                label={item.name}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </Grid> */}
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-designedFor-label">Разработано для</InputLabel>
-          <Select
-            labelId="demo-designedFor-label"
-            id="demo-designedFor"
-            multiple
-            value={
-              homePageQueryData?.designedFor
-                ? homePageQueryData?.designedFor.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "designedFor")}
-            input={
-              <OutlinedInput id="select-designedFor" label="Разработано для" />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.designedFor.find((item) => item.id == val)
-                          ?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.designedFor.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.designedFor
-                    ? homePageQueryData?.designedFor.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
         </FormControl>
       </Grid>
 
@@ -296,6 +202,83 @@ export default function ProductFilter() {
           </Select>
         </FormControl>
       </Grid>
+
+      <Grid item xs={12} sm={12}>
+        <FormControl>
+          <FormLabel
+            id="designedFor-group-label"
+            sx={{ fontSize: 13, color: "secondary" }}
+          >
+            Разработано для
+          </FormLabel>
+          <RadioGroup
+            row
+            aria-labelledby="designedFor-group-label"
+            onChange={(e) => handleChangeRadio(e, "designedFor")}
+          >
+            {foodDicts.designedFor.map((item) => (
+              <FormControlLabel
+                value={item.id}
+                checked={homePageQueryData?.designedFor == item.id}
+                control={<Radio />}
+                label={item.name}
+              />
+            ))}
+          </RadioGroup>
+        </FormControl>
+      </Grid>
+
+      {/* <Grid item xs={12} sm={12}>
+        <FormControl fullWidth>
+          <InputLabel id="demo-designedFor-label">Разработано для</InputLabel>
+          <Select
+            labelId="demo-designedFor-label"
+            id="demo-designedFor"
+            multiple
+            value={
+              homePageQueryData?.designedFor
+                ? homePageQueryData?.designedFor.split(",")
+                : []
+            }
+            onChange={(e) => handleChangeMulty(e, "designedFor")}
+            input={
+              <OutlinedInput id="select-designedFor" label="Разработано для" />
+            }
+            renderValue={(selected) => {
+              return (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((val) => (
+                    <Chip
+                      key={val}
+                      color="info"
+                      label={
+                        foodDicts.designedFor.find((item) => item.id == val)
+                          ?.name
+                      }
+                    />
+                  ))}
+                </Box>
+              );
+            }}
+            MenuProps={MenuProps}
+          >
+            {foodDicts.designedFor.map((item) => (
+              <MenuItem
+                key={item.id}
+                value={item.id.toString()}
+                style={getStyles(
+                  item.id.toString(),
+                  homePageQueryData?.designedFor
+                    ? homePageQueryData?.designedFor.split(",")
+                    : []
+                )}
+              >
+                {item.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Grid> */}
 
       <Grid item xs={12} sm={12}>
         <FormControl fullWidth>
