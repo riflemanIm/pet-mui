@@ -52,11 +52,14 @@ export const foodInfoQuery = selector({
   key: "FoodInfoQuery",
   get: async ({ get }) => {
     const foodID = get(foodDetailsIdState);
-    const response = await fetchFoodDetailsById(foodID);
-    if (response.error) {
-      throw response.error;
+    console.log("---foodID---", foodID, typeof foodID);
+    if (foodID) {
+      const response = await fetchFoodDetailsById(foodID);
+      if (response.error) {
+        throw response.error;
+      }
+      return response;
     }
-    return response;
   },
 });
 

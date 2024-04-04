@@ -113,7 +113,7 @@ export default function ProductFilter() {
       [name]: vals.join(","),
     });
   };
-  console.log("homePageQueryData", homePageQueryData);
+  //console.log("homePageQueryData", homePageQueryData);
 
   return (
     <Grid

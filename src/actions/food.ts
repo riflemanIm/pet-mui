@@ -79,14 +79,14 @@ export async function fetchFoodDetailsById(id: string): Promise<{
 }> {
   try {
     const response = await axios.get(
-      `${process.env.NEXT_PUBLIC_API_URL}/foods/${id}`
+      `${process.env.NEXT_PUBLIC_API_URL}/food/${id}`
     );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
     return { content: response.data as FoodDetailProps };
   } catch (error) {
-    console.error(error);
+    //console.error(error);
     return { error, content: {} as FoodDetailProps };
   }
 }

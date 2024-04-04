@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import NextLink from "next/link";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -11,6 +12,7 @@ import CardActions from "@mui/material/CardActions";
 import { useTheme } from "@mui/material/styles";
 import { FoodProps } from "types";
 import Image from "next/image";
+import { CardActionArea, Link } from "@mui/material";
 
 export interface ProductsPageProps {
   item: FoodProps;
@@ -38,61 +40,63 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
           display={"flex"}
           flexDirection={"column"}
         >
-          <CardMedia
-            sx={{
-              position: "relative",
-              height: { xs: 240, sm: 340, md: 280 },
-              overflow: "hidden",
-              padding: 3,
-              paddingBottom: 0,
-              background: theme.palette.background.default,
-              display: "flex",
-              alignItems: "flex-end",
-              justifyContent: "center",
-            }}
-          >
-            <Image
-              src={`/images/catalog/${item.img}`}
-              width={380}
-              height={380}
-              alt=""
-            />
-            <Box
-              display={"flex"}
-              justifyContent={"flex-end"}
-              position={"absolute"}
-              top={0}
-              left={0}
-              right={0}
-              padding={2}
-              width={1}
+          <CardActionArea LinkComponent={NextLink} href={`/catalog/${item.id}`}>
+            <CardMedia
+              sx={{
+                position: "relative",
+                height: { xs: 240, sm: 340, md: 280 },
+                overflow: "hidden",
+                padding: 3,
+                paddingBottom: 0,
+                background: theme.palette.background.default,
+                display: "flex",
+                alignItems: "flex-end",
+                justifyContent: "center",
+              }}
             >
+              <Image
+                src={`/images/catalog/${item.img}`}
+                width={380}
+                height={380}
+                alt=""
+              />
               <Box
-                component={IconButton}
-                color="secondary"
-                bgcolor={"background.paper"}
-                size={"large"}
+                display={"flex"}
+                justifyContent={"flex-end"}
+                position={"absolute"}
+                top={0}
+                left={0}
+                right={0}
+                padding={2}
+                width={1}
               >
                 <Box
-                  component={"svg"}
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  width={20}
-                  height={20}
-                  color={"secondary.main"}
+                  component={IconButton}
+                  color="secondary"
+                  bgcolor={"background.paper"}
+                  size={"large"}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                  />
+                  <Box
+                    component={"svg"}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    width={20}
+                    height={20}
+                    color={"secondary.main"}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                    />
+                  </Box>
                 </Box>
               </Box>
-            </Box>
-          </CardMedia>
+            </CardMedia>
+          </CardActionArea>
           <CardContent>
             <Typography align={"left"}>{item.title}</Typography>
             <Box display={"flex"} justifyContent={"flex-start"} marginY={1}>

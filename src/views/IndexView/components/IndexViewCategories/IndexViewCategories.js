@@ -100,7 +100,6 @@ const IndexViewCategories = () => {
                 },
               }}
               href={item.href ?? "/"}
-              passHref
               style={{ textDecoration: "none", height: "100%" }}
             >
               <Box
