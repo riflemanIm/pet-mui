@@ -13,16 +13,23 @@ const ImageView = ({ imgs, title }) => {
   const [current, setCurrent] = useState(imgs[0]);
   const imgPath = "/images/catalog/";
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
+
+  const downLg = useMediaQuery(theme.breakpoints.down("lg"), {
     defaultMatches: true,
   });
-  const isLg = useMediaQuery(theme.breakpoints.up("lg"), {
+  const downMd = useMediaQuery(theme.breakpoints.down("md"), {
     defaultMatches: true,
   });
-  const isSm = useMediaQuery(theme.breakpoints.up("sm"), {
+  const downSm = useMediaQuery(theme.breakpoints.down("sm"), {
     defaultMatches: true,
   });
-  const showCarImgs = isLg ? 7 : !isLg & isMd ? 5 : isSm ? 6 : 3;
+  const showCarImgs = !downLg
+    ? 7
+    : downLg && !downMd
+    ? 5
+    : downMd && !downSm
+    ? 6
+    : 3;
   //console.log("isMd", isMd, "isLg", isLg);
   return (
     <Box>
@@ -66,7 +73,7 @@ const ImageView = ({ imgs, title }) => {
               <IconButton
                 color="primary"
                 aria-label="next image"
-                sx={{ mt: 1.8 }}
+                sx={{ mt: 2 }}
               >
                 <KeyboardArrowRightIcon />
               </IconButton>
@@ -75,7 +82,7 @@ const ImageView = ({ imgs, title }) => {
               <IconButton
                 color="primary"
                 aria-label="previos image"
-                sx={{ mt: 1.8 }}
+                sx={{ mt: 2 }}
               >
                 <KeyboardArrowLeftIcon />
               </IconButton>

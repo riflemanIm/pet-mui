@@ -25,14 +25,14 @@ const Footer = () => {
             component="a"
             href="/"
             title="theFront"
-            width={180}
+            width={120}
           >
             <Box
               component={"img"}
               src={
                 mode === "light"
                   ? "/images/logo_shepherd_navy.svg"
-                  : "/images/logo_shepherd_navy.svg"
+                  : "/images/logo_shepherd_light.svg"
               }
               height={1}
               width={1}

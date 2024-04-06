@@ -24,14 +24,15 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
         component="a"
         href="/"
         title="theFront"
-        width={{ xs: 120, md: 280 }}
+        width={{ xs: 120, md: 210 }}
+        padding={{ xs: 0.5, md: 1.2 }}
       >
         <Box
           component={"img"}
           src={
             mode === "light" && !colorInvert
               ? "/images/logo_shepherd_light.svg"
-              : "/images/logo_shepherd_light.svg"
+              : "/images/logo_shepherd_navy.svg"
           }
           height={1}
           width={1}
