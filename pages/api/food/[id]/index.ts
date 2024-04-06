@@ -13,7 +13,7 @@ const foodDetailHandler = async (
       try {
         const foodDetail = await getFoodDetail(req);
         delete foodDetail.id;
-        console.log("-----------id---------", foodDetail, "===");
+        console.log("-----------foodDetail---------", foodDetail, "===");
         res.status(200).json(foodDetail);
       } catch (err: any) {
         console.error(err);
@@ -53,6 +53,16 @@ async function getFoodDetail(req: NextApiRequest) {
       id: foodId,
     },
   });
+
+  const foodImgAdd: any = await prisma.foodImgAdd.findMany({
+    select: {
+      img: true,
+    },
+    where: {
+      foodId: foodId,
+    },
+  });
+  food.foodImgAdd = foodImgAdd;
 
   // Aggregation.
   // Reference: https://www.prisma.io/docs/concepts/components/prisma-client/aggregation-grouping-summarizing

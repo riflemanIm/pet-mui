@@ -1,5 +1,5 @@
 import React from "react";
-import IndexView from "../src/views/IndexView";
+import IndexView from "components/Home";
 import { NextPage } from "next";
 
 const Home: NextPage = () => {

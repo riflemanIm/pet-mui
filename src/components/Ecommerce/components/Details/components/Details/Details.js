@@ -207,7 +207,7 @@ const Details = ({ data }) => {
             </svg>
           }
         >
-          в Избранное
+          В избранное
         </Button>
         <Button
           variant={"contained"}
@@ -226,7 +226,7 @@ const Details = ({ data }) => {
             </svg>
           }
         >
-          в Карзину
+          В корзину
         </Button>
       </Stack>
       <Box marginY={3}>

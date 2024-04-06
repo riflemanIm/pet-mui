@@ -1,5 +1,5 @@
 import React from "react";
-import Ecommerce from "views/Ecommerce";
+import Ecommerce from "components/Ecommerce";
 import { NextPage } from "next";
 
 const PageEcommerce: NextPage = () => {

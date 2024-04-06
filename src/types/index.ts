@@ -17,8 +17,12 @@ export interface FoodDicts {
   specialNeeds: Dict[];
 }
 
+export interface FoodImgAddProp {
+  img: string;
+}
 export interface FoodProps {
   id: string;
+  artikul: string;
   title: string;
   type: string;
   img: string;
@@ -26,6 +30,8 @@ export interface FoodProps {
   createdAt: string;
   priceDiscount: number;
   price: string;
+  foodImgAdd: FoodImgAddProp[];
+  quantity: number;
   //  ages: { age: Dict }[];
   averageRating: number;
   ratings: number;

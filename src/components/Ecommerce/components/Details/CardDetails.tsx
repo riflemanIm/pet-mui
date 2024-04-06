@@ -1,9 +1,15 @@
 import React, { FC } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import { FoodProps, FoodDicts, FoodDetailProps, FoodRatingsProps } from "types";
+import {
+  FoodProps,
+  FoodDicts,
+  FoodDetailProps,
+  FoodRatingsProps,
+  FoodImgAddProp,
+} from "types";
 
-import { Image, Details } from "./components";
+import { ImageView, Details } from "./components";
 import { useRecoilValueLoadable } from "recoil";
 import { foodInfoQuery } from "selectors";
 import { CircularProgress } from "@mui/material";
@@ -21,13 +27,19 @@ const CardDetails: FC = () => {
   // };
 
   //console.log("foodDetailsLodable", foodDetailsLodable);
+  const imgs = (foodDetailsLodable.contents?.content?.foodImgAdd || []).map(
+    (it: FoodImgAddProp) => it.img
+  );
 
   switch (foodDetailsLodable.state) {
     case "hasValue":
       return (
         <Grid container spacing={{ xs: 2, md: 4 }}>
           <Grid item xs={12} md={7}>
-            <Image />
+            <ImageView
+              imgs={[foodDetailsLodable.contents?.content.img, ...imgs]}
+              title={foodDetailsLodable.contents?.content.title}
+            />
           </Grid>
           <Grid item xs={12} md={5}>
             <Details data={foodDetailsLodable.contents?.content} />

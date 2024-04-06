@@ -1,5 +1,5 @@
 import React from "react";
-import EcommerceDetails from "views/Ecommerce/components/Details";
+import EcommerceDetails from "components/Ecommerce/components/Details";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
