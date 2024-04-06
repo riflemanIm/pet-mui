@@ -1,9 +1,10 @@
 import React from "react";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/hero.png";
+import img from "assets/images/petsfood.png";
 import img1 from "assets/images/accessoires/back.jpg";
 import img2 from "assets/images/accessoires/123.jpg";
 import img3 from "assets/images/hero/32019654.jpg";
@@ -83,35 +84,43 @@ const Hero = () => {
         )}, ${alpha(theme.palette.alternate.main, 1)} 100%)`,
 
         position: "relative",
+        zIndex: 1000,
       }}
     >
       <Box
-        paddingY={{ xs: 0, sm: "4rem", md: "8rem" }}
+        paddingY={{ xs: 0, sm: "4rem", md: "4rem" }}
         sx={{
           backgroundImage: `url("${img.src}")`,
-          backgroundPosition: "50% 30%",
+          backgroundPosition: "39% 15%",
           transform: "translate3d(0px,0px,0px)",
-          backgroundSize: "350px auto",
+          backgroundSize: " auto auto",
           backgroundRepeat: "no-repeat",
         }}
       >
         <Container>
-          <Box maxWidth={{ xs: 1, sm: "35%" }}>
+          <Box maxWidth={{ xs: 1, sm: "25%" }}>
             <Typography
-              variant="h6"
-              component="p"
+              variant="h5"
               color="text.primary"
-              sx={{ fontWeight: 450 }}
+              sx={{
+                fontWeight: 520,
+                textShadow: "3px 2px 3px rgba(255,255,255,.4)",
+                lineHeight: 1.6,
+              }}
+              marginTop={{ xs: 50, sm: 4 }}
+              textAlign={{ xs: "center", sm: "left" }}
             >
-              Мы готовы доставить наш продукт в любую точку России и мира.
+              Мы готовы доставить наш продукт в любую точку
+              <br /> России и мира.
               <br /> Также у нас есть удобный вариант самовывоза для жителей
               Краснодара.
             </Typography>
-            {/* <Box
+            <Box
               display="flex"
               flexDirection={{ xs: "column", sm: "row" }}
               alignItems={{ xs: "stretched", sm: "flex-start" }}
-              marginTop={4}
+              marginTop={{ xs: 5, sm: 4 }}
+              justifyContent={{ xs: "center", sm: "right" }}
             >
               <Button
                 component={"a"}
@@ -119,11 +128,11 @@ const Hero = () => {
                 color="primary"
                 size="large"
                 fullWidth={isMd ? false : true}
-                href={"/crew"}
+                href={"/catalog"}
               >
-                Join the flock
+                Каталог
               </Button>
-              <Box
+              {/* <Box
                 marginTop={{ xs: 2, sm: 0 }}
                 marginLeft={{ sm: 2 }}
                 width={{ xs: "100%", md: "auto" }}
@@ -138,13 +147,13 @@ const Hero = () => {
                 >
                   Learn more
                 </Button>
-              </Box>
-            </Box> */}
+              </Box> */}
+            </Box>
           </Box>
         </Container>
         <Box
           sx={{
-            transform: "rotate(-20deg)",
+            transform: "rotate(-30deg)",
             display: { xs: "none", sm: "block" },
           }}
         >
@@ -154,10 +163,10 @@ const Hero = () => {
             left={"55%"}
             top={0}
             position={"absolute"}
-            sx={{ transform: "translate3d(20%, -50%, 0)" }}
+            sx={{ transform: "translate3d(-7%, -10%, 0)" }}
           >
             {images.map((item, i) => (
-              <Box key={i} marginTop={{ sm: -(i * 16) }} marginX={1}>
+              <Box key={i} marginTop={{ sm: -(i * 9) }} marginX={1}>
                 {item.group.map((g, j) => (
                   <Box
                     key={j}
@@ -166,6 +175,27 @@ const Hero = () => {
                     borderRadius={2}
                     boxShadow={3}
                     marginTop={2}
+                    sx={{
+                      width: 190,
+                      height: 190,
+                      cursor: "pointer",
+                      "& img": {
+                        width: 1,
+                        height: 1,
+                        objectFit: "cover",
+                        borderRadius: 0.5,
+                      },
+                      transition: "all .2s ease-in-out",
+                      "&:hover": {
+                        transform: "rotate(30deg) scale(2)",
+                        height: "auto",
+                        padding: 0.5,
+                        borderRadius: 0.1,
+                        "& img": {
+                          borderRadius: 0.2,
+                        },
+                      },
+                    }}
                   >
                     <Image
                       src={
@@ -173,8 +203,8 @@ const Hero = () => {
                           ? g.coverDark.src
                           : g.cover.src
                       }
-                      height={210}
-                      width={210}
+                      height={310}
+                      width={310}
                     />
                   </Box>
                 ))}
