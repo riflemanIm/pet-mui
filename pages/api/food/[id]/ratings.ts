@@ -152,7 +152,7 @@ async function removeFoodRating(
   ) {
     throw new Error("Parameter `userId` must be provided.");
   }
-  let userId = BigInt(req.query.userId);
+  const userId = parseInt(req.query.userId, 10);
 
   // Delete a single rating record.
   //
