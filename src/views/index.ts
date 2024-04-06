@@ -1,5 +1,5 @@
 export { default as Home } from "./Home";
-export { default as IndexView } from "./components/Home";
+//export { default as IndexView } from "./components/Home";
 export { default as Customers } from "./Customers";
 export { default as HireUs } from "./HireUs";
 export { default as Faq } from "./Faq";
@@ -22,7 +22,7 @@ export { default as JobListing } from "./JobListing";
 export { default as Rental } from "./Rental";
 export { default as CloudHosting } from "./CloudHosting";
 export { default as Logistics } from "./Logistics";
-export { default as Ecommerce } from "./Ecommerce";
+//export { default as Ecommerce } from "./Ecommerce";
 export { default as Pricing } from "./Pricing";
 export { default as About } from "./About";
 export { default as HelpCenter } from "./HelpCenter";
