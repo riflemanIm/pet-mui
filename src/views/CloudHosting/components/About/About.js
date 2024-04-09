@@ -1,23 +1,23 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react';
-import { useTheme } from '@mui/material/styles';
-import useMediaQuery from '@mui/material/useMediaQuery';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Avatar from '@mui/material/Avatar';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
+import React from "react";
+import { useTheme } from "@mui/material/styles";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Grid from "@mui/material/Grid";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import Avatar from "@mui/material/Avatar";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
 
-import LaptopSkeletonIllustration from 'svg/illustrations/LaptopSkeleton';
+import LaptopSkeletonIllustration from "svg/illustrations/LaptopSkeleton";
 
 const About = () => {
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up('md'), {
+  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
 
@@ -26,16 +26,16 @@ const About = () => {
       <Box marginBottom={2}>
         <Typography
           sx={{
-            textTransform: 'uppercase',
-            fontWeight: 'medium',
+            textTransform: "uppercase",
+            fontWeight: "medium",
           }}
-          color={'primary'}
+          color={"primary"}
         >
           COMPLETE CONTROL
         </Typography>
       </Box>
       <Box marginBottom={2}>
-        <Typography component={'span'} variant="h4" sx={{ fontWeight: 700 }}>
+        <Typography component={"span"} variant="h4" sx={{ fontWeight: 700 }}>
           Monitor and analyze usage patterns.
         </Typography>
       </Box>
@@ -50,19 +50,19 @@ const About = () => {
         <Box
           width={1}
           height={1}
-          data-aos={'fade-up'}
+          data-aos={"fade-up"}
           component={Card}
-          display={'flex'}
-          flexDirection={'column'}
+          display={"flex"}
+          flexDirection={"column"}
         >
           <CardContent
             sx={{
-              display: 'flex',
-              flexDirection: 'column',
+              display: "flex",
+              flexDirection: "column",
             }}
           >
             <Box marginBottom={1}>
-              <Box display={'flex'} justifyContent={'flex-start'}>
+              <Box display={"flex"} justifyContent={"flex-start"}>
                 {[1, 2, 3, 4, 5].map((item) => (
                   <Box key={item} color={theme.palette.secondary.main}>
                     <svg
@@ -87,13 +87,13 @@ const About = () => {
             <ListItem component="div" disableGutters sx={{ padding: 0 }}>
               <ListItemAvatar>
                 <Avatar
-                  src={'https://assets.maccarianagency.com/avatars/img1.jpg'}
+                  src={"https://assets.maccarianagency.com/avatars/img1.jpg"}
                 />
               </ListItemAvatar>
               <ListItemText
                 sx={{ margin: 0 }}
-                primary={'Clara Bertoletti'}
-                secondary={'MUI lover'}
+                primary={"Clara Bertoletti"}
+                secondary={"MUI lover"}
               />
             </ListItem>
           </CardActions>
@@ -104,57 +104,57 @@ const About = () => {
 
   return (
     <Grid container spacing={4}>
-      <Grid item container alignItems={'center'} xs={12} md={6}>
-        <Box data-aos={isMd ? 'fade-right' : 'fade-up'}>
+      <Grid item container alignItems={"center"} xs={12} md={6}>
+        <Box data-aos={isMd ? "fade-right" : "fade-up"}>
           <LeftSide />
         </Box>
       </Grid>
-      <Grid item container alignItems={'center'} xs={12} md={6}>
+      <Grid item container alignItems={"center"} xs={12} md={6}>
         <Box width={1}>
           <Box
             sx={{
-              position: 'relative',
-              marginX: 'auto',
+              position: "relative",
+              marginX: "auto",
             }}
           >
             <Box
               sx={{
-                position: 'relative',
-                marginX: 'auto',
+                position: "relative",
+                marginX: "auto",
               }}
             >
               <Box>
                 <Box
-                  position={'relative'}
+                  position={"relative"}
                   zIndex={2}
                   maxWidth={1}
-                  height={'auto'}
-                  sx={{ verticalAlign: 'middle' }}
+                  height={"auto"}
+                  sx={{ verticalAlign: "middle" }}
                 >
                   <LaptopSkeletonIllustration />
                 </Box>
                 <Box
-                  position={'absolute'}
-                  top={'8.4%'}
-                  left={'12%'}
-                  width={'76%'}
-                  height={'83%'}
+                  position={"absolute"}
+                  top={"8.4%"}
+                  left={"12%"}
+                  width={"76%"}
+                  height={"83%"}
                   border={`1px solid ${theme.palette.alternate.dark}`}
                   zIndex={3}
                 >
                   <Box
-                    component={'img'}
+                    component={"img"}
                     loading="lazy"
                     src="https://assets.maccarianagency.com/screenshots/dashboard.png"
                     alt="Image Description"
                     width={1}
                     height={1}
                     sx={{
-                      objectFit: 'cover',
+                      objectFit: "cover",
                       filter:
-                        theme.palette.mode === 'dark'
-                          ? 'brightness(0.7)'
-                          : 'none',
+                        theme.palette.mode === "dark"
+                          ? "brightness(0.7)"
+                          : "none",
                     }}
                   />
                 </Box>
