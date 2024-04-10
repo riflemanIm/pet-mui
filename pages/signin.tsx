@@ -2,8 +2,8 @@ import React from "react";
 import Signin from "components/Signin";
 import { NextPage } from "next";
 
-const PageViews: NextPage = () => {
+const PageSignIn: NextPage = () => {
   return <Signin />;
 };
 
-export default PageViews;
+export default PageSignIn;

@@ -63,6 +63,8 @@
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
   },
   "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/md5": "^2.3.5",
     "convert-excel-to-json": "^1.7.0",
     "prisma": "^5.9.1",
     "typescript": "5.3.3"

@@ -4,7 +4,9 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useTheme } from "@mui/material/styles";
 import Link from "@mui/material/Link";
-import NavItem from "./components/NavItem";
+//import NavItem from "./components/NavItem";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 const SidebarNav = ({ pages }) => {
   const theme = useTheme();
@@ -101,18 +103,19 @@ const SidebarNav = ({ pages }) => {
         <Box>
           <NavItem title={"Portfolio"} items={portfolioPages} />
         </Box> */}
-        {/* <Box marginTop={2}>
+        <Box marginTop={12}>
           <Button
             size={"large"}
             variant="outlined"
             fullWidth
             component="a"
-            href="/crew"
+            href="/signup"
+            startIcon={<PersonOutlineIcon />}
           >
-            Join the flock
+            Регистрация
           </Button>
-        </Box> */}
-        <Box marginTop={10}>
+        </Box>
+        <Box marginTop={2}>
           <Button
             size={"large"}
             variant="contained"
@@ -121,6 +124,7 @@ const SidebarNav = ({ pages }) => {
             component="a"
             target="blank"
             href="/signin"
+            startIcon={<LoginOutlinedIcon />}
           >
             Вход
           </Button>

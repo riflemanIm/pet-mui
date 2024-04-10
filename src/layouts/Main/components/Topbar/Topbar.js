@@ -5,8 +5,10 @@ import Link from "@mui/material/Link";
 import Button from "@mui/material/Button";
 import { alpha, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
-import IconSoundcloud from "svg/IconSoundcloud";
-import IconEmail from "svg/IconEmail";
+// import IconSoundcloud from "svg/IconSoundcloud";
+// import IconEmail from "svg/IconEmail";
+import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
   const theme = useTheme();
@@ -112,11 +114,33 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             variant="contained"
             color="primary"
             component="a"
-            target="blank"
+            //target="blank"
             href="/signin"
             size="large"
+            startIcon={<LoginOutlinedIcon />}
           >
             Вход
+          </Button>
+        </Box>
+        <Box marginLeft={4}>
+          <Button
+            size="large"
+            variant="outlined"
+            color="primary"
+            component="a"
+            href="/signup"
+            startIcon={<PersonOutlineIcon />}
+            sx={{
+              padding: 1,
+              borderColor: alpha(theme.palette.background.paper, 0.8),
+              color: alpha(theme.palette.background.paper, 0.8),
+              "&:hover,&:active": {
+                borderColor: theme.palette.background.default,
+                color: theme.palette.background.default,
+              },
+            }}
+          >
+            Регистрация
           </Button>
         </Box>
       </Box>

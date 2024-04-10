@@ -177,13 +177,6 @@ export async function profile(dispatch, values) {
     dispatch({
       type: "LOADING",
     });
-    try {
-      const { data } = await axios.get("https://api.ipify.org/?format=json");
-      const ip = data.ip;
-      values = { ...values, ip };
-    } catch (error) {
-      console.log("error", error);
-    }
 
     await axios
       .post(`/api/${values.id != null ? "profile" : "signup"}`, {

@@ -320,13 +320,16 @@ model FoodAge {
 model User {
   id       Int     @id @default(autoincrement())
   balance  Decimal @default(0.0) @db.Decimal(15, 2)
-  nickname String  @unique(map: "nickname") @db.VarChar(100)
+  //nickname String  @unique(map: "nickname") @db.VarChar(100)
   email    String  @unique(map: "email") @db.VarChar(100)
-  phone    String  @unique(map: "phone") @db.VarChar(100)
-  name     String  @db.VarChar(256)
+  password String  @db.VarChar(256)
 
-  ratings Rating[]
-  orders  Order[]
+  //phone String @unique(map: "phone") @db.VarChar(100)
+  name String @db.VarChar(256)
+
+  ratings   Rating[]
+  orders    Order[]
+  createdAt DateTime @default(now()) @map("created_at") @db.DateTime(0)
 
   @@map("users")
 }
