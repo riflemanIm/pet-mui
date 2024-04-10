@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import { alpha, useTheme } from '@mui/material/styles';
-import MenuIcon from '@mui/icons-material/Menu';
+import React from "react";
+import PropTypes from "prop-types";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import { alpha, useTheme } from "@mui/material/styles";
+import MenuIcon from "@mui/icons-material/Menu";
 
-import { ThemeModeToggler } from './components';
+import { ThemeModeToggler } from "./components";
 
 const Topbar = ({ onSidebarOpen }) => {
   const theme = useTheme();
@@ -14,30 +14,30 @@ const Topbar = ({ onSidebarOpen }) => {
 
   return (
     <Box
-      display={'flex'}
-      justifyContent={'space-between'}
-      alignItems={'center'}
+      display={"flex"}
+      justifyContent={"space-between"}
+      alignItems={"center"}
       width={1}
     >
       <Box
-        display={'flex'}
+        display={"flex"}
         component="a"
         href="/"
         title="BAAAHS"
         width={{ xs: 100, md: 120 }}
       >
         <Box
-          component={'img'}
+          component={"img"}
           src={
-            mode === 'light'
-              ? '/images/baaahs-logo.svg'
-              : '/images/baaahs-logo.svg'
+            mode === "light"
+              ? "/images/baaahs-logo.svg"
+              : "/images/baaahs-logo.svg"
           }
           height={1}
           width={1}
         />
       </Box>
-      <Box sx={{ display: { xs: 'none', md: 'flex' } }} alignItems={'center'}>
+      <Box sx={{ display: { xs: "none", md: "flex" } }} alignItems={"center"}>
         <Box marginLeft={3}>
           <Link underline="none" component="a" href="/" color="text.primary">
             Home
@@ -89,19 +89,24 @@ const Topbar = ({ onSidebarOpen }) => {
           </Button>
         </Box>
       </Box>
-      <Box sx={{ display: { xs: 'flex', md: 'none' } }} alignItems={'center'}>
+      <Box sx={{ display: { xs: "flex", md: "none" } }} alignItems={"center"}>
         <Box marginRight={1}>
           <ThemeModeToggler />
         </Box>
         <Button
           onClick={() => onSidebarOpen()}
           aria-label="Menu"
-          variant={'outlined'}
+          variant={"outlined"}
           sx={{
             borderRadius: 2,
-            minWidth: 'auto',
+            minWidth: "auto",
             padding: 1,
-            borderColor: alpha(theme.palette.divider, 0.2),
+            borderColor: alpha(theme.palette.background.paper, 0.5),
+            color: alpha(theme.palette.background.paper, 0.5),
+            "&:hover,&:active": {
+              borderColor: theme.palette.background.default,
+              color: theme.palette.background.default,
+            },
           }}
         >
           <MenuIcon />

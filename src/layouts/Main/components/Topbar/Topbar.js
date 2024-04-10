@@ -76,7 +76,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           <Link
             underline="none"
             component="a"
-            href="/about"
+            href="/contacts"
             color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
@@ -113,7 +113,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             color="primary"
             component="a"
             target="blank"
-            href="/login"
+            href="/signin"
             size="large"
           >
             Вход
@@ -129,7 +129,12 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             borderRadius: 2,
             minWidth: "auto",
             padding: 1,
-            borderColor: alpha(theme.palette.divider, 0.2),
+            borderColor: alpha(theme.palette.background.paper, 0.5),
+            color: alpha(theme.palette.background.paper, 0.5),
+            "&:hover,&:active": {
+              borderColor: theme.palette.background.default,
+              color: theme.palette.background.default,
+            },
           }}
         >
           <MenuIcon />

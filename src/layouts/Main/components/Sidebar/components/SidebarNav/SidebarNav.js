@@ -26,15 +26,15 @@ const SidebarNav = ({ pages }) => {
           display={"flex"}
           component="a"
           href="/"
-          title="BAAAHS"
+          title="Shepherd pet"
           width={{ xs: 120, md: 150 }}
         >
           <Box
             component={"img"}
             src={
               mode === "light"
-                ? "/images/baaahs-logo.svg"
-                : "/images/baaahs-logo.svg"
+                ? "/images/logo_shepherd_navy.svg"
+                : "/images/logo_shepherd_light.svg"
             }
             height={1}
             width={1}
@@ -42,7 +42,7 @@ const SidebarNav = ({ pages }) => {
         </Box>
       </Box>
       <Box paddingX={2} paddingY={2}>
-        <Box>
+        <Box my={2}>
           <Link
             underline="none"
             component="a"
@@ -52,7 +52,7 @@ const SidebarNav = ({ pages }) => {
             главная
           </Link>
         </Box>
-        <Box>
+        <Box my={2}>
           <Link
             underline="none"
             component="a"
@@ -62,7 +62,7 @@ const SidebarNav = ({ pages }) => {
             каталог
           </Link>
         </Box>
-        <Box>
+        <Box my={2}>
           <Link
             underline="none"
             component="a"
@@ -72,28 +72,18 @@ const SidebarNav = ({ pages }) => {
             о нас
           </Link>
         </Box>
-        <Box>
+        <Box my={2}>
           <Link
             underline="none"
             component="a"
-            href="/fundraising"
+            href="/contacts"
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            fundraising
-          </Link>
-        </Box>
-        <Box>
-          <Link
-            underline="none"
-            component="a"
-            href="/about"
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            О нас
+            контакты
           </Link>
         </Box>
 
-        <Box>
+        {/* <Box>
           <NavItem title={"Landings"} items={landingPages} />
         </Box>
         <Box>
@@ -110,8 +100,8 @@ const SidebarNav = ({ pages }) => {
         </Box>
         <Box>
           <NavItem title={"Portfolio"} items={portfolioPages} />
-        </Box>
-        <Box marginTop={2}>
+        </Box> */}
+        {/* <Box marginTop={2}>
           <Button
             size={"large"}
             variant="outlined"
@@ -121,8 +111,8 @@ const SidebarNav = ({ pages }) => {
           >
             Join the flock
           </Button>
-        </Box>
-        <Box marginTop={1}>
+        </Box> */}
+        <Box marginTop={10}>
           <Button
             size={"large"}
             variant="contained"
@@ -130,7 +120,7 @@ const SidebarNav = ({ pages }) => {
             fullWidth
             component="a"
             target="blank"
-            href="/login"
+            href="/signin"
           >
             Вход
           </Button>

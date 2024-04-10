@@ -1,9 +1,9 @@
 import React from "react";
-import { AboutSideCover } from "views";
+import Signin from "components/Signin";
 import { NextPage } from "next";
 
 const PageViews: NextPage = () => {
-  return <AboutSideCover />;
+  return <Signin />;
 };
 
 export default PageViews;
