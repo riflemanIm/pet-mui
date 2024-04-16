@@ -8,35 +8,35 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
+import isEmpty from "helpers";
+import { signup } from "actions/user";
 
 const validationSchema = yup.object({
-  name: yup
-    .string()
-    .trim()
-    .min(2, "Please enter a valid name")
-    .max(50, "Please enter a valid name")
-    .required("Please specify your last name"),
+  // name: yup
+  //   .string()
+  //   .trim()
+  //   .min(2, "Please enter a valid name")
+  //   .max(50, "Please enter a valid name")
+  //   .required("Please specify your last name"),
   email: yup
     .string()
     .trim()
-    .email("Please enter a valid email address")
-    .required("Email is required."),
-  password: yup
-    .string()
-    .required("Please specify your password")
-    .min(5, "The password should have at minimum length of 5"),
+    .email("Пожалуйста введите правильный Email")
+    .required("Пожалуйста введите Email"),
+  // password: yup
+  //   .string()
+  //   .required("Please specify your password")
+  //   .min(5, "The password should have at minimum length of 5"),
 });
 
 const Form = () => {
   const initialValues = {
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
+    email: "oleglambin@gmail.com",
   };
 
   const onSubmit = (values) => {
-    return values;
+    signup(values);
+    //return values;
   };
 
   const formik = useFormik({
@@ -45,6 +45,7 @@ const Form = () => {
     onSubmit,
   });
 
+  //console.log("formik.errors", formik.errors);
   return (
     <Box>
       <Box marginBottom={4}>
@@ -56,7 +57,7 @@ const Form = () => {
           gutterBottom
           color={"text.secondary"}
         >
-          Регистация
+          Регистрация
         </Typography>
         <Typography
           variant="h4"
@@ -66,14 +67,15 @@ const Form = () => {
         >
           Создайте аккаунт
         </Typography>
-        <Typography color="text.secondary">Заполните форму.</Typography>
+        <Typography color="text.secondary">
+          У нас упрощенная регистрации. Просто введите email, Вам придет код
+          подтверждения, далее введите его в форму.
+        </Typography>
       </Box>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={4}>
-          <Grid item xs={12}>
-            {/* <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
-              Введите Ваше имя
-            </Typography> */}
+          {/* <Grid item xs={12}>
+       
             <TextField
               label="Введите Ваше имя *"
               variant="outlined"
@@ -84,8 +86,8 @@ const Form = () => {
               error={formik.touched.lastName && Boolean(formik.errors.lastName)}
               helperText={formik.touched.lastName && formik.errors.lastName}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
+          </Grid> */}
+          <Grid item xs={12}>
             {/* <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
               Enter your email
             </Typography> */}
@@ -100,10 +102,7 @@ const Form = () => {
               helperText={formik.touched.email && formik.errors.email}
             />
           </Grid>
-          <Grid item xs={12} sm={6}>
-            {/* <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
-              Enter your password
-            </Typography> */}
+          {/* <Grid item xs={12} sm={6}>
             <TextField
               label="Введите Ваш пароль *"
               variant="outlined"
@@ -115,7 +114,7 @@ const Form = () => {
               error={formik.touched.password && Boolean(formik.errors.password)}
               helperText={formik.touched.password && formik.errors.password}
             />
-          </Grid>
+          </Grid> */}
           <Grid item container xs={12}>
             <Box
               display="flex"
@@ -139,7 +138,12 @@ const Form = () => {
                   </Link>
                 </Typography>
               </Box>
-              <Button size={"large"} variant={"contained"} type={"submit"}>
+              <Button
+                size={"large"}
+                variant={"contained"}
+                type={"submit"}
+                disabled={!isEmpty(formik.errors)}
+              >
                 Зарегистрироваться
               </Button>
             </Box>

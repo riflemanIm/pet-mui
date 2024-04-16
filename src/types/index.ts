@@ -56,6 +56,12 @@ export interface FoodRatingsProps {
     nickname: string;
   };
 }
+export interface ProfileProps {
+  id?: string;
+  name?: number;
+  email: string;
+  password: string;
+}
 
 export const starLabels: { [index: string]: string } = {
   0.5: "Useless",

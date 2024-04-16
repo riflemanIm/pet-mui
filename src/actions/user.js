@@ -172,48 +172,19 @@ export async function loginUser(dispatch, login, password) {
   }
 }
 
-export async function profile(dispatch, values) {
-  if (!isEmpty(values)) {
-    dispatch({
-      type: "LOADING",
-    });
-
-    await axios
-      .post(`/api/${values.id != null ? "profile" : "signup"}`, {
-        ...values,
-      })
-      .then(({ data }) => {
-        //console.log("data", data);
-        if (data.result === "ok")
-          dispatch({
-            type: "SET_SERVER_RESPONSE",
-            payload: {
-              serverResponse: "SUCCESS_CREATE",
-              data: {
-                ...values,
-                id: data.id,
-                token: data.token,
-              },
-            },
-          });
-        else if (data.result === "ok_update")
-          dispatch({
-            type: "SET_SERVER_RESPONSE",
-            payload: { serverResponse: "SUCCESS_UPDATE", data: values },
-          });
-        else
-          dispatch({
-            type: "SET_SERVER_RESPONSE",
-            payload: { serverResponse: "SOMETHING_WRONG" },
-          });
-      })
-      .catch((err) => {
-        console.log("  ---- err ---", getError(err));
-        dispatch({
-          type: "SET_SERVER_RESPONSE",
-          payload: { serverResponse: getError(err) },
-        });
-      });
+export async function signup(values) {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/signup`,
+      values
+    );
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    return { content: response.data };
+  } catch (error) {
+    console.error(error);
+    return { error, content: {} };
   }
 }
 
