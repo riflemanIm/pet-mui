@@ -25,7 +25,10 @@ export default async function handler(
     });
     if (!isEmpty(result)) {
       console.log("-- EMAIL_EXISTS --\n", result);
-      throw new Error("EMAIL_EXISTS");
+      res.status(200).json({
+        response: "EMAIL_EXISTS",
+      });
+      //throw new Error("EMAIL_EXISTS");
     }
 
     // get code
@@ -55,7 +58,7 @@ export default async function handler(
             },
           });
           res.status(200).json({
-            data: "CODE_SENT",
+            response: "CODE_SENT",
           });
         } catch (error: any) {
           res.status(500).json({ message: error.message });

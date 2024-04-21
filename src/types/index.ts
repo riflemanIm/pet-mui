@@ -56,13 +56,16 @@ export interface FoodRatingsProps {
     nickname: string;
   };
 }
-export interface ProfileProps {
+export interface CurrentUserProps {
   id?: string;
   name?: number;
   email: string;
-  password: string;
 }
-
+export interface SignUpProps {
+  response: "EMAIL_EXISTS" | "CODE_SENT" | "SUCCESS";
+  code?: number;
+  id?: number;
+}
 export const starLabels: { [index: string]: string } = {
   0.5: "Useless",
   1: "Useless+",

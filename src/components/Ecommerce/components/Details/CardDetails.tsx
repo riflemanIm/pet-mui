@@ -18,7 +18,7 @@ const CardDetails: FC = () => {
   const [foodDetailsState, setFoodDetailsState] = React.useState<
     FoodDetailProps | undefined
   >();
-  const editFoodDetailDialogRef = React.useRef<HTMLDialogElement>(null);
+  //const editFoodDetailDialogRef = React.useRef<HTMLDialogElement>(null);
 
   const foodDetailsLodable = useRecoilValueLoadable(foodInfoQuery);
 

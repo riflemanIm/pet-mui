@@ -1,6 +1,6 @@
 import axios from "axios";
 //import isEmpty, { getError } from "../helpers";
-import { ProfilerProps } from "react";
+import { CurrentUserProps, SignUpProps } from "types";
 
 // export async function loginUser(dispatch, login, password) {
 //   if (login.length > 0 && password.length > 0) {
@@ -37,18 +37,24 @@ import { ProfilerProps } from "react";
 //   }
 // }
 
-export async function signup(values: Omit<ProfilerProps, "id">) {
+export async function signup(
+  values: Omit<CurrentUserProps, "id">,
+  setSignState: React.Dispatch<React.SetStateAction<undefined>>
+) {
   try {
+    console.log("-------------signup----------", values);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/signup`,
       values
     );
+    console.log("-------------response.data----------", response.data);
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);
     }
-    return { content: response.data };
+    setSignState(response.data);
+    //return response.data as SignUpProps;
   } catch (error) {
-    console.error(error);
-    return { error, content: {} };
+    console.log(error);
+    return { error };
   }
 }

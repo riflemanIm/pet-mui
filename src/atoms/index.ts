@@ -1,7 +1,12 @@
 import { atom } from "recoil";
 import { syncEffect } from "recoil-sync";
 
-import { shoppingCartItemProps, PAGE_SIZE, FoodDicts } from "types";
+import {
+  shoppingCartItemProps,
+  PAGE_SIZE,
+  FoodDicts,
+  CurrentUserProps,
+} from "types";
 import {
   CheckerReturnType,
   number,
@@ -76,7 +81,7 @@ export const foodDetailsIdState = atom({
   default: "",
 });
 
-export const currentUserIdState = atom({
-  key: "currentUserIdState",
-  default: "1",
+export const currentUserState = atom<CurrentUserProps>({
+  key: "currentUserState",
+  default: undefined,
 });

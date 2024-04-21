@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Box from "@mui/material/Box";
@@ -29,14 +29,13 @@ const validationSchema = yup.object({
   //   .min(5, "The password should have at minimum length of 5"),
 });
 
-const Form = () => {
+const FormSignUp = ({ setSignState }) => {
   const initialValues = {
     email: "oleglambin@gmail.com",
   };
 
   const onSubmit = (values) => {
-    signup(values);
-    //return values;
+    signup(values, setSignState);
   };
 
   const formik = useFormik({
@@ -45,10 +44,9 @@ const Form = () => {
     onSubmit,
   });
 
-  //console.log("formik.errors", formik.errors);
   return (
     <Box>
-      <Box marginBottom={4}>
+      <Box mb={4}>
         <Typography
           sx={{
             textTransform: "uppercase",
@@ -62,12 +60,12 @@ const Form = () => {
         <Typography
           variant="h4"
           sx={{
-            fontWeight: 700,
+            fontWeight: 600,
           }}
         >
           Создайте аккаунт
         </Typography>
-        <Typography color="text.secondary">
+        <Typography color="text.secondary" fontSize={14} marginBottom={6}>
           У нас упрощенная регистрации. Просто введите email, Вам придет код
           подтверждения, далее введите его в форму.
         </Typography>
@@ -177,4 +175,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default FormSignUp;

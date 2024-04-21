@@ -6,12 +6,18 @@ import {
   useRecoilValue,
   waitForNone,
 } from "recoil";
-import { foodDetailsIdState, homePageQueryState } from "atoms";
+import {
+  currentUserState,
+  foodDetailsIdState,
+  homePageQueryState,
+} from "atoms";
 import {
   fetchFoodDetailsById,
   fetchFoodRatingsById,
   fetchFoods,
 } from "../actions/food";
+
+import { signup } from "actions/user";
 
 export const homePageQuery = selector({
   key: "homePage",
@@ -75,5 +81,20 @@ export const foodRatingQuery = selector({
       throw response.error;
     }
     return response;
+  },
+});
+
+export const currentUserQuery = selector({
+  key: "currentUserQuery",
+  get: async ({ get }) => {
+    const user = get(currentUserState);
+    console.log("---user---", user);
+    if (user.email) {
+      const response = await signup(user);
+      if (response.error) {
+        throw response.error;
+      }
+      return response;
+    }
   },
 });
