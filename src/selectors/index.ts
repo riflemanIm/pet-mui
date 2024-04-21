@@ -84,17 +84,17 @@ export const foodRatingQuery = selector({
   },
 });
 
-export const currentUserQuery = selector({
-  key: "currentUserQuery",
-  get: async ({ get }) => {
-    const user = get(currentUserState);
-    console.log("---user---", user);
-    if (user.email) {
-      const response = await signup(user);
-      if (response.error) {
-        throw response.error;
-      }
-      return response;
-    }
-  },
-});
+// export const currentUserQuery = selector({
+//   key: "currentUserQuery",
+//   get: async ({ get }) => {
+//     const user = get(currentUserState);
+//     console.log("---user---", user);
+//     if (user.email) {
+//       const response = await signup(user);
+//       if (response.error) {
+//         throw response.error;
+//       }
+//       return response;
+//     }
+//   },
+// });

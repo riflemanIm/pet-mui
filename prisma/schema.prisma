@@ -338,11 +338,12 @@ model User {
 model UserConfirmCode {
   user      User      @relation(fields: [userId], references: [id])
   userId    Int       @map("user_id")
-  code      Int
+  code      String
   createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
   tryDate   DateTime? @map("try_date")
+  uuid      String    @unique(map: "uuid") @db.VarChar(100)
 
-  @@id([userId])
+  @@id([userId, uuid])
   @@map("user_confirm_code")
 }
 

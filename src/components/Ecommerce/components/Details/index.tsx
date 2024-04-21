@@ -13,7 +13,7 @@ const Details: FC = () => {
   //const foodRatingLoadable = useRecoilValueLoadable(foodRatingQuery);
   const [foodDetailsId] = useRecoilState(foodDetailsIdState);
 
-  console.log("foodDetailsId", foodDetailsId);
+  //console.log("foodDetailsId", foodDetailsId);
 
   return (
     foodDetailsId && (

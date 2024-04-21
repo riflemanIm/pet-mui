@@ -10,6 +10,7 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import isEmpty from "helpers";
 import { signup } from "actions/user";
+import { Alert, Fade } from "@mui/material";
 
 const validationSchema = yup.object({
   // name: yup
@@ -29,7 +30,7 @@ const validationSchema = yup.object({
   //   .min(5, "The password should have at minimum length of 5"),
 });
 
-const FormSignUp = ({ setSignState }) => {
+const FormSignUp = ({ signState, setSignState }) => {
   const initialValues = {
     email: "oleglambin@gmail.com",
   };
@@ -69,6 +70,18 @@ const FormSignUp = ({ setSignState }) => {
           У нас упрощенная регистрации. Просто введите email, Вам придет код
           подтверждения, далее введите его в форму.
         </Typography>
+        <Fade
+          in={!!signState?.response}
+          style={
+            signState?.response == null
+              ? { display: "none" }
+              : { display: "flex" }
+          }
+        >
+          <Alert severity="error">
+            <Typography variant="h6">{signState?.response}</Typography>
+          </Alert>
+        </Fade>
       </Box>
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={4}>

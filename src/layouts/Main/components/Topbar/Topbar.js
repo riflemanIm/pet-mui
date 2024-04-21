@@ -9,8 +9,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 // import IconEmail from "svg/IconEmail";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import { currentUserState } from "atoms";
+import { useRecoilState } from "recoil";
 
 const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
+  const [currUserState] = useRecoilState(currentUserState);
+  console.log("currUserState", currUserState);
+
   const theme = useTheme();
   const { mode } = theme.palette;
 

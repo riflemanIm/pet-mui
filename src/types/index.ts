@@ -61,11 +61,16 @@ export interface CurrentUserProps {
   name?: number;
   email: string;
 }
+
 export interface SignUpProps {
   response: "EMAIL_EXISTS" | "CODE_SENT" | "SUCCESS";
   code?: number;
-  id?: number;
 }
+export interface ConfirmCodeProps {
+  code: string;
+  uuid: string;
+}
+
 export const starLabels: { [index: string]: string } = {
   0.5: "Useless",
   1: "Useless+",

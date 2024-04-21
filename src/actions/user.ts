@@ -1,6 +1,6 @@
 import axios from "axios";
 //import isEmpty, { getError } from "../helpers";
-import { CurrentUserProps, SignUpProps } from "types";
+import { ConfirmCodeProps, CurrentUserProps } from "types";
 
 // export async function loginUser(dispatch, login, password) {
 //   if (login.length > 0 && password.length > 0) {
@@ -45,6 +45,26 @@ export async function signup(
     console.log("-------------signup----------", values);
     const response = await axios.post(
       `${process.env.NEXT_PUBLIC_API_URL}/signup`,
+      values
+    );
+    console.log("-------------response.data----------", response.data);
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    setSignState(response.data);
+    //return response.data as SignUpProps;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+}
+export async function confirmCode(
+  values: ConfirmCodeProps,
+  setSignState: React.Dispatch<React.SetStateAction<undefined>>
+) {
+  try {
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/confirm`,
       values
     );
     console.log("-------------response.data----------", response.data);
