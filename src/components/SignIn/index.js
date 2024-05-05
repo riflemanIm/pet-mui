@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Router from "next/router";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -7,16 +6,17 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 
 import Main from "layouts/Main";
 import Container from "components/Container";
-import FormSignUp from "./components/FormSignUp";
-import ConfirnCode from "./components/ConfirnCode";
+import Form from "./Form";
+import ConfirnCode from "./ConfirnCode";
 import { currentUserState } from "atoms";
 import { useRecoilState } from "recoil";
 
-const SignUp = () => {
+const SignIn = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
+
   const [, setCurrentUser] = useRecoilState(currentUserState);
   const [signState, setSignState] = useState();
 
@@ -28,7 +28,6 @@ const SignUp = () => {
     }
   }, [signState?.response]);
 
-  //console.log("signState", signState);
   return (
     <Main>
       <Box
@@ -41,6 +40,26 @@ const SignUp = () => {
       >
         <Container>
           <Grid container spacing={6}>
+            {isMd ? (
+              <Grid item container justifyContent={"center"} xs={12} md={6}>
+                <Box height={1} width={1} maxWidth={500}>
+                  <Box
+                    component={"img"}
+                    src={
+                      "https://assets.maccarianagency.com/svg/illustrations/drawkit-illustration2.svg"
+                    }
+                    width={1}
+                    height={1}
+                    sx={{
+                      filter:
+                        theme.palette.mode === "dark"
+                          ? "brightness(0.8)"
+                          : "none",
+                    }}
+                  />
+                </Box>
+              </Grid>
+            ) : null}
             <Grid
               item
               container
@@ -56,30 +75,9 @@ const SignUp = () => {
                   setSignState={setSignState}
                 />
               ) : (
-                <FormSignUp signState={signState} setSignState={setSignState} />
+                <Form signState={signState} setSignState={setSignState} />
               )}
             </Grid>
-
-            {isMd ? (
-              <Grid item container justifyContent={"center"} xs={12} md={6}>
-                <Box height={1} width={1} maxWidth={500}>
-                  <Box
-                    component={"img"}
-                    src={
-                      "https://assets.maccarianagency.com/svg/illustrations/drawkit-illustration4.svg"
-                    }
-                    width={1}
-                    height={1}
-                    sx={{
-                      filter:
-                        theme.palette.mode === "dark"
-                          ? "brightness(0.8)"
-                          : "none",
-                    }}
-                  />
-                </Box>
-              </Grid>
-            ) : null}
           </Grid>
         </Container>
       </Box>
@@ -87,4 +85,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

@@ -1,5 +1,4 @@
-/* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Box from "@mui/material/Box";
@@ -8,17 +7,10 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
-import isEmpty from "helpers";
 import { sign } from "actions/user";
 import { Alert, Fade } from "@mui/material";
 
 const validationSchema = yup.object({
-  // name: yup
-  //   .string()
-  //   .trim()
-  //   .min(2, "Please enter a valid name")
-  //   .max(50, "Please enter a valid name")
-  //   .required("Please specify your last name"),
   email: yup
     .string()
     .trim()
@@ -30,7 +22,7 @@ const validationSchema = yup.object({
   //   .min(5, "The password should have at minimum length of 5"),
 });
 
-const FormSignUp = ({ signState, setSignState }) => {
+const Form = ({ signState, setSignState }) => {
   const initialValues = {
     email: process.env.NODE_ENV === "development" ? "oleglambin@gmail.com" : "",
   };
@@ -38,7 +30,6 @@ const FormSignUp = ({ signState, setSignState }) => {
   const onSubmit = (values) => {
     sign(values, setSignState);
   };
-
   const formik = useFormik({
     initialValues,
     validationSchema: validationSchema,
@@ -47,7 +38,7 @@ const FormSignUp = ({ signState, setSignState }) => {
 
   return (
     <Box>
-      <Box mb={4}>
+      <Box marginBottom={4}>
         <Typography
           sx={{
             textTransform: "uppercase",
@@ -56,19 +47,18 @@ const FormSignUp = ({ signState, setSignState }) => {
           gutterBottom
           color={"text.secondary"}
         >
-          регистрация
+          вход
         </Typography>
         <Typography
           variant="h4"
           sx={{
-            fontWeight: 600,
+            fontWeight: 700,
           }}
         >
-          Создайте аккаунт
+          Добро пожаловать
         </Typography>
-        <Typography color="text.secondary" fontSize={14} marginBottom={6}>
-          У нас упрощенная регистрация. Просто введите email, Вам придет код
-          подтверждения, далее введите его в форму.
+        <Typography color="text.secondary">
+          Введите email и Вам придет код подтверждения
         </Typography>
         <Fade
           in={!!signState?.response}
@@ -86,19 +76,9 @@ const FormSignUp = ({ signState, setSignState }) => {
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <TextField
-              label="Введите Ваше имя"
-              variant="outlined"
-              name="name"
-              fullWidth
-              value={formik.values.name}
-              onChange={formik.handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            {/* <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
+            <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
               Enter your email
-            </Typography> */}
+            </Typography>
             <TextField
               label="Введите Ваш Email *"
               variant="outlined"
@@ -110,9 +90,33 @@ const FormSignUp = ({ signState, setSignState }) => {
               helperText={formik.touched.email && formik.errors.email}
             />
           </Grid>
-          {/* <Grid item xs={12} sm={6}>
+          {/* <Grid item xs={12}>
+            <Box
+              display="flex"
+              flexDirection={{ xs: "column", sm: "row" }}
+              alignItems={{ xs: "stretched", sm: "center" }}
+              justifyContent={"space-between"}
+              width={1}
+              marginBottom={2}
+            >
+              <Box marginBottom={{ xs: 1, sm: 0 }}>
+                <Typography variant={"subtitle2"}>
+                  Enter your password
+                </Typography>
+              </Box>
+              <Typography variant={"subtitle2"}>
+                <Link
+                  component={"a"}
+                  color={"primary"}
+                  href={"/password-reset-simple"}
+                  underline={"none"}
+                >
+                  Forgot your password?
+                </Link>
+              </Typography>
+            </Box>
             <TextField
-              label="Введите Ваш пароль *"
+              label="Password *"
               variant="outlined"
               name={"password"}
               type={"password"}
@@ -135,49 +139,21 @@ const FormSignUp = ({ signState, setSignState }) => {
             >
               <Box marginBottom={{ xs: 1, sm: 0 }}>
                 <Typography variant={"subtitle2"}>
-                  У Вас уже есть аккаунт?{" "}
+                  Если у вас нет аккаунт?{" "}
                   <Link
                     component={"a"}
                     color={"primary"}
-                    href={"/signin"}
+                    href={"/signup-simple"}
                     underline={"none"}
                   >
-                    Войдите
+                    Вам сюда
                   </Link>
                 </Typography>
               </Box>
-              <Button
-                size={"large"}
-                variant={"contained"}
-                type={"submit"}
-                disabled={!isEmpty(formik.errors)}
-              >
-                Зарегистрироваться и Войти
+              <Button size={"large"} variant={"contained"} type={"submit"}>
+                Войти
               </Button>
             </Box>
-          </Grid>
-          <Grid
-            item
-            container
-            xs={12}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Typography
-              variant={"subtitle2"}
-              color={"text.secondary"}
-              align={"center"}
-            >
-              Нажав на кнопку "Зарегистрироваться", вы соглашаетесь{" "}
-              <Link
-                component={"a"}
-                color={"primary"}
-                href={"/company-terms"}
-                underline={"none"}
-              >
-                с правилами и условиями нашей компании.
-              </Link>
-            </Typography>
           </Grid>
         </Grid>
       </form>
@@ -185,4 +161,4 @@ const FormSignUp = ({ signState, setSignState }) => {
   );
 };
 
-export default FormSignUp;
+export default Form;

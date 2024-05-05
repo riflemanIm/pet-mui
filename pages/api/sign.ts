@@ -14,28 +14,29 @@ export default async function handler(
 
     if (req.body.email) {
       const email = req.body.email.trim() as string;
-      const name = req.body.name.trim() as string;
+      const name = req.body.name ? (req.body.name.trim() as string) : "";
 
-      // check valid email
+      // Check valid email
       if (!isValidEmail(email)) {
         throw new Error("SOMETHING_WRONG");
       }
 
-      // check if email exists
+      // Check if email exists
       const result = await prisma.user.findFirst({
         where: {
           email,
         },
       });
-      if (!isEmpty(result)) {
-        console.log("-- EMAIL_EXISTS --\n", result);
-        return res.status(200).json({
-          response: "EMAIL_EXISTS",
-        });
-        //throw new Error("EMAIL_EXISTS");
+
+      console.log("req.body", req.body, result);
+      // Login user
+      if (result) {
+        // Insert a Confirm Code record and send response
+        insertNewCode(result.id, res);
+        return;
       }
 
-      // Insert a new user record.
+      // Create new user record.
       try {
         const newUser = await prisma.user.create({
           data: {
@@ -45,26 +46,8 @@ export default async function handler(
         });
 
         //console.log("newUser", newUser);
-        const newCode = randomCode();
-
-        // Insert a Confirm Code record.
-        try {
-          const uuidNew = randomUUID();
-          await prisma.userConfirmCode.create({
-            data: {
-              userId: newUser.id,
-              code: newCode,
-              uuid: uuidNew,
-              createdAt: new Date(),
-            },
-          });
-          res.status(200).json({
-            response: "CODE_SENT",
-            uuid: uuidNew,
-          });
-        } catch (error: any) {
-          res.status(500).json({ message: error.message });
-        }
+        // Insert a Confirm Code record and send response
+        insertNewCode(newUser.id, res);
       } catch (error: any) {
         res.status(500).json({ message: error.message });
       }
@@ -78,4 +61,25 @@ export default async function handler(
 // 6 digits, change the random max number and pad length if you need 5 digits
 function randomCode() {
   return randomInt(1000_000).toString().padStart(6, "0");
+}
+
+async function insertNewCode(id: number, res: NextApiResponse) {
+  const newCode = randomCode();
+  try {
+    const uuidNew = randomUUID();
+    await prisma.userConfirmCode.create({
+      data: {
+        userId: id,
+        code: newCode,
+        uuid: uuidNew,
+        createdAt: new Date(),
+      },
+    });
+    res.status(200).json({
+      response: "CODE_SENT",
+      uuid: uuidNew,
+    });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
 }

@@ -20,8 +20,9 @@ export default async function handler(
           tryDate: null,
         },
       });
+      console.log("-- result --\n", result);
       if (isEmpty(result)) {
-        //console.log("-- DOSNT_EXISTS_CODE --\n", result);
+        console.log("-- DOSNT_EXISTS_CODE --\n", result);
         return res.status(200).json({
           response: "DOSNT_EXISTS_CODE",
         });
