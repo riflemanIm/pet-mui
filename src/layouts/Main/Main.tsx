@@ -50,9 +50,13 @@ const Main = ({
 
   const [, setCurrentUserState] = useRecoilState(currentUserState);
   useEffect(() => {
-    const user = JSON.parse(window.localStorage.getItem("user") ?? "");
-    if (user) {
-      setCurrentUserState(user);
+    const localStorageUser = window.localStorage.getItem("user");
+    if (localStorageUser) {
+      console.log("localStorageUser", localStorageUser);
+      const user = JSON.parse(localStorageUser);
+      if (user) {
+        setCurrentUserState(user);
+      }
     }
   }, []);
 

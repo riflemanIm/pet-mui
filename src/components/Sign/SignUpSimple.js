@@ -23,7 +23,7 @@ const SignUpSimple = () => {
   useEffect(() => {
     if (signState && signState.response === "USER_AUTH") {
       setCurrentUserState(signState.user);
-      localStorage.setItem("user", signState.user);
+      localStorage.setItem("user", JSON.stringify(signState.user));
     }
   }, [signState?.response]);
 

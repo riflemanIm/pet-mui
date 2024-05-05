@@ -28,7 +28,7 @@ const ConfirnCode = ({ signState, setSignState }) => {
   const onSubmit = (values) => {
     confirmCode(values, setSignState);
   };
-  console.log("signState", signState);
+  //console.log("signState", signState);
 
   const formik = useFormik({
     initialValues,
