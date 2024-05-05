@@ -9,20 +9,19 @@ import Container from "components/Container";
 import FormSignUp from "./components/FormSignUp";
 import ConfirnCode from "./components/ConfirnCode";
 import { currentUserState } from "atoms";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-const SignUpSimple = () => {
+const SignUp = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
-  const [, setCurrentUserState] = useRecoilState(currentUserState);
-
+  const [, setCurrentUser] = useRecoilState(currentUserState);
   const [signState, setSignState] = useState();
 
   useEffect(() => {
     if (signState && signState.response === "USER_AUTH") {
-      setCurrentUserState(signState.user);
+      setCurrentUser(signState.user);
       localStorage.setItem("user", JSON.stringify(signState.user));
     }
   }, [signState?.response]);
@@ -85,4 +84,4 @@ const SignUpSimple = () => {
   );
 };
 
-export default SignUpSimple;
+export default SignUp;

@@ -1,12 +1,14 @@
 import React from "react";
+import Router from "next/router";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import Typography from "@mui/material/Typography";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { currentUserState } from "atoms";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { alpha } from "@mui/material/styles";
-import { Typography } from "@mui/material";
 
 const TopButtons = () => (
   <>
@@ -81,6 +83,13 @@ const NavButtons = () => (
 const UserAuthButtons = ({ top = true, colorInvert = false }) => {
   const currentUser = useRecoilValue(currentUserState);
   console.log("currentUser", currentUser);
+  const [, setCurrentUser] = useRecoilState(currentUserState);
+
+  const logout = () => {
+    setCurrentUser(null);
+    window.localStorage.removeItem("user");
+    Router.push("/");
+  };
 
   return currentUser == null ? (
     top ? (
@@ -89,15 +98,35 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
       <NavButtons />
     )
   ) : (
-    <Typography
-      variant="h6"
-      fontWeight={900}
-      gutterBottom
-      mt={!top && 12}
-      color={!colorInvert && top ? "primary.contrastText" : "primary.textBody"}
-    >
-      {currentUser.name != null ? currentUser.name : currentUser.email}
-    </Typography>
+    <>
+      <Box
+        ml={top ? 4 : 0}
+        mt={!top ? 12 : 0}
+        alignContent="center"
+        textAlign="center"
+      >
+        <Typography
+          variant="body2"
+          fontWeight={900}
+          color={
+            !colorInvert && top ? "primary.contrastText" : "primary.textBody"
+          }
+        >
+          {currentUser.name != null ? currentUser.name : currentUser.email}
+        </Typography>
+      </Box>
+      <Box ml={top ? 4 : 0} mt={!top ? 2 : 0}>
+        <Button
+          onClick={logout}
+          startIcon={<LogoutIcon />}
+          fullWidth
+          variant="contained"
+          color="primary"
+        >
+          Выход
+        </Button>
+      </Box>
+    </>
   );
 };
 
