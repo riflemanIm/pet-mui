@@ -27,8 +27,13 @@ export default async function handler(
     };
 
     if (user.id != null) {
+      const userForToken = {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+      };
       // Create token
-      const token = sign(user, process.env.TOKEN_KEY as string, {
+      const token = sign(userForToken, process.env.TOKEN_KEY as string, {
         expiresIn: "31d",
       });
 

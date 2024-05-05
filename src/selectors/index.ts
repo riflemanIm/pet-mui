@@ -58,7 +58,7 @@ export const foodInfoQuery = selector({
   key: "FoodInfoQuery",
   get: async ({ get }) => {
     const foodID = get(foodDetailsIdState);
-    console.log("---foodID---", foodID, typeof foodID);
+    //console.log("---foodID---", foodID, typeof foodID);
     if (foodID) {
       const response = await fetchFoodDetailsById(foodID);
       if (response.error) {

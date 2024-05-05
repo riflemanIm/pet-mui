@@ -67,7 +67,7 @@ const FormSignUp = ({ signState, setSignState }) => {
           Создайте аккаунт
         </Typography>
         <Typography color="text.secondary" fontSize={14} marginBottom={6}>
-          У нас упрощенная регистрации. Просто введите email, Вам придет код
+          У нас упрощенная регистрация. Просто введите email, Вам придет код
           подтверждения, далее введите его в форму.
         </Typography>
         <Fade

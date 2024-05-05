@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -13,6 +13,8 @@ import Container from "components/Container";
 import { Topbar, Sidebar, Footer } from "./components";
 
 import pages from "../navigation";
+import { useRecoilState } from "recoil";
+import { currentUserState } from "atoms";
 type Props = {
   children: string | JSX.Element | JSX.Element[];
   colorInvert?: boolean;
@@ -45,6 +47,14 @@ const Main = ({
     disableHysteresis: true,
     threshold: 38,
   });
+
+  const [, setCurrentUserState] = useRecoilState(currentUserState);
+  useEffect(() => {
+    const user = JSON.parse(window.localStorage.getItem("user") ?? "");
+    if (user) {
+      setCurrentUserState(user);
+    }
+  }, []);
 
   return (
     <Box>

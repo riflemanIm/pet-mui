@@ -60,6 +60,8 @@ export interface CurrentUserProps {
   id?: string;
   name?: number;
   email: string;
+  balance: number;
+  token?: string;
 }
 
 export interface SignUpProps {

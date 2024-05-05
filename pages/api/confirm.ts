@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
 import isEmpty from "../../src/helpers";
+import { sign } from "jsonwebtoken";
 
 export default async function handler(
   req: NextApiRequest,
@@ -33,15 +34,24 @@ export default async function handler(
 
       try {
         // update user
-        const newUser = await prisma.user.update({
-          data: {
-            authType: "ConfirmCode",
-          },
-          where: {
-            id: result?.userId,
-          },
-        });
+        const newUser = {
+          ...(await prisma.user.update({
+            data: {
+              authType: "ConfirmCode",
+            },
 
+            where: {
+              id: result?.userId,
+            },
+            select: {
+              balance: true,
+              email: true,
+              id: true,
+              name: true,
+            },
+          })),
+          token: "",
+        };
         // update userConfirmCode
         try {
           await prisma.userConfirmCode.update({
@@ -52,6 +62,17 @@ export default async function handler(
               uuid,
             },
           });
+          // Create token
+          const userForToken = {
+            id: newUser.id,
+            email: newUser.email,
+            name: newUser.name,
+          };
+          const token = sign(userForToken, process.env.TOKEN_KEY as string, {
+            expiresIn: "31d",
+          });
+          // save user token
+          newUser.token = token;
           res.status(200).json({
             response: "USER_AUTH",
             user: newUser,
