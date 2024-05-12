@@ -20,11 +20,6 @@ export const homePageFoodSumState = atom({
   default: 0,
 });
 
-export const shoppingCartState = atom<ShoppingCartItemProps[]>({
-  key: "shoppingCartState",
-  default: [],
-});
-
 export const foodDictsState = atom<FoodDicts>({
   key: "foodDictsState",
   default: {
@@ -84,4 +79,9 @@ export const foodDetailsIdState = atom({
 export const currentUserState = atom<CurrentUserProps>({
   key: "currentUserState",
   default: undefined,
+});
+
+export const shoppingCartState = atom<ShoppingCartItemProps[]>({
+  key: "shoppingCartState",
+  default: [],
 });

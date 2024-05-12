@@ -25,9 +25,7 @@ export interface ProductsPageProps {
 const ProductItem = ({ item, i }: ProductsPageProps) => {
   const theme = useTheme();
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
-
   const { enqueueSnackbar } = useSnackbar();
-  console.log("shoppingCart", shoppingCart);
 
   const addItem = () => {
     addItemShoppingCart(setShoppingCart, item, enqueueSnackbar);

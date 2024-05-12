@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import { alpha, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserAuthButtons from "../UserAuthButtons";
+import ShoppingCartButton from "./components/ShoppingCartButton";
 
 const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
   const theme = useTheme();
@@ -83,6 +84,10 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           </Link>
         </Box>
       </Box>
+      <Box sx={{ display: "flex" }} alignItems={"right"}>
+        <ShoppingCartButton />
+      </Box>
+
       <Box sx={{ display: { xs: "none", md: "flex" } }} alignItems={"right"}>
         {/* <Box marginLeft={4}>
           <Link
