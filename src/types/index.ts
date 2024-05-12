@@ -31,13 +31,13 @@ export interface FoodProps {
   priceDiscount: number;
   price: string;
   foodImgAdd: FoodImgAddProp[];
-  quantity: number;
+  stock: number;
   //  ages: { age: Dict }[];
   averageRating: number;
   ratings: number;
 }
 
-export interface shoppingCartItemProps extends FoodProps {
+export interface ShoppingCartItemProps extends FoodProps {
   quantity: number;
 }
 

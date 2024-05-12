@@ -1,4 +1,4 @@
-import { shoppingCartItemProps } from "types";
+import { ShoppingCartItemProps } from "types";
 // import _ from 'lodash';
 
 export function currencyFormat(num: number | string) {
@@ -7,7 +7,7 @@ export function currencyFormat(num: number | string) {
     .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 }
 
-export function calcCartItemSum(cartItems: shoppingCartItemProps[]) {
+export function calcCartItemSum(cartItems: ShoppingCartItemProps[]) {
   const sum = cartItems.reduce((prev, item) => {
     const qty = item.quantity;
     return prev + qty;
@@ -15,7 +15,7 @@ export function calcCartItemSum(cartItems: shoppingCartItemProps[]) {
   return Math.round(sum);
 }
 
-export function calcCartItemTotalPrice(cartItems: shoppingCartItemProps[]) {
+export function calcCartItemTotalPrice(cartItems: ShoppingCartItemProps[]) {
   const sum = cartItems.reduce((prev, item) => {
     const qty = item.quantity;
     const unitPrice = parseFloat(item.price);

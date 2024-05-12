@@ -2,7 +2,7 @@ import { atom } from "recoil";
 import { syncEffect } from "recoil-sync";
 
 import {
-  shoppingCartItemProps,
+  ShoppingCartItemProps,
   PAGE_SIZE,
   FoodDicts,
   CurrentUserProps,
@@ -20,7 +20,7 @@ export const homePageFoodSumState = atom({
   default: 0,
 });
 
-export const shoppingCartState = atom<shoppingCartItemProps[]>({
+export const shoppingCartState = atom<ShoppingCartItemProps[]>({
   key: "shoppingCartState",
   default: [],
 });

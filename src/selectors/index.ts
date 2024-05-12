@@ -1,7 +1,9 @@
 import {
+  SetterOrUpdater,
   atom,
   selector,
   selectorFamily,
+  useRecoilCallback,
   useRecoilState,
   useRecoilValue,
   waitForNone,
@@ -10,14 +12,15 @@ import {
   currentUserState,
   foodDetailsIdState,
   homePageQueryState,
+  shoppingCartState,
 } from "atoms";
 import {
   fetchFoodDetailsById,
   fetchFoodRatingsById,
   fetchFoods,
 } from "../actions/food";
-
-import { signup } from "actions/user";
+import { FoodProps, ShoppingCartItemProps } from "types";
+import { EnqueueSnackbar } from "notistack";
 
 export const homePageQuery = selector({
   key: "homePage",
@@ -84,17 +87,85 @@ export const foodRatingQuery = selector({
   },
 });
 
-// export const currentUserQuery = selector({
-//   key: "currentUserQuery",
-//   get: async ({ get }) => {
-//     const user = get(currentUserState);
-//     console.log("---user---", user);
-//     if (user.email) {
-//       const response = await signup(user);
-//       if (response.error) {
-//         throw response.error;
-//       }
-//       return response;
-//     }
-//   },
-// });
+export const addItemShoppingCart = (
+  setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
+  item: FoodProps,
+  enqueueSnackbar: EnqueueSnackbar
+) => {
+  setShoppingCart((oldShoppingCart) => {
+    const existingItem = oldShoppingCart.find((i) => i.id === item.id);
+    if (existingItem) {
+      if (existingItem.quantity >= item.stock) {
+        enqueueSnackbar(`Out of stock!`, { variant: "error" });
+        return [...oldShoppingCart];
+      }
+      const newItem = {
+        ...existingItem,
+        quantity: existingItem.quantity + 1,
+      };
+      enqueueSnackbar(`"${item.title}" was successfully added.`, {
+        variant: "success",
+      });
+      return [...oldShoppingCart.filter((i) => i.id !== item.id), newItem];
+    }
+    enqueueSnackbar(`"${item.title}" was successfully added.`, {
+      variant: "success",
+    });
+    return [
+      ...oldShoppingCart,
+      {
+        ...item,
+        quantity: 1,
+      },
+    ];
+  });
+};
+
+export const deleteItemShoppingCart = (
+  setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
+  id: string
+) => {
+  setShoppingCart((oldShoppingCart) => {
+    return [...oldShoppingCart.filter((i) => i.id !== id)];
+  });
+};
+
+export const ItemShoppingCartAddQty = (
+  setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
+  id: string,
+  quantity: number
+) => {
+  setShoppingCart((oldShoppingCart) => {
+    return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
+      if (item.id === id) {
+        prev.push({
+          ...item,
+          quantity: quantity + 1,
+        });
+      } else {
+        prev.push(item);
+      }
+      return prev;
+    }, []);
+  });
+};
+
+export const ItemShoppingCartRemoveQty = (
+  setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
+  id: string,
+  quantity: number
+) => {
+  setShoppingCart((oldShoppingCart) => {
+    return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
+      if (item.id === id) {
+        prev.push({
+          ...item,
+          quantity: quantity - 1,
+        });
+      } else {
+        prev.push(item);
+      }
+      return prev;
+    }, []);
+  });
+};

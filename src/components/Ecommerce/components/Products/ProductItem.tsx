@@ -13,6 +13,10 @@ import { useTheme } from "@mui/material/styles";
 import { FoodProps } from "types";
 import Image from "next/image";
 import { CardActionArea, Link } from "@mui/material";
+import { useRecoilState } from "recoil";
+import { shoppingCartState } from "atoms";
+import { useSnackbar } from "notistack";
+import { addItemShoppingCart } from "selectors";
 
 export interface ProductsPageProps {
   item: FoodProps;
@@ -20,13 +24,22 @@ export interface ProductsPageProps {
 }
 const ProductItem = ({ item, i }: ProductsPageProps) => {
   const theme = useTheme();
+  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+
+  const { enqueueSnackbar } = useSnackbar();
+  console.log("shoppingCart", shoppingCart);
+
+  const addItem = () => {
+    addItemShoppingCart(setShoppingCart, item, enqueueSnackbar);
+  };
+
   return (
     <Grid
       item
       xs={12}
       sm={6}
       md={4}
-      key={i}
+      key={item.id}
       data-aos={"fade-up"}
       data-aos-delay={i * 100}
       data-aos-offset={100}
@@ -122,6 +135,7 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
               </Typography>
               <Button
                 variant={"outlined"}
+                onClick={addItem}
                 startIcon={
                   <Box
                     component={"svg"}
@@ -140,7 +154,7 @@ const ProductItem = ({ item, i }: ProductsPageProps) => {
                   </Box>
                 }
               >
-                Add to cart
+                В корзину
               </Button>
             </CardActions>
           </CardContent>
