@@ -6,7 +6,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { currentUserState } from "atoms";
+import { currentUserState, shoppingCartState } from "atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { alpha } from "@mui/material/styles";
 
@@ -84,10 +84,15 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
   const currentUser = useRecoilValue(currentUserState);
   console.log("currentUser", currentUser);
   const [, setCurrentUser] = useRecoilState(currentUserState);
+  const [, setShoppingCart] = useRecoilState(shoppingCartState);
 
   const logout = () => {
     setCurrentUser(null);
+    setShoppingCart([]);
+
     window.localStorage.removeItem("user");
+    window.localStorage.removeItem("card");
+
     Router.push("/");
   };
 

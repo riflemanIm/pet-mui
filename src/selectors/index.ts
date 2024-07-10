@@ -111,13 +111,15 @@ export const addItemShoppingCart = (
     enqueueSnackbar(`"${item.title}" was successfully added.`, {
       variant: "success",
     });
-    return [
+    const card = [
       ...oldShoppingCart,
       {
         ...item,
         quantity: 1,
       },
     ];
+    window.localStorage.setItem("card", JSON.stringify(card));
+    return card;
   });
 };
 

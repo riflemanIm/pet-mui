@@ -14,7 +14,7 @@ import { Topbar, Sidebar, Footer } from "./components";
 
 import pages from "../navigation";
 import { useRecoilState } from "recoil";
-import { currentUserState } from "atoms";
+import { currentUserState, shoppingCartState } from "atoms";
 type Props = {
   children: string | JSX.Element | JSX.Element[];
   colorInvert?: boolean;
@@ -49,6 +49,8 @@ const Main = ({
   });
 
   const [, setCurrentUserState] = useRecoilState(currentUserState);
+  const [, setShoppingCart] = useRecoilState(shoppingCartState);
+  
   useEffect(() => {
     const localStorageUser = window.localStorage.getItem("user");
     if (localStorageUser) {
@@ -57,6 +59,15 @@ const Main = ({
         setCurrentUserState(user);
       }
     }
+    const localStorageCard = window.localStorage.getItem("card");
+    console.log("localStorageCard",localStorageCard)
+    if (localStorageCard) {
+      const card = JSON.parse(localStorageCard);
+      if (card) {
+        setShoppingCart(card);
+      }
+    }
+
   }, []);
 
   return (

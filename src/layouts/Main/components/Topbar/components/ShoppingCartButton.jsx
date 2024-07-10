@@ -16,6 +16,8 @@ const ShoppingCartButton = () => {
       aria-controls="mail-menu"
       //onClick={handleOpenMenu}
       //className={classes.headerMenuButton}
+      component="a"
+      href="/cart"
     >
       <Badge badgeContent={total} color="warning">
         <ShoppingCartIcon />
