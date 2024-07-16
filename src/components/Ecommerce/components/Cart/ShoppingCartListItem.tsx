@@ -10,8 +10,9 @@ import { shoppingCartState, currentUserState } from "atoms";
 
 import { ShoppingCartItemProps } from "types";
 import { currencyFormat, calcCartItemTotalPrice } from "helpers/utils";
-import { Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Divider, Grid, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
+import HandCounter from "components/HandCounter";
 
 export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
   const {
@@ -91,28 +92,40 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     //   return oldShoppingCart.filter((i) => i.id !== id);
     // });
   };
-
+  const [counter, setCounter] = React.useState(0);
   return (
     <>
-      <Card sx={{ display: "flex" }}>
-        <CardMedia
-          component="img"
-          sx={{ width: 151 }}
-          image={`/images/catalog/${img}`}
+      <Grid item xs={2} textAlign="center">
+        <Image
+          src={`/images/catalog/${img}`}
           alt={title}
+          width={120}
+          height={120}
+          style={{ borderRadius: 3 }}
         />
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          <CardContent sx={{ flex: "1 0 auto" }}>
-            <Typography variant="h5">{title}</Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Type: {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
-            </Typography>
-            <Typography variant="subtitle1" color="text.secondary">
-              Price: {`$ ${currencyFormat(price)}`}
-            </Typography>
-          </CardContent>
-        </Box>
-      </Card>
+      </Grid>
+      <Grid item xs={6}>
+        <Typography variant="subtitle1">{title}</Typography>
+        <Typography variant="subtitle2" color="text.secondary">
+          Type: {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
+        </Typography>
+      </Grid>
+      <Grid item xs={2}>
+        <HandCounter
+          stock={stock}
+          quantity={quantity}
+          handleAddQty={handleAddQty}
+          handleRemoveQty={handleRemoveQty}
+        />
+      </Grid>
+      <Grid item xs={2}>
+        <Typography variant="body1" fontWeight="bold">
+          {currencyFormat(parseFloat(price) * quantity)}₽
+        </Typography>
+      </Grid>
+
+      <Divider />
+
       {/* <div className="card card-side bg-base-100 shadow-xl">
         <figure>
           <Image
