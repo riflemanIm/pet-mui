@@ -50,7 +50,7 @@ const Main = ({
 
   const [, setCurrentUserState] = useRecoilState(currentUserState);
   const [, setShoppingCart] = useRecoilState(shoppingCartState);
-  
+
   useEffect(() => {
     const localStorageUser = window.localStorage.getItem("user");
     if (localStorageUser) {
@@ -60,14 +60,13 @@ const Main = ({
       }
     }
     const localStorageCard = window.localStorage.getItem("card");
-    console.log("localStorageCard",localStorageCard)
+
     if (localStorageCard) {
       const card = JSON.parse(localStorageCard);
       if (card) {
         setShoppingCart(card);
       }
     }
-
   }, []);
 
   return (

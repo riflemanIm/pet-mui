@@ -17,9 +17,16 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 
 export default function ShoppingCartList() {
-  const [shoppingCart] = useRecoilState(shoppingCartState);
+  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+
+  function handleSetEmptyCart() {
+    setShoppingCart([]);
+    window.localStorage.removeItem("card");
+  }
+
   return (
     <>
       <Typography
@@ -35,21 +42,27 @@ export default function ShoppingCartList() {
       </Typography>
       <Grid container spacing={0}>
         <Grid item md={9} sm={12}>
-          <Grid container spacing={2}>
-            {shoppingCart.map((cartItem) => (
-              <ShoppingCartListItem key={cartItem.id} {...cartItem} />
-            ))}
+          {!!shoppingCart.length && (
+            <Grid container spacing={2}>
+              {shoppingCart.map((cartItem) => (
+                <ShoppingCartListItem key={cartItem.id} {...cartItem} />
+              ))}
+            </Grid>
+          )}
+          <Grid item xs={12} textAlign="center">
+            {!!shoppingCart.length && <DoEmptyCart />}
+            {!shoppingCart.length && <EmptyCartAlert />}
           </Grid>
         </Grid>
-        <Grid item md={3} sm={12}>
-          {!!shoppingCart.length && (
+
+        {!!shoppingCart.length && (
+          <Grid item md={3} sm={12}>
             <SubTotal
               sum={calcCartItemSum(shoppingCart)}
               price={calcCartItemTotalPrice(shoppingCart)}
             />
-          )}
-          {!shoppingCart.length && <EmptyCartAlert />}
-        </Grid>
+          </Grid>
+        )}
       </Grid>
     </>
   );
@@ -60,6 +73,25 @@ const EmptyCartAlert = () => {
     <Alert severity="warning">
       <Typography variant="subtitle1">Ваша корзина пуста</Typography>
     </Alert>
+  );
+};
+const DoEmptyCart = () => {
+  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+
+  function handleSetEmptyCart() {
+    setShoppingCart([]);
+    window.localStorage.removeItem("card");
+  }
+
+  return (
+    <Button
+      size="large"
+      variant="outlined"
+      startIcon={<RemoveShoppingCartIcon />}
+      onClick={handleSetEmptyCart}
+    >
+      Очистить корзину
+    </Button>
   );
 };
 

@@ -10,7 +10,7 @@ import { shoppingCartState, currentUserState } from "atoms";
 
 import { ShoppingCartItemProps } from "types";
 import { currencyFormat, calcCartItemTotalPrice } from "helpers/utils";
-import { Divider, Grid, Typography } from "@mui/material";
+import { Divider, Grid, IconButton, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
 import HandCounter from "components/HandCounter";
 
@@ -35,39 +35,51 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
 
   function handleAddQty() {
     setShoppingCart((oldShoppingCart) => {
-      return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
-        if (item.id === id) {
-          prev.push({
-            ...item,
-            quantity: quantity + 1,
-          });
-        } else {
-          prev.push(item);
-        }
-        return prev;
-      }, []);
+      const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
+        (prev, item) => {
+          if (item.id === id) {
+            prev.push({
+              ...item,
+              quantity: quantity + 1,
+            });
+          } else {
+            prev.push(item);
+          }
+          return prev;
+        },
+        []
+      );
+      window.localStorage.setItem("card", JSON.stringify(card));
+      return card;
     });
   }
 
   function handleRemoveQty() {
     setShoppingCart((oldShoppingCart) => {
-      return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
-        if (item.id === id) {
-          prev.push({
-            ...item,
-            quantity: quantity - 1,
-          });
-        } else {
-          prev.push(item);
-        }
-        return prev;
-      }, []);
+      const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
+        (prev, item) => {
+          if (item.id === id) {
+            prev.push({
+              ...item,
+              quantity: quantity - 1,
+            });
+          } else {
+            prev.push(item);
+          }
+          return prev;
+        },
+        []
+      );
+      window.localStorage.setItem("card", JSON.stringify(card));
+      return card;
     });
   }
 
   function deleteItem() {
     setShoppingCart((oldShoppingCart) => {
-      return [...oldShoppingCart.filter((i) => i.id !== id)];
+      const card = [...oldShoppingCart.filter((i) => i.id !== id)];
+      window.localStorage.setItem("card", JSON.stringify(card));
+      return card;
     });
   }
 
@@ -104,7 +116,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
           style={{ borderRadius: 3 }}
         />
       </Grid>
-      <Grid item xs={6}>
+      <Grid item xs={5}>
         <Typography variant="subtitle1">{title}</Typography>
         <Typography variant="subtitle2" color="text.secondary">
           Type: {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
@@ -119,11 +131,15 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
         />
       </Grid>
       <Grid item xs={2}>
-        <Typography variant="body1" fontWeight="bold">
+        <Typography variant="body1" fontWeight="bold" mt={2}>
           {currencyFormat(parseFloat(price) * quantity)}₽
         </Typography>
       </Grid>
-
+      <Grid item xs={1}>
+        <IconButton aria-label="delete" color="primary" onClick={deleteItem}>
+          <DeleteOutlineIcon />
+        </IconButton>
+      </Grid>
       <Divider />
 
       {/* <div className="card card-side bg-base-100 shadow-xl">
