@@ -57,7 +57,7 @@ async function getFoodRatings(req: NextApiRequest) {
       user: {
         select: {
           id: true,
-          nickname: true,
+          name: true,
         },
       },
     },
