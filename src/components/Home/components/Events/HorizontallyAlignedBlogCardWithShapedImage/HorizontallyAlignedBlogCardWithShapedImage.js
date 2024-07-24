@@ -9,16 +9,17 @@ import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 
 import Container from "components/Container";
-import img from "assets/images/s3_multimedia-4_6856918240.jpg";
+import img from "assets/images/abou3.jpg";
+import img1 from "assets/images/team/LLxas-lK8IE.jpg";
+
 const mock = {
   image: img.src,
-  title:
-    "Новый MAXI Set#3, набор натуральных лакомств для собак SHEPHERD TM., 310гр.",
+  title: "Розыгрышь подарков",
   description:
-    "Состав вкусняшки: 100% лёгкое, рубец, вымя, семенники, печень, почки, трахея, сердце, становая жила",
+    "Новый MAXI Set#3, набор натуральных лакомств для собак SHEPHERD TM., 310гр. Состав вкусняшки: 100% лёгкое, рубец, вымя, семенники, печень, почки, трахея, сердце, становая жила",
   author: {
     name: "Shepherd TM",
-    avatar: "https://assets.maccarianagency.com/avatars/img6.jpg",
+    avatar: img1.src,
   },
   date: "22 Nov",
 };

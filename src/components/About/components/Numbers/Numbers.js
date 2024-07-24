@@ -1,7 +1,7 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import React from "react";
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import Typography from "@mui/material/Typography";
 
 const Numbers = () => {
   return (
@@ -9,22 +9,22 @@ const Numbers = () => {
       <Grid container spacing={2}>
         {[
           {
-            title: 12,
-            subtitle: '12 years in business.',
+            title: "300+",
+            subtitle: "300+ довольных клиентов кадый день",
           },
           {
-            title: '5,2K',
-            subtitle: '5.200 sold copies',
+            title: 45,
+            subtitle: "45 филиалов по всей России",
           },
           {
-            title: '99%',
-            subtitle: '99% customer statisfication.',
+            title: "100%",
+            subtitle: "100% качество нашей продукции говорит само за себя",
           },
         ].map((item, i) => (
           <Grid key={i} item xs={12} sm={4}>
             <Typography
               variant="h3"
-              align={'center'}
+              align={"center"}
               gutterBottom
               sx={{
                 fontWeight: 900,
@@ -32,7 +32,7 @@ const Numbers = () => {
             >
               {item.title}
             </Typography>
-            <Typography color="text.secondary" align={'center'} component="p">
+            <Typography color="text.secondary" align={"center"} component="p">
               {item.subtitle}
             </Typography>
           </Grid>
