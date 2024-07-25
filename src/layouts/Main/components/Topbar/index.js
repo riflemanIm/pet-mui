@@ -76,6 +76,17 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
           <Link
             underline="none"
             component="a"
+            href="/map"
+            color={colorInvert ? "common.white" : "primary.contrastText"}
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            на карте
+          </Link>
+        </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
+          <Link
+            underline="none"
+            component="a"
             href="/contacts"
             color={colorInvert ? "common.white" : "primary.contrastText"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}

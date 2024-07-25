@@ -68,6 +68,16 @@ const SidebarNav = ({ pages }) => {
           <Link
             underline="none"
             component="a"
+            href="/map"
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            на карте
+          </Link>
+        </Box>
+        <Box my={2}>
+          <Link
+            underline="none"
+            component="a"
             href="/contacts"
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
