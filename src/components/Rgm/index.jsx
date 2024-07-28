@@ -1,7 +1,7 @@
 import React from "react";
 import Rgm from "./Rgm";
 import isEmpty from "../../helpers";
-const API_KEY = "e1afe889-6f8b-406b-bdad-8c397ddabcef";
+const API_KEY = "";
 const dataRaw = [
   {
     id: 179,
