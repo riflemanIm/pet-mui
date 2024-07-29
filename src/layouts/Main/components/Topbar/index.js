@@ -25,7 +25,8 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
         href="/"
         title="theFront"
         width={{ xs: 120, md: 210 }}
-        padding={{ xs: 0.5, md: 1.2 }}
+        py={{ xs: 0.5, md: 1.2 }}
+        mr={{ xs: 0.5, md: 1.2 }}
       >
         <Box
           component={"img"}
