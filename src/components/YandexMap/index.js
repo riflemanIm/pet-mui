@@ -11,7 +11,7 @@ const data = [
     name: "Зоотовары",
     coordinates: "45.032744, 39.094367",
     typeId: 10,
-    phone: "79182703446",
+    phone: "+7(918) 270-34-46",
 
     description:
       "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
@@ -148,7 +148,7 @@ const data = [
     workTime: "ВЦ МедВет",
     name: "",
     coordinates: "55.437485, 37.749858",
-    phone: "",
+    phone: "+7 (495) 120-48-84",
 
     description:
       "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
@@ -159,7 +159,7 @@ const data = [
     id: 400,
     address: "Ул. Якира, 9",
     workTime: "",
-    name: " Зооцентр Бивер",
+    name: "Зооцентр Бивер",
     coordinates: "48.560673, 39.376366",
     phone: "",
 
@@ -183,7 +183,7 @@ const data = [
   },
   {
     id: 600,
-    address: "ул. Маршала Жукова, 17А, Крымск",
+    address: "ул. Маршала Жукова, 17А",
     workTime: "",
     name: "ЛакШери",
     coordinates: "44.927775, 38.009579",
@@ -196,7 +196,7 @@ const data = [
   },
   {
     id: 700,
-    address: "ул. Яна Фабрициуса, 12, корп. 2, Сочи",
+    address: "ул. Яна Фабрициуса, 12, корп. 2",
     workTime: "",
     name: "Кот и Пес",
     coordinates: "43.576611, 39.748789",
@@ -251,7 +251,7 @@ const data = [
     address: "Ул. Чернышевского, 201/Б",
     workTime: "",
     name: "Салон для животных ГЛАМУР",
-    coordinates: "",
+    coordinates: "43.501088, 43.602484",
     phone: "+7 (928) 712-66-34",
 
     description:
@@ -260,12 +260,12 @@ const data = [
     www: "",
   },
   {
-    id: 300,
-    address: "",
+    id: 1100,
+    address: "Ул. Батарейная, 259а",
     workTime: "",
-    name: "",
-    coordinates: "",
-    phone: "",
+    name: "MR. ZOO",
+    coordinates: "45.253295, 38.117404",
+    phone: "+7 (918) 062-11-86",
 
     description:
       "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
@@ -273,12 +273,68 @@ const data = [
     www: "",
   },
   {
-    id: 300,
-    address: "",
+    id: 1200,
+    address: "наб. Матисова канала, 3",
     workTime: "",
-    name: "",
-    coordinates: "",
-    phone: "",
+    name: "Pets Lab",
+    coordinates: "59.855188, 30.150229",
+    phone: "+7 (921) 946-35-69",
+
+    description:
+      "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
+    nearbyTransportHubs: "метро Новые Черемушки",
+    www: "",
+  },
+
+  {
+    id: 1300,
+    address: "Ул. Херсонская, 27",
+    workTime: "",
+    name: "Зоомагазин",
+    coordinates: "44.562422, 38.081480",
+    phone: "+7 (989) 764-17-71",
+
+    description:
+      "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
+    nearbyTransportHubs: "метро Новые Черемушки",
+    www: "",
+  },
+
+  {
+    id: 1310,
+    address: "Ул. Херсонская, 53А",
+    workTime: "",
+    name: "Зоомагазин",
+    coordinates: "44.561668, 38.083007",
+    phone: "+7 (989) 764-17-71",
+
+    description:
+      "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
+    nearbyTransportHubs: "метро Новые Черемушки",
+    www: "",
+  },
+
+  {
+    id: 1400,
+    address: "ул. Московская, 3",
+    workTime: "",
+    name: "Хаскошоп",
+    coordinates: "48.488112, 135.079355",
+    phone: "+7 (914) 541-00-02",
+
+    description:
+      "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
+    nearbyTransportHubs: "метро Новые Черемушки",
+    www: "",
+  },
+
+  {
+    id: 1500,
+    address: "проезд Алексея Афанасьева, 5",
+    workTime: "",
+    name: "Lodo",
+    coordinates: "61.766058, 34.291326",
+    phone: "+7 (900) 464-00-66",
 
     description:
       "Здесь можно купить полный ассортимент нашей продукции, а также аксессуары и сувениры",
@@ -287,11 +343,9 @@ const data = [
   },
 ];
 
-const YandexMap = () => {
-  const defaultMapZoom = 10;
-
-  const center = ["45.032744", "39.094367"]; // moscow coordinates;
-
+const YandexMap = ({ coordinates }) => {
+  const defaultMapZoom = 15;
+  const center = coordinates != null ? coordinates.split(", ") : [];
   return (
     <YMaps
       query={{
