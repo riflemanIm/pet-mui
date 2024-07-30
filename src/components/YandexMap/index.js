@@ -344,7 +344,7 @@ const data = [
 ];
 
 const YandexMap = ({ coordinates }) => {
-  const defaultMapZoom = 15;
+  const defaultMapZoom = coordinates === "45.032744, 39.094367" ? 7 : 15;
   const center = coordinates != null ? coordinates.split(", ") : [];
   return (
     <YMaps
