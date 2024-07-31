@@ -14,14 +14,14 @@ import img1 from "assets/images/team/LLxas-lK8IE.jpg";
 
 const mock = {
   image: img.src,
-  title: "Розыгрышь подарков",
+  title: "Розыгрыш подарков",
   description:
     "Новый MAXI Set#3, набор натуральных лакомств для собак SHEPHERD TM., 310гр. Состав вкусняшки: 100% лёгкое, рубец, вымя, семенники, печень, почки, трахея, сердце, становая жила",
   author: {
     name: "Shepherd TM",
     avatar: img1.src,
   },
-  date: "22 Nov",
+  date: "22 Авг.",
 };
 
 const HorizontallyAlignedBlogCardWithShapedImage = () => {
