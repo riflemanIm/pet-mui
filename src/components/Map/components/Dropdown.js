@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "@mui/material/Icon";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Button from "@mui/material/Button";
@@ -34,14 +35,15 @@ function Dropdown({ isUp = false, options, coordinates, setCoordinates }) {
     <>
       <Button
         onClick={openDropdown}
-        variant="outlined"
-        color="primary"
+        variant="contained"
+        color="secondary"
         size="medium"
-        fullWidth
-        endIcon={<Icon sx={dropdownIconStyles} />}
+        endIcon={<ArrowForwardIosIcon sx={dropdownIconStyles} />}
+        sx={{ minWidth: 210 }}
       >
         {title}
       </Button>
+      <Icon sx={dropdownIconStyles} />
       <Menu
         anchorEl={dropdown}
         open={Boolean(dropdown)}
@@ -60,7 +62,12 @@ function Dropdown({ isUp = false, options, coordinates, setCoordinates }) {
         }
       >
         {options.map((item, inx) => (
-          <MenuItem onClick={closeDropdown} value={inx} key={item.value}>
+          <MenuItem
+            onClick={closeDropdown}
+            value={inx}
+            key={item.value}
+            sx={{ minWidth: 210 }}
+          >
             {item.label}
           </MenuItem>
         ))}

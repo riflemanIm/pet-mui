@@ -3,11 +3,11 @@ const lighterenRate = 1.5;
 const lightenRate = 7.5;
 const darkenRate = 15;
 const darkerRate = 30;
-const PRIMARY = "#2D4465";
-const SECONDARY = "#2C394B";
+const PRIMARY = "#342F4F";
+const SECONDARY = "#2c4464";
 export const light = {
   alternate: {
-    main: "#f7faff",
+    main: "#fffafa",
     dark: "#edf1f7",
   },
   cardShadow: "rgba(23, 70, 161, .11)",
@@ -39,10 +39,10 @@ export const light = {
   },
   divider: "rgba(0, 0, 0, 0.12)",
   background: {
-    paper: "#fffefc",
-    default: "#fffefc",
-    level2: "#fff",
-    level1: "#fffefc",
+    paper: "#fff",
+    default: "#fffafa",
+    level1: "#E9EEF6",
+    level2: "#fffafa",
   },
 };
 

@@ -11,6 +11,7 @@ import FormSignUp from "./components/FormSignUp";
 import ConfirnCode from "./components/ConfirnCode";
 import { currentUserState } from "atoms";
 import { useRecoilState } from "recoil";
+import img from "assets/images/signup.png";
 
 const SignUp = () => {
   const theme = useTheme();
@@ -65,16 +66,12 @@ const SignUp = () => {
                 <Box height={1} width={1} maxWidth={500}>
                   <Box
                     component={"img"}
-                    src={
-                      "https://assets.maccarianagency.com/svg/illustrations/drawkit-illustration4.svg"
-                    }
+                    src={img.src}
                     width={1}
                     height={1}
                     sx={{
-                      filter:
-                        theme.palette.mode === "dark"
-                          ? "brightness(0.8)"
-                          : "none",
+                      filter: "grayscale(.1)",
+                      borderRadius: 5,
                     }}
                   />
                 </Box>
