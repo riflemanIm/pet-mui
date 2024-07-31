@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/petsfood.png";
+import img from "assets/images/woman-playing-with-her-dog.png";
 import img1 from "assets/images/about2.jpg";
 import img2 from "assets/images/about1.jpg";
 import img3 from "assets/images/hero/32019654.jpg";
@@ -91,9 +91,9 @@ const Hero = () => {
         paddingY={{ xs: 0, sm: "4rem", md: "4rem" }}
         sx={{
           backgroundImage: `url("${img.src}")`,
-          backgroundPosition: "39% 15%",
+          backgroundPosition: "49% 0%",
           transform: "translate3d(0px,0px,0px)",
-          backgroundSize: " auto auto",
+          backgroundSize: "35% auto",
           backgroundRepeat: "no-repeat",
         }}
       >
