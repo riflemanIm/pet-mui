@@ -96,19 +96,19 @@ export const addItemShoppingCart = (
     const existingItem = oldShoppingCart.find((i) => i.id === item.id);
     if (existingItem) {
       if (existingItem.quantityInCart >= item.stock) {
-        enqueueSnackbar(`Out of stock!`, { variant: "error" });
+        enqueueSnackbar("Нет в наличии!", { variant: "error" });
         return [...oldShoppingCart];
       }
       const newItem = {
         ...existingItem,
         quantityInCart: existingItem.quantityInCart + 1,
       };
-      enqueueSnackbar(`"${item.title}" was successfully added.`, {
+      enqueueSnackbar(`"${item.title}" добавлен в корзину`, {
         variant: "success",
       });
       return [...oldShoppingCart.filter((i) => i.id !== item.id), newItem];
     }
-    enqueueSnackbar(`"${item.title}" was successfully added.`, {
+    enqueueSnackbar(`"${item.title}" добавлен в корзину.`, {
       variant: "success",
     });
     const card = [
