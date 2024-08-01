@@ -128,7 +128,7 @@ function parsefoodListQuery(
   // Filtering.
   // Reference: https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting
   q.where = {};
-  q.where.stock = { gt: 5 };
+  //q.where.stock = { gt: 5 };
   if (typeof query.type === "string") {
     if (!FoodTypes.includes(query.type)) {
       throw new Error(
