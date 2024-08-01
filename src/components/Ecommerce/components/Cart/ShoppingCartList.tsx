@@ -26,7 +26,7 @@ export default function ShoppingCartList() {
     setShoppingCart([]);
     window.localStorage.removeItem("card");
   }
-  console.log("shoppingCart", shoppingCart);
+
   return (
     <>
       <Typography
