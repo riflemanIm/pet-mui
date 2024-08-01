@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { FoodType, FoodAge } from "@prisma/client";
 import prisma from "../../lib/prisma";
-import { bigIntToSrt } from "helpers";
+import { bigIntToSrtArr } from "helpers";
 
 const DEFAULT_PAGE_NUM = 1;
 const DEFAULT_PAGE_SIZE = 8;
@@ -113,7 +113,7 @@ async function getfoodList(req: NextApiRequest) {
   const total = await prisma.food.count(parsefoodListQuery(req.query));
   if (foods)
     return {
-      content: bigIntToSrt(foods || []),
+      content: bigIntToSrtArr(foods || []),
       total: total,
     };
 }

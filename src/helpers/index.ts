@@ -140,10 +140,13 @@ export function isNumeric(n: string | number) {
 //   }, initialValue);
 //}
 
-export function bigIntToSrt<T extends { id: bigint }>(arr: T[]) {
+export function bigIntToSrt(id: bigint) {
+  return typeof id === "bigint" ? id.toString() : id;
+}
+export function bigIntToSrtArr<T extends { id: bigint }>(arr: T[]) {
   return arr.map((it: T) => ({
     ...it,
-    id: typeof it.id === "bigint" ? it.id.toString() : it.id,
+    id: bigIntToSrt(it.id),
   }));
 }
 

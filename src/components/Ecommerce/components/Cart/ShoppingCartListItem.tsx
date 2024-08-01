@@ -13,6 +13,7 @@ import { currencyFormat, calcCartItemTotalPrice } from "helpers/utils";
 import { Divider, Grid, IconButton, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
 import HandCounter from "components/HandCounter";
+import { deleteItemShoppingCart, itemShoppingCartAddQty } from "selectors";
 
 export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
   const {
@@ -21,73 +22,22 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     type,
     price,
     averageRating,
-    quantity,
-    stock,
+    quantityInCart,
     createdAt,
     img,
   } = props;
-  const [loading, setLoading] = React.useState(false);
 
+  const [loading, setLoading] = React.useState(false);
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
   const [currentUser] = useRecoilState(currentUserState);
 
   const { enqueueSnackbar } = useSnackbar();
 
-  function handleAddQty() {
-    setShoppingCart((oldShoppingCart) => {
-      const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
-        (prev, item) => {
-          if (item.id === id) {
-            prev.push({
-              ...item,
-              quantity: quantity + 1,
-            });
-          } else {
-            prev.push(item);
-          }
-          return prev;
-        },
-        []
-      );
-      window.localStorage.setItem("card", JSON.stringify(card));
-      return card;
-    });
-  }
-
-  function handleRemoveQty() {
-    setShoppingCart((oldShoppingCart) => {
-      const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
-        (prev, item) => {
-          if (item.id === id) {
-            prev.push({
-              ...item,
-              quantity: quantity - 1,
-            });
-          } else {
-            prev.push(item);
-          }
-          return prev;
-        },
-        []
-      );
-      window.localStorage.setItem("card", JSON.stringify(card));
-      return card;
-    });
-  }
-
-  function deleteItem() {
-    setShoppingCart((oldShoppingCart) => {
-      const card = [...oldShoppingCart.filter((i) => i.id !== id)];
-      window.localStorage.setItem("card", JSON.stringify(card));
-      return card;
-    });
-  }
-
   const handleBuyClick = async () => {
     setLoading(true);
     // const response = await buyBook(id, {
     //   userID: currentUserId,
-    //   quality: quantity,
+    //   quality: quantityInCart,
     // });
     // if (response.error) {
     //   enqueueSnackbar(`Error: ${response.error}.`, {
@@ -104,7 +54,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     //   return oldShoppingCart.filter((i) => i.id !== id);
     // });
   };
-  const [counter, setCounter] = React.useState(0);
+
   return (
     <>
       <Grid item xs={2} textAlign="center">
@@ -123,20 +73,19 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
         </Typography>
       </Grid>
       <Grid item xs={2}>
-        <HandCounter
-          stock={stock}
-          quantity={quantity}
-          handleAddQty={handleAddQty}
-          handleRemoveQty={handleRemoveQty}
-        />
+        <HandCounter id={id} />
       </Grid>
       <Grid item xs={2}>
         <Typography variant="body1" fontWeight="bold" mt={2}>
-          {currencyFormat(parseFloat(price) * quantity)}₽
+          {currencyFormat(parseFloat(price) * quantityInCart)}₽
         </Typography>
       </Grid>
       <Grid item xs={1}>
-        <IconButton aria-label="delete" color="primary" onClick={deleteItem}>
+        <IconButton
+          aria-label="delete"
+          color="primary"
+          onClick={() => deleteItemShoppingCart(setShoppingCart, id)}
+        >
           <DeleteOutlineIcon />
         </IconButton>
       </Grid>
@@ -177,19 +126,19 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
               <div className="join">
                 <button
                   className="btn btn-sm join-item"
-                  disabled={quantity >= stock}
+                  disabled={quantityInCart >= stock}
                   onClick={handleAddQty}
                 >
                   <AddIcon />
                 </button>
                 <input
                   className="input input-sm input-bordered join-item w-12"
-                  value={quantity}
+                  value={quantityInCart}
                   disabled
                 />
                 <button
                   className="btn btn-sm join-item"
-                  disabled={quantity <= 1}
+                  disabled={quantityInCart <= 1}
                   onClick={handleRemoveQty}
                 >
                   <RemoveIcon />
@@ -198,9 +147,9 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
               <div className="flex justify-end gap-4">
                 <div className="font-bold">
                   <span className="pr-1">
-                    {quantity === 1
-                      ? `(${quantity} item) $`
-                      : `(${quantity} items) $`}
+                    {quantityInCart === 1
+                      ? `(${quantityInCart} item) $`
+                      : `(${quantityInCart} items) $`}
                   </span>
                   {calcCartItemTotalPrice([props])}
                 </div>

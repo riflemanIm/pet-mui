@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "../../../../lib/prisma";
+import { bigIntToSrt } from "helpers";
 
 const ALLOW_UPDATE_FIELDS = ["type", "price", "stock", "publishedAt"];
 
@@ -12,8 +13,8 @@ const foodDetailHandler = async (
     case "GET":
       try {
         const foodDetail = await getFoodDetail(req);
-        delete foodDetail.id;
-        console.log("-----------foodDetail---------", foodDetail, "===");
+        foodDetail.id = bigIntToSrt(foodDetail.id);
+        //console.log("-----------foodDetail---------", foodDetail, "===");
         res.status(200).json(foodDetail);
       } catch (err: any) {
         console.error(err);

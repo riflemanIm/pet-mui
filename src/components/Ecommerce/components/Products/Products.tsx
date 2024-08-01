@@ -6,7 +6,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-import { Pagination, Stack } from "@mui/material";
+import { Alert, Pagination, Stack } from "@mui/material";
 
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
@@ -32,13 +32,17 @@ const Products: FC = () => {
   const handleClickPagination = (page: number) => {
     setHomePageQueryData({ ...homePageQueryData, page });
   };
+  const [openFiltersBar, setOpenFiltersBar] = useState(false);
+  const handleToggleFilters = () => {
+    setOpenFiltersBar(!openFiltersBar);
+  };
 
   const RenderItems = () => {
-    {
-      switch (foodListLoadable.state) {
-        case "hasValue":
-          setHomePageFoodSum(foodListLoadable.contents.total);
-          return (
+    switch (foodListLoadable.state) {
+      case "hasValue":
+        setHomePageFoodSum(foodListLoadable.contents.total);
+        return (
+          <>
             <Grid container spacing={4}>
               {foodListLoadable.contents.content.map(
                 (food: FoodProps, inx: number) => (
@@ -46,18 +50,47 @@ const Products: FC = () => {
                 )
               )}
             </Grid>
-          );
-        case "loading":
-          return <Box>Loading...</Box>;
-        case "hasError":
-          throw foodListLoadable.contents;
-      }
+            {homePageFoodSum > PAGE_SIZE && (
+              <Stack spacing={2} alignItems="center" mt={3}>
+                <Pagination
+                  count={Math.round(homePageFoodSum / PAGE_SIZE)}
+                  variant="outlined"
+                  page={page}
+                  onChange={(_, page: number) => handleClickPagination(page)}
+                />
+              </Stack>
+            )}
+            {homePageFoodSum === 0 ? (
+              <Box mt={5}>
+                <Alert severity="error">
+                  <Typography variant="body2" data-aos="fade-up">
+                    По заданным фильтрам товаров не найдено
+                  </Typography>
+                </Alert>
+              </Box>
+            ) : (
+              <Typography
+                variant="body2"
+                gutterBottom
+                color="secodary"
+                align="center"
+                data-aos="fade-up"
+                mt={5}
+              >{`${PAGE_SIZE * (page - 1) + 1} ~ ${
+                PAGE_SIZE * page > homePageFoodSum
+                  ? homePageFoodSum
+                  : PAGE_SIZE * page
+              } из ${homePageFoodSum} товаров`}</Typography>
+            )}
+          </>
+        );
+      case "loading":
+        return <Box>Loading...</Box>;
+      case "hasError":
+        throw foodListLoadable.contents;
     }
   };
-  const [openFiltersBar, setOpenFiltersBar] = useState(false);
-  const handleToggleFilters = () => {
-    setOpenFiltersBar(!openFiltersBar);
-  };
+
   return (
     <>
       <Box marginBottom={4}>
@@ -135,41 +168,6 @@ const Products: FC = () => {
         </Grid>
         <Grid item sm={12} md={9}>
           <RenderItems />
-          {homePageFoodSum > PAGE_SIZE && (
-            <Stack spacing={2} alignItems="center" mt={3}>
-              <Pagination
-                count={Math.round(homePageFoodSum / PAGE_SIZE)}
-                variant="outlined"
-                page={page}
-                onChange={(_, page: number) => handleClickPagination(page)}
-              />
-            </Stack>
-          )}
-          {homePageFoodSum === 0 ? (
-            <Typography
-              variant="h5"
-              gutterBottom
-              color="secodary"
-              align="center"
-              data-aos="fade-up"
-              mt={5}
-            >
-              По заданным фильтрам товаров не найдено
-            </Typography>
-          ) : (
-            <Typography
-              variant="body2"
-              gutterBottom
-              color="secodary"
-              align="center"
-              data-aos="fade-up"
-              mt={5}
-            >{`${PAGE_SIZE * (page - 1) + 1} ~ ${
-              PAGE_SIZE * page > homePageFoodSum
-                ? homePageFoodSum
-                : PAGE_SIZE * page
-            } из ${homePageFoodSum} товаров`}</Typography>
-          )}
         </Grid>
       </Grid>
     </>

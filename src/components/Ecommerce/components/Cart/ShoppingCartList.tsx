@@ -26,7 +26,7 @@ export default function ShoppingCartList() {
     setShoppingCart([]);
     window.localStorage.removeItem("card");
   }
-
+  console.log("shoppingCart", shoppingCart);
   return (
     <>
       <Typography
@@ -50,8 +50,21 @@ export default function ShoppingCartList() {
             </Grid>
           )}
           <Grid item xs={12} textAlign="center">
-            {!!shoppingCart.length && <DoEmptyCart />}
-            {!shoppingCart.length && <EmptyCartAlert />}
+            {!!shoppingCart.length && (
+              <Button
+                size="large"
+                variant="outlined"
+                startIcon={<RemoveShoppingCartIcon />}
+                onClick={handleSetEmptyCart}
+              >
+                Очистить корзину
+              </Button>
+            )}
+            {!shoppingCart.length && (
+              <Alert severity="warning">
+                <Typography variant="subtitle1">Ваша корзина пуста</Typography>
+              </Alert>
+            )}
           </Grid>
         </Grid>
 
@@ -67,33 +80,6 @@ export default function ShoppingCartList() {
     </>
   );
 }
-
-const EmptyCartAlert = () => {
-  return (
-    <Alert severity="warning">
-      <Typography variant="subtitle1">Ваша корзина пуста</Typography>
-    </Alert>
-  );
-};
-const DoEmptyCart = () => {
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
-
-  function handleSetEmptyCart() {
-    setShoppingCart([]);
-    window.localStorage.removeItem("card");
-  }
-
-  return (
-    <Button
-      size="large"
-      variant="outlined"
-      startIcon={<RemoveShoppingCartIcon />}
-      onClick={handleSetEmptyCart}
-    >
-      Очистить корзину
-    </Button>
-  );
-};
 
 const SubTotal = (props: { sum: number; price: number }) => {
   const { sum, price } = props;

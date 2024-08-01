@@ -26,7 +26,7 @@ const CardDetails: FC = () => {
   //   setFoodDetailsState(data);
   // };
 
-  //console.log("foodDetailsLodable", foodDetailsLodable);
+  console.log("foodDetailsLodable", foodDetailsLodable);
   const imgs = (foodDetailsLodable.contents?.content?.foodImgAdd || []).map(
     (it: FoodImgAddProp) => it.img
   );
@@ -42,7 +42,7 @@ const CardDetails: FC = () => {
             />
           </Grid>
           <Grid item xs={12} md={5}>
-            <Details data={foodDetailsLodable.contents?.content} />
+            <Details item={foodDetailsLodable.contents?.content} />
           </Grid>
         </Grid>
       );

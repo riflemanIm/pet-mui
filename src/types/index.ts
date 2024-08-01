@@ -38,7 +38,7 @@ export interface FoodProps {
 }
 
 export interface ShoppingCartItemProps extends FoodProps {
-  quantity: number;
+  quantityInCart: number;
 }
 
 export type FoodDetailProps = Omit<

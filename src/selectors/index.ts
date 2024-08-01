@@ -95,13 +95,13 @@ export const addItemShoppingCart = (
   setShoppingCart((oldShoppingCart) => {
     const existingItem = oldShoppingCart.find((i) => i.id === item.id);
     if (existingItem) {
-      if (existingItem.quantity >= item.stock) {
+      if (existingItem.quantityInCart >= item.stock) {
         enqueueSnackbar(`Out of stock!`, { variant: "error" });
         return [...oldShoppingCart];
       }
       const newItem = {
         ...existingItem,
-        quantity: existingItem.quantity + 1,
+        quantityInCart: existingItem.quantityInCart + 1,
       };
       enqueueSnackbar(`"${item.title}" was successfully added.`, {
         variant: "success",
@@ -115,7 +115,7 @@ export const addItemShoppingCart = (
       ...oldShoppingCart,
       {
         ...item,
-        quantity: 1,
+        quantityInCart: 1,
       },
     ];
     window.localStorage.setItem("card", JSON.stringify(card));
@@ -128,46 +128,61 @@ export const deleteItemShoppingCart = (
   id: string
 ) => {
   setShoppingCart((oldShoppingCart) => {
-    return [...oldShoppingCart.filter((i) => i.id !== id)];
+    const card = [...oldShoppingCart.filter((i) => i.id !== id)];
+    window.localStorage.setItem("card", JSON.stringify(card));
+    return card;
   });
 };
 
-export const ItemShoppingCartAddQty = (
+export const itemShoppingCartAddQty = (
   setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
   id: string,
-  quantity: number
+  quantityInCart: number
 ) => {
   setShoppingCart((oldShoppingCart) => {
-    return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
-      if (item.id === id) {
-        prev.push({
-          ...item,
-          quantity: quantity + 1,
-        });
-      } else {
-        prev.push(item);
-      }
-      return prev;
-    }, []);
+    const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
+      (prev, item) => {
+        if (item.id === id) {
+          prev.push({
+            ...item,
+            quantityInCart: quantityInCart + 1,
+          });
+        } else {
+          prev.push(item);
+        }
+        return prev;
+      },
+      []
+    );
+    window.localStorage.setItem("card", JSON.stringify(card));
+    return card;
   });
 };
 
-export const ItemShoppingCartRemoveQty = (
+export const itemShoppingCartRemoveQty = (
   setShoppingCart: SetterOrUpdater<ShoppingCartItemProps[]>,
   id: string,
-  quantity: number
+  quantityInCart: number
 ) => {
   setShoppingCart((oldShoppingCart) => {
-    return oldShoppingCart.reduce<ShoppingCartItemProps[]>((prev, item) => {
-      if (item.id === id) {
-        prev.push({
-          ...item,
-          quantity: quantity - 1,
-        });
-      } else {
-        prev.push(item);
-      }
-      return prev;
-    }, []);
+    const card = oldShoppingCart.reduce<ShoppingCartItemProps[]>(
+      (prev, item) => {
+        if (item.id === id) {
+          const quantityInCart = item.quantityInCart - 1;
+          if (quantityInCart > 0) {
+            prev.push({
+              ...item,
+              quantityInCart,
+            });
+          }
+        } else {
+          prev.push(item);
+        }
+        return prev;
+      },
+      []
+    );
+    window.localStorage.setItem("card", JSON.stringify(card));
+    return card;
   });
 };

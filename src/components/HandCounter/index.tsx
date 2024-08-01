@@ -2,20 +2,24 @@ import { useState } from "react";
 import { Button, ButtonGroup, Icon, Typography } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import { itemShoppingCartAddQty, itemShoppingCartRemoveQty } from "selectors";
+import { useRecoilState } from "recoil";
+import { shoppingCartState } from "atoms";
+//import isEmpty from "helpers";
 
 interface HandCounterProps {
-  stock: number;
-  quantity: number;
-  handleAddQty: () => void;
-  handleRemoveQty: () => void;
+  id: string;
 }
 
-export default function HandCounter({
-  stock,
-  quantity,
-  handleAddQty,
-  handleRemoveQty,
-}: HandCounterProps) {
+export default function HandCounter({ id }: HandCounterProps) {
+  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  const shoppingCartItem = shoppingCart.find((it) => it.id === id);
+
+  if (shoppingCartItem == null) {
+    return null;
+  }
+  const { quantityInCart, stock } = shoppingCartItem;
+
   return (
     <ButtonGroup
       color="secondary"
@@ -29,8 +33,10 @@ export default function HandCounter({
       <Button
         size="small"
         variant="text"
-        onClick={handleRemoveQty}
-        disabled={quantity < 1}
+        onClick={() =>
+          itemShoppingCartRemoveQty(setShoppingCart, id, quantityInCart)
+        }
+        disabled={quantityInCart < 1}
       >
         <RemoveIcon />
       </Button>
@@ -41,14 +47,16 @@ export default function HandCounter({
           fontWeight="bold"
           color="secondary"
         >
-          {quantity}
+          {quantityInCart}
         </Typography>
       </Button>
       <Button
         size="small"
         variant="text"
-        onClick={handleAddQty}
-        disabled={quantity > stock}
+        onClick={() =>
+          itemShoppingCartAddQty(setShoppingCart, id, quantityInCart)
+        }
+        disabled={quantityInCart >= stock}
       >
         <AddIcon />
       </Button>

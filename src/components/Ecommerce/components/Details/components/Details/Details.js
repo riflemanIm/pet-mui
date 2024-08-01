@@ -1,21 +1,33 @@
 import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
+//import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
+// import IconButton from "@mui/material/IconButton";
+// import FacebookIcon from "@mui/icons-material/Facebook";
+// import InstagramIcon from "@mui/icons-material/Instagram";
+// import TwitterIcon from "@mui/icons-material/Twitter";
+import { useRecoilState } from "recoil";
+import { shoppingCartState } from "atoms";
+import { useSnackbar } from "notistack";
+import { addItemShoppingCart } from "selectors";
+import isEmpty from "helpers";
+import HandCounter from "components/HandCounter";
 
-const Details = ({ data }) => {
-  const theme = useTheme();
-  const [size, setSize] = useState("M");
-  const [color, setColor] = useState("white");
-  const [quantity, setQuantity] = useState(1);
-  const quantityLimit = 4;
-
+const Details = ({ item }) => {
+  // const theme = useTheme();
+  // const [size, setSize] = useState("M");
+  // const [color, setColor] = useState("white");
+  // const [quantity, setQuantity] = useState(1);
+  // const quantityLimit = 4;
+  console.log("item", item);
+  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  const { enqueueSnackbar } = useSnackbar();
+  const addItem = () => {
+    addItemShoppingCart(setShoppingCart, item, enqueueSnackbar);
+  };
+  const shoppingCartItem = shoppingCart.find((it) => it.id === item.id);
   return (
     <Box>
       <Box
@@ -26,11 +38,11 @@ const Details = ({ data }) => {
         marginBottom={1}
       >
         <Typography sx={{ color: "common.white", lineHeight: 1 }}>
-          {data.artikul}
+          {item.artikul}
         </Typography>
       </Box>
       <Typography variant={"h4"} fontWeight={700}>
-        {data.title}
+        {item.title}
       </Typography>
       <Box marginY={3}>
         <Box display={"flex"}>
@@ -39,17 +51,17 @@ const Details = ({ data }) => {
             color={"text.secondary"}
             sx={{ textDecoration: "line-through", marginRight: 1 }}
           >
-            {data.priceDiscount}₽
+            {item.priceDiscount}₽
           </Typography>
           <Typography variant={"h5"} fontWeight={700}>
-            {data.price}₽
+            {item.price}₽
           </Typography>
         </Box>
         <Box display={"flex"} alignItems={"center"} marginTop={1}>
           <Box display={"flex"} justifyContent={"flex-start"}>
-            {[1, 2, 3, 4, 5].map((item) => (
+            {[1, 2, 3, 4, 5].map((it) => (
               <Box
-                key={item}
+                key={it}
                 color={"secondary.main"}
                 display={"flex"}
                 alignItems={"center"}
@@ -70,10 +82,10 @@ const Details = ({ data }) => {
         </Box>
       </Box>
       <Typography variant={"subtitle2"} color={"text.secondary"}>
-        {data.anatation}
+        {item.anatation}
       </Typography>
-      <Box marginY={3}>
-        {/* <Box>
+
+      {/* <Box>
           <Typography>
             Size:{" "}
             <Typography component={"span"} fontWeight={700}>
@@ -101,7 +113,7 @@ const Details = ({ data }) => {
             ))}
           </Stack>
         </Box> */}
-        {/* <Box marginY={2}>
+      {/* <Box marginY={2}>
           <Typography>
             Color:{" "}
             <Typography component={"span"} fontWeight={700}>
@@ -136,57 +148,9 @@ const Details = ({ data }) => {
             ))}
           </Stack>
         </Box> */}
-        <Box>
-          <Typography>
-            Количество:{" "}
-            <Typography component={"span"} fontWeight={700}>
-              {data.quantity || 1}
-            </Typography>
-          </Typography>
-          <Stack direction={"row"} spacing={2} marginTop={0.5}>
-            <Box
-              onClick={() => setQuantity(quantity - 1 >= 1 ? quantity - 1 : 1)}
-              sx={{
-                borderRadius: 1,
-                paddingY: 1,
-                paddingX: 2,
-                border: `1px solid ${theme.palette.divider}`,
-                cursor: quantity === 1 ? "not-allowed" : "pointer",
-              }}
-            >
-              <Typography
-                color={quantity === 1 ? "text.secondary" : "text.primary"}
-              >
-                - Убрать
-              </Typography>
-            </Box>
-            <Box
-              onClick={() =>
-                setQuantity(
-                  quantity + 1 <= quantityLimit ? quantity + 1 : quantityLimit
-                )
-              }
-              sx={{
-                borderRadius: 1,
-                paddingY: 1,
-                paddingX: 2,
-                border: `1px solid ${theme.palette.divider}`,
-                cursor: quantity === quantityLimit ? "not-allowed" : "pointer",
-              }}
-            >
-              <Typography
-                color={
-                  quantity === quantityLimit ? "text.secondary" : "text.primary"
-                }
-              >
-                + Добавить
-              </Typography>
-            </Box>
-          </Stack>
-        </Box>
-      </Box>
+
       <Stack marginTop={3} direction={{ xs: "column", sm: "row" }} spacing={2}>
-        <Button
+        {/* <Button
           variant={"outlined"}
           color={"primary"}
           size={"large"}
@@ -208,27 +172,33 @@ const Details = ({ data }) => {
           }
         >
           В избранное
-        </Button>
-        <Button
-          variant={"contained"}
-          color={"primary"}
-          size={"large"}
-          fullWidth
-          startIcon={
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-              width={20}
-              height={20}
-            >
-              <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
-            </svg>
-          }
-        >
-          В корзину
-        </Button>
+        </Button> */}
+        {isEmpty(shoppingCartItem) ? (
+          <Button
+            variant={"contained"}
+            color={"primary"}
+            size={"large"}
+            fullWidth
+            onClick={addItem}
+            startIcon={
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                width={20}
+                height={20}
+              >
+                <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+              </svg>
+            }
+          >
+            В корзину
+          </Button>
+        ) : (
+          <HandCounter id={item.id} />
+        )}
       </Stack>
+      {/*       
       <Box marginY={3}>
         <Typography>Вопрос?</Typography>
         <Stack direction={"row"} spacing={2} marginTop={0.5}>
@@ -296,7 +266,7 @@ const Details = ({ data }) => {
             <TwitterIcon />
           </IconButton>
         </Stack>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
