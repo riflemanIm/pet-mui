@@ -72,7 +72,17 @@ const Footer = () => {
                 О нас
               </Link>
             </Box>
-
+            <Box marginTop={1} marginRight={2}>
+              <Link
+                underline="none"
+                component="a"
+                href="/map"
+                color="text.primary"
+                variant={"subtitle2"}
+              >
+                На карте
+              </Link>
+            </Box>
             <Box marginTop={1}>
               <Button
                 variant="outlined"
