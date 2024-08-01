@@ -19,9 +19,7 @@ const Details = ({ item }) => {
   // const theme = useTheme();
   // const [size, setSize] = useState("M");
   // const [color, setColor] = useState("white");
-  // const [quantity, setQuantity] = useState(1);
-  // const quantityLimit = 4;
-  console.log("item", item);
+
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
   const { enqueueSnackbar } = useSnackbar();
   const addItem = () => {

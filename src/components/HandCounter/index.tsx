@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, ButtonGroup, Icon, Typography } from "@mui/material";
+import { Box, Button, ButtonGroup, Icon, Typography } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import { itemShoppingCartAddQty, itemShoppingCartRemoveQty } from "selectors";
@@ -28,6 +28,7 @@ export default function HandCounter({ id }: HandCounterProps) {
         border: 1,
         borderRadius: 2,
         borderColor: ({ palette: { grey } }) => grey[300],
+        backgroundColor: "#fff",
       }}
     >
       <Button
@@ -40,7 +41,7 @@ export default function HandCounter({ id }: HandCounterProps) {
       >
         <RemoveIcon />
       </Button>
-      <Button variant="text" sx={{ cursor: "auto" }}>
+      <Box m={1}>
         <Typography
           sx={{ width: 15 }}
           variant="h6"
@@ -49,7 +50,7 @@ export default function HandCounter({ id }: HandCounterProps) {
         >
           {quantityInCart}
         </Typography>
-      </Button>
+      </Box>
       <Button
         size="small"
         variant="text"

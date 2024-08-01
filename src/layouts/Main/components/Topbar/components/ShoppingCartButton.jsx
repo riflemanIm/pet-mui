@@ -7,8 +7,11 @@ import { shoppingCartState } from "atoms";
 
 const ShoppingCartButton = () => {
   const shoppingCart = useRecoilValue(shoppingCartState);
-  console.log("shoppingCart", shoppingCart);
-  const total = shoppingCart.reduce((a, { quantity }) => quantity + a, 0);
+
+  const total = shoppingCart.reduce(
+    (a, { quantityInCart }) => quantityInCart + a,
+    0
+  );
   return (
     <IconButton
       color="inherit"

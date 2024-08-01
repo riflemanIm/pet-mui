@@ -26,7 +26,6 @@ const CardDetails: FC = () => {
   //   setFoodDetailsState(data);
   // };
 
-  console.log("foodDetailsLodable", foodDetailsLodable);
   const imgs = (foodDetailsLodable.contents?.content?.foodImgAdd || []).map(
     (it: FoodImgAddProp) => it.img
   );

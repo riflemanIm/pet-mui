@@ -9,7 +9,7 @@ export function currencyFormat(num: number | string) {
 
 export function calcCartItemSum(cartItems: ShoppingCartItemProps[]) {
   const sum = cartItems.reduce((prev, item) => {
-    const qty = item.quantity;
+    const qty = item.quantityInCart;
     return prev + qty;
   }, 0);
   return Math.round(sum);
@@ -17,7 +17,7 @@ export function calcCartItemSum(cartItems: ShoppingCartItemProps[]) {
 
 export function calcCartItemTotalPrice(cartItems: ShoppingCartItemProps[]) {
   const sum = cartItems.reduce((prev, item) => {
-    const qty = item.quantity;
+    const qty = item.quantityInCart;
     const unitPrice = parseFloat(item.price);
     const total = qty * unitPrice;
     return prev + total;
