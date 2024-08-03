@@ -16,6 +16,7 @@ import ProductItem from "./ProductItem";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 import ProductFilter from "./ProductFilter";
 import ProductSort from "./ProductSort";
+import Headline from "components/Headline";
 
 const Products: FC = () => {
   const theme = useTheme();
@@ -93,42 +94,13 @@ const Products: FC = () => {
 
   return (
     <>
-      <Box marginBottom={4}>
-        {/* <Typography
-          sx={{
-            textTransform: "uppercase",
-            fontWeight: "medium",
-          }}
-          gutterBottom
-          color={"secondary"}
-          align={"center"}
-        >
-          Products
-        </Typography>
-
-        <Typography
-          variant="h6"
-          align={"center"}
-          color={"text.secondary"}
-          data-aos={"fade-up"}
-        >
-          Experience your music like never before. Buy music instruments &
-          accessories online.
-        </Typography> */}
-      </Box>
+      <Headline
+        head="Каталог товаров"
+        subhead1="Вкусняшки для Вашего питомца"
+        align="left"
+      />
       <Grid container spacing={3} p={3}>
-        <Grid item xs={12} sm={6} md={9}>
-          <Typography
-            variant="h4"
-            data-aos={"fade-up"}
-            gutterBottom
-            sx={{
-              fontWeight: 700,
-            }}
-          >
-            Каталог товаров
-          </Typography>
-        </Grid>
+        <Grid item xs={12} sm={6} md={9}></Grid>
         <Grid
           item
           xs={6}

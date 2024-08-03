@@ -9,7 +9,12 @@ const AboutSideCover = () => {
   return (
     <Main>
       <Container>
-        <Headline />
+        <Headline
+          head="О нас"
+          subhead1="Мы поможем Вам на каждом этапе процесса"
+          subhead2="Наши специалисты проконсультируют Вас по любым вопросам питания и
+          пищевого поведения вашего питомца"
+        />
       </Container>
       <Container paddingY={"0 !important"}>
         <Gallery />
