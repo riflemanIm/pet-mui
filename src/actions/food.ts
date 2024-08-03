@@ -176,16 +176,17 @@ export async function deleteRating(
   }
 }
 
-export async function buyFood(
-  foodID: string,
-  params: { userID: string; quality: number }
-): Promise<{
+export async function buyFood(params: {
+  userId: string;
+  data: { foodId: number; quality: number }[];
+}): Promise<{
   content?: { message: string };
   error?: any;
 }> {
   try {
     const response = await axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/foods/${foodID}/buy?userId=${params.userID}&quality=${params.quality}`
+      `${process.env.NEXT_PUBLIC_API_URL}/buy`,
+      params
     );
     if (response.status !== 200) {
       throw new Error(`${response.status} - ${response.data}`);

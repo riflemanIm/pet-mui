@@ -1,19 +1,16 @@
 import * as React from "react";
 import Image from "next/image";
-import { useSnackbar } from "notistack";
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { useRecoilState } from "recoil";
-import { shoppingCartState, currentUserState } from "atoms";
+import { shoppingCartState } from "atoms";
 
 import { ShoppingCartItemProps } from "types";
-import { currencyFormat, calcCartItemTotalPrice } from "helpers/utils";
+import { currencyFormat } from "helpers/utils";
 import { Divider, Grid, IconButton, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
 import HandCounter from "components/HandCounter";
-import { deleteItemShoppingCart, itemShoppingCartAddQty } from "selectors";
+import { deleteItemShoppingCart } from "selectors";
 
 export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
   const {
@@ -29,31 +26,6 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
 
   const [loading, setLoading] = React.useState(false);
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
-  const [currentUser] = useRecoilState(currentUserState);
-
-  const { enqueueSnackbar } = useSnackbar();
-
-  const handleBuyClick = async () => {
-    setLoading(true);
-    // const response = await buyBook(id, {
-    //   userID: currentUserId,
-    //   quality: quantityInCart,
-    // });
-    // if (response.error) {
-    //   enqueueSnackbar(`Error: ${response.error}.`, {
-    //     variant: 'error',
-    //   });
-    //   setLoading(false);
-    //   return;
-    // }
-    // enqueueSnackbar(`${response.content?.message}`, {
-    //   variant: 'success',
-    // });
-    // setLoading(false);
-    // setShoppingCart((oldShoppingCart) => {
-    //   return oldShoppingCart.filter((i) => i.id !== id);
-    // });
-  };
 
   return (
     <>
