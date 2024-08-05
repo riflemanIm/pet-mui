@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { getError } from "helpers";
 import { FoodProps, FoodDicts, FoodDetailProps, FoodRatingsProps } from "types";
 
 export async function fetchFoods(data: {
@@ -189,11 +190,11 @@ export async function buyFood(params: {
       params
     );
     if (response.status !== 200) {
-      throw new Error(`${response.status} - ${response.data}`);
+      throw new Error(`${response.status} - ${response.data.message}`);
     }
     return { content: response.data };
   } catch (error) {
     console.error(error);
-    return { error };
+    return { error: getError(error) };
   }
 }

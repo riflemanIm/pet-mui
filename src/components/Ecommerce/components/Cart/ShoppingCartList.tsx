@@ -25,11 +25,17 @@ import { buyFood } from "actions/food";
 export default function ShoppingCartList() {
   const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
   const [currentUser] = useRecoilState(currentUserState);
-  const [loading, setLoading] = React.useState(false);
+  const [buy, setBuy] = React.useState<{
+    loading: boolean;
+    responseText: string | null;
+  }>({ loading: false, responseText: null });
 
   const { enqueueSnackbar } = useSnackbar();
 
-  console.log("shoppingCart", shoppingCart);
+  console.log(
+    "shoppingCart",
+    shoppingCart.map((it) => ({ id: it.id, stock: it.stock }))
+  );
   console.log("currentUser", currentUser);
   const router = useRouter();
   const handleBuyClick = async () => {
@@ -45,20 +51,25 @@ export default function ShoppingCartList() {
     }));
 
     const params = { userId: currentUser.id, data };
-    setLoading(true);
+    setBuy({ loading: true, responseText: null });
+
     const response = await buyFood(params);
     console.log("response", response);
     if (response.error) {
-      enqueueSnackbar(`Error: ${response.error}.`, {
+      enqueueSnackbar(response.error, {
         variant: "error",
       });
-      setLoading(false);
+      setBuy({ loading: false, responseText: response.error });
       return;
     }
-    enqueueSnackbar(`${response.content?.message}`, {
+    enqueueSnackbar(response.content?.message, {
       variant: "success",
     });
-    setLoading(false);
+    setBuy({
+      loading: false,
+      responseText: response.content?.message ?? null,
+    });
+    handleSetEmptyCart();
   };
 
   function handleSetEmptyCart() {
@@ -88,7 +99,7 @@ export default function ShoppingCartList() {
               ))}
             </Grid>
           )}
-          <Grid item xs={12} textAlign="center">
+          <Grid item xs={12} textAlign="center" mb={3}>
             {!!shoppingCart.length && (
               <Button
                 size="large"
@@ -99,9 +110,14 @@ export default function ShoppingCartList() {
                 Очистить корзину
               </Button>
             )}
-            {!shoppingCart.length && (
-              <Alert severity="warning">
+            {!shoppingCart.length && buy.responseText == null && (
+              <Alert severity="info">
                 <Typography variant="subtitle1">Ваша корзина пуста</Typography>
+              </Alert>
+            )}
+            {!shoppingCart.length && buy.responseText != null && (
+              <Alert severity="success">
+                <Typography variant="subtitle1">{buy.responseText}</Typography>
               </Alert>
             )}
           </Grid>
