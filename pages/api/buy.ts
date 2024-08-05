@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-
+import { JwtPayload, verify } from "jsonwebtoken";
 import prisma from "../../lib/prisma";
-import { getError } from "helpers";
+import isEmpty, { getError } from "helpers";
 type DataType = {
   foodId: number;
   quality: number;
@@ -15,16 +15,23 @@ const buyFoodHandler = async (
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) => {
-  if (req.method === "POST") {
+  const token = req.body.token;
+  //console.log("token", token);
+  if (isEmpty(token)) {
+    res.status(401).json({ message: "A token is required for authentication" });
+  }
+  try {
+    const tokenKey = process.env.TOKEN_KEY as string;
+    const decoded = verify(token, tokenKey) as JwtPayload;
+    if (isEmpty(decoded)) {
+      throw new Error("Invalid Token");
+    }
+    console.log("decoded", decoded);
+    if (req.method !== "POST") {
+      throw new Error(`HTTP method ${req.method} is not supported.`);
+    }
     try {
-      if (
-        typeof req.body.userId !== "string" &&
-        typeof req.body.userId !== "number"
-      ) {
-        throw new Error("Invalid parameter `userId`.");
-      }
-
-      const userId = parseInt(req.body.userId, 10);
+      const userId = decoded.id;
 
       if (!Array.isArray(req.body.data)) {
         throw new Error("Body 'data' is NOT array");
@@ -66,9 +73,9 @@ const buyFoodHandler = async (
         message: err.message,
       });
     }
-  } else {
-    res.status(401).json({
-      message: `HTTP method ${req.method} is not supported.`,
+  } catch (err: any) {
+    res.status(500).json({
+      message: err.message,
     });
   }
 };
@@ -128,7 +135,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
           },
         });
         if (newFood.stock < 0) {
-          throw new Error(`The food ${newFood.stock} is out of stock.`);
+          throw new Error(`"${newFood.title}" нет в наличии`);
         }
 
         // Generate a new order to record.
@@ -151,7 +158,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
     });
     return {
       status: 200,
-      message: `User ${userId} buy  foods  successfully`,
+      message: "Ваш заказ успешно оформлен",
       result,
     };
   } catch (err: any) {

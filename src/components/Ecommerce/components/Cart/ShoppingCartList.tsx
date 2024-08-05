@@ -36,7 +36,7 @@ export default function ShoppingCartList() {
     "shoppingCart",
     shoppingCart.map((it) => ({ id: it.id, stock: it.stock }))
   );
-  console.log("currentUser", currentUser);
+
   const router = useRouter();
   const handleBuyClick = async () => {
     if (currentUser?.id == null) {
@@ -50,7 +50,7 @@ export default function ShoppingCartList() {
       quality: item.quantityInCart,
     }));
 
-    const params = { userId: currentUser.id, data };
+    const params = { token: currentUser.token, data };
     setBuy({ loading: true, responseText: null });
 
     const response = await buyFood(params);

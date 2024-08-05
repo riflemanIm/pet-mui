@@ -178,7 +178,7 @@ export async function deleteRating(
 }
 
 export async function buyFood(params: {
-  userId: string;
+  token: string | undefined;
   data: { foodId: number; quality: number }[];
 }): Promise<{
   content?: { message: string };
