@@ -26,7 +26,7 @@ const buyFoodHandler = async (
     if (isEmpty(decoded)) {
       throw new Error("Invalid Token");
     }
-    console.log("decoded", decoded);
+    //console.log("decoded", decoded);
     if (req.method !== "POST") {
       throw new Error(`HTTP method ${req.method} is not supported.`);
     }

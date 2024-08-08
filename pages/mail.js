@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   port: 587,
   secure: false,
   auth: {
-    user: "spet",
+    user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
 });
@@ -59,7 +59,7 @@ export const HTML_TEMPLATE = (text) => {
           <div class="container">
             <div class="email">
               <div class="email-header">
-                <h1>shepherd-pet.ru/</h1>
+                <h1>Openvpn.pro</h1>
               </div>
               <div class="email-body">
                 <p>${text}</p>
