@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
 import prisma from "../../../../lib/prisma";
+import { getRandomInt } from "helpers";
 
 const buyFoodHandler = async (
   req: NextApiRequest,
@@ -33,16 +34,16 @@ async function buyFood(req: NextApiRequest): Promise<any> {
   }
   const foodId = BigInt(req.query.id);
 
-  // Get quality;
+  // Get quantityInCart;
   if (
-    typeof req.query.quality !== "string" &&
-    typeof req.query.quality !== "number"
+    typeof req.query.quantityInCart !== "string" &&
+    typeof req.query.quantityInCart !== "number"
   ) {
     throw new Error("Invalid parameter `num`.");
   }
-  const quality = Math.floor(Number(req.query.quality));
-  if (quality <= 0) {
-    throw new Error("Parameter `quality` must greater than zero.");
+  const quantityInCart = Math.floor(Number(req.query.quantityInCart));
+  if (quantityInCart <= 0) {
+    throw new Error("Parameter `quantityInCart` must greater than zero.");
   }
 
   // TODO: get user ID from context.
@@ -71,14 +72,14 @@ async function buyFood(req: NextApiRequest): Promise<any> {
 
       // Check if has enough foods for the user purchase.
       const stock = food.stock;
-      if (quality > stock) {
+      if (quantityInCart > stock) {
         throw new Error(
           `Didn't have enough stock of food <${foodId}> for your purchase.`
         );
       }
 
       // Cost the user balance to buy the food.
-      const cost = food?.price.mul(quality).toNumber();
+      const cost = food?.price.mul(quantityInCart).toNumber();
       const purchaser = await prisma.user.update({
         data: {
           balance: {
@@ -109,13 +110,24 @@ async function buyFood(req: NextApiRequest): Promise<any> {
       if (newFood.stock < 0) {
         throw new Error(`The food ${newFood.stock} is out of stock.`);
       }
+      const ord = await prisma.order.findFirst({
+        select: {
+          orderNum: true,
+        },
+        orderBy: {
+          id: "desc",
+        },
+      });
+      const orderNum =
+        ord != null ? ord.orderNum + getRandomInt(1, 10) + 1 : 10;
 
       // Generate a new order to record.
       const order = prisma.order.create({
         data: {
           userId: parseInt(userId.toString(), 10),
           foodId: foodId,
-          quality: quality,
+          quantity: quantityInCart,
+          orderNum,
         },
       });
 
@@ -130,7 +142,7 @@ async function buyFood(req: NextApiRequest): Promise<any> {
     });
     return {
       status: 200,
-      message: `User <${userId}> buy ${quality} foods <${foodId}> successfully, cost: ${result.cost}, remain: ${result.remaining} .`,
+      message: `User <${userId}> buy ${quantityInCart} foods <${foodId}> successfully, cost: ${result.cost}, remain: ${result.remaining} .`,
       data: result,
     };
   } catch (err: any) {
