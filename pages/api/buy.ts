@@ -109,29 +109,23 @@ const buyFoodHandler = async (
           calcCartItemTotalPrice(result.result)
         )}₽</td></tr></table>`;
 
-        try {
-          //console.log("req.body", req.body);
-          const options = {
-            from: `"${fromName}" <${from}>`, // sender address
-            to: `${toName} <${to}>`, // receiver email
-            subject: `Ваш заказ принят. Shepherd`, // Subject line
-            text: "",
-            html: HTML_TEMPLATE(orderTable),
-          };
+        const options = {
+          from: `"${fromName}" <${from}>`, // sender address
+          to: `${toName} <${to}>`, // receiver email
+          subject: `Ваш заказ принят. Shepherd`, // Subject line
+          text: "",
+          html: HTML_TEMPLATE(orderTable),
+        };
 
-          SENDMAIL(options, (info: string, error: any) => {
-            if (info != null) {
-              console.log("Email sent successfully");
-              // console.log("info: ", info);
-              res.status(200).json({ sent: "ok", info });
-            } else if (error != null) {
-              res.status(500).json({ sent: "Error send mail", error });
-            }
-          });
-        } catch (error: any) {
-          // unhide to check error
-          res.status(500).json({ message: error.message });
-        }
+        SENDMAIL(options, (info: string, error: any) => {
+          if (info != null) {
+            console.log("Email sent successfully");
+            // console.log("info: ", info);
+            res.status(200).json({ sent: "ok", info });
+          } else if (error != null) {
+            throw new Error("Error send mail");
+          }
+        });
       }
     } catch (err: any) {
       console.error(err);
