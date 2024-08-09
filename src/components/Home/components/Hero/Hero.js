@@ -93,7 +93,10 @@ const Hero = () => {
           backgroundImage: `url("${img.src}")`,
           backgroundPosition: "left 49% bottom 0%",
           transform: "translate3d(0px,0px,0px)",
-          backgroundSize: "35% auto",
+          backgroundSize: "32% auto",
+          [theme.breakpoints.down("xl")]: {
+            backgroundSize: "40% auto",
+          },
           [theme.breakpoints.down("lg")]: {
             backgroundSize: "60% auto",
           },
@@ -234,7 +237,7 @@ const Hero = () => {
           width: "100%",
           marginBottom: theme.spacing(-1),
           position: "relative",
-          top: theme.spacing(-4),
+          top: theme.spacing(-4.5),
           zIndex: -2,
         }}
       >
