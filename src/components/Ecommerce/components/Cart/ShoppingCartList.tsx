@@ -47,7 +47,7 @@ export default function ShoppingCartList() {
 
     const data = shoppingCart.map((item) => ({
       foodId: parseInt(item.id),
-      quality: item.quantityInCart,
+      quantityInCart: item.quantityInCart,
     }));
 
     const params = { token: currentUser.token, data };
@@ -69,7 +69,7 @@ export default function ShoppingCartList() {
       loading: false,
       responseText: response.content?.message ?? null,
     });
-    handleSetEmptyCart();
+    //handleSetEmptyCart();
   };
 
   function handleSetEmptyCart() {

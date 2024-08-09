@@ -179,7 +179,7 @@ export async function deleteRating(
 
 export async function buyFood(params: {
   token: string | undefined;
-  data: { foodId: number; quality: number }[];
+  data: { foodId: number; quantityInCart: number }[];
 }): Promise<{
   content?: { message: string };
   error?: any;

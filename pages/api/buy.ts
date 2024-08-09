@@ -1,14 +1,30 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { JwtPayload, verify } from "jsonwebtoken";
 import prisma from "../../lib/prisma";
-import isEmpty, { getError } from "helpers";
+import SENDMAIL, { HTML_TEMPLATE } from "../../lib/mail";
+
+import isEmpty, { getError, getRandomInt } from "helpers";
+import { calcCartItemTotalPrice, currencyFormat } from "helpers/utils";
+import { Decimal } from "@prisma/client/runtime/library";
 type DataType = {
   foodId: number;
-  quality: number;
+  quantityInCart: number;
+  price: string;
 };
 type DataTypeChecked = {
   foodId: bigint;
-  quality: number;
+  quantityInCart: number;
+  price: string;
+};
+
+type ResultType = {
+  artikul: string;
+  userId: number;
+  foodId: number;
+  foodTitle: string;
+  quantityInCart: number;
+  orderNum: number;
+  price: Decimal;
 };
 
 const buyFoodHandler = async (
@@ -48,25 +64,75 @@ const buyFoodHandler = async (
 
         const foodId = BigInt(item.foodId);
 
-        // Check quality;
+        // Check quantityInCart;
         if (
-          typeof item.quality !== "string" &&
-          typeof item.quality !== "number"
+          typeof item.quantityInCart !== "string" &&
+          typeof item.quantityInCart !== "number"
         ) {
-          throw new Error("Invalid parameter `quality`.");
+          throw new Error("Invalid parameter `quantityInCart`.");
         }
-        if (item.quality <= 0) {
-          throw new Error("Parameter `quality` must greater than zero.");
+        if (item.quantityInCart <= 0) {
+          throw new Error("Parameter `quantityInCart` must greater than zero.");
         }
 
-        const quality = item.quality;
+        const quantityInCart = item.quantityInCart;
 
-        return { foodId, quality };
+        return { foodId, quantityInCart, price: item.price };
       });
 
       const result = await buyFood(data, userId);
-      console.log("result", result);
+
       res.status(result.status).json(result);
+      if (!isEmpty(result.result)) {
+        /** --------- send mail -------------- */
+        const to = decoded.email;
+        const toName = decoded.name;
+
+        const from = "oleglambin@gmail.com";
+        const fromName = "Oleg";
+        console.log("result", result);
+        let orderTable = `<h3>Ваш заказ принят</h3><p>Номер заказа: <strong>#${
+          result.result[0].orderNum || ""
+        }</strong></p>
+      <table border="1" cellpadding="3" cellspacing="0" style="border-style:solid; border-width:1px; border-color:#000000;">`;
+        orderTable +=
+          "<tr><th>артикул</th> <th>название</th> <th>кол-во</th> <th>цена</th></tr>";
+        result.result.forEach((item: ResultType) => {
+          orderTable += "<tr>";
+          orderTable += `<td>${item.artikul}</td>`;
+          orderTable += `<td>${item.foodTitle}</td>`;
+          orderTable += `<td align="right">${item.quantityInCart}</td>`;
+          orderTable += `<td align="right">${currencyFormat(item.price)}₽</td>`;
+          orderTable += "</tr>";
+        });
+        orderTable += `<tr> <td colspan="3"></td> <td align="right">${currencyFormat(
+          calcCartItemTotalPrice(result.result)
+        )}₽</td></tr></table>`;
+
+        try {
+          //console.log("req.body", req.body);
+          const options = {
+            from: `"${fromName}" <${from}>`, // sender address
+            to: `${toName} <${to}>`, // receiver email
+            subject: `Ваш заказ принят. Shepherd`, // Subject line
+            text: "",
+            html: HTML_TEMPLATE(orderTable),
+          };
+
+          SENDMAIL(options, (info: string, error: any) => {
+            if (info != null) {
+              console.log("Email sent successfully");
+              // console.log("info: ", info);
+              res.status(200).json({ sent: "ok", info });
+            } else if (error != null) {
+              res.status(500).json({ sent: "Error send mail", error });
+            }
+          });
+        } catch (error: any) {
+          // unhide to check error
+          res.status(500).json({ message: error.message });
+        }
+      }
     } catch (err: any) {
       console.error(err);
       res.status(500).json({
@@ -82,9 +148,22 @@ const buyFoodHandler = async (
 
 async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
   try {
-    let result = [] as any[];
+    let result = [] as ResultType[];
+
     await prisma.$transaction(async (tr) => {
       // Found the food that the user want to purchase.
+      const ord = await tr.order.findFirst({
+        select: {
+          orderNum: true,
+        },
+        orderBy: {
+          id: "desc",
+        },
+      });
+      const orderNum =
+        ord != null ? ord.orderNum + getRandomInt(1, 10) + 1 : 10;
+
+      console.log("orderNum", orderNum);
       for (const item of data) {
         const food = await tr.food.findFirst({
           where: {
@@ -98,13 +177,13 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
 
         // Check if has enough foods for the user purchase.
         const stock = food.stock;
-        //console.log("-- quality", item.quality, "stock", stock, "\n");
-        if (item.quality > stock) {
+        //console.log("-- quantityInCart", item.quantityInCart, "stock", stock, "\n");
+        if (item.quantityInCart > stock) {
           throw new Error(`"${food.title}" -  нет нужного количества`);
         }
 
         // Cost the user balance to buy the food.
-        // const cost = food?.price.mul(item.quality).toNumber();
+        // const cost = food?.price.mul(item.quantityInCart).toNumber();
 
         // const purchaser = await tr.user.update({
         //   data: {
@@ -127,7 +206,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
         const newFood = await tr.food.update({
           data: {
             stock: {
-              decrement: item.quality,
+              decrement: item.quantityInCart,
             },
           },
           where: {
@@ -139,18 +218,24 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
         }
 
         // Generate a new order to record.
+
         await tr.order.create({
           data: {
             userId,
             foodId: item.foodId,
-            quality: item.quality,
+            quantity: item.quantityInCart,
+            orderNum,
           },
         });
 
         result.push({
           userId,
+          artikul: food.artikul,
           foodId: Number(item.foodId),
           foodTitle: food.title,
+          quantityInCart: item.quantityInCart,
+          price: food.price,
+          orderNum,
           //cost,
           //remaining: purchaser.balance,
         });

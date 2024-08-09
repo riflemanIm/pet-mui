@@ -56,6 +56,18 @@ export const clientIp = (req: NextApiRequest) => {
 
   return ip;
 };
+export const getRandomInt = (min: number, max: number) => {
+  const minCeiled = Math.ceil(min);
+  const maxFloored = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
+};
+
+export const createOrder = () =>
+  getRandomInt(1, 10) +
+  "-" +
+  getRandomInt(11, 20) +
+  "-" +
+  new Date().getMilliseconds();
 
 // export const password = (pass: string) => md5(`${SOL1}${pass}${SOL2}`);
 
