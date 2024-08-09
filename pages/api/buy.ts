@@ -153,6 +153,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
         orderBy: {
           id: "desc",
         },
+        take: 1,
       });
       const orderNum =
         ord != null ? ord.orderNum + getRandomInt(1, 10) + 1 : 10;

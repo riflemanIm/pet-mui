@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { alpha, useTheme } from "@mui/material/styles";
-import img from "assets/images/woman-playing-with-her-dog.png";
+import img from "assets/images/main.png";
 import img1 from "assets/images/about2.jpg";
 import img2 from "assets/images/about1.jpg";
 import img3 from "assets/images/hero/32019654.jpg";
@@ -71,7 +71,7 @@ const images = [
 
 const Hero = () => {
   const theme = useTheme();
-  const isMd = useMediaQuery(theme.breakpoints.up("md"), {
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"), {
     defaultMatches: true,
   });
 
@@ -89,16 +89,24 @@ const Hero = () => {
     >
       <Box
         paddingY={{ xs: 0, sm: "4rem", md: "4rem" }}
-        sx={{
+        sx={(theme) => ({
           backgroundImage: `url("${img.src}")`,
-          backgroundPosition: "49% 0%",
+          backgroundPosition: "left 49% bottom 0%",
           transform: "translate3d(0px,0px,0px)",
           backgroundSize: "35% auto",
+          [theme.breakpoints.down("lg")]: {
+            backgroundSize: "60% auto",
+          },
+          [theme.breakpoints.down("md")]: {
+            backgroundSize: "75% auto",
+          },
+
           backgroundRepeat: "no-repeat",
-        }}
+          zIndex: -1,
+        })}
       >
         <Container>
-          <Box maxWidth={{ xs: 1, sm: "25%" }}>
+          <Box maxWidth={{ xs: 1, md: "25%" }}>
             <Typography
               variant="h5"
               color="text.primary"
@@ -107,8 +115,9 @@ const Hero = () => {
                 textShadow: "3px 2px 3px rgba(255,255,255,.4)",
                 lineHeight: 1.6,
               }}
-              marginTop={{ xs: 50, sm: 4 }}
-              textAlign={{ xs: "center", sm: "left" }}
+              marginTop={{ xs: 1, sm: 2, md: 2 }}
+              marginBottom={{ xs: 38, sm: 64, md: 4 }}
+              textAlign={{ xs: "center", md: "left" }}
             >
               Мы готовы доставить наш продукт в любую точку
               <br /> России и мира.
@@ -117,24 +126,24 @@ const Hero = () => {
             </Typography>
             <Box
               display="flex"
-              flexDirection={{ xs: "column", sm: "row" }}
-              alignItems={{ xs: "stretched", sm: "flex-start" }}
-              marginTop={{ xs: 5, sm: 4 }}
-              justifyContent={{ xs: "center", sm: "right" }}
+              flexDirection={{ xs: "column", md: "row" }}
+              alignItems={{ xs: "stretched", md: "flex-start" }}
+              marginTop={{ xs: 5, md: 4 }}
+              justifyContent={{ xs: "center", md: "right" }}
             >
               <Button
                 component={"a"}
                 variant="contained"
                 color="primary"
                 size="large"
-                fullWidth={isMd ? false : true}
+                fullWidth={!isMobile}
                 href={"/catalog"}
               >
                 Каталог
               </Button>
               {/* <Box
-                marginTop={{ xs: 2, sm: 0 }}
-                marginLeft={{ sm: 2 }}
+                marginTop={{ xs: 2, md: 0 }}
+                marginLeft={{ md: 2 }}
                 width={{ xs: "100%", md: "auto" }}
               >
                 <Button
@@ -143,7 +152,7 @@ const Hero = () => {
                   variant="outlined"
                   color="primary"
                   size="large"
-                  fullWidth={isMd ? false : true}
+                  fullWidth={isMobile ? false : true}
                 >
                   Learn more
                 </Button>
@@ -151,67 +160,68 @@ const Hero = () => {
             </Box>
           </Box>
         </Container>
-        <Box
-          sx={{
-            transform: "rotate(-30deg)",
-            display: { xs: "none", sm: "block" },
-          }}
-        >
+        {!isMobile && (
           <Box
-            display={"flex"}
-            width={"50rem"}
-            left={"55%"}
-            top={0}
-            position={"absolute"}
-            sx={{ transform: "translate3d(-7%, -10%, 0)" }}
+            sx={{
+              transform: "rotate(-30deg)",
+            }}
           >
-            {images.map((item, i) => (
-              <Box key={i} marginTop={{ sm: -(i * 9) }} marginX={1}>
-                {item.group.map((g, j) => (
-                  <Box
-                    key={j}
-                    padding={1}
-                    bgcolor={"background.paper"}
-                    borderRadius={2}
-                    boxShadow={3}
-                    marginTop={2}
-                    sx={{
-                      width: 190,
-                      height: 190,
-                      cursor: "pointer",
-                      "& img": {
-                        width: 1,
-                        height: 1,
-                        objectFit: "cover",
-                        borderRadius: 0.5,
-                      },
-                      transition: "all .2s ease-in-out",
-                      "&:hover": {
-                        transform: "rotate(30deg) scale(2)",
-                        height: "auto",
-                        padding: 0.5,
-                        borderRadius: 0.1,
+            <Box
+              display={"flex"}
+              width={"30rem"}
+              left={"55%"}
+              top={0}
+              position={"absolute"}
+              sx={{ transform: "translate3d(-7%, -10%, 0)" }}
+            >
+              {images.map((item, i) => (
+                <Box key={i} marginTop={{ md: -(i * 9) }} marginX={1}>
+                  {item.group.map((g, j) => (
+                    <Box
+                      key={j}
+                      padding={1}
+                      bgcolor={"background.paper"}
+                      borderRadius={2}
+                      boxShadow={3}
+                      marginTop={2}
+                      sx={{
+                        width: 190,
+                        height: 190,
+                        cursor: "pointer",
                         "& img": {
-                          borderRadius: 0.2,
+                          width: 1,
+                          height: 1,
+                          objectFit: "cover",
+                          borderRadius: 0.5,
                         },
-                      },
-                    }}
-                  >
-                    <Image
-                      src={
-                        theme.palette.mode === "dark"
-                          ? g.coverDark.src
-                          : g.cover.src
-                      }
-                      height={310}
-                      width={310}
-                    />
-                  </Box>
-                ))}
-              </Box>
-            ))}
+                        transition: "all .2s ease-in-out",
+                        "&:hover": {
+                          transform: "rotate(30deg) scale(2)",
+                          height: "auto",
+                          padding: 0.5,
+                          borderRadius: 0.1,
+                          "& img": {
+                            borderRadius: 0.2,
+                          },
+                        },
+                      }}
+                    >
+                      <Image
+                        src={
+                          theme.palette.mode === "dark"
+                            ? g.coverDark.src
+                            : g.cover.src
+                        }
+                        height={310}
+                        width={310}
+                      />
+                    </Box>
+                  ))}
+                </Box>
+              ))}
+            </Box>
           </Box>
-        </Box>
+        )}
       </Box>
       <Box
         component={"svg"}
@@ -223,6 +233,9 @@ const Hero = () => {
         sx={{
           width: "100%",
           marginBottom: theme.spacing(-1),
+          position: "relative",
+          top: theme.spacing(-4),
+          zIndex: -2,
         }}
       >
         <path
