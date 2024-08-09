@@ -28,25 +28,6 @@ const Map = () => {
 
   return (
     <Box>
-      <Box>
-        <Box marginBottom={1}>
-          <Typography
-            variant="h4"
-            sx={{
-              fontWeight: 700,
-            }}
-          >
-            Наши контакты:
-          </Typography>
-        </Box>
-        <Box>
-          <Typography variant="h6" color={"text.secondary"}>
-            Если Вы хотите обратиться к нам с вопросами, или у Вас появилось
-            предложение, воспользуйтесь нашими указанными контактами и мы
-            обязательно Вам ответим!
-          </Typography>
-        </Box>
-      </Box>
       <Box marginY={3} style={{ width: "100%", height: 500 }}>
         <YandexMap
           coordinates={coordinates}

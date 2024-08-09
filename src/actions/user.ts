@@ -1,6 +1,6 @@
 import axios from "axios";
 //import isEmpty, { getError } from "../helpers";
-import { ConfirmCodeProps, CurrentUserProps } from "types";
+import { ConfirmCodeProps, CurrentUserProps, SendEmailProps } from "types";
 
 export async function sign(
   values: Omit<CurrentUserProps, "id|balance|token">,
@@ -38,6 +38,28 @@ export async function confirmCode(
       throw new Error(`${response.status} - ${response.data}`);
     }
     setSignState(response.data);
+    //return response.data as SignUpProps;
+  } catch (error) {
+    console.log(error);
+    return { error };
+  }
+}
+
+export async function sendEmail(
+  values: SendEmailProps,
+  setState: React.Dispatch<React.SetStateAction<undefined>>
+) {
+  try {
+    console.log("------------- sign ----------", values);
+    const response = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/sign`,
+      values
+    );
+    console.log("------------- response.data ----------", response.data);
+    if (response.status !== 200) {
+      throw new Error(`${response.status} - ${response.data}`);
+    }
+    setState(response.data);
     //return response.data as SignUpProps;
   } catch (error) {
     console.log(error);
