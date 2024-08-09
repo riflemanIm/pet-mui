@@ -54,7 +54,7 @@ export default function ShoppingCartList() {
     setBuy({ loading: true, responseText: null });
 
     const response = await buyFood(params);
-    console.log("response", response);
+    //console.log("response", response);
     if (response.error) {
       enqueueSnackbar(response.error, {
         variant: "error",

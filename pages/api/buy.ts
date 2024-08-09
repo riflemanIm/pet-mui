@@ -88,9 +88,9 @@ const buyFoodHandler = async (
         const to = decoded.email;
         const toName = decoded.name;
 
-        const from = "oleglambin@gmail.com";
-        const fromName = "Oleg";
-        console.log("result", result);
+        const from = process.env.SITE_EMAIL;
+        const fromName = process.env.SITE_EMAIL_NAME;
+
         let orderTable = `<h3>Ваш заказ принят</h3><p>Номер заказа: <strong>#${
           result.result[0].orderNum || ""
         }</strong></p>
@@ -163,7 +163,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
       const orderNum =
         ord != null ? ord.orderNum + getRandomInt(1, 10) + 1 : 10;
 
-      console.log("orderNum", orderNum);
+      //console.log("orderNum", orderNum);
       for (const item of data) {
         const food = await tr.food.findFirst({
           where: {
