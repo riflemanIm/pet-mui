@@ -7,7 +7,8 @@ const PRIMARY = "#342F4F";
 const SECONDARY = "#2c4464";
 export const light = {
   alternate: {
-    main: "#fffafa",
+    //main: "#fffafa",
+    main: "#fff",
     dark: "#edf1f7",
   },
   cardShadow: "rgba(23, 70, 161, .11)",
@@ -40,7 +41,7 @@ export const light = {
   divider: "rgba(0, 0, 0, 0.12)",
   background: {
     paper: "#fff",
-    default: "#fffafa",
+    default: "#fff",
     level1: "#E9EEF6",
     level2: "#fffafa",
   },

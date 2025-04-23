@@ -6,7 +6,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import getTheme from "../src/theme";
 import { AppProps } from "next/app";
-
+import "../src/components/Home/components/HeroImageSlider/index.css";
 import { RecoilURLSyncJSONNext } from "recoil-sync-next";
 
 function DebugObserver() {
