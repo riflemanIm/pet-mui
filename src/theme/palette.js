@@ -40,7 +40,7 @@ export const light = {
   },
   divider: "rgba(0, 0, 0, 0.12)",
   background: {
-    paper: "#fff",
+    paper: "#f5f7fb",
     default: "#fff",
     level1: "#E9EEF6",
     level2: "#fffafa",
@@ -66,7 +66,7 @@ export const dark = {
   },
   secondary: {
     light: "#FFEA41",
-    main: "#FFE102",
+    main: "#f5f7fb",
     dark: "#DBBE01",
     contrastText: "rgba(0, 0, 0, 0.87)",
   },

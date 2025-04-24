@@ -14,7 +14,7 @@ const TopButtons = () => (
   <>
     <Box marginLeft={4}>
       <Button
-        variant="contained"
+        variant="outlined"
         color="primary"
         component="a"
         //target="blank"
@@ -33,15 +33,6 @@ const TopButtons = () => (
         component="a"
         href="/signup"
         startIcon={<PersonOutlineIcon />}
-        sx={(theme) => ({
-          padding: 1,
-          borderColor: alpha(theme.palette.background.paper, 0.8),
-          color: alpha(theme.palette.background.paper, 0.8),
-          "&:hover,&:active": {
-            borderColor: theme.palette.background.default,
-            color: theme.palette.background.default,
-          },
-        })}
       >
         Регистрация
       </Button>
@@ -113,9 +104,7 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
         <Typography
           variant="body2"
           fontWeight={900}
-          color={
-            !colorInvert && top ? "primary.contrastText" : "primary.textBody"
-          }
+          color={!colorInvert && top ? "primary.dark" : "primary.textBody"}
         >
           {currentUser.name != null ? currentUser.name : currentUser.email}
         </Typography>
@@ -125,7 +114,7 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
           onClick={logout}
           startIcon={<LogoutIcon />}
           fullWidth
-          variant="contained"
+          variant="outlined"
           color="primary"
         >
           Выход

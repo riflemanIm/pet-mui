@@ -8,7 +8,7 @@ import AppBar from "@mui/material/AppBar";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 
 import Container from "components/Container";
-//import TopNav from "components/TopNav";
+import TopNav from "components/TopNav";
 
 import { Topbar, Sidebar, Footer } from "./components";
 
@@ -71,18 +71,18 @@ const Main = ({
 
   return (
     <Box>
-      {/* <Box bgcolor={bgcolor} position={"relative"} zIndex={theme.zIndex.appBar}>
+      <Box bgcolor={bgcolor} position={"relative"} zIndex={theme.zIndex.appBar}>
         <Container paddingTop={"8px !important"} paddingBottom={"0 !important"}>
           <TopNav colorInvert={colorInvert} />
         </Container>
-      </Box> */}
+      </Box>
       <AppBar
         position={"sticky"}
         sx={{
           top: 0,
           backgroundColor: trigger
-            ? theme.palette.primary.main
-            : theme.palette.secondary.main,
+            ? theme.palette.background.level1
+            : theme.palette.background.level2,
         }}
         elevation={trigger ? 1 : 0}
       >

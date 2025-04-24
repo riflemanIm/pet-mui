@@ -14,13 +14,15 @@ const ShoppingCartButton = () => {
   );
   return (
     <IconButton
-      color="inherit"
       aria-haspopup="true"
       aria-controls="mail-menu"
       //onClick={handleOpenMenu}
       //className={classes.headerMenuButton}
       component="a"
       href="/cart"
+      sx={{
+        color: "primary.light",
+      }}
     >
       <Badge badgeContent={total} color="warning">
         <ShoppingCartIcon />

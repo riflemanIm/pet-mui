@@ -31,9 +31,9 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
         <Box
           component={"img"}
           src={
-            mode === "light" && !colorInvert
-              ? "/images/logo_shepherd_light.svg"
-              : "/images/logo_shepherd_navy.svg"
+            mode === "light"
+              ? "/images/logo_shepherd_navy.svg"
+              : "/images/logo_shepherd_light.svg"
           }
           height={1}
           width={1}
@@ -45,7 +45,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             главная
@@ -56,7 +56,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/catalog"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             каталог
@@ -67,7 +67,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/about"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             о нас
@@ -78,7 +78,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/map"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             на карте
@@ -89,7 +89,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="/contacts"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
             контакты
@@ -117,7 +117,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             underline="none"
             component="a"
             href="mailto:info@baaahs.org?subject=Writing%20from%20the%20web"
-            color={colorInvert ? "common.white" : "primary.contrastText"}
+            color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center" }}
           >
             <IconEmail />

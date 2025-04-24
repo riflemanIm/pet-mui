@@ -19,6 +19,7 @@ import img6 from "assets/images/hero/54742642.jpg";
 import img7 from "assets/images/hero/98293007.jpg";
 import img8 from "assets/images/hero/49075129.jpg";
 import img9 from "assets/images/hero/57706547.jpg";
+import Container from "components/Container";
 
 // Массив с объединёнными данными для каждого слайда
 const slides = [
@@ -147,56 +148,58 @@ class ImageSlider extends Component {
     };
 
     return (
-      <Box
-        sx={{
-          backgroundImage: `linear-gradient(to bottom, ${alpha(
-            theme.palette.background.paper,
-            0
-          )}, ${alpha(theme.palette.alternate.main, 1)} 100%)`,
-          position: "relative",
+      <Container>
+        <Box
+          sx={{
+            backgroundImage: `linear-gradient(to bottom, ${alpha(
+              theme.palette.background.paper,
+              0
+            )}, ${alpha(theme.palette.alternate.main, 1)} 100%)`,
+            position: "relative",
 
-          padding: "2rem 0",
-          overflow: "hidden",
-        }}
-      >
-        <Typography
-          variant="h5"
-          color="text.primary"
-          textAlign="center"
-          sx={{ marginBottom: "1rem", fontWeight: 600 }}
+            padding: "2rem 0",
+            overflow: "hidden",
+          }}
         >
-          Мы готовы доставить наш продукт в любую точку России и мира.
-        </Typography>
-        <Box sx={{ "& .slick-dots": { zIndex: 5 } }}>
-          <Slider {...settings}>
-            {slides.map((slide, index) => (
-              <Box
-                key={index}
-                sx={{
-                  position: "relative",
-                  width: "100%",
-                  height: 500,
-                  zIndex: -30,
-                  overflow: "hidden",
-                  backgroundImage: `url("${slide.image.src || slide.image}")`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center center",
-                }}
-              >
+          <Typography
+            variant="h5"
+            color="text.primary"
+            textAlign="center"
+            sx={{ marginBottom: "1rem", fontWeight: 600 }}
+          >
+            Мы готовы доставить наш продукт в любую точку России и мира.
+          </Typography>
+          <Box sx={{ "& .slick-dots": { zIndex: 5 } }}>
+            <Slider {...settings}>
+              {slides.map((slide, index) => (
                 <Box
+                  key={index}
                   sx={{
-                    position: "absolute",
-                    bottom: "0%",
-                    right: "2%",
-                    transform: "translate(-50%, -50%)",
-                    textAlign: "center",
-                    color: "#fff",
-                    backgroundColor: "hsla(0, 30.40%, 95.50%, 0.70)",
-                    padding: "1rem",
-                    zIndex: 1000,
+                    position: "relative",
+                    width: "100%",
+                    height: 500,
+                    zIndex: -30,
+                    overflow: "hidden",
+                    backgroundImage: `url("${slide.image.src || slide.image}")`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center center",
+                    borderRadius: 4,
                   }}
                 >
-                  {/* <Typography
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      bottom: "0%",
+                      right: "2%",
+                      transform: "translate(-50%, -50%)",
+                      textAlign: "center",
+                      color: "#fff",
+                      backgroundColor: "hsla(0, 30.40%, 95.50%, 0.70)",
+                      padding: "1rem",
+                      zIndex: 1000,
+                    }}
+                  >
+                    {/* <Typography
                   variant="h1"
                   component="h1"
                   sx={{ fontSize: "3rem", mb: 2 }}
@@ -210,19 +213,19 @@ class ImageSlider extends Component {
                 >
                   {slide.subtitle}
                 </Typography> */}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    href={slide.btnLink}
-                  >
-                    {slide.btnText}
-                  </Button>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      href={slide.btnLink}
+                    >
+                      {slide.btnText}
+                    </Button>
+                  </Box>
                 </Box>
-              </Box>
-            ))}
-          </Slider>
-        </Box>
-        {/* <Box textAlign="center" marginTop="2rem">
+              ))}
+            </Slider>
+          </Box>
+          {/* <Box textAlign="center" marginTop="2rem">
           <Button
             variant="contained"
             color="primary"
@@ -232,27 +235,29 @@ class ImageSlider extends Component {
             Каталог
           </Button>
         </Box> */}
-        <Box
-          component={"svg"}
-          preserveAspectRatio="none"
-          xmlns="http://www.w3.org/2000/svg"
-          x="0px"
-          y="0px"
-          viewBox="0 0 1920 100.1"
-          sx={{
-            width: "100%",
-            marginBottom: theme.spacing(-1),
-            position: "relative",
-            top: theme.spacing(-6),
-            zIndex: 2,
-          }}
-        >
-          <path
-            fill={theme.palette.background.level1}
-            d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"
-          ></path>
+          <Box
+            component={"svg"}
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+            x="0px"
+            y="0px"
+            viewBox="0 0 1920 100.1"
+            sx={{
+              width: "100%",
+              marginBottom: theme.spacing(-1),
+              position: "relative",
+              top: theme.spacing(-4),
+              zIndex: 2,
+              borderRadius: "0 0 24px 24px ",
+            }}
+          >
+            <path
+              fill={theme.palette.background.level1}
+              d="M0,0c0,0,934.4,93.4,1920,0v100.1H0L0,0z"
+            ></path>
+          </Box>
         </Box>
-      </Box>
+      </Container>
     );
   }
 }
