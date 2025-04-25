@@ -1,6 +1,7 @@
 // next.config.js
 module.exports = {
   experimental: {
-    esmExternals: false, // если включено, попробуй отключить
+    esmExternals: true, // если включено, попробуй отключить
+    fontLoaders: [{ loader: "@next/font/google", options: {} }],
   },
 };
