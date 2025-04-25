@@ -7,7 +7,8 @@ import { alpha, useTheme } from "@mui/material/styles";
 import MenuIcon from "@mui/icons-material/Menu";
 import UserAuthButtons from "../UserAuthButtons";
 import ShoppingCartButton from "./components/ShoppingCartButton";
-
+import { IconButton } from "@mui/material";
+import ViewListIcon from "@mui/icons-material/ViewList";
 const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
   const theme = useTheme();
   const { mode } = theme.palette;
@@ -41,14 +42,49 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
       </Box>
       <Box sx={{ display: { xs: "none", md: "flex" } }} alignItems={"center"}>
         <Box marginRight={{ xs: 2, sm: 4 }}>
+          {" "}
+          <Button
+            size="large"
+            variant="outlined"
+            color="primary"
+            component="a"
+            href="/catalog"
+            startIcon={<ViewListIcon />}
+          >
+            Каталог
+          </Button>
+        </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
           <Link
             underline="none"
             component="a"
-            href="/"
+            href='/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"1"}'
             color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            главная
+            Собаки
+          </Link>
+        </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
+          <Link
+            underline="none"
+            component="a"
+            href='/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"2"}'
+            color={colorInvert ? "common.white" : "primary.light"}
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            Кошки
+          </Link>
+        </Box>
+        <Box marginRight={{ xs: 2, sm: 4 }}>
+          <Link
+            underline="none"
+            component="a"
+            href="/catalog?"
+            color={colorInvert ? "common.white" : "primary.light"}
+            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
+          >
+            Твердые корма
           </Link>
         </Box>
         <Box marginRight={{ xs: 2, sm: 4 }}>
@@ -59,40 +95,7 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
             color={colorInvert ? "common.white" : "primary.light"}
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            каталог
-          </Link>
-        </Box>
-        <Box marginRight={{ xs: 2, sm: 4 }}>
-          <Link
-            underline="none"
-            component="a"
-            href="/about"
-            color={colorInvert ? "common.white" : "primary.light"}
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            о нас
-          </Link>
-        </Box>
-        <Box marginRight={{ xs: 2, sm: 4 }}>
-          <Link
-            underline="none"
-            component="a"
-            href="/map"
-            color={colorInvert ? "common.white" : "primary.light"}
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            на карте
-          </Link>
-        </Box>
-        <Box marginRight={{ xs: 2, sm: 4 }}>
-          <Link
-            underline="none"
-            component="a"
-            href="/contacts"
-            color={colorInvert ? "common.white" : "primary.light"}
-            sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
-          >
-            контакты
+            Мягкие корма
           </Link>
         </Box>
       </Box>
@@ -126,24 +129,20 @@ const Topbar = ({ onSidebarOpen, colorInvert = false }) => {
         <UserAuthButtons />
       </Box>
       <Box sx={{ display: { xs: "block", md: "none" } }} alignItems={"center"}>
-        <Button
+        <IconButton
           onClick={() => onSidebarOpen()}
           aria-label="Menu"
           variant={"outlined"}
           sx={{
-            borderRadius: 2,
-            minWidth: "auto",
-            padding: 1,
-            borderColor: alpha(theme.palette.background.paper, 0.5),
-            color: alpha(theme.palette.background.paper, 0.5),
-            "&:hover,&:active": {
-              borderColor: theme.palette.background.default,
-              color: theme.palette.background.default,
+            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+            "&:hover": {
+              backgroundColor: (theme) =>
+                alpha(theme.palette.primary.main, 0.16),
             },
           }}
         >
           <MenuIcon />
-        </Button>
+        </IconButton>
       </Box>
     </Box>
   );

@@ -2,7 +2,7 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 //import PropTypes from "prop-types";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import { Badge, IconButton } from "@mui/material";
+import { alpha, Badge, IconButton } from "@mui/material";
 import { shoppingCartState } from "atoms";
 
 const ShoppingCartButton = () => {
@@ -20,8 +20,13 @@ const ShoppingCartButton = () => {
       //className={classes.headerMenuButton}
       component="a"
       href="/cart"
+      size="large"
+      color="primary"
       sx={{
-        color: "primary.light",
+        backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+        "&:hover": {
+          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.16),
+        },
       }}
     >
       <Badge badgeContent={total} color="warning">

@@ -216,7 +216,7 @@ const ImageSlider = () => {
           0
         )}, ${alpha(theme.palette.alternate.main, 1)} 100%)`,
         position: "relative",
-        padding: "2rem 0",
+        //padding: "2rem 0",
         overflow: "hidden",
       }}
     >

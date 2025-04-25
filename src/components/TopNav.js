@@ -1,10 +1,14 @@
-import React from "react";
-import PropTypes from "prop-types";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
+import PropTypes from "prop-types";
 
 import ThemeModeToggler from "./ThemeModeToggler";
+import { Button, Typography } from "@mui/material";
+// О компании
+// Где купить
+// Контакты
+// Сотрудничество
+// Заводчикам
 
 const TopNav = ({ colorInvert = false }) => {
   return (
@@ -13,12 +17,11 @@ const TopNav = ({ colorInvert = false }) => {
         <Link
           underline="none"
           component="a"
-          href="/demos"
-          color={colorInvert ? "common.white" : "text.primary"}
+          href="/about"
           sx={{ display: "flex", alignItems: "center" }}
         >
-          Demos
-          <Box
+          О компании
+          {/* <Box
             padding={0.5}
             display={"inline-flex"}
             borderRadius={1}
@@ -29,34 +32,52 @@ const TopNav = ({ colorInvert = false }) => {
               variant={"caption"}
               sx={{ color: "common.white", lineHeight: 1 }}
             >
-              new
+              +7 989 777 2000
             </Typography>
-          </Box>
+          </Box> */}
         </Link>
       </Box>
       <Box marginRight={{ xs: 1, sm: 2 }}>
         <Link
           underline="none"
           component="a"
-          href="/blocks"
-          color={colorInvert ? "common.white" : "text.primary"}
+          href="/map"
           sx={{ display: "flex", alignItems: "center" }}
         >
-          Components
+          На карте
         </Link>
       </Box>
       <Box marginRight={{ xs: 1, sm: 2 }}>
-        <Link
-          underline="none"
-          component="a"
-          href="/docs/introduction"
-          color={colorInvert ? "common.white" : "text.primary"}
-        >
-          Docs
+        <Link underline="none" component="a" href="/cooperation">
+          Сотрудничество
+        </Link>
+      </Box>
+      <Box marginRight={{ xs: 1, sm: 2 }}>
+        <Link underline="none" component="a" href="/breeders">
+          Заводчикам
+        </Link>
+      </Box>
+
+      <Box marginRight={{ xs: 1, sm: 2 }}>
+        <Link underline="none" component="a" href="/contacts">
+          Контакты
         </Link>
       </Box>
       <Box>
-        <ThemeModeToggler />
+        <Button
+          component="a"
+          variant="text"
+          href="tel:+79897772000"
+          color="primary"
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            padding: 1,
+            borderRadius: 1,
+          }}
+        >
+          +7 989 777 2000
+        </Button>
       </Box>
     </Box>
   );

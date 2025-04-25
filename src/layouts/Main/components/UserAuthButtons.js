@@ -9,33 +9,42 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { currentUserState, shoppingCartState } from "atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { alpha } from "@mui/material/styles";
+import { IconButton } from "@mui/material";
 
 const TopButtons = () => (
   <>
     <Box marginLeft={4}>
-      <Button
-        variant="outlined"
-        color="primary"
+      <IconButton
+        color="secondary"
         component="a"
-        //target="blank"
         href="/signin"
         size="large"
-        startIcon={<LoginOutlinedIcon />}
+        sx={{
+          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+          "&:hover": {
+            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.16),
+          },
+        }}
       >
-        Вход
-      </Button>
+        <LoginOutlinedIcon />
+      </IconButton>
     </Box>
     <Box marginLeft={4}>
-      <Button
+      <IconButton
         size="large"
         variant="outlined"
-        color="primary"
+        color="secondary"
         component="a"
         href="/signup"
-        startIcon={<PersonOutlineIcon />}
+        sx={{
+          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+          "&:hover": {
+            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.16),
+          },
+        }}
       >
-        Регистрация
-      </Button>
+        <PersonOutlineIcon />
+      </IconButton>
     </Box>
     <Box marginLeft={4}></Box>
   </>
@@ -110,15 +119,22 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
         </Typography>
       </Box>
       <Box ml={top ? 4 : 0} mt={!top ? 2 : 0}>
-        <Button
-          onClick={logout}
-          startIcon={<LogoutIcon />}
-          fullWidth
+        <IconButton
+          size="large"
           variant="outlined"
-          color="primary"
+          color="secondary"
+          onClick={logout}
+          fullWidth
+          sx={{
+            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+            "&:hover": {
+              backgroundColor: (theme) =>
+                alpha(theme.palette.primary.main, 0.16),
+            },
+          }}
         >
-          Выход
-        </Button>
+          <LogoutIcon />
+        </IconButton>
       </Box>
     </>
   );

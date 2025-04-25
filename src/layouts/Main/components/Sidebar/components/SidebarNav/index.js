@@ -48,10 +48,10 @@ const SidebarNav = ({ pages }) => {
           <Link
             underline="none"
             component="a"
-            href="/catalog"
+            href='/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"1"}'
             sx={{ display: "flex", alignItems: "center", fontWeight: "bold" }}
           >
-            каталог
+            Собаки
           </Link>
         </Box>
         <Box my={2}>
