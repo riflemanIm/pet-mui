@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, JSX } from "react";
 //import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -89,7 +89,6 @@ const Main = ({
         <Container paddingY={1}>
           <Topbar
             onSidebarOpen={handleSidebarOpen}
-            pages={pages}
             colorInvert={trigger ? false : colorInvert}
           />
         </Container>

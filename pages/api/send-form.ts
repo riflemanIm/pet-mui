@@ -32,7 +32,7 @@ export default async function handler(
         throw new Error("Error send mail");
       }
     });
-  } catch (error) {
+  } catch (error: any) {
     // unhide to check error
     res.status(500).json({ message: error.message });
   }
