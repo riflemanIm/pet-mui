@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import { withTheme } from "@mui/styles";
+import { withTheme } from "@mui/material/styles";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { alpha } from "@mui/material";
@@ -161,12 +161,7 @@ class ImageSlider extends Component {
             overflow: "hidden",
           }}
         >
-          <Typography
-            variant="h5"
-            color="text.primary"
-            textAlign="center"
-            sx={{ marginBottom: "1rem", fontWeight: 600 }}
-          >
+          <Typography variant="h5" color="text.primary" textAlign="center">
             Мы готовы доставить наш продукт в любую точку России и мира.
           </Typography>
           <Box sx={{ "& .slick-dots": { zIndex: 5 } }}>

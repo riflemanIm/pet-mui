@@ -1,13 +1,20 @@
 import { RecoilRoot, useRecoilSnapshot } from "recoil";
 
-import { useEffect, useState } from "react";
-import { SnackbarProvider } from "notistack";
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import getTheme from "../src/theme";
+import { ThemeProvider } from "@mui/material/styles";
 import { AppProps } from "next/app";
-import "../src/components/Home/components/HeroImageSlider/index.css";
+import { Roboto } from "next/font/google";
+import { SnackbarProvider } from "notistack";
+import { useEffect, useState } from "react";
 import { RecoilURLSyncJSONNext } from "recoil-sync-next";
+import "../src/components/Home/components/HeroImageSlider/index.css";
+import getTheme from "../src/theme";
+
+// Импорт Roboto с нужными весами и подмножествами
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+});
 
 function DebugObserver() {
   const snapshot = useRecoilSnapshot();

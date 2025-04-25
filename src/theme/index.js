@@ -1,7 +1,12 @@
-import { responsiveFontSizes } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
+import { responsiveFontSizes, createTheme } from "@mui/material";
+import { Roboto } from "next/font/google";
 import shadows from "./shadows";
 import { light, dark } from "./palette";
+
+const roboto = Roboto({
+  weight: ["400", "500", "700"],
+  subsets: ["latin"],
+});
 
 const getTheme = (mode, themeToggler) =>
   responsiveFontSizes(
@@ -9,10 +14,27 @@ const getTheme = (mode, themeToggler) =>
       palette: mode === "light" ? light : dark,
       shadows: shadows(mode),
       typography: {
-        fontFamily: '"Inter", sans-serif',
+        fontFamily: `${roboto.style.fontFamily}, Roboto, sans-serif`,
+        h1: { fontSize: "2.5rem" },
+        h2: { fontWeight: 700, fontSize: "2rem" },
+        h3: { fontWeight: 700, fontSize: "1.75rem" },
+        h4: { fontWeight: 400, fontSize: "1.5rem" },
+        h5: { fontWeight: 400, fontSize: "1.25rem" },
+        h6: { fontWeight: 400, fontSize: "1rem" },
+        subtitle1: { fontWeight: 500, fontSize: "1rem" },
+        subtitle2: { fontWeight: 500, fontSize: "0.875rem" },
+        body1: { fontWeight: 400, fontSize: "1rem" },
+        body2: { fontWeight: 400, fontSize: "0.875rem" },
         button: {
+          fontWeight: 500,
+          fontSize: "0.875rem",
           textTransform: "none",
-          fontWeight: "medium",
+        },
+        caption: { fontWeight: 400, fontSize: "0.75rem" },
+        overline: {
+          fontWeight: 400,
+          fontSize: "0.625rem",
+          textTransform: "uppercase",
         },
       },
       zIndex: {
@@ -55,13 +77,25 @@ const getTheme = (mode, themeToggler) =>
             },
           },
         },
-        // MuiOutlinedInput: {
-        //   styleOverrides: {
-        //     root: {
-        //       borderColor: "#edf1f7",
-        //     },
-        //   },
-        // },
+        MuiTypography: {
+          defaultProps: {
+            variantMapping: {
+              h1: "h1",
+              h2: "h2",
+              h3: "h3",
+              h4: "h4",
+              h5: "h5",
+              h6: "h6",
+              subtitle1: "h6",
+              subtitle2: "h6",
+              body1: "p",
+              body2: "p",
+              caption: "span",
+              button: "span",
+              overline: "span",
+            },
+          },
+        },
       },
       themeToggler,
     })
