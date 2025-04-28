@@ -157,11 +157,11 @@ const ImageSlider = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 2500,
+    speed: 3500,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 4500,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [
@@ -171,7 +171,7 @@ const ImageSlider = () => {
       },
       {
         breakpoint: theme.breakpoints.values.sm,
-        settings: { arrows: false, dots: false, autoplaySpeed: 4000 },
+        settings: { arrows: false, dots: false, autoplaySpeed: 5500 },
       },
     ],
   };
