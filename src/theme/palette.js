@@ -3,7 +3,7 @@ const lighterenRate = 1.5;
 const lightenRate = 7.5;
 const darkenRate = 15;
 const darkerRate = 30;
-const PRIMARY = "#342F4F";
+const PRIMARY = "#2c4464";
 const SECONDARY = "#2c4464";
 export const light = {
   alternate: {
