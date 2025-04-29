@@ -1,68 +1,57 @@
+import React from "react";
 import Box from "@mui/material/Box";
 import Link from "@mui/material/Link";
 import PropTypes from "prop-types";
-
-import ThemeModeToggler from "./ThemeModeToggler";
-import { Button, Typography } from "@mui/material";
-// О компании
-// Где купить
-// Контакты
-// Сотрудничество
-// Заводчикам
+import { Button } from "@mui/material";
 
 const TopNav = ({ colorInvert = false }) => {
   return (
-    <Box display={"flex"} justifyContent={"flex-end"} alignItems={"center"}>
-      <Box m={{ xs: 1, sm: 2 }}>
-        <Link
-          underline="none"
-          component="a"
-          href="/about"
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          О компании
-          {/* <Box
-            padding={0.5}
-            display={"inline-flex"}
-            borderRadius={1}
-            bgcolor={"primary.main"}
-            marginLeft={1}
+    <Box display="flex" justifyContent="flex-end" alignItems="center">
+      {/* Desktop & tablet: hide on xs */}
+      <Box
+        sx={{
+          display: { xs: "none", sm: "flex" },
+          alignItems: "center",
+        }}
+      >
+        <Box m={{ xs: 1, sm: 2 }}>
+          <Link
+            underline="none"
+            component="a"
+            href="/about"
+            sx={{ display: "flex", alignItems: "center" }}
           >
-            <Typography
-              variant={"caption"}
-              sx={{ color: "common.white", lineHeight: 1 }}
-            >
-              +7 989 777 2000
-            </Typography>
-          </Box> */}
-        </Link>
-      </Box>
-      <Box marginRight={{ xs: 1, sm: 2 }}>
-        <Link
-          underline="none"
-          component="a"
-          href="/map"
-          sx={{ display: "flex", alignItems: "center" }}
-        >
-          На карте
-        </Link>
-      </Box>
-      <Box marginRight={{ xs: 1, sm: 2 }}>
-        <Link underline="none" component="a" href="/cooperation">
-          Сотрудничество
-        </Link>
-      </Box>
-      <Box marginRight={{ xs: 1, sm: 2 }}>
-        <Link underline="none" component="a" href="/breeders">
-          Заводчикам
-        </Link>
+            О компании
+          </Link>
+        </Box>
+        <Box mr={{ xs: 1, sm: 2 }}>
+          <Link
+            underline="none"
+            component="a"
+            href="/map"
+            sx={{ display: "flex", alignItems: "center" }}
+          >
+            На карте
+          </Link>
+        </Box>
+        <Box mr={{ xs: 1, sm: 2 }}>
+          <Link underline="none" component="a" href="/cooperation">
+            Сотрудничество
+          </Link>
+        </Box>
+        <Box mr={{ xs: 1, sm: 2 }}>
+          <Link underline="none" component="a" href="/breeders">
+            Заводчикам
+          </Link>
+        </Box>
+        <Box mr={{ xs: 1, sm: 2 }}>
+          <Link underline="none" component="a" href="/contacts">
+            Контакты
+          </Link>
+        </Box>
       </Box>
 
-      <Box marginRight={{ xs: 1, sm: 2 }}>
-        <Link underline="none" component="a" href="/contacts">
-          Контакты
-        </Link>
-      </Box>
+      {/* Always visible */}
       <Box>
         <Button
           component="a"
