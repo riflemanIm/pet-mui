@@ -12,7 +12,6 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Kubtel 2 React base styles
 import colors from "theme/base/colors";
 import borders from "theme/base/borders";
 import boxShadows from "theme/base/boxShadows";

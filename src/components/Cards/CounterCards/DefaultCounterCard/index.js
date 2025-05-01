@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 // react-countup component
 import CountUp from "react-countup";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 

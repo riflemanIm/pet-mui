@@ -19,7 +19,7 @@ import Icon from "@mui/material/Icon";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
-// Kubtel 2 React components
+//
 import MKButton from "components/MKButton";
 
 function Dropdown({ isUp = false, options }) {

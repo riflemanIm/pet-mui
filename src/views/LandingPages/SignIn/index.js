@@ -15,7 +15,7 @@
 import { useState } from "react";
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 // @mui material components
 import Card from "@mui/material/Card";
@@ -28,13 +28,12 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 
-// Kubtel 2 React example components
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import SimpleFooter from "components/Footers/SimpleFooter";
 

@@ -18,11 +18,11 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 // react-copy-to-clipboard components
-import { CopyToClipboard } from "react-copy-to-clipboard";
+// import { CopyToClipboard } from "react-copy-to-clipboard";
 
 // react-syntax-highlighter components
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
-import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
+// import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+// import { prism } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 // @mui material components
 import Grid from "@mui/material/Grid";
@@ -31,13 +31,12 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Slide from "@mui/material/Slide";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKAlert from "components/MKAlert";
 import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React base styles
 import colors from "theme/base/colors";
 
 function View({ children, code, title, height, ...rest }) {
@@ -129,7 +128,7 @@ function View({ children, code, title, height, ...rest }) {
           borderRadius="xl"
           sx={{ overflow: "hidden" }}
         >
-          <CopyToClipboard text={code}>
+          {/* <CopyToClipboard text={code}>
             <MKButton
               variant="gradient"
               color="dark"
@@ -139,7 +138,7 @@ function View({ children, code, title, height, ...rest }) {
             >
               <MKBox color="white" mr={0.5} className="fas fa-copy" /> Copy
             </MKButton>
-          </CopyToClipboard>
+          </CopyToClipboard> */}
           <Slide direction="down" in={success} unmountOnExit>
             <MKBox position="absolute" top="0.5rem" left={0} width="100%">
               <MKAlert
@@ -162,7 +161,7 @@ function View({ children, code, title, height, ...rest }) {
               </MKAlert>
             </MKBox>
           </Slide>
-          <SyntaxHighlighter
+          {/* <SyntaxHighlighter
             language="jsx"
             style={prism}
             showLineNumbers
@@ -177,7 +176,7 @@ function View({ children, code, title, height, ...rest }) {
             }}
           >
             {code}
-          </SyntaxHighlighter>
+          </SyntaxHighlighter> */}
         </MKBox>
       </MKBox>
     </MKBox>

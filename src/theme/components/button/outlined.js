@@ -13,13 +13,14 @@
 */
 
 // Kubtel 2 React Base Styles
+import { color } from "@mui/system";
 import colors from "theme/base/colors";
 import typography from "theme/base/typography";
 
 // Kubtel 2 React Helper Functions
 import pxToRem from "theme/functions/pxToRem";
 
-const { transparent, light, info, secondary } = colors;
+const { transparent, light, primary, secondary } = colors;
 const { size } = typography;
 
 export default {
@@ -61,8 +62,8 @@ export default {
 
   primary: {
     backgroundColor: transparent.main,
-    borderColor: info.main,
-
+    borderColor: primary.main,
+    color: primary.main,
     "&:hover": {
       backgroundColor: transparent.main,
     },

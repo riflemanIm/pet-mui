@@ -50,7 +50,7 @@ export default async function handler(req, res) {
     const allImgs = [];
     const mainImgs = [];
 
-    const path = `${__dirname}/../../../../public/images/catalog`;
+    const path = `${__dirname}/public/images/catalog`;
     foods.forEach(async (item, inx) => {
       //console.log(inx, "-----", fileName(item.imgUrl));
       // downloadFile(destFile, item.imgUrl);

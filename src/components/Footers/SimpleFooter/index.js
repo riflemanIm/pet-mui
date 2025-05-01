@@ -20,11 +20,10 @@ import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React base styles
 import typography from "theme/base/typography";
 
 function SimpleFooter({ company, links, light }) {

@@ -16,11 +16,11 @@
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React components
+//
 import TransparentBlogCard from "components/Cards/BlogCards/TransparentBlogCard";
 import BackgroundBlogCard from "components/Cards/BlogCards/BackgroundBlogCard";
 

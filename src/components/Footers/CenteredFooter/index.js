@@ -27,7 +27,7 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import PinterestIcon from "@mui/icons-material/Pinterest";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 

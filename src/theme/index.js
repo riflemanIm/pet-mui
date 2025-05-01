@@ -17,7 +17,6 @@
 import { createTheme } from "@mui/material/styles";
 // import Fade from "@mui/material/Fade";
 
-// Kubtel 2 React base styles
 import colors from "theme/base/colors";
 import breakpoints from "theme/base/breakpoints";
 import typography from "theme/base/typography";
@@ -32,7 +31,7 @@ import linearGradient from "theme/functions/linearGradient";
 import pxToRem from "theme/functions/pxToRem";
 import rgba from "theme/functions/rgba";
 
-// Kubtel 2 React components base styles for @mui material components
+//  base styles for @mui material components
 import list from "theme/components/list";
 import listItem from "theme/components/list/listItem";
 import listItemText from "theme/components/list/listItemText";

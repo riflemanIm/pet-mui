@@ -18,11 +18,11 @@ import PropTypes from "prop-types";
 // @mui material components
 import Icon from "@mui/material/Icon";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 function DefaultInfoCard({
   color,

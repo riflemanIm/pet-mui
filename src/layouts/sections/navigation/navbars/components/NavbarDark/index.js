@@ -13,7 +13,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 
 // Kubtel 2 React examples

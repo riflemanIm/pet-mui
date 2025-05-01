@@ -1,10 +1,10 @@
 {
-  "name": "kubtel",
+  "name": "shepherd",
   "version": "0.1.0",
   "private": true,
   "author": "Oleg La",
-  "license": "See license in https://kubtel.ru/license",
-  "description": "React version of Kubtel 2 by Oleg La",
+  "license": "See license in https://shepherd.ru/license",
+  "description": "Shepherd by Oleg Lambin",
   "dependencies": {
     "@emotion/cache": "11.11.0",
     "@emotion/react": "11.11.3",
@@ -39,16 +39,10 @@
     "prettify": "prettier --write ."
   },
   "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
+    "extends": ["react-app"]
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
+    "production": [">0.2%", "not dead", "not op_mini all"],
     "development": [
       "last 1 chrome version",
       "last 1 firefox version",

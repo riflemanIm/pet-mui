@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Card from "@mui/material/Card";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 
 function RotatingCard({ children }) {

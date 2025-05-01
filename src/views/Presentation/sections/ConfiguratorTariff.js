@@ -13,13 +13,13 @@
 */
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 // @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKBadge from "components/MKBadge";
 import MKTypography from "components/MKTypography";

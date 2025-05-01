@@ -1,4 +1,4 @@
-const navbarDarkCode = `// Kubtel 2 React components
+const navbarDarkCode = `// 
 import MKBox from "components/MKBox";
 
 // Kubtel 2 React examples

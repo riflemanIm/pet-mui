@@ -15,7 +15,7 @@
 import { useState } from "react";
 
 // react-router components
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
@@ -24,11 +24,10 @@ import PropTypes from "prop-types";
 import Collapse from "@mui/material/Collapse";
 import MuiLink from "@mui/material/Link";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React example components
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 
 function DefaultNavbarMobile({ routes, open }) {

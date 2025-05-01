@@ -2,7 +2,7 @@ const typographyCode = `// @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 
-// Kubtel 2 React components
+// 
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 

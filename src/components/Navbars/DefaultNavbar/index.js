@@ -13,35 +13,33 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { Fragment, useState, useEffect } from "react";
+import { Fragment, useEffect, useState } from "react";
 
 // react-router components
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
 // @mui material components
 import Container from "@mui/material/Container";
-import Icon from "@mui/material/Icon";
-import Popper from "@mui/material/Popper";
-import Grow from "@mui/material/Grow";
-import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
+import Grid from "@mui/material/Grid";
+import Grow from "@mui/material/Grow";
+import Icon from "@mui/material/Icon";
 import MuiLink from "@mui/material/Link";
+import Popper from "@mui/material/Popper";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-import Dropdown from "components/Dropdown";
 
-// Kubtel 2 React example components
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
 
-// Kubtel 2 React base styles
+import { Button } from "@mui/material";
+import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
 import breakpoints from "theme/base/breakpoints";
-import logokubtel from "assets/images/logos/logo-kubtel.svg";
 function DefaultNavbar({
   brand,
   routes,
@@ -514,10 +512,13 @@ function DefaultNavbar({
           <MKBox component={Link} to="/">
             <MKBox
               component="img"
-              src={logokubtel}
-              alt="logokubtel"
-              width="70%"
+              src={logo.src}
+              alt="logo"
+              width="62%"
               opacity={1}
+              sx={{
+                mt: 0.8,
+              }}
             />
           </MKBox>
           <MKBox
@@ -529,26 +530,16 @@ function DefaultNavbar({
             {renderNavbarItems}
           </MKBox>
           <MKBox ml={{ xs: "auto", lg: 0 }}>
-            <Dropdown
-              options={[
-                { value: 4, title: "Краснодар" },
-                { value: 5, title: "Динская" },
-                { value: 6, title: "Славянск-на-Кубани" },
-                { value: 7, title: "Анапа" },
-                { value: 11, title: "Каневская" },
-                { value: 14, title: "Тимашевск" },
-                { value: 19, title: "Архипо-Осиповка" },
-                { value: 20, title: "Яблоновский" },
-                { value: 21, title: "Тлюстенхабль" },
-                { value: 22, title: "Агроном" },
-                { value: 23, title: "Дружелюбный" },
-                { value: 25, title: "Новоминская" },
-                { value: 26, title: "Новая Адыгея" },
-                { value: 27, title: "Тугургой" },
-                { value: 29, title: "Крепостная" },
-                { value: 30, title: "Стародеревянковская" },
-              ]}
-            />
+            <Button
+              color="primary"
+              size="large"
+              variant="contained"
+              component={Link}
+              href={"#"}
+              fullWidth
+            >
+              Каталог
+            </Button>
           </MKBox>
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}

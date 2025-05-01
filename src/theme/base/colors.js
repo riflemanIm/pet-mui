@@ -1,16 +1,4 @@
-/**
-=========================================================
-* Kubtel 2 React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
+import { alpha } from "@mui/system";
 
 /**
  * The base colors for the Kubtel 2 React.
@@ -29,7 +17,7 @@ export default {
   },
 
   transparent: {
-    main: "transparent",
+    main: alpha("#fff", 0),
   },
 
   white: {
@@ -44,8 +32,8 @@ export default {
   },
 
   primary: {
-    main: "#F40080",
-    focus: "#F40080",
+    main: "#852E2E",
+    focus: "#783333",
   },
 
   secondary: {

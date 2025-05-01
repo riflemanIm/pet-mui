@@ -19,7 +19,7 @@ import typography from "theme/base/typography";
 // Kubtel 2 React Helper Functions
 import pxToRem from "theme/functions/pxToRem";
 
-const { white, text, info, secondary } = colors;
+const { white, text, primary, secondary } = colors;
 const { size } = typography;
 
 export default {
@@ -63,14 +63,14 @@ export default {
   },
 
   primary: {
-    backgroundColor: info.main,
-
+    backgroundColor: primary.main,
+    color: white.main,
     "&:hover": {
-      backgroundColor: info.main,
+      backgroundColor: primary.focus,
     },
 
     "&:focus:not(:hover)": {
-      backgroundColor: info.focus,
+      backgroundColor: primary.focus,
     },
   },
 

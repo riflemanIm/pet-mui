@@ -20,7 +20,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Fade from "@mui/material/Fade";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 
 // Custom styles for the MKAlert

@@ -18,7 +18,7 @@ import PropTypes from "prop-types";
 // @mui material components
 import Icon from "@mui/material/Icon";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKAvatar from "components/MKAvatar";
 import MKTypography from "components/MKTypography";

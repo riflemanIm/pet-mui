@@ -13,7 +13,7 @@
 */
 
 // react-router components
-import { Link } from "react-router-dom";
+import Link from "@mui/material/Link";
 
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
@@ -23,7 +23,7 @@ import Card from "@mui/material/Card";
 import MuiLink from "@mui/material/Link";
 import Icon from "@mui/material/Icon";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 

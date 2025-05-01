@@ -15,7 +15,7 @@
 // @mui material components
 import Card from "@mui/material/Card";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 
 // Kubtel 2 React examples

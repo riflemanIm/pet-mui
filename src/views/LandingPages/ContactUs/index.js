@@ -15,7 +15,7 @@
 // @mui material components
 import Grid from "@mui/material/Grid";
 
-// Kubtel 2 React components
+//
 import MKBox from "components/MKBox";
 import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
