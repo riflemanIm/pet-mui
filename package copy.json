@@ -1,0 +1,78 @@
+{
+  "name": "kubtel",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Oleg La",
+  "license": "See license in https://kubtel.ru/license",
+  "description": "React version of Kubtel 2 by Oleg La",
+  "dependencies": {
+    "@emotion/cache": "11.11.0",
+    "@emotion/react": "11.11.3",
+    "@emotion/styled": "11.11.0",
+    "@mui/icons-material": "5.15.10",
+    "@mui/material": "5.15.10",
+    "@mui/styled-engine": "5.15.9",
+    "@testing-library/jest-dom": "6.4.2",
+    "@testing-library/react": "14.2.1",
+    "@testing-library/user-event": "14.5.2",
+    "chroma-js": "2.4.2",
+    "flatpickr": "4.6.13",
+    "prop-types": "15.8.1",
+    "react": "18.2.0",
+    "react-copy-to-clipboard": "5.1.0",
+    "react-countup": "6.5.0",
+    "react-dom": "18.2.0",
+    "react-flatpickr": "3.10.13",
+    "react-router-dom": "6.22.1",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "15.5.0",
+    "web-vitals": "3.5.2",
+    "tinycolor2": "^1.5.2",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "eslint ./src",
+    "prettify": "prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@emotion/babel-preset-css-prop": "^11.10.0",
+    "@types/react": "^18.2.28",
+    "@types/react-dom": "^18.2.13",
+    "@types/react-helmet": "^6.1.7",
+    "@types/tinycolor2": "^1.4.4",
+    "@types/typography": "^0.16.5",
+    "@typescript-eslint/eslint-plugin": "^6.7.5",
+    "@typescript-eslint/parser": "^6.7.5",
+    "eslint": "^8.51.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.28.1",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "overrides": {
+    "strip-ansi": "6.0.0"
+  }
+}

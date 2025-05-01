@@ -1,104 +1,158 @@
-import { responsiveFontSizes, createTheme } from "@mui/material";
-import { Roboto } from "next/font/google";
-import shadows from "./shadows";
-import { light, dark } from "./palette";
+/**
+=========================================================
+* Kubtel 2 React - v2.1.0
+=========================================================
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
+* Product Page: https://kubtel.ru/product/soft-ui-dashboard-pro-material-ui
+* Copyright 2023 Oleg La (https://kubtel.ru)
+
+
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+
+// @mui material components
+import { createTheme } from "@mui/material/styles";
+// import Fade from "@mui/material/Fade";
+
+// Kubtel 2 React base styles
+import colors from "theme/base/colors";
+import breakpoints from "theme/base/breakpoints";
+import typography from "theme/base/typography";
+import boxShadows from "theme/base/boxShadows";
+import borders from "theme/base/borders";
+import globals from "theme/base/globals";
+
+// Kubtel 2 React helper functions
+import boxShadow from "theme/functions/boxShadow";
+import hexToRgb from "theme/functions/hexToRgb";
+import linearGradient from "theme/functions/linearGradient";
+import pxToRem from "theme/functions/pxToRem";
+import rgba from "theme/functions/rgba";
+
+// Kubtel 2 React components base styles for @mui material components
+import list from "theme/components/list";
+import listItem from "theme/components/list/listItem";
+import listItemText from "theme/components/list/listItemText";
+import card from "theme/components/card";
+import cardMedia from "theme/components/card/cardMedia";
+import cardContent from "theme/components/card/cardContent";
+import button from "theme/components/button";
+import iconButton from "theme/components/iconButton";
+import input from "theme/components/form/input";
+import inputLabel from "theme/components/form/inputLabel";
+import inputOutlined from "theme/components/form/inputOutlined";
+import textField from "theme/components/form/textField";
+import menu from "theme/components/menu";
+import menuItem from "theme/components/menu/menuItem";
+import switchButton from "theme/components/form/switchButton";
+import divider from "theme/components/divider";
+import tableContainer from "theme/components/table/tableContainer";
+import tableHead from "theme/components/table/tableHead";
+import tableCell from "theme/components/table/tableCell";
+import linearProgress from "theme/components/linearProgress";
+import breadcrumbs from "theme/components/breadcrumbs";
+import slider from "theme/components/slider";
+import avatar from "theme/components/avatar";
+import tooltip from "theme/components/tooltip";
+import appBar from "theme/components/appBar";
+import tabs from "theme/components/tabs";
+import tab from "theme/components/tabs/tab";
+import stepper from "theme/components/stepper";
+import step from "theme/components/stepper/step";
+import stepConnector from "theme/components/stepper/stepConnector";
+import stepLabel from "theme/components/stepper/stepLabel";
+import stepIcon from "theme/components/stepper/stepIcon";
+import select from "theme/components/form/select";
+import formControlLabel from "theme/components/form/formControlLabel";
+import formLabel from "theme/components/form/formLabel";
+import checkbox from "theme/components/form/checkbox";
+import radio from "theme/components/form/radio";
+import autocomplete from "theme/components/form/autocomplete";
+import flatpickr from "theme/components/flatpickr";
+import container from "theme/components/container";
+import popover from "theme/components/popover";
+import buttonBase from "theme/components/buttonBase";
+import icon from "theme/components/icon";
+import svgIcon from "theme/components/svgIcon";
+import link from "theme/components/link";
+import dialog from "theme/components/dialog";
+import dialogTitle from "theme/components/dialog/dialogTitle";
+import dialogContent from "theme/components/dialog/dialogContent";
+import dialogContentText from "theme/components/dialog/dialogContentText";
+import dialogActions from "theme/components/dialog/dialogActions";
+
+export default createTheme({
+  breakpoints: { ...breakpoints },
+  palette: { ...colors },
+  typography: { ...typography },
+  boxShadows: { ...boxShadows },
+  borders: { ...borders },
+  functions: {
+    boxShadow,
+    hexToRgb,
+    linearGradient,
+    pxToRem,
+    rgba,
+  },
+
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        ...globals,
+        ...flatpickr,
+        ...container,
+      },
+    },
+    MuiList: { ...list },
+    MuiListItem: { ...listItem },
+    MuiListItemText: { ...listItemText },
+    MuiCard: { ...card },
+    MuiCardMedia: { ...cardMedia },
+    MuiCardContent: { ...cardContent },
+    MuiButton: { ...button },
+    MuiIconButton: { ...iconButton },
+    MuiInput: { ...input },
+    MuiInputLabel: { ...inputLabel },
+    MuiOutlinedInput: { ...inputOutlined },
+    MuiTextField: { ...textField },
+    MuiMenu: { ...menu },
+    MuiMenuItem: { ...menuItem },
+    MuiSwitch: { ...switchButton },
+    MuiDivider: { ...divider },
+    MuiTableContainer: { ...tableContainer },
+    MuiTableHead: { ...tableHead },
+    MuiTableCell: { ...tableCell },
+    MuiLinearProgress: { ...linearProgress },
+    MuiBreadcrumbs: { ...breadcrumbs },
+    MuiSlider: { ...slider },
+    MuiAvatar: { ...avatar },
+    MuiTooltip: { ...tooltip },
+    MuiAppBar: { ...appBar },
+    MuiTabs: { ...tabs },
+    MuiTab: { ...tab },
+    MuiStepper: { ...stepper },
+    MuiStep: { ...step },
+    MuiStepConnector: { ...stepConnector },
+    MuiStepLabel: { ...stepLabel },
+    MuiStepIcon: { ...stepIcon },
+    MuiSelect: { ...select },
+    MuiFormControlLabel: { ...formControlLabel },
+    MuiFormLabel: { ...formLabel },
+    MuiCheckbox: { ...checkbox },
+    MuiRadio: { ...radio },
+    MuiAutocomplete: { ...autocomplete },
+    MuiPopover: { ...popover },
+    MuiButtonBase: { ...buttonBase },
+    MuiIcon: { ...icon },
+    MuiSvgIcon: { ...svgIcon },
+    MuiLink: { ...link },
+    MuiDialog: { ...dialog },
+    MuiDialogTitle: { ...dialogTitle },
+    MuiDialogContent: { ...dialogContent },
+    MuiDialogContentText: { ...dialogContentText },
+    MuiDialogActions: { ...dialogActions },
+  },
 });
-
-const getTheme = (mode, themeToggler) =>
-  responsiveFontSizes(
-    createTheme({
-      palette: mode === "light" ? light : dark,
-      shadows: shadows(mode),
-      typography: {
-        fontFamily: `${roboto.style.fontFamily}, Roboto, sans-serif`,
-        h1: { fontSize: "2.5rem" },
-        h2: { fontWeight: 700, fontSize: "2rem" },
-        h3: { fontWeight: 700, fontSize: "1.85rem" },
-        h4: { fontWeight: 400, fontSize: "1.8rem" },
-        h5: { fontWeight: 400, fontSize: "1.25rem" },
-        h6: { fontWeight: 400, fontSize: "1rem" },
-        subtitle1: { fontWeight: 500, fontSize: "1rem" },
-        subtitle2: { fontWeight: 500, fontSize: "0.875rem" },
-        body1: { fontWeight: 400, fontSize: "1rem" },
-        body2: { fontWeight: 400, fontSize: "0.875rem" },
-        button: {
-          fontWeight: 500,
-          fontSize: "0.875rem",
-          textTransform: "none",
-        },
-        caption: { fontWeight: 400, fontSize: "0.75rem" },
-        overline: {
-          fontWeight: 400,
-          fontSize: "0.625rem",
-          textTransform: "uppercase",
-        },
-      },
-      zIndex: {
-        appBar: 1200,
-        drawer: 1300,
-      },
-      components: {
-        MuiButton: {
-          styleOverrides: {
-            root: {
-              fontWeight: 400,
-              borderRadius: 5,
-              paddingTop: 10,
-              paddingBottom: 10,
-            },
-            containedSecondary: mode === "light" ? { color: "white" } : {},
-          },
-        },
-        MuiInputBase: {
-          styleOverrides: {
-            root: {
-              borderRadius: 5,
-            },
-          },
-        },
-        MuiOutlinedInput: {
-          styleOverrides: {
-            root: {
-              borderRadius: 5,
-            },
-            input: {
-              borderRadius: 5,
-            },
-          },
-        },
-        MuiCard: {
-          styleOverrides: {
-            root: {
-              borderRadius: 8,
-            },
-          },
-        },
-        MuiTypography: {
-          defaultProps: {
-            variantMapping: {
-              h1: "h1",
-              h2: "h2",
-              h3: "h3",
-              h4: "h4",
-              h5: "h5",
-              h6: "h6",
-              subtitle1: "h6",
-              subtitle2: "h6",
-              body1: "p",
-              body2: "p",
-              caption: "span",
-              button: "span",
-              overline: "span",
-            },
-          },
-        },
-      },
-      themeToggler,
-    })
-  );
-
-export default getTheme;

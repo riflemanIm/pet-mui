@@ -1,9 +1,10 @@
 import React from "react";
-import IndexView from "components/Home";
+
+import Presentation from "views/Presentation";
 import { NextPage } from "next";
 
 const Home: NextPage = () => {
-  return <IndexView />;
+  return <Presentation />;
 };
 
 export default Home;
