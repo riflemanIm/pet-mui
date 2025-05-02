@@ -22,7 +22,7 @@ export default {
 
   white: {
     main: "#ffffff",
-    focus: "#ffffff",
+    focus: "#EEF6FF",
   },
 
   black: {

@@ -129,7 +129,7 @@ const IndexViewCategories = () => {
                     width={200}
                     height={200}
                     marginBottom={2}
-                    bgcolor={theme.palette.primary.main}
+                    bgcolor={theme.palette.grey[400]}
                     color={theme.palette.background.paper}
                     alignSelf="center"
                     src={item.icon}
