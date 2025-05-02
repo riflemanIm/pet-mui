@@ -1,3 +1,4 @@
+import { alpha } from "@mui/system";
 import colors from "theme/base/colors";
 import typography from "theme/base/typography";
 
@@ -15,7 +16,7 @@ export default {
     padding: `${pxToRem(10)} ${pxToRem(24)}`,
 
     "&:hover": {
-      backgroundColor: primary.main,
+      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.8),
     },
 
     "&:active, &:active:focus, &:active:hover": {
@@ -51,11 +52,7 @@ export default {
     backgroundColor: primary.main,
     color: white.main,
     "&:hover": {
-      backgroundColor: primary.focus,
-    },
-
-    "&:focus:not(:hover)": {
-      backgroundColor: primary.focus,
+      backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.8),
     },
   },
 
@@ -63,7 +60,7 @@ export default {
     backgroundColor: secondary.main,
 
     "&:hover": {
-      backgroundColor: secondary.main,
+      backgroundColor: (theme) => alpha(theme.palette.secondary.main, 0.8),
     },
 
     "&:focus:not(:hover)": {

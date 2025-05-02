@@ -220,6 +220,37 @@ const routes = [
   //   ],
   // },
   {
+    name: "Партнерам",
+    icon: <PersonIcon />,
+
+    dropdown: true,
+    collapse: [
+      {
+        name: "Частным лицам",
+        description: "Промо-акции",
+        route: "/sections/elements/avatars",
+        component: <Avatars />,
+      },
+
+      {
+        name: "Компаниям",
+        description: "Сотрудничество юр. лицами",
+        route: "/sections/navigation/navbars",
+        component: <Navbars />,
+      },
+      {
+        name: "Оптовые закупки",
+        route: "/sections/navigation/nav-tabs",
+        component: <NavTabs />,
+      },
+      {
+        name: "Партнерская программа",
+        route: "/sections/navigation/pagination",
+        component: <Pagination />,
+      },
+    ],
+  },
+  {
     name: "О Нас",
     icon: <BubbleChartIcon />,
     collapse: [
@@ -227,35 +258,6 @@ const routes = [
         name: "Команда",
         description: "Мы специализируемся на производстве и продаже",
         href: "https://shepherd-pet.ru/learning-lab/react/quick-start/material-kit/",
-      },
-
-      {
-        name: "Партнерам",
-        description: "Сотрудничество с частными и юр. лицами",
-        dropdown: true,
-        collapse: [
-          {
-            name: "Частным лицам",
-            route: "/sections/elements/avatars",
-            component: <Avatars />,
-          },
-
-          {
-            name: "Компаниям",
-            route: "/sections/navigation/navbars",
-            component: <Navbars />,
-          },
-          {
-            name: "Оптовые закупки",
-            route: "/sections/navigation/nav-tabs",
-            component: <NavTabs />,
-          },
-          {
-            name: "Партнерская программа",
-            route: "/sections/navigation/pagination",
-            component: <Pagination />,
-          },
-        ],
       },
 
       {
@@ -279,12 +281,6 @@ const routes = [
         href: "https://shepherd-pet.ru/learning-lab/react/datepicker/material-kit/",
       },
     ],
-  },
-  {
-    name: "Вход",
-    icon: <LoginIcon />,
-    route: "/pages/authentication/sign-in",
-    component: <SignIn />,
   },
 ];
 

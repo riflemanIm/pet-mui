@@ -35,7 +35,8 @@ import MKTypography from "components/MKTypography";
 
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
-
+import ShoppingCartButton from "components/ShoppingCartButton";
+import UserAuthButtons from "components/UserAuthButtons";
 import { Button, Typography } from "@mui/material";
 import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
 import breakpoints from "theme/base/breakpoints";
@@ -172,7 +173,7 @@ function DefaultNavbar({
                           py={0.625}
                           px={2}
                           sx={({
-                            palette: { grey, dark },
+                            palette: { grey, secondary },
                             borders: { borderRadius },
                           }) => ({
                             borderRadius: borderRadius.md,
@@ -181,7 +182,7 @@ function DefaultNavbar({
 
                             "&:hover": {
                               backgroundColor: grey[200],
-                              color: dark.main,
+                              color: secondary.main,
                             },
                           })}
                         >
@@ -234,21 +235,24 @@ function DefaultNavbar({
               variant="button"
               textTransform="capitalize"
               minWidth={item.description ? "14rem" : "12rem"}
-              color={item.description ? "dark" : "text"}
+              color={item.description ? "secondary" : "text"}
               fontWeight={item.description ? "bold" : "regular"}
               py={item.description ? 1 : 0.625}
               px={2}
-              sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+              sx={({
+                palette: { grey, secondary },
+                borders: { borderRadius },
+              }) => ({
                 borderRadius: borderRadius.md,
                 cursor: "pointer",
                 transition: "all 300ms linear",
 
                 "&:hover": {
                   backgroundColor: grey[200],
-                  color: dark.main,
+                  color: secondary.main,
 
                   "& *": {
-                    color: dark.main,
+                    color: secondary.main,
                   },
                 },
               })}
@@ -383,12 +387,12 @@ function DefaultNavbar({
                     variant="button"
                     textTransform="capitalize"
                     minWidth={item.description ? "14rem" : "12rem"}
-                    color={item.description ? "dark" : "text"}
+                    color={item.description ? "secondary" : "text"}
                     fontWeight={item.description ? "bold" : "regular"}
                     py={item.description ? 1 : 0.625}
                     px={2}
                     sx={({
-                      palette: { grey, dark },
+                      palette: { grey, secondary },
                       borders: { borderRadius },
                     }) => ({
                       borderRadius: borderRadius.md,
@@ -397,10 +401,10 @@ function DefaultNavbar({
 
                       "&:hover": {
                         backgroundColor: grey[200],
-                        color: dark.main,
+                        color: secondary.main,
 
                         "& *": {
-                          color: dark.main,
+                          color: secondary.main,
                         },
                       },
                     })}
@@ -489,7 +493,17 @@ function DefaultNavbar({
         justifyContent="right"
         alignItems="center"
       >
-        <Typography
+        <MKTypography
+          variant="subtitle2"
+          component="a"
+          href="/map"
+          color="white"
+          fontWeight="regular"
+          mx={2}
+        >
+          На карте
+        </MKTypography>
+        <MKTypography
           variant="subtitle2"
           component="a"
           href="tel:+79897772000"
@@ -498,7 +512,7 @@ function DefaultNavbar({
           mr={2.5}
         >
           +7 989 777 2000
-        </Typography>
+        </MKTypography>
       </MKBox>
       <MKBox
         py={1}
@@ -508,7 +522,7 @@ function DefaultNavbar({
         width={relative ? "100%" : "calc(100% - 48px)"}
         borderRadius="xl"
         shadow={transparent ? "none" : "md"}
-        color={light ? "white" : "dark"}
+        color={light ? "white" : "secondary"}
         position={relative ? "relative" : "absolute"}
         left={0}
         zIndex={3}
@@ -548,7 +562,11 @@ function DefaultNavbar({
           >
             {renderNavbarItems}
           </MKBox>
-          <MKBox ml={{ xs: "auto", lg: 0 }}>
+
+          <MKBox
+            ml={{ xs: "auto", lg: 0 }}
+            display={{ xs: "none", lg: "flex" }}
+          >
             <Button
               color="primary"
               size="large"
@@ -560,6 +578,12 @@ function DefaultNavbar({
               Каталог
             </Button>
           </MKBox>
+          <MKBox alignItems={"right"}>
+            <ShoppingCartButton />
+          </MKBox>
+
+          <UserAuthButtons />
+
           <MKBox
             display={{ xs: "inline-block", lg: "none" }}
             lineHeight={0}

@@ -84,7 +84,7 @@ function DefaultNavbarMobile({ routes, open }) {
                         minWidth="11.25rem"
                         display="block"
                         variant="button"
-                        color="text"
+                        color="secondary"
                         textTransform="capitalize"
                         fontWeight="regular"
                         py={0.625}
@@ -117,7 +117,7 @@ function DefaultNavbarMobile({ routes, open }) {
                     target={item.href ? "_blank" : ""}
                     rel={item.href ? "noreferrer" : "noreferrer"}
                     sx={({
-                      palette: { grey, dark },
+                      palette: { grey, secondary, dark },
                       borders: { borderRadius },
                     }) => ({
                       borderRadius: borderRadius.md,
@@ -128,7 +128,7 @@ function DefaultNavbarMobile({ routes, open }) {
 
                       "&:hover": {
                         backgroundColor: grey[200],
-                        color: dark.main,
+                        color: secondary.main,
 
                         "& *": {
                           color: dark.main,
@@ -147,7 +147,7 @@ function DefaultNavbarMobile({ routes, open }) {
                     <MKTypography
                       display="block"
                       variant="button"
-                      color="text"
+                      color="secondary"
                       fontWeight="regular"
                       sx={{ transition: "all 300ms linear" }}
                     >
