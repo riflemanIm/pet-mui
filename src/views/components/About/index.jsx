@@ -1,13 +1,154 @@
-import React from "react";
+import { Card, Grid, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import Main from "layouts/Main";
 import Container from "components/Container";
-import { Gallery, Headline, Numbers, Story, Team } from "./components";
-import { Typography } from "@mui/material";
+import {
+  Gallery,
+  Headline,
+  Numbers,
+  Story,
+  Team as TeamOur,
+} from "./components";
+import DefaultNavbar from "components/Navbars/DefaultNavbar";
+import MKBox from "components/MKBox";
+import routes from "assets/routes";
+import MKTypography from "components/MKTypography";
+import MKButton from "components/MKButton";
+import DefaultFooter from "components/Footers/DefaultFooter";
+import footerRoutes from "assets/footer.routes";
+import bgImage from "assets/images/bg-about-us.jpg";
+
+import Information from "views/LandingPages/AboutUs/sections/Information";
+import Team from "views/LandingPages/AboutUs/sections/Team";
+import Featuring from "views/LandingPages/AboutUs/sections/Featuring";
+import Newsletter from "views/LandingPages/AboutUs/sections/Newsletter";
 
 const AboutSideCover = () => {
   return (
-    <Main>
+    <>
+      <DefaultNavbar
+        routes={routes}
+        action={{
+          type: "external",
+          route: "https://kubtel.ru/product/material-kit-react",
+          label: "free download",
+          color: "default",
+        }}
+        transparent
+        light
+      />
+      <MKBox
+        minHeight="75vh"
+        width="100%"
+        sx={{
+          backgroundImage: ({
+            functions: { linearGradient, rgba },
+            palette: { gradients },
+          }) =>
+            `${linearGradient(
+              rgba(gradients.dark.main, 0.6),
+              rgba(gradients.dark.state, 0.6)
+            )}, url(${bgImage.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          display: "grid",
+          placeItems: "center",
+        }}
+      >
+        <Container>
+          <Grid
+            container
+            item
+            xs={12}
+            lg={8}
+            justifyContent="center"
+            alignItems="center"
+            flexDirection="column"
+            sx={{ mx: "auto", textAlign: "center" }}
+          >
+            <MKTypography
+              variant="h1"
+              color="white"
+              sx={({ breakpoints, typography: { size } }) => ({
+                [breakpoints.down("md")]: {
+                  fontSize: size["3xl"],
+                },
+              })}
+            >
+              Work with an amazing design
+            </MKTypography>
+            <MKTypography
+              variant="body1"
+              color="white"
+              opacity={0.8}
+              mt={1}
+              mb={3}
+            >
+              We&apos;re constantly trying to express ourselves and actualize
+              our dreams. If you have the opportunity to play this game
+            </MKTypography>
+            <MKButton
+              color="default"
+              sx={{ color: ({ palette: { dark } }) => dark.main }}
+            >
+              create account
+            </MKButton>
+            <MKTypography variant="h6" color="white" mt={8} mb={1}>
+              Find us on
+            </MKTypography>
+            <MKBox display="flex" justifyContent="center" alignItems="center">
+              <MKTypography
+                component="a"
+                variant="body1"
+                color="white"
+                href="#"
+                mr={3}
+              >
+                <i className="fab fa-facebook" />
+              </MKTypography>
+              <MKTypography
+                component="a"
+                variant="body1"
+                color="white"
+                href="#"
+                mr={3}
+              >
+                <i className="fab fa-instagram" />
+              </MKTypography>
+              <MKTypography
+                component="a"
+                variant="body1"
+                color="white"
+                href="#"
+                mr={3}
+              >
+                <i className="fab fa-twitter" />
+              </MKTypography>
+              <MKTypography
+                component="a"
+                variant="body1"
+                color="white"
+                href="#"
+              >
+                <i className="fab fa-google-plus" />
+              </MKTypography>
+            </MKBox>
+          </Grid>
+        </Container>
+      </MKBox>
+      <Card
+        sx={{
+          p: 2,
+          mx: { xs: 2, lg: 3 },
+          mt: -8,
+          mb: 4,
+          boxShadow: ({ boxShadows: { xxl } }) => xxl,
+        }}
+      >
+        <Information />
+        <Team />
+        <Featuring />
+        <Newsletter />
+      </Card>
       <Container>
         <Headline
           head="О нас"
@@ -42,7 +183,7 @@ const AboutSideCover = () => {
         <Divider />
       </Container>
       <Container>
-        <Team />
+        <TeamOur />
       </Container>
       <Container maxWidth={"800px !important"}>
         <Divider />
@@ -50,7 +191,10 @@ const AboutSideCover = () => {
       <Container>
         <Story />
       </Container>
-    </Main>
+      <MKBox pt={6} px={1} mt={6}>
+        <DefaultFooter content={footerRoutes} />
+      </MKBox>
+    </>
   );
 };
 

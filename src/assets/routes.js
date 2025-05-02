@@ -255,9 +255,9 @@ const routes = [
     icon: <BubbleChartIcon />,
     collapse: [
       {
-        name: "Команда",
+        name: "Наша компания",
         description: "Мы специализируемся на производстве и продаже",
-        href: "https://shepherd-pet.ru/learning-lab/react/quick-start/material-kit/",
+        href: "/about",
       },
 
       {

@@ -1,4 +1,4 @@
-export { default as Hero } from "./HeroImageSlider";
+//export { default as Hero } from "./HeroImageSlider";
 export { default as Services } from "./Services";
 export { default as QuickStart } from "./QuickStart";
 export { default as Features } from "./Features";

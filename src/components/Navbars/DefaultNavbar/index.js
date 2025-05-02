@@ -39,6 +39,7 @@ import ShoppingCartButton from "components/ShoppingCartButton";
 import UserAuthButtons from "components/UserAuthButtons";
 import { Button, Typography } from "@mui/material";
 import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
+import logo_light from "assets/images_pet/logo_shepherd_light.svg";
 import breakpoints from "theme/base/breakpoints";
 function DefaultNavbar({
   brand,
@@ -543,7 +544,7 @@ function DefaultNavbar({
           <MKBox component={Link} to="/">
             <MKBox
               component="img"
-              src={logo.src}
+              src={!light ? logo.src : logo_light.src}
               alt="logo"
               width="62%"
               opacity={1}

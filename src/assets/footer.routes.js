@@ -8,14 +8,14 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import MKTypography from "components/MKTypography";
 
 // Images
-import logoCT from "assets/images/logo-ct-dark.png";
+import logo from "assets/images_pet/logo_shepherd_navy.svg";
 
 const date = new Date().getFullYear();
 
 export default {
   brand: {
     name: "Shepherd",
-    image: logoCT,
+    image: logo.src,
     route: "/",
   },
   socials: [

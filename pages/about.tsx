@@ -1,9 +1,9 @@
 import React from "react";
-import AboutSideCover from "components/About";
+import About from "views/components/About";
 import { NextPage } from "next";
 
 const PageViews: NextPage = () => {
-  return <AboutSideCover />;
+  return <About />;
 };
 
 export default PageViews;
