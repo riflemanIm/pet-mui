@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -23,7 +23,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import CenteredFooter from "components/Footers/CenteredFooter";
 import Breadcrumbs from "components/Breadcrumbs";
@@ -44,7 +44,7 @@ function BaseLayout({ breadcrumb, title, children }) {
           routes={routes}
           action={{
             type: "external",
-            route: "https://kubtel.ru/product/material-kit-react",
+            route: "https://shepherd-pet.ru/product/material-kit-react",
             label: "free download",
             color: "info",
           }}

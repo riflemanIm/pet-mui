@@ -1,10 +1,10 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
-* Product Page: https://kubtel.ru/product/soft-ui-dashboard-pro-material-ui
-* Copyright 2023 Oleg La (https://kubtel.ru)
+* Product Page: https://shepherd-pet.ru/product/soft-ui-dashboard-pro-material-ui
+* Copyright 2023 Oleg La (https://shepherd-pet.ru/)
 
 
 
@@ -24,7 +24,7 @@ import boxShadows from "theme/base/boxShadows";
 import borders from "theme/base/borders";
 import globals from "theme/base/globals";
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import boxShadow from "theme/functions/boxShadow";
 import hexToRgb from "theme/functions/hexToRgb";
 import linearGradient from "theme/functions/linearGradient";

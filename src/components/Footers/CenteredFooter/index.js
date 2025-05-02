@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -111,14 +111,14 @@ function CenteredFooter({ company, links, socials, light }) {
 
 // Setting default values for the props of CenteredFooter
 CenteredFooter.defaultProps = {
-  company: { href: "https://kubtel.ru/", name: "Kubtel" },
+  company: { href: "https://shepherd-pet.ru/", name: "Kubtel" },
   links: [
-    { href: "https://kubtel.ru/", name: "Company" },
-    { href: "https://kubtel.ru/presentation", name: "About Us" },
-    { href: "https://kubtel.ru/presentation", name: "Team" },
-    { href: "https://kubtel.ru/templates/react", name: "Products" },
-    { href: "https://kubtel.ru/blog", name: "Blog" },
-    { href: "https://kubtel.ru/license", name: "License" },
+    { href: "https://shepherd-pet.ru/", name: "Company" },
+    { href: "https://shepherd-pet.ru/presentation", name: "About Us" },
+    { href: "https://shepherd-pet.ru/presentation", name: "Team" },
+    { href: "https://shepherd-pet.ru/templates/react", name: "Products" },
+    { href: "https://shepherd-pet.ru/blog", name: "Blog" },
+    { href: "https://shepherd-pet.ru/license", name: "License" },
   ],
   socials: [
     {

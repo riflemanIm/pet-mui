@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -72,7 +72,7 @@ function Download() {
               color="info"
               size="large"
               component="a"
-              href="https://kubtel.ru/product/material-kit-react"
+              href="https://shepherd-pet.ru/product/material-kit-react"
               sx={{ mb: 2 }}
             >
               Download Now
@@ -91,7 +91,7 @@ function Download() {
                 <Tooltip title="Bootstrap 5 - Most popular front-end component library">
                   <MKBox
                     component="a"
-                    href="https://kubtel.ru/product/material-kit"
+                    href="https://shepherd-pet.ru/product/material-kit"
                     target="_blank"
                   >
                     <MKBox
@@ -157,7 +157,7 @@ function Download() {
                 <Tooltip title="Comming soon">
                   <MKBox
                     component="a"
-                    href="https://kubtel.ru/product/material-kit-react"
+                    href="https://shepherd-pet.ru/product/material-kit-react"
                     target="_blank"
                   >
                     <MKBox

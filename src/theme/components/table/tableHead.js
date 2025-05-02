@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -14,7 +14,7 @@
 
 import borders from "theme/base/borders";
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import pxToRem from "theme/functions/pxToRem";
 
 const { borderRadius } = borders;

@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -13,15 +13,15 @@
 */
 
 /**
- * The base typography styles for the Kubtel 2 React.
+ * The base typography styles for the Shepherd React.
  * You can add new typography style using this file.
- * You can customized the typography styles for the entire Kubtel 2 React using thie file.
+ * You can customized the typography styles for the entire Shepherd React using thie file.
  */
 
-// Kubtel 2 React Base Styles
+// Shepherd React Base Styles
 import colors from "theme/base/colors";
 
-// Kubtel 2 React Helper Functions
+// Shepherd React Helper Functions
 import pxToRem from "theme/functions/pxToRem";
 
 const { dark } = colors;

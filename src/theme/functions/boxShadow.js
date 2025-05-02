@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -16,7 +16,7 @@
   The boxShadow() function helps you to create a box shadow for an element
  */
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import rgba from "theme/functions/rgba";
 import pxToRem from "theme/functions/pxToRem";
 

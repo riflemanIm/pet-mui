@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -58,7 +58,7 @@ function Footer() {
                   fontWeight="regular"
                   opacity={0.8}
                   component={Link}
-                  href="https://kubtel.ru"
+                  href="https://shepherd-pet.ru/"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -71,7 +71,7 @@ function Footer() {
                   fontWeight="regular"
                   opacity={0.8}
                   component={Link}
-                  href="https://kubtel.ru/presentation"
+                  href="https://shepherd-pet.ru/presentation"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -84,7 +84,7 @@ function Footer() {
                   fontWeight="regular"
                   opacity={0.8}
                   component={Link}
-                  href="https://kubtel.ru/blog"
+                  href="https://shepherd-pet.ru/blog"
                   target="_blank"
                   rel="noreferrer"
                 >
@@ -97,7 +97,7 @@ function Footer() {
                   fontWeight="regular"
                   opacity={0.8}
                   component={Link}
-                  href="https://kubtel.ru"
+                  href="https://shepherd-pet.ru/"
                   target="_blank"
                   rel="noreferrer"
                 >

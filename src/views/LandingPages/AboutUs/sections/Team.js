@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -20,7 +20,7 @@ import Grid from "@mui/material/Grid";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import HorizontalTeamCard from "components/Cards/TeamCards/HorizontalTeamCard";
 
 // Images

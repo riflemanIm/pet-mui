@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -37,7 +37,7 @@ import MKButton from "components/MKButton";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import SimpleFooter from "components/Footers/SimpleFooter";
 
-// Kubtel 2 React page layout routes
+// Shepherd React page layout routes
 import routes from "assets/routes";
 
 // Images
@@ -54,7 +54,7 @@ function SignInBasic() {
         routes={routes}
         action={{
           type: "external",
-          route: "https://kubtel.ru/product/material-kit-react",
+          route: "https://shepherd-pet.ru/product/material-kit-react",
           label: "free download",
           color: "info",
         }}

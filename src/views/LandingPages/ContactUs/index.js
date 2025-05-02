@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -21,7 +21,7 @@ import MKInput from "components/MKInput";
 import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import DefaultFooter from "components/Footers/DefaultFooter";
 
@@ -40,7 +40,7 @@ function ContactUs() {
           routes={routes}
           action={{
             type: "external",
-            route: "https://kubtel.ru/product/material-kit-react",
+            route: "https://shepherd-pet.ru/product/material-kit-react",
             label: "free download",
             color: "info",
           }}

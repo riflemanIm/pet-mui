@@ -14,7 +14,7 @@ const date = new Date().getFullYear();
 
 export default {
   brand: {
-    name: "Kubtel 2",
+    name: "Shepherd",
     image: logoCT,
     route: "/",
   },
@@ -40,36 +40,36 @@ export default {
     {
       name: "company",
       items: [
-        { name: "about us", href: "https://kubtel.ru/presentation" },
+        { name: "about us", href: "https://shepherd-pet.ru/presentation" },
         {
           name: "freebies",
-          href: "https://kubtel.ru/templates/free",
+          href: "https://shepherd-pet.ru/templates/free",
         },
         {
           name: "premium tools",
-          href: "https://kubtel.ru/templates/premium",
+          href: "https://shepherd-pet.ru/templates/premium",
         },
-        { name: "blog", href: "https://kubtel.ru/blog" },
+        { name: "blog", href: "https://shepherd-pet.ru/blog" },
       ],
     },
     {
       name: "resources",
       items: [
         { name: "illustrations", href: "https://iradesign.io/" },
-        { name: "bits & snippets", href: "https://kubtel.ru/bits" },
+        { name: "bits & snippets", href: "https://shepherd-pet.ru/bits" },
         {
           name: "affiliate program",
-          href: "https://kubtel.ru/affiliates/new",
+          href: "https://shepherd-pet.ru/affiliates/new",
         },
       ],
     },
     {
       name: "help & support",
       items: [
-        { name: "contact us", href: "https://kubtel.ru/contact-us" },
+        { name: "contact us", href: "https://shepherd-pet.ru/contact-us" },
         {
           name: "knowledge center",
-          href: "https://kubtel.ru/knowledge-center",
+          href: "https://shepherd-pet.ru/knowledge-center",
         },
         {
           name: "custom development",
@@ -77,7 +77,7 @@ export default {
         },
         {
           name: "sponsorships",
-          href: "https://kubtel.ru/sponsorships",
+          href: "https://shepherd-pet.ru/sponsorships",
         },
       ],
     },
@@ -86,15 +86,15 @@ export default {
       items: [
         {
           name: "terms & conditions",
-          href: "https://kubtel.ru/terms",
+          href: "https://shepherd-pet.ru/terms",
         },
         {
           name: "privacy policy",
-          href: "https://kubtel.ru/privacy",
+          href: "https://shepherd-pet.ru/privacy",
         },
         {
           name: "licenses (EULA)",
-          href: "https://kubtel.ru/license",
+          href: "https://shepherd-pet.ru/license",
         },
       ],
     },
@@ -104,7 +104,7 @@ export default {
       All rights reserved. Copyright &copy; {date} Kubtel by{" "}
       <MKTypography
         component="a"
-        href="https://kubtel.ru"
+        href="https://shepherd-pet.ru/"
         target="_blank"
         rel="noreferrer"
         variant="button"

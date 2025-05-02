@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -12,7 +12,7 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Kubtel 2 React Button Styles
+// Shepherd React Button Styles
 import root from "theme/components/button/root";
 import contained from "theme/components/button/contained";
 import outlined from "theme/components/button/outlined";

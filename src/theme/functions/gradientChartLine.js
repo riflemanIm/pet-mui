@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -16,7 +16,7 @@
   The gradientChartLine() function helps you to create a gradient color for the chart line
  */
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import rgba from "theme/functions/rgba";
 
 function gradientChartLine(chart, color, opacity = 0.2) {

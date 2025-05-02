@@ -1,22 +1,7 @@
-/**
-=========================================================
-* Kubtel 2 React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// Kubtel 2 React Base Styles
 import colors from "theme/base/colors";
 import typography from "theme/base/typography";
 
-// Kubtel 2 React Helper Functions
+// Shepherd React Helper Functions
 import pxToRem from "theme/functions/pxToRem";
 
 const { white, text, primary, secondary } = colors;
@@ -24,13 +9,13 @@ const { size } = typography;
 
 export default {
   base: {
-    backgroundColor: white.main,
+    backgroundColor: primary.main,
     minHeight: pxToRem(40),
-    color: text.main,
+    color: white.main,
     padding: `${pxToRem(10)} ${pxToRem(24)}`,
 
     "&:hover": {
-      backgroundColor: white.main,
+      backgroundColor: primary.main,
     },
 
     "&:active, &:active:focus, &:active:hover": {

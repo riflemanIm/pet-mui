@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -17,7 +17,7 @@
   to convert the hex code into rgb for using it inside the rgba color format.
  */
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import hexToRgb from "theme/functions/hexToRgb";
 
 function rgba(color, opacity) {

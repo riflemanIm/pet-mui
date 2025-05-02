@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -18,7 +18,7 @@ import Card from "@mui/material/Card";
 //
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
 // Author page sections
@@ -40,7 +40,7 @@ function Author() {
         routes={routes}
         action={{
           type: "external",
-          route: "https://kubtel.ru/product/material-kit-react",
+          route: "https://shepherd-pet.ru/product/material-kit-react",
           label: "free download",
           color: "info",
         }}

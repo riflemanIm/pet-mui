@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -19,7 +19,6 @@ import { Fragment, useEffect, useState } from "react";
 import Link from "@mui/material/Link";
 
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
 
 // @mui material components
 import Container from "@mui/material/Container";
@@ -37,7 +36,7 @@ import MKTypography from "components/MKTypography";
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
 
-import { Button } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
 import breakpoints from "theme/base/breakpoints";
 function DefaultNavbar({
@@ -47,7 +46,7 @@ function DefaultNavbar({
   light,
   action,
   sticky,
-  relative,
+  relative = false,
   center,
 }) {
   const [dropdown, setDropdown] = useState("");
@@ -483,9 +482,28 @@ function DefaultNavbar({
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
       <MKBox
+        position={relative ? "relative" : "absolute"}
+        my={relative ? 0 : 1}
+        width={relative ? "100%" : "calc(100% - 48px)"}
+        display="flex"
+        justifyContent="right"
+        alignItems="center"
+      >
+        <Typography
+          variant="subtitle2"
+          component="a"
+          href="tel:+79897772000"
+          color="white"
+          my={0}
+          mr={2.5}
+        >
+          +7 989 777 2000
+        </Typography>
+      </MKBox>
+      <MKBox
         py={1}
         px={{ xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2 }}
-        my={relative ? 0 : 2}
+        my={relative ? 0 : 5}
         mx={relative ? 0 : 3}
         width={relative ? "100%" : "calc(100% - 48px)"}
         borderRadius="xl"
@@ -521,6 +539,7 @@ function DefaultNavbar({
               }}
             />
           </MKBox>
+
           <MKBox
             color="inherit"
             display={{ xs: "none", lg: "flex" }}
@@ -569,47 +588,5 @@ function DefaultNavbar({
     </Container>
   );
 }
-
-// Setting default values for the props of DefaultNavbar
-DefaultNavbar.defaultProps = {
-  brand: "Kubtel 2",
-  transparent: false,
-  light: false,
-  action: false,
-  sticky: false,
-  relative: false,
-  center: false,
-};
-
-// Typechecking props for the DefaultNavbar
-DefaultNavbar.propTypes = {
-  brand: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.shape).isRequired,
-  transparent: PropTypes.bool,
-  light: PropTypes.bool,
-  action: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      type: PropTypes.oneOf(["external", "internal"]).isRequired,
-      route: PropTypes.string.isRequired,
-      color: PropTypes.oneOf([
-        "primary",
-        "secondary",
-        "info",
-        "success",
-        "warning",
-        "error",
-        "dark",
-        "light",
-        "default",
-        "white",
-      ]),
-      label: PropTypes.string.isRequired,
-    }),
-  ]),
-  sticky: PropTypes.bool,
-  relative: PropTypes.bool,
-  center: PropTypes.bool,
-};
 
 export default DefaultNavbar;

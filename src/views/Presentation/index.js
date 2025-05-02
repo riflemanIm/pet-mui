@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 //
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultFooter from "components/Footers/DefaultFooter";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
@@ -13,6 +13,7 @@ import routes from "assets/routes";
 import IndexView from "views/components/Home";
 // Images
 import bgImage from "assets/images/bg-hero.jpg";
+import { Typography } from "@mui/material";
 
 function Presentation() {
   return (
@@ -21,7 +22,7 @@ function Presentation() {
         routes={routes}
         action={{
           type: "external",
-          route: "https://kubtel.ru/product/material-kit-react",
+          route: "/",
           label: "free download",
           color: "info",
         }}

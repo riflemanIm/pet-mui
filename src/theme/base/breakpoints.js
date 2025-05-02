@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -13,9 +13,9 @@
 */
 
 /**
- * The base breakpoints for the Kubtel 2 React.
+ * The base breakpoints for the Shepherd React.
  * You can add new breakpoints using this file.
- * You can customized the breakpoints for the entire Kubtel 2 React using thie file.
+ * You can customized the breakpoints for the entire Shepherd React using thie file.
  */
 
 export default {

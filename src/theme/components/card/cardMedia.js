@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -12,10 +12,10 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Kubtel 2 React Base Styles
+// Shepherd React Base Styles
 import borders from "theme/base/borders";
 
-// Kubtel 2 React Helper Functions
+// Shepherd React Helper Functions
 import pxToRem from "theme/functions/pxToRem";
 
 const { borderRadius } = borders;

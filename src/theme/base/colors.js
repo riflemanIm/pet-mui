@@ -1,9 +1,9 @@
 import { alpha } from "@mui/system";
 
 /**
- * The base colors for the Kubtel 2 React.
+ * The base colors for the Shepherd React.
  * You can add new color using this file.
- * You can customized the colors for the entire Kubtel 2 React using thie file.
+ * You can customized the colors for the entire Shepherd React using thie file.
  */
 
 export default {

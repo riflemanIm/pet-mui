@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -21,7 +21,7 @@ import Divider from "@mui/material/Divider";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultReviewCard from "components/Cards/ReviewCards/DefaultReviewCard";
 
 // Images

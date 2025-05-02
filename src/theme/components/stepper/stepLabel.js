@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -15,7 +15,7 @@
 import typography from "theme/base/typography";
 import colors from "theme/base/colors";
 
-// Kubtel 2 React helper functions
+// Shepherd React helper functions
 import pxToRem from "theme/functions/pxToRem";
 import rgba from "theme/functions/rgba";
 

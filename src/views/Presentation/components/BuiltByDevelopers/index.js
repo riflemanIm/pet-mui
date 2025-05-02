@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -62,7 +62,7 @@ function BuiltByDevelopers() {
           </MKTypography>
           <MKTypography
             component="a"
-            href="https://kubtel.ru/learning-lab/react/overview/material-kit/"
+            href="https://shepherd-pet.ru/learning-lab/react/overview/material-kit/"
             target="_blank"
             rel="noreferrer"
             variant="body2"

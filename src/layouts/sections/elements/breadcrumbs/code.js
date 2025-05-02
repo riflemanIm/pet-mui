@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 // 
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import Breadcrumbs from "components/Breadcrumbs";
 
 function BreadcrumbsEL() {

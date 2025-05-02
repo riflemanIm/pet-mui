@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -117,12 +117,12 @@ function SimpleFooter({ company, links, light }) {
 
 // Setting default values for the props of SimpleFooter
 SimpleFooter.defaultProps = {
-  company: { href: "https://kubtel.ru/", name: "Oleg La" },
+  company: { href: "https://shepherd-pet.ru/", name: "Oleg La" },
   links: [
-    { href: "https://kubtel.ru/", name: "Oleg La" },
-    { href: "https://kubtel.ru/presentation", name: "About Us" },
-    { href: "https://kubtel.ru/blog", name: "Blog" },
-    { href: "https://kubtel.ru/license", name: "License" },
+    { href: "https://shepherd-pet.ru/", name: "Oleg La" },
+    { href: "https://shepherd-pet.ru/presentation", name: "About Us" },
+    { href: "https://shepherd-pet.ru/blog", name: "Blog" },
+    { href: "https://shepherd-pet.ru/license", name: "License" },
   ],
   light: false,
 };

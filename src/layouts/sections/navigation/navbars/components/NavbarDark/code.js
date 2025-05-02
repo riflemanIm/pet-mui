@@ -1,7 +1,7 @@
 const navbarDarkCode = `// 
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
 // Routes
@@ -14,7 +14,7 @@ function NavbarDark() {
         routes={routes}
         action={{
           type: "external",
-          route: "https://kubtel.ru/product/material-kit-react",
+          route: "https://shepherd-pet.ru/product/material-kit-react",
           label: "free download",
           color: "info",
         }}

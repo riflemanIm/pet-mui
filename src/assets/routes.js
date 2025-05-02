@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -13,7 +13,7 @@
 */
 
 /** 
-  All of the routes for the Kubtel 2 React are added here,
+  All of the routes for the Shepherd React are added here,
   You can add a new route, customize the routes and delete the routes here.
 
   Once you add a new route on this file it will be visible automatically on
@@ -71,235 +71,212 @@ import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 import InfoIcon from "@mui/icons-material/Info";
 import LoginIcon from "@mui/icons-material/Login";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
+import PetsIcon from "@mui/icons-material/Pets";
 const routes = [
   {
-    name: "Частным лицам",
-    icon: <PersonIcon />,
-    columns: 1,
-    rowsPerColumn: 2,
-    collapse: [
-      {
-        name: "Частным лицам",
-        collapse: [
-          //Конфигуратор
-          // Видеонаблюдение
-          // Телевидение
-          // Способы оплаты
-          // Тарифы
-          // Устройства
-          // Акции
-          {
-            name: "Конфигуратор",
-            route: "/pages/landing-pages/about-us",
-            component: <AboutUs />,
-          },
-          {
-            name: "Видеонаблюдение",
-            route: "/pages/landing-pages/contact-us",
-            component: <ContactUs />,
-          },
-          {
-            name: "Телевидение",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-          {
-            name: "Способы оплаты",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-          {
-            name: "Тарифы",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-          {
-            name: "Устройства",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-          {
-            name: "Тарифы",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-          {
-            name: "Акции",
-            route: "/pages/landing-pages/author",
-            component: <Author />,
-          },
-        ],
-      },
-      {
-        name: "Aккаунт",
-        collapse: [
-          {
-            name: "sign in",
-            route: "/pages/authentication/sign-in",
-            component: <SignIn />,
-          },
-        ],
-      },
-    ],
+    name: "Кошки",
+    icon: <PetsIcon />,
+    route: "/catalog",
   },
   {
-    name: "Бизнесу",
-    icon: <CorporateFareIcon />,
+    name: "Coбаки",
+    icon: <PetsIcon />,
+    route: "/catalog",
+  },
+
+  // {
+  //   name: "Бизнесу",
+  //   icon: <CorporateFareIcon />,
+  //   collapse: [
+  //     {
+  //       name: "Интеренет",
+  //       description: "Интернет в офис",
+  //       route: "/sections/page-sections/page-headers",
+  //       component: <PageHeaders />,
+  //     },
+  //     {
+  //       name: "Телефония",
+  //       description: "Услуга IP телефонии",
+  //       dropdown: true,
+  //       collapse: [
+  //         {
+  //           name: "О продукте",
+  //           route: "/sections/elements/avatars",
+  //           component: <Avatars />,
+  //         },
+
+  //         {
+  //           name: "Тарифы",
+  //           route: "/sections/navigation/navbars",
+  //           component: <Navbars />,
+  //         },
+  //         {
+  //           name: "Многоканальный телефон",
+  //           route: "/sections/navigation/nav-tabs",
+  //           component: <NavTabs />,
+  //         },
+  //         {
+  //           name: "Виртуальный АТС",
+  //           route: "/sections/navigation/pagination",
+  //           component: <Pagination />,
+  //         },
+  //         {
+  //           name: "Тарифы серии Про",
+  //           route: "/sections/navigation/pagination",
+  //           component: <Pagination />,
+  //         },
+  //         {
+  //           name: "Сервисные услуги",
+  //           route: "/sections/navigation/pagination",
+  //           component: <Pagination />,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "Видеонаблюдение",
+  //       description: "Облачное видеонаблюдение",
+  //       dropdown: true,
+  //       collapse: [
+  //         {
+  //           name: "О продукте",
+  //           route: "/sections/elements/avatars",
+  //           component: <Avatars />,
+  //         },
+
+  //         {
+  //           name: "Тарифы",
+  //           route: "/sections/input-areas/inputs",
+  //           component: <Inputs />,
+  //         },
+  //         {
+  //           name: "Конфигуратор",
+  //           route: "/sections/input-areas/forms",
+  //           component: <Forms />,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "Аренда виртуального рабочего места",
+  //       description: "Удаленная работа для бизнеса",
+  //       route: "/sections/attention-catchers/alerts",
+  //       component: <Alerts />,
+  //     },
+  //     {
+  //       name: "Аренда виртуального сервера",
+  //       description: "Самостоятельная установка, консультация",
+  //       dropdown: true,
+  //       collapse: [
+  //         {
+  //           name: "О продукте",
+  //           route: "/sections/elements/avatars",
+  //           component: <Avatars />,
+  //         },
+  //         {
+  //           name: "Конфигуратор",
+  //           route: "/sections/elements/badges",
+  //           component: <Badges />,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "Размещение оборудования",
+  //       description: "Вне зависимости от размера бизнеса",
+  //       dropdown: true,
+  //       collapse: [
+  //         {
+  //           name: "О продукте",
+  //           route: "/sections/elements/avatars",
+  //           component: <Avatars />,
+  //         },
+  //         {
+  //           name: "Заявка на доступ в ЦОД",
+  //           route: "/sections/elements/badges",
+  //           component: <Badges />,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "Wifi авторизация",
+  //       description: "Интернет для Ваших клиентов",
+  //       dropdown: true,
+  //       collapse: [
+  //         {
+  //           name: "О продукте",
+  //           route: "/sections/elements/avatars",
+  //           component: <Avatars />,
+  //         },
+  //         {
+  //           name: "Заявка на доступ в ЦОД",
+  //           route: "/sections/elements/badges",
+  //           component: <Badges />,
+  //         },
+  //         {
+  //           name: "Тарифы",
+  //           route: "/sections/input-areas/inputs",
+  //           component: <Inputs />,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
+  {
+    name: "О Нас",
+    icon: <BubbleChartIcon />,
     collapse: [
       {
-        name: "Интеренет",
-        description: "Интернет в офис",
-        route: "/sections/page-sections/page-headers",
-        component: <PageHeaders />,
+        name: "Команда",
+        description: "Мы специализируемся на производстве и продаже",
+        href: "https://shepherd-pet.ru/learning-lab/react/quick-start/material-kit/",
       },
+
       {
-        name: "Телефония",
-        description: "Услуга IP телефонии",
+        name: "Партнерам",
+        description: "Сотрудничество с частными и юр. лицами",
         dropdown: true,
         collapse: [
           {
-            name: "О продукте",
+            name: "Частным лицам",
             route: "/sections/elements/avatars",
             component: <Avatars />,
           },
 
           {
-            name: "Тарифы",
+            name: "Компаниям",
             route: "/sections/navigation/navbars",
             component: <Navbars />,
           },
           {
-            name: "Многоканальный телефон",
+            name: "Оптовые закупки",
             route: "/sections/navigation/nav-tabs",
             component: <NavTabs />,
           },
           {
-            name: "Виртуальный АТС",
-            route: "/sections/navigation/pagination",
-            component: <Pagination />,
-          },
-          {
-            name: "Тарифы серии Про",
-            route: "/sections/navigation/pagination",
-            component: <Pagination />,
-          },
-          {
-            name: "Сервисные услуги",
+            name: "Партнерская программа",
             route: "/sections/navigation/pagination",
             component: <Pagination />,
           },
         ],
       },
-      {
-        name: "Видеонаблюдение",
-        description: "Облачное видеонаблюдение",
-        dropdown: true,
-        collapse: [
-          {
-            name: "О продукте",
-            route: "/sections/elements/avatars",
-            component: <Avatars />,
-          },
 
-          {
-            name: "Тарифы",
-            route: "/sections/input-areas/inputs",
-            component: <Inputs />,
-          },
-          {
-            name: "Конфигуратор",
-            route: "/sections/input-areas/forms",
-            component: <Forms />,
-          },
-        ],
-      },
-      {
-        name: "Аренда виртуального рабочего места",
-        description: "Удаленная работа для бизнеса",
-        route: "/sections/attention-catchers/alerts",
-        component: <Alerts />,
-      },
-      {
-        name: "Аренда виртуального сервера",
-        description: "Самостоятельная установка, консультация",
-        dropdown: true,
-        collapse: [
-          {
-            name: "О продукте",
-            route: "/sections/elements/avatars",
-            component: <Avatars />,
-          },
-          {
-            name: "Конфигуратор",
-            route: "/sections/elements/badges",
-            component: <Badges />,
-          },
-        ],
-      },
-      {
-        name: "Размещение оборудования",
-        description: "Вне зависимости от размера бизнеса",
-        dropdown: true,
-        collapse: [
-          {
-            name: "О продукте",
-            route: "/sections/elements/avatars",
-            component: <Avatars />,
-          },
-          {
-            name: "Заявка на доступ в ЦОД",
-            route: "/sections/elements/badges",
-            component: <Badges />,
-          },
-        ],
-      },
-      {
-        name: "Wifi авторизация",
-        description: "Интернет для Ваших клиентов",
-        dropdown: true,
-        collapse: [
-          {
-            name: "О продукте",
-            route: "/sections/elements/avatars",
-            component: <Avatars />,
-          },
-          {
-            name: "Заявка на доступ в ЦОД",
-            route: "/sections/elements/badges",
-            component: <Badges />,
-          },
-          {
-            name: "Тарифы",
-            route: "/sections/input-areas/inputs",
-            component: <Inputs />,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    name: "О Компании",
-    icon: <BubbleChartIcon />,
-    collapse: [
       {
         name: "Лицензии",
         description: "Лицензии и сертификаты",
-        href: "https://kubtel.ru/learning-lab/react/quick-start/material-kit/",
+        href: "https://shepherd-pet.ru/learning-lab/react/quick-start/material-kit/",
       },
       {
-        name: "Новости",
-        description: "Новости Кубань-Телеком",
-        href: "https://kubtel.ru/learning-lab/react/colors/material-kit/",
+        name: "Производство",
+        description: "Исключительно натуральные ингредиенты",
+        href: "https://shepherd-pet.ru/learning-lab/react/colors/material-kit/",
       },
       {
-        name: "Персональные данные",
+        name: "Хранение",
         description: "О защите персональных данных",
-        href: "https://kubtel.ru/learning-lab/react/alerts/material-kit/",
+        href: "https://shepherd-pet.ru/learning-lab/react/alerts/material-kit/",
       },
       {
         name: "Контактная информация",
         description: "Получить консультацию",
-        href: "https://kubtel.ru/learning-lab/react/datepicker/material-kit/",
+        href: "https://shepherd-pet.ru/learning-lab/react/datepicker/material-kit/",
       },
     ],
   },

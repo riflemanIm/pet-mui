@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -19,7 +19,7 @@ import Grid from "@mui/material/Grid";
 //
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import RotatingCard from "components/Cards/RotatingCard";
 import RotatingCardFront from "components/Cards/RotatingCard/RotatingCardFront";
 import RotatingCardBack from "components/Cards/RotatingCard/RotatingCardBack";
@@ -101,7 +101,7 @@ function Information() {
                   description="Просто посоветуйте знакомым, соседям или друзьям тоже подключиться к Кубтел"
                   action={{
                     route:
-                      "https://kubtel.ru/learning-lab/react/overview/datepicker/",
+                      "https://shepherd-pet.ru/learning-lab/react/overview/datepicker/",
                     label: "Далее",
                   }}
                 />

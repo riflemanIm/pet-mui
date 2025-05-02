@@ -1,6 +1,6 @@
 /**
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -12,12 +12,12 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-// Kubtel 2 React Base Styles
+// Shepherd React Base Styles
 import colors from "theme/base/colors";
 import borders from "theme/base/borders";
 import boxShadows from "theme/base/boxShadows";
 
-// Kubtel 2 React Helper Function
+// Shepherd React Helper Function
 import rgba from "theme/functions/rgba";
 
 const { black, white } = colors;

@@ -1,6 +1,6 @@
 /*
 =========================================================
-* Kubtel 2 React - v2.1.0
+* Shepherd React - v2.1.0
 =========================================================
 
 
@@ -19,7 +19,7 @@ import Grid from "@mui/material/Grid";
 //
 import MKBox from "components/MKBox";
 
-// Kubtel 2 React examples
+// Shepherd React examples
 import DefaultInfoCard from "components/Cards/InfoCards/DefaultInfoCard";
 import CenteredBlogCard from "components/Cards/BlogCards/CenteredBlogCard";
 
