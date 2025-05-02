@@ -46,10 +46,12 @@ const HorizontallyAlignedBlogCardWithShapedImage = () => {
           component={Card}
           width={1}
           height={1}
-          boxShadow={4}
           display={"flex"}
           flexDirection={{ xs: "column", md: "row-reverse" }}
-          sx={{ backgroundImage: "none" }}
+          sx={{
+            backgroundImage: "none",
+            boxShadow: "0 10px 40px 10px rgba(140, 152, 164, 0.175)",
+          }}
         >
           <Box
             sx={{
@@ -80,7 +82,7 @@ const HorizontallyAlignedBlogCardWithShapedImage = () => {
                 bgcolor: "background.paper",
               }}
             />
-            <Box
+            {/* <Box
               component={"svg"}
               viewBox="0 0 112 690"
               fill="none"
@@ -89,6 +91,7 @@ const HorizontallyAlignedBlogCardWithShapedImage = () => {
                 position: "absolute",
                 bottom: 0,
                 top: "-50%",
+
                 left: 0,
                 right: 0,
                 color: theme.palette.background.paper,
@@ -103,7 +106,7 @@ const HorizontallyAlignedBlogCardWithShapedImage = () => {
                 d="M0 0h62.759v172C38.62 384 112 517 112 517v173H0V0z"
                 fill="currentColor"
               />
-            </Box>
+            </Box> */}
           </Box>
           <CardContent
             sx={{

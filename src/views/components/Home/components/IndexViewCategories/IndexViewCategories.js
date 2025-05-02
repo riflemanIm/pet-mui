@@ -15,6 +15,8 @@ import img3 from "assets/images/big_small.jpg";
 import img4 from "assets/images/taste.jpeg";
 
 import img5 from "assets/images/hardness.jpg";
+import MKAvatar from "components/MKAvatar";
+import MKBox from "components/MKBox";
 const mock = [
   {
     title: "Разработано для",
@@ -102,10 +104,10 @@ const IndexViewCategories = () => {
               href={item.href ?? "/"}
               style={{ textDecoration: "none", height: "100%" }}
             >
-              <Box
-                component={Card}
+              <MKBox
+                shadow="md"
+                borderRadius="md"
                 padding={4}
-                borderRadius={2}
                 width={1}
                 height={1}
                 data-aos={"fade-up"}
@@ -133,6 +135,11 @@ const IndexViewCategories = () => {
                     color={theme.palette.background.paper}
                     alignSelf="center"
                     src={item.icon}
+                    sx={{
+                      "& .MuiAvatar-img": {
+                        height: "100% !important",
+                      },
+                    }}
                   />
                   <Typography
                     variant={"h6"}
@@ -146,7 +153,7 @@ const IndexViewCategories = () => {
                     {item.subtitle}
                   </Typography>
                 </Box>
-              </Box>
+              </MKBox>
             </Box>
           </Grid>
         ))}

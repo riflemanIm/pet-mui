@@ -8,7 +8,7 @@ import { alpha } from "@mui/system";
 
 export default {
   background: {
-    default: "#EEF6FF",
+    default: alpha("#ECF4E0", 0.5),
   },
 
   text: {
@@ -22,7 +22,7 @@ export default {
 
   white: {
     main: "#ffffff",
-    focus: "#EEF6FF",
+    focus: "#ffffff",
   },
 
   black: {
@@ -72,7 +72,7 @@ export default {
   },
 
   grey: {
-    100: "#f8f9fa",
+    100: alpha("#ECF4E0", 0.3),
     200: "#f0f2f5",
     300: "#dee2e6",
     400: "#ced4da",

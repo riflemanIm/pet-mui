@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import CardMedia from "@mui/material/CardMedia";
+import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import img from "assets/images/myPet.webp";
+import Container from "components/Container";
+import { useState } from "react";
 import CountUp from "react-countup";
 import VisibilitySensor from "react-visibility-sensor";
-import { useTheme } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardMedia from "@mui/material/CardMedia";
-import Box from "@mui/material/Box";
-import useMediaQuery from "@mui/material/useMediaQuery";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import img from "assets/images/myPet.webp";
 
 const mock = [
   {
@@ -45,8 +45,8 @@ const Features = () => {
   };
 
   return (
-    <Box>
-      <Grid container spacing={4} direction={isMd ? "row" : "column-reverse"}>
+    <Container>
+      <Grid container direction={isMd ? "row" : "column-reverse"}>
         <Grid item xs={12} md={6}>
           <Box marginBottom={4}>
             <Typography sx={{ fontWeight: 700 }} variant={"h4"} gutterBottom>
@@ -97,7 +97,7 @@ const Features = () => {
             display: { xs: "none", md: "flex" },
           }}
         >
-          <Box component={Card} boxShadow={4} height={1} width={1}>
+          <Box height={1} width={1}>
             <Box
               component={CardMedia}
               height={1}
@@ -108,7 +108,7 @@ const Features = () => {
           </Box>
         </Grid>
       </Grid>
-    </Box>
+    </Container>
   );
 };
 

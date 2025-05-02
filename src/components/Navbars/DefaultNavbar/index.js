@@ -167,7 +167,6 @@ function DefaultNavbar({
                           minWidth="11.25rem"
                           display="block"
                           variant="button"
-                          color="text"
                           textTransform="capitalize"
                           fontWeight="regular"
                           py={0.625}
