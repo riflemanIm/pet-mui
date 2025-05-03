@@ -1,26 +1,18 @@
 import { Card, Grid, Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
-import Container from "components/Container";
-import {
-  Gallery,
-  Headline,
-  Numbers,
-  Story,
-  Team as TeamOur,
-} from "./components";
-import DefaultNavbar from "components/Navbars/DefaultNavbar";
-import MKBox from "components/MKBox";
-import routes from "assets/routes";
-import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
-import DefaultFooter from "components/Footers/DefaultFooter";
 import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/bg-about-us.jpg";
+import routes from "assets/routes";
+import Container from "components/Container";
+import DefaultFooter from "components/Footers/DefaultFooter";
+import MKBox from "components/MKBox";
+import MKButton from "components/MKButton";
+import MKTypography from "components/MKTypography";
+import DefaultNavbar from "components/Navbars/DefaultNavbar";
+import { Gallery, Headline, Numbers, Story } from "./components";
 
 import Information from "views/LandingPages/AboutUs/sections/Information";
 import Team from "views/LandingPages/AboutUs/sections/Team";
-import Featuring from "views/LandingPages/AboutUs/sections/Featuring";
-import Newsletter from "views/LandingPages/AboutUs/sections/Newsletter";
 
 const AboutSideCover = () => {
   return (
@@ -29,8 +21,8 @@ const AboutSideCover = () => {
         routes={routes}
         action={{
           type: "external",
-          route: "https://kubtel.ru/product/material-kit-react",
-          label: "free download",
+          route: "/catalog",
+          label: "Каталог",
           color: "default",
         }}
         transparent

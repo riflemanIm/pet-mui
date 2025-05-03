@@ -51,9 +51,8 @@ function HorizontalTeamCard({ image, name, position, description }) {
             <MKTypography variant="h6" color={position.color} mb={1}>
               {position.label}
             </MKTypography>
-            <MKTypography variant="body2" color="text">
-              {description}
-            </MKTypography>
+
+            {description}
           </MKBox>
         </Grid>
       </Grid>

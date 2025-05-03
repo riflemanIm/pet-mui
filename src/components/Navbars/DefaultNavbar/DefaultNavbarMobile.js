@@ -18,7 +18,6 @@ import { useState } from "react";
 import Link from "@mui/material/Link";
 
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
 
 // @mui material components
 import Collapse from "@mui/material/Collapse";
@@ -172,9 +171,9 @@ function DefaultNavbarMobile({ routes, open }) {
 }
 
 // Typechecking props for the DefaultNavbarMobile
-DefaultNavbarMobile.propTypes = {
-  routes: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
-  open: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
-};
+// DefaultNavbarMobile.propTypes = {
+//   routes: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.object])).isRequired,
+//   open: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+// };
 
 export default DefaultNavbarMobile;

@@ -13,25 +13,23 @@
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
 
 // @mui material components
 import Icon from "@mui/material/Icon";
 
 //
+import Link from "@mui/material/Link";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
-import Link from "@mui/material/Link";
 
 function DefaultInfoCard({
-  color,
   icon,
   title,
   description,
-  direction,
-  small,
   action,
+  color = "info",
+  direction = "left",
+  small = false,
 }) {
   const buttonStyles = {
     width: "max-content",
@@ -101,37 +99,37 @@ function DefaultInfoCard({
 }
 
 // Setting default props for the DefaultInfoCard
-DefaultInfoCard.defaultProps = {
-  color: "info",
-  direction: "left",
-  small: false,
-};
+// DefaultInfoCard.defaultProps = {
+//   color: "info",
+//   direction: "left",
+//   small: false,
+// };
 
 // Typechecking props for the DefaultInfoCard
-DefaultInfoCard.propTypes = {
-  color: PropTypes.oneOf([
-    "primary",
-    "secondary",
-    "info",
-    "success",
-    "warning",
-    "error",
-    "light",
-    "dark",
-  ]),
-  icon: PropTypes.node.isRequired,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  direction: PropTypes.oneOf(["left", "right", "center"]),
-  small: PropTypes.bool,
-  action: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.shape({
-      type: PropTypes.oneOf(["external", "internal"]).isRequired,
-      route: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-    }),
-  ]),
-};
+// DefaultInfoCard.propTypes = {
+//   color: PropTypes.oneOf([
+//     "primary",
+//     "secondary",
+//     "info",
+//     "success",
+//     "warning",
+//     "error",
+//     "light",
+//     "dark",
+//   ]),
+//   icon: PropTypes.node.isRequired,
+//   title: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired,
+//   direction: PropTypes.oneOf(["left", "right", "center"]),
+//   small: PropTypes.bool,
+//   action: PropTypes.oneOfType([
+//     PropTypes.bool,
+//     PropTypes.shape({
+//       type: PropTypes.oneOf(["external", "internal"]).isRequired,
+//       route: PropTypes.string.isRequired,
+//       label: PropTypes.string.isRequired,
+//     }),
+//   ]),
+// };
 
 export default DefaultInfoCard;

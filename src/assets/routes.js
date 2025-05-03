@@ -226,7 +226,7 @@ const routes = [
     dropdown: true,
     collapse: [
       {
-        name: "Частным лицам",
+        name: "Заводчикам",
         description: "Промо-акции",
         route: "/sections/elements/avatars",
         component: <Avatars />,
@@ -238,16 +238,16 @@ const routes = [
         route: "/sections/navigation/navbars",
         component: <Navbars />,
       },
-      {
-        name: "Оптовые закупки",
-        route: "/sections/navigation/nav-tabs",
-        component: <NavTabs />,
-      },
-      {
-        name: "Партнерская программа",
-        route: "/sections/navigation/pagination",
-        component: <Pagination />,
-      },
+      // {
+      //   name: "Оптовые закупки",
+      //   route: "/sections/navigation/nav-tabs",
+      //   component: <NavTabs />,
+      // },
+      // {
+      //   name: "Партнерская программа",
+      //   route: "/sections/navigation/pagination",
+      //   component: <Pagination />,
+      // },
     ],
   },
   {

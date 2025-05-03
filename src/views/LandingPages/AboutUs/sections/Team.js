@@ -38,6 +38,7 @@ import team6 from "assets/images/team/photo_2024-06-25_20-12-42.jpg";
 import team7 from "assets/images/team/photo_2024-06-25_19-26-16.jpg";
 import team8 from "assets/images/team/team8.png";
 import team9 from "assets/images/team/team9.png";
+import { List, ListItemText } from "@mui/material";
 
 function Team() {
   return (
@@ -69,20 +70,20 @@ function Team() {
                 name="Теркулова Екатерина"
                 position={{ color: "info", label: "ст.Новотитаровская" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>
+                  <List>
+                    <ListItemText>
                       Решение основных вопросов предприятия, связанных с
                       продвижением и рекламой
-                    </li>
-                    <li>
+                    </ListItemText>
+                    <ListItemText>
                       Взаимодействие с партнерами для получения обратной связи и
                       улучшения сервиса
-                    </li>
-                    <li>
+                    </ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 989 777 2000</strong>
-                    </li>
-                    <li>E-mail: terkulova.e@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: terkulova.e@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -93,25 +94,29 @@ function Team() {
                 name="Рязанова Юлия"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li data-list="bullet">
+                  <List>
+                    <ListItemText data-list="bullet">
                       Координация и контроль логистических процессов
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       Обеспечение своевременности и эффективности снабжения
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       Ведение переговоров и заключение договоров с поставщиками
-                    </li>
-                    <li data-list="bullet">Торговый представитель</li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
+                      Торговый представитель
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       <strong>Связаться: +7 918 044 92 53</strong>
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       <strong>Связаться: +7 918 032 63 74</strong>
-                    </li>
-                    <li data-list="bullet">E-mail: ryazanova@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
+                      E-mail: ryazanova@s-pet.ru
+                    </ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -121,13 +126,13 @@ function Team() {
                 name="Волкова Елена"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>Торговый представитель</li>
-                    <li>
+                  <List>
+                    <ListItemText>Торговый представитель</ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 918 261 02 02</strong>
-                    </li>
-                    <li>E-mail: volkova.e@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: volkova.e@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -137,13 +142,17 @@ function Team() {
                 name="Сурмач Екатерина"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li data-list="bullet">Торговый представитель</li>
-                    <li data-list="bullet">
+                  <List>
+                    <ListItemText data-list="bullet">
+                      Торговый представитель
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       <strong>Связаться: +7 928 422 11 18</strong>
-                    </li>
-                    <li data-list="bullet">E-mail: surmach.e@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
+                      E-mail: surmach.e@s-pet.ru
+                    </ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -156,15 +165,17 @@ function Team() {
                 name="Акулова Юлия"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>Взаимодействие с поставщиками</li>
-                    <li>Проведение переговоров и заключение контрактов</li>
-                    <li>Торговый представитель</li>
-                    <li>
+                  <List>
+                    <ListItemText>Взаимодействие с поставщиками</ListItemText>
+                    <ListItemText>
+                      Проведение переговоров и заключение контрактов
+                    </ListItemText>
+                    <ListItemText>Торговый представитель</ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 988 520 06 51</strong>
-                    </li>
-                    <li>E-mail: akylovau@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: akylovau@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -174,21 +185,23 @@ function Team() {
                 name="Сафиуллин Андрей"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li data-list="bullet">
+                  <List>
+                    <ListItemText data-list="bullet">
                       Руководитель производственного отдела
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       Обеспечение своевременности и эффективности снабжения
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       Контроль качества технологических процессов
-                    </li>
-                    <li data-list="bullet">
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
                       <strong>Связаться: +7 988 242 24 26</strong>
-                    </li>
-                    <li data-list="bullet">E-mail: safiullin.a@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText data-list="bullet">
+                      E-mail: safiullin.a@s-pet.ru
+                    </ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -202,13 +215,13 @@ function Team() {
                   label: "г. Москва, Научный проезд, 12",
                 }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>Торговый представитель</li>
-                    <li>
+                  <List>
+                    <ListItemText>Торговый представитель</ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 968 818 22 92</strong>
-                    </li>
-                    <li>E-mail: yan.marcovich@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: yan.marcovich@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -219,13 +232,13 @@ function Team() {
                 name="Червинко Ирина"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>Торговый представитель</li>
-                    <li>
+                  <List>
+                    <ListItemText>Торговый представитель</ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 959 191 48 50</strong>
-                    </li>
-                    <li>E-mail: chervinko@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: chervinko@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>
@@ -236,13 +249,13 @@ function Team() {
                 name="Муравьёва Юлия"
                 position={{ color: "info", label: "г.Краснодар" }}
                 description={
-                  <ul style={{ marginLeft: 15 }}>
-                    <li>Торговый представитель</li>
-                    <li>
+                  <List>
+                    <ListItemText>Торговый представитель</ListItemText>
+                    <ListItemText>
                       <strong>Связаться: +7 918 385 55 45</strong>
-                    </li>
-                    <li>E-mail: muravyova@s-pet.ru</li>
-                  </ul>
+                    </ListItemText>
+                    <ListItemText>E-mail: muravyova@s-pet.ru</ListItemText>
+                  </List>
                 }
               />
             </MKBox>

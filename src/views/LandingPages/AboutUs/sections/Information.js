@@ -15,6 +15,7 @@ import MKBox from "components/MKBox";
 
 // Shepherd React examples
 import DefaultInfoCard from "components/Cards/InfoCards/DefaultInfoCard";
+
 import CenteredBlogCard from "components/Cards/BlogCards/CenteredBlogCard";
 import img from "assets/images/accessoires/123.jpg";
 

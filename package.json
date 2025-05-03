@@ -62,8 +62,8 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "predev": "kill-port 3000 tcp",
-    "dev": "kill-port 3000 && next dev",
+    "predev": "if pid=$(lsof -t -iTCP:3000 -sTCP:LISTEN); then sudo kill -9 \"$pid\"; fi;",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "prisma:dev": "prisma migrate dev",

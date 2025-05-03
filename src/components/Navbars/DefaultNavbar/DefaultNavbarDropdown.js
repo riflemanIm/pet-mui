@@ -86,24 +86,24 @@ function DefaultNavbarDropdown({
 }
 
 // Setting default values for the props of DefaultNavbarDropdown
-DefaultNavbarDropdown.defaultProps = {
-  children: false,
-  collapseStatus: false,
-  light: false,
-  href: "",
-  route: "",
-};
+// DefaultNavbarDropdown.defaultProps = {
+//   children: false,
+//   collapseStatus: false,
+//   light: false,
+//   href: "",
+//   route: "",
+// };
 
 // Typechecking props for the DefaultNavbarDropdown
-DefaultNavbarDropdown.propTypes = {
-  name: PropTypes.string.isRequired,
-  icon: PropTypes.node.isRequired,
-  children: PropTypes.node,
-  collapseStatus: PropTypes.bool,
-  light: PropTypes.bool,
-  href: PropTypes.string,
-  route: PropTypes.string,
-  collapse: PropTypes.bool.isRequired,
-};
+// DefaultNavbarDropdown.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   icon: PropTypes.node.isRequired,
+//   children: PropTypes.node,
+//   collapseStatus: PropTypes.bool,
+//   light: PropTypes.bool,
+//   href: PropTypes.string,
+//   route: PropTypes.string,
+//   collapse: PropTypes.bool.isRequired,
+// };
 
 export default DefaultNavbarDropdown;
