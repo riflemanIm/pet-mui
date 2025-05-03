@@ -146,51 +146,41 @@ const AboutSideCover = () => {
       >
         <Information />
         <Team />
-        <Featuring />
-        <Newsletter />
-      </Card>
-      <Container>
-        <Headline
-          head="О нас"
-          subhead1="Мы поможем Вам на каждом этапе процесса"
-          subhead2="Наши специалисты проконсультируют Вас по любым вопросам питания и
-          пищевого поведения вашего питомца"
-        />
-      </Container>
-      <Container paddingY={"0 !important"}>
-        <Gallery />
-        <Typography
-          component={"p"}
-          color={"text.secondary"}
-          fontWeight={400}
-          mt={3}
-          textAlign="center"
-        >
-          Компания Shepherd Pet предлагает любые кома и лакомства, которые
-          помогут не просто кормить, но и дрессировать Вашего питомца. Мы
-          помогаем каждый день нашим клиентам находить информацию, необходимую
-          им для обеспечения наилучшей жизни своим питомцам. Наша команда
-          авторов, в которую входят тренеры, ветеринарные специалисты и врачи
-          ветеринарной медицины, создают и обновляют информативные статьи,
-          полные ценных идей, отточенных на основе многолетнего практического
-          опыта для питания и дрессировки.
-        </Typography>
-      </Container>
-      <Container maxWidth={"800px !important"}>
-        <Numbers />
-      </Container>
-      <Container maxWidth={"800px !important"}>
         <Divider />
-      </Container>
-      <Container>
-        <TeamOur />
-      </Container>
-      <Container maxWidth={"800px !important"}>
-        <Divider />
-      </Container>
-      <Container>
         <Story />
-      </Container>
+        <Divider />
+        <Container>
+          <Headline
+            head="О нас"
+            subhead1="Мы поможем Вам на каждом этапе процесса"
+            subhead2="Наши специалисты проконсультируют Вас по любым вопросам питания и
+          пищевого поведения вашего питомца"
+          />
+        </Container>
+        <Container paddingY={"0 !important"}>
+          <Gallery />
+          <Typography
+            component={"p"}
+            color={"text.secondary"}
+            fontWeight={400}
+            mt={3}
+            textAlign="center"
+          >
+            Компания Shepherd Pet предлагает любые кома и лакомства, которые
+            помогут не просто кормить, но и дрессировать Вашего питомца. Мы
+            помогаем каждый день нашим клиентам находить информацию, необходимую
+            им для обеспечения наилучшей жизни своим питомцам. Наша команда
+            авторов, в которую входят тренеры, ветеринарные специалисты и врачи
+            ветеринарной медицины, создают и обновляют информативные статьи,
+            полные ценных идей, отточенных на основе многолетнего практического
+            опыта для питания и дрессировки.
+          </Typography>
+        </Container>
+        <Container maxWidth={"800px !important"}>
+          <Numbers />
+        </Container>
+      </Card>
+
       <MKBox pt={6} px={1} mt={6}>
         <DefaultFooter content={footerRoutes} />
       </MKBox>

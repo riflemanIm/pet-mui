@@ -78,7 +78,8 @@ HorizontalTeamCard.propTypes = {
     ]),
     label: PropTypes.string.isRequired,
   }).isRequired,
-  description: PropTypes.string.isRequired,
+  description: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
+    .isRequired,
 };
 
 export default HorizontalTeamCard;

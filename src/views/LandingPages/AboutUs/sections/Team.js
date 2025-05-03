@@ -31,11 +31,13 @@ import HorizontalTeamCard from "components/Cards/TeamCards/HorizontalTeamCard";
 
 import team1 from "assets/images/team/LLxas-lK8IE.jpg";
 import team2 from "assets/images/team/excNbWI7_dE.jpg";
-import team3 from "assets/images/team/photo_2024-06-25_19-37-28.jpg";
+import team3 from "assets/images/team/team3.png";
 import team4 from "assets/images/team/photo_2024-06-25_20-47-16.jpg";
-import team5 from "assets/images/team/photo1720612393.jpeg";
+import team5 from "assets/images/team/team5.png";
 import team6 from "assets/images/team/photo_2024-06-25_20-12-42.jpg";
 import team7 from "assets/images/team/photo_2024-06-25_19-26-16.jpg";
+import team8 from "assets/images/team/team8.png";
+import team9 from "assets/images/team/team9.png";
 
 function Team() {
   return (
@@ -64,10 +66,10 @@ function Team() {
             <MKBox mb={1}>
               <HorizontalTeamCard
                 image={team1.src}
-                name="ст. Новотитаровская"
-                position={{ color: "info", label: "UI Designer" }}
+                name="Теркулова Екатерина"
+                position={{ color: "info", label: "ст.Новотитаровская" }}
                 description={
-                  <ul style={{ marginLeft: 17 }}>
+                  <ul style={{ marginLeft: 15 }}>
                     <li>
                       Решение основных вопросов предприятия, связанных с
                       продвижением и рекламой
@@ -84,34 +86,164 @@ function Team() {
                 }
               />
             </MKBox>
+
+            <MKBox mb={{ xs: 1, lg: 0 }}>
+              <HorizontalTeamCard
+                image={team3.src}
+                name="Рязанова Юлия"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li data-list="bullet">
+                      Координация и контроль логистических процессов
+                    </li>
+                    <li data-list="bullet">
+                      Обеспечение своевременности и эффективности снабжения
+                    </li>
+                    <li data-list="bullet">
+                      Ведение переговоров и заключение договоров с поставщиками
+                    </li>
+                    <li data-list="bullet">Торговый представитель</li>
+                    <li data-list="bullet">
+                      <strong>Связаться: +7 918 044 92 53</strong>
+                    </li>
+                    <li data-list="bullet">
+                      <strong>Связаться: +7 918 032 63 74</strong>
+                    </li>
+                    <li data-list="bullet">E-mail: ryazanova@s-pet.ru</li>
+                  </ul>
+                }
+              />
+            </MKBox>
+            <MKBox mb={{ xs: 1, lg: 0 }}>
+              <HorizontalTeamCard
+                image={team4.src}
+                name="Волкова Елена"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li>Торговый представитель</li>
+                    <li>
+                      <strong>Связаться: +7 918 261 02 02</strong>
+                    </li>
+                    <li>E-mail: volkova.e@s-pet.ru</li>
+                  </ul>
+                }
+              />
+            </MKBox>
+            <MKBox mb={{ xs: 1, lg: 0 }}>
+              <HorizontalTeamCard
+                image={team8.src}
+                name="Сурмач Екатерина"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li data-list="bullet">Торговый представитель</li>
+                    <li data-list="bullet">
+                      <strong>Связаться: +7 928 422 11 18</strong>
+                    </li>
+                    <li data-list="bullet">E-mail: surmach.e@s-pet.ru</li>
+                  </ul>
+                }
+              />
+            </MKBox>
           </Grid>
+
           <Grid item xs={12} lg={6}>
             <MKBox mb={1}>
               <HorizontalTeamCard
                 image={team2.src}
-                name="William Pearce"
-                position={{ color: "info", label: "Boss" }}
-                description="Artist is a term applied to a person who engages in an activity deemed to be an art."
+                name="Акулова Юлия"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li>Взаимодействие с поставщиками</li>
+                    <li>Проведение переговоров и заключение контрактов</li>
+                    <li>Торговый представитель</li>
+                    <li>
+                      <strong>Связаться: +7 988 520 06 51</strong>
+                    </li>
+                    <li>E-mail: akylovau@s-pet.ru</li>
+                  </ul>
+                }
               />
             </MKBox>
-          </Grid>
-          <Grid item xs={12} lg={6}>
             <MKBox mb={{ xs: 1, lg: 0 }}>
               <HorizontalTeamCard
-                image={team3.src}
-                name="Ivana Flow"
-                position={{ color: "info", label: "Athlete" }}
-                description="Artist is a term applied to a person who engages in an activity deemed to be an art."
+                image={team5.src}
+                name="Сафиуллин Андрей"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li data-list="bullet">
+                      Руководитель производственного отдела
+                    </li>
+                    <li data-list="bullet">
+                      Обеспечение своевременности и эффективности снабжения
+                    </li>
+                    <li data-list="bullet">
+                      Контроль качества технологических процессов
+                    </li>
+                    <li data-list="bullet">
+                      <strong>Связаться: +7 988 242 24 26</strong>
+                    </li>
+                    <li data-list="bullet">E-mail: safiullin.a@s-pet.ru</li>
+                  </ul>
+                }
               />
             </MKBox>
-          </Grid>
-          <Grid item xs={12} lg={6}>
+
             <MKBox mb={{ xs: 1, lg: 0 }}>
               <HorizontalTeamCard
-                image={team4.src}
-                name="Marquez Garcia"
-                position={{ color: "info", label: "JS Developer" }}
-                description="Artist is a term applied to a person who engages in an activity deemed to be an art."
+                image={team6.src}
+                name="Ян Заяц"
+                position={{
+                  color: "info",
+                  label: "г. Москва, Научный проезд, 12",
+                }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li>Торговый представитель</li>
+                    <li>
+                      <strong>Связаться: +7 968 818 22 92</strong>
+                    </li>
+                    <li>E-mail: yan.marcovich@s-pet.ru</li>
+                  </ul>
+                }
+              />
+            </MKBox>
+
+            <MKBox mb={{ xs: 1, lg: 0 }}>
+              <HorizontalTeamCard
+                image={team7.src}
+                name="Червинко Ирина"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li>Торговый представитель</li>
+                    <li>
+                      <strong>Связаться: +7 959 191 48 50</strong>
+                    </li>
+                    <li>E-mail: chervinko@s-pet.ru</li>
+                  </ul>
+                }
+              />
+            </MKBox>
+
+            <MKBox mb={{ xs: 1, lg: 0 }}>
+              <HorizontalTeamCard
+                image={team9.src}
+                name="Муравьёва Юлия"
+                position={{ color: "info", label: "г.Краснодар" }}
+                description={
+                  <ul style={{ marginLeft: 15 }}>
+                    <li>Торговый представитель</li>
+                    <li>
+                      <strong>Связаться: +7 918 385 55 45</strong>
+                    </li>
+                    <li>E-mail: muravyova@s-pet.ru</li>
+                  </ul>
+                }
               />
             </MKBox>
           </Grid>
