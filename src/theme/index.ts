@@ -1,37 +1,26 @@
-/**
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
+// theme/index.ts
+import { createTheme, ThemeOptions } from "@mui/material/styles";
 
-* Product Page: https://shepherd-pet.ru/product/soft-ui-dashboard-pro-material-ui
-* Copyright 2023 Oleg La (https://shepherd-pet.ru/)
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
-import { createTheme } from "@mui/material/styles";
-// import Fade from "@mui/material/Fade";
-
-import colors from "theme/base/colors";
+// Base theme definitions
 import breakpoints from "theme/base/breakpoints";
-import typography from "theme/base/typography";
+import colors from "theme/base/colors";
+import {
+  typography,
+  customSizes,
+  customLineHeights,
+} from "theme/base/typography";
 import boxShadows from "theme/base/boxShadows";
 import borders from "theme/base/borders";
 import globals from "theme/base/globals";
 
-// Shepherd React helper functions
+// Helper functions
 import boxShadow from "theme/functions/boxShadow";
 import hexToRgb from "theme/functions/hexToRgb";
 import linearGradient from "theme/functions/linearGradient";
 import pxToRem from "theme/functions/pxToRem";
 import rgba from "theme/functions/rgba";
 
-//  base styles for @mui material components
+// Component style overrides
 import list from "theme/components/list";
 import listItem from "theme/components/list/listItem";
 import listItemText from "theme/components/list/listItemText";
@@ -83,10 +72,39 @@ import dialogContent from "theme/components/dialog/dialogContent";
 import dialogContentText from "theme/components/dialog/dialogContentText";
 import dialogActions from "theme/components/dialog/dialogActions";
 
-export default createTheme({
+// Module augmentation to extend Theme interface
+declare module "@mui/material/styles" {
+  interface Theme {
+    boxShadows: typeof boxShadows;
+    borders: typeof borders;
+    functions: {
+      boxShadow: typeof boxShadow;
+      hexToRgb: typeof hexToRgb;
+      linearGradient: typeof linearGradient;
+      pxToRem: typeof pxToRem;
+      rgba: typeof rgba;
+    };
+  }
+  // allow configuration using ThemeOptions
+  interface ThemeOptions {
+    boxShadows?: typeof boxShadows;
+    borders?: typeof borders;
+    functions?: {
+      boxShadow?: typeof boxShadow;
+      hexToRgb?: typeof hexToRgb;
+      linearGradient?: typeof linearGradient;
+      pxToRem?: typeof pxToRem;
+      rgba?: typeof rgba;
+    };
+  }
+}
+
+const themeOptions: ThemeOptions = {
   breakpoints: { ...breakpoints },
   palette: { ...colors },
-  typography: { ...typography },
+  typography,
+  customSizes,
+  customLineHeights,
   boxShadows: { ...boxShadows },
   borders: { ...borders },
   functions: {
@@ -96,7 +114,6 @@ export default createTheme({
     pxToRem,
     rgba,
   },
-
   components: {
     MuiCssBaseline: {
       styleOverrides: {
@@ -154,4 +171,8 @@ export default createTheme({
     MuiDialogContentText: { ...dialogContentText },
     MuiDialogActions: { ...dialogActions },
   },
-});
+};
+
+const theme = createTheme(themeOptions);
+
+export default theme;

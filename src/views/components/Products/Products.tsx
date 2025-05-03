@@ -5,7 +5,7 @@ import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+import Grid2 from "@mui/material/Grid2";
 import { Alert, Pagination, Stack } from "@mui/material";
 
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
@@ -16,7 +16,9 @@ import ProductItem from "./ProductItem";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 import ProductFilter from "./ProductFilter";
 import ProductSort from "./ProductSort";
-import Headline from "../../../Headline";
+import Headline from "../Headline";
+import DefaultNavbar from "components/Navbars/DefaultNavbar";
+import routes from "assets/routes";
 
 const Products: FC = () => {
   const theme = useTheme();
@@ -44,13 +46,13 @@ const Products: FC = () => {
         setHomePageFoodSum(foodListLoadable.contents.total);
         return (
           <>
-            <Grid container spacing={4}>
+            <Grid2 container spacing={4}>
               {foodListLoadable.contents.content.map(
                 (food: FoodProps, inx: number) => (
                   <ProductItem item={food} key={food.id} i={inx} />
                 )
               )}
-            </Grid>
+            </Grid2>
             {homePageFoodSum > PAGE_SIZE && (
               <Stack spacing={2} alignItems="center" mt={3}>
                 <Pagination
@@ -73,7 +75,7 @@ const Products: FC = () => {
               <Typography
                 variant="body2"
                 gutterBottom
-                color="secodary"
+                color="secondary"
                 align="center"
                 data-aos="fade-up"
                 mt={5}
@@ -94,22 +96,26 @@ const Products: FC = () => {
 
   return (
     <>
-      <Headline
-        head="Каталог товаров"
-        subhead1="Вкусняшки для Вашего питомца"
-        align="left"
+      <DefaultNavbar
+        routes={routes}
+        action={{
+          type: "external",
+          route: "/catalog",
+          label: "Каталог",
+          color: "default",
+        }}
+        transparent
+        light
       />
-      <Grid container spacing={3} p={3}>
-        <Grid item xs={12} sm={6} md={9}></Grid>
-        <Grid
-          item
-          xs={6}
-          sm={3}
+      <Grid2 container spacing={3} p={3}>
+        <Grid2 size={{ xs: 12, sm: 6, md: 9 }} />
+        <Grid2
+          size={{ xs: 6, sm: 3 }}
           textAlign="right"
           sx={{ display: { sm: "block", md: "none" } }}
         >
           <Button
-            onClick={() => handleToggleFilters()}
+            onClick={handleToggleFilters}
             aria-label="Menu"
             variant="contained"
             sx={{
@@ -127,21 +133,20 @@ const Products: FC = () => {
             open={openFiltersBar}
             variant="temporary"
           />
-        </Grid>
-        <Grid item xs={6} sm={3} md={3}>
+        </Grid2>
+        <Grid2 size={{ xs: 6, sm: 3, md: 3 }}>
           {homePageFoodSum > 0 && <ProductSort />}
-        </Grid>
-        <Grid
-          item
-          md={3}
+        </Grid2>
+        <Grid2
+          size={{ md: 3 }}
           sx={{ display: { md: "block", sm: "none", xs: "none" } }}
         >
           <ProductFilter />
-        </Grid>
-        <Grid item sm={12} md={9}>
+        </Grid2>
+        <Grid2 size={{ sm: 12, md: 9 }}>
           <RenderItems />
-        </Grid>
-      </Grid>
+        </Grid2>
+      </Grid2>
     </>
   );
 };

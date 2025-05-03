@@ -1,5 +1,6 @@
-import { Card, Grid, Typography } from "@mui/material";
-import Divider from "@mui/material/Divider";
+import React from "react";
+import { Card, Typography, Divider } from "@mui/material";
+import Grid2 from "@mui/material/Unstable_Grid2";
 import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/bg-about-us.jpg";
 import routes from "assets/routes";
@@ -47,11 +48,9 @@ const AboutSideCover = () => {
         }}
       >
         <Container>
-          <Grid
+          <Grid2
             container
-            item
-            xs={12}
-            lg={8}
+            size={{ xs: 12, lg: 8 }}
             justifyContent="center"
             alignItems="center"
             flexDirection="column"
@@ -124,7 +123,7 @@ const AboutSideCover = () => {
                 <i className="fab fa-google-plus" />
               </MKTypography>
             </MKBox>
-          </Grid>
+          </Grid2>
         </Container>
       </MKBox>
       <Card
@@ -145,15 +144,14 @@ const AboutSideCover = () => {
           <Headline
             head="О нас"
             subhead1="Мы поможем Вам на каждом этапе процесса"
-            subhead2="Наши специалисты проконсультируют Вас по любым вопросам питания и
-          пищевого поведения вашего питомца"
+            subhead2="Наши специалисты проконсультируют Вас по любым вопросам питания и пищевого поведения вашего питомца"
           />
         </Container>
-        <Container paddingY={"0 !important"}>
+        <Container paddingY="0 !important">
           <Gallery />
           <Typography
-            component={"p"}
-            color={"text.secondary"}
+            component="p"
+            color="text.secondary"
             fontWeight={400}
             mt={3}
             textAlign="center"
@@ -168,7 +166,7 @@ const AboutSideCover = () => {
             опыта для питания и дрессировки.
           </Typography>
         </Container>
-        <Container maxWidth={"800px !important"}>
+        <Container maxWidth="800px !important">
           <Numbers />
         </Container>
       </Card>

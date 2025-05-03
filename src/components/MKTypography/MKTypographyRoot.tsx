@@ -1,22 +1,14 @@
-/**
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
-import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
+import Typography, { TypographyProps } from "@mui/material/Typography";
+import { MKTypographyProps } from "components/MKTypography";
 
-export default styled(Typography)(({ theme, ownerState }) => {
+interface OwnerState extends MKTypographyProps {}
+
+const MKTypographyRoot = styled<
+  React.FC<TypographyProps & { ownerState: OwnerState }>
+>(Typography, {
+  shouldForwardProp: (prop) => prop !== "ownerState",
+})(({ theme, ownerState }) => {
   const { palette, typography, functions } = theme;
   const {
     color,
@@ -36,7 +28,6 @@ export default styled(Typography)(({ theme, ownerState }) => {
   } = typography;
   const { linearGradient } = functions;
 
-  // fontWeight styles
   const fontWeights = {
     light: fontWeightLight,
     regular: fontWeightRegular,
@@ -44,14 +35,16 @@ export default styled(Typography)(({ theme, ownerState }) => {
     bold: fontWeightBold,
   };
 
-  // styles for the typography with textGradient={true}
   const gradientStyles = () => ({
     backgroundImage:
       color !== "inherit" &&
       color !== "text" &&
       color !== "white" &&
-      gradients[color]
-        ? linearGradient(gradients[color].main, gradients[color].state)
+      gradients[color as keyof typeof gradients]
+        ? linearGradient(
+            gradients[color as keyof typeof gradients].main,
+            gradients[color as keyof typeof gradients].state
+          )
         : linearGradient(gradients.dark.main, gradients.dark.state),
     display: "inline-block",
     WebkitBackgroundClip: "text",
@@ -60,9 +53,10 @@ export default styled(Typography)(({ theme, ownerState }) => {
     zIndex: 1,
   });
 
-  // color value
   const colorValue =
-    color === "inherit" || !palette[color] ? "inherit" : palette[color].main;
+    color === "inherit" || !palette[color as keyof typeof palette]
+      ? "inherit"
+      : palette[color as keyof typeof palette].main;
 
   return {
     opacity,
@@ -71,7 +65,9 @@ export default styled(Typography)(({ theme, ownerState }) => {
     textDecoration: "none",
     color: colorValue,
     letterSpacing: "-0.125px",
-    fontWeight: fontWeights[fontWeight] && fontWeights[fontWeight],
+    fontWeight: fontWeights[fontWeight as keyof typeof fontWeights],
     ...(textGradient && gradientStyles()),
   };
 });
+
+export default MKTypographyRoot;

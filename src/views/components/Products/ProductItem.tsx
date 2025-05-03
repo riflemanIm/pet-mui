@@ -18,7 +18,7 @@ import { shoppingCartState } from "atoms";
 import { useSnackbar } from "notistack";
 import { addItemShoppingCart } from "selectors";
 import isEmpty from "helpers";
-import HandCounter from "../../../HandCounter";
+import HandCounter from "../HandCounter";
 import { FoodProps } from "types";
 
 export interface ProductsPageProps {

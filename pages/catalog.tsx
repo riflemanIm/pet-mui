@@ -1,9 +1,9 @@
 import React from "react";
-import Ecommerce from "views/components/Ecommerce";
+import Products from "views/components/Products";
 import { NextPage } from "next";
 
 const PageEcommerce: NextPage = () => {
-  return <Ecommerce />;
+  return <Products />;
 };
 
 export default PageEcommerce;

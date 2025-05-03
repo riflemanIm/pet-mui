@@ -1,36 +1,49 @@
-// @mui icons
+import { ReactElement } from "react";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
-
-//
 import MKTypography from "components/MKTypography";
-
-// Images
 import logo from "assets/images_pet/logo_shepherd_navy.svg";
+
+export interface SocialLink {
+  icon: ReactElement;
+  link: string;
+}
+
+export interface MenuItem {
+  name: string;
+  href: string;
+}
+
+export interface MenuSection {
+  name: string;
+  items: MenuItem[];
+}
+
+export interface FooterConfig {
+  brand: {
+    name: string;
+    image: string;
+    route: string;
+  };
+  socials: SocialLink[];
+  menus: MenuSection[];
+  copyright: ReactElement;
+}
 
 const date = new Date().getFullYear();
 
-export default {
+const footerConfig: FooterConfig = {
   brand: {
     name: "Shepherd",
     image: logo.src,
     route: "/",
   },
   socials: [
-    {
-      icon: <FacebookIcon />,
-      link: "https://www.facebook.com/CreativeTim/",
-    },
-    {
-      icon: <TwitterIcon />,
-      link: "https://twitter.com/creativetim",
-    },
-    {
-      icon: <GitHubIcon />,
-      link: "https://github.com/creativetimofficial",
-    },
+    { icon: <FacebookIcon />, link: "https://www.facebook.com/CreativeTim/" },
+    { icon: <TwitterIcon />, link: "https://twitter.com/creativetim" },
+    { icon: <GitHubIcon />, link: "https://github.com/creativetimofficial" },
     {
       icon: <YouTubeIcon />,
       link: "https://www.youtube.com/channel/UCVyTG4sCw-rOvB9oHkzZD1w",
@@ -41,10 +54,7 @@ export default {
       name: "company",
       items: [
         { name: "about us", href: "https://shepherd-pet.ru/presentation" },
-        {
-          name: "freebies",
-          href: "https://shepherd-pet.ru/templates/free",
-        },
+        { name: "freebies", href: "https://shepherd-pet.ru/templates/free" },
         {
           name: "premium tools",
           href: "https://shepherd-pet.ru/templates/premium",
@@ -75,33 +85,21 @@ export default {
           name: "custom development",
           href: "https://services.creative-tim.com/",
         },
-        {
-          name: "sponsorships",
-          href: "https://shepherd-pet.ru/sponsorships",
-        },
+        { name: "sponsorships", href: "https://shepherd-pet.ru/sponsorships" },
       ],
     },
     {
       name: "legal",
       items: [
-        {
-          name: "terms & conditions",
-          href: "https://shepherd-pet.ru/terms",
-        },
-        {
-          name: "privacy policy",
-          href: "https://shepherd-pet.ru/privacy",
-        },
-        {
-          name: "licenses (EULA)",
-          href: "https://shepherd-pet.ru/license",
-        },
+        { name: "terms & conditions", href: "https://shepherd-pet.ru/terms" },
+        { name: "privacy policy", href: "https://shepherd-pet.ru/privacy" },
+        { name: "licenses (EULA)", href: "https://shepherd-pet.ru/license" },
       ],
     },
   ],
   copyright: (
     <MKTypography variant="button" fontWeight="regular">
-      All rights reserved. Copyright &copy; {date} Kubtel by{" "}
+      All rights reserved. Copyright &copy; {date} Shepherd by{" "}
       <MKTypography
         component="a"
         href="https://shepherd-pet.ru/"
@@ -116,3 +114,5 @@ export default {
     </MKTypography>
   ),
 };
+
+export default footerConfig;
