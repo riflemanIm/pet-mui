@@ -1,5 +1,8 @@
 // theme/base/colors.ts
-import { PaletteOptions as MuiPaletteOptions } from "@mui/material/styles";
+import {
+  alpha,
+  PaletteOptions as MuiPaletteOptions,
+} from "@mui/material/styles";
 
 declare module "@mui/material/styles" {
   interface PaletteColor {
@@ -84,7 +87,7 @@ declare module "@mui/material/styles" {
 const colors: MuiPaletteOptions = {
   background: { default: "#EEF6FF" },
   text: { primary: "#7b809a", secondary: "#7b809a" },
-  transparent: { main: "transparent" },
+  transparent: { main: alpha("#fff", 0) },
   white: { main: "#ffffff", focus: "#ffffff" },
   black: { light: "#000000", main: "#000000", focus: "#000000" },
   primary: { main: "#F40080", focus: "#F40080" },
