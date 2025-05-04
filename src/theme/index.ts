@@ -1,5 +1,5 @@
 // theme/index.ts
-import { createTheme, ThemeOptions } from "@mui/material/styles";
+import { createTheme, ThemeOptions, Components } from "@mui/material/styles";
 
 // Base theme definitions
 import breakpoints from "theme/base/breakpoints";
@@ -13,21 +13,16 @@ import boxShadows from "theme/base/boxShadows";
 import borders from "theme/base/borders";
 import globals from "theme/base/globals";
 
-// Helper functions
-import boxShadow from "theme/functions/boxShadow";
-import hexToRgb from "theme/functions/hexToRgb";
-import linearGradient from "theme/functions/linearGradient";
-import pxToRem from "theme/functions/pxToRem";
-import rgba from "theme/functions/rgba";
-
-// Component style overrides
+// Component style generators
+import { getContainedStyles } from "theme/components/button/contained";
+import { getOutlinedStyles } from "theme/components/button/outlined";
+import { getTextStyles } from "theme/components/button/text";
 import list from "theme/components/list";
 import listItem from "theme/components/list/listItem";
 import listItemText from "theme/components/list/listItemText";
 import card from "theme/components/card";
 import cardMedia from "theme/components/card/cardMedia";
 import cardContent from "theme/components/card/cardContent";
-import button from "theme/components/button";
 import iconButton from "theme/components/iconButton";
 import input from "theme/components/form/input";
 import inputLabel from "theme/components/form/inputLabel";
@@ -72,34 +67,24 @@ import dialogContent from "theme/components/dialog/dialogContent";
 import dialogContentText from "theme/components/dialog/dialogContentText";
 import dialogActions from "theme/components/dialog/dialogActions";
 
-// Module augmentation to extend Theme interface
+// Module augmentation
 declare module "@mui/material/styles" {
   interface Theme {
     boxShadows: typeof boxShadows;
     borders: typeof borders;
-    functions: {
-      boxShadow: typeof boxShadow;
-      hexToRgb: typeof hexToRgb;
-      linearGradient: typeof linearGradient;
-      pxToRem: typeof pxToRem;
-      rgba: typeof rgba;
-    };
+    customSizes: typeof customSizes;
+    customLineHeights: typeof customLineHeights;
   }
-  // allow configuration using ThemeOptions
   interface ThemeOptions {
     boxShadows?: typeof boxShadows;
     borders?: typeof borders;
-    functions?: {
-      boxShadow?: typeof boxShadow;
-      hexToRgb?: typeof hexToRgb;
-      linearGradient?: typeof linearGradient;
-      pxToRem?: typeof pxToRem;
-      rgba?: typeof rgba;
-    };
+    customSizes?: typeof customSizes;
+    customLineHeights?: typeof customLineHeights;
   }
 }
 
-const themeOptions: ThemeOptions = {
+// 1. Create initial theme
+const baseThemeOptions: ThemeOptions = {
   breakpoints: { ...breakpoints },
   palette: { ...colors },
   typography,
@@ -107,72 +92,92 @@ const themeOptions: ThemeOptions = {
   customLineHeights,
   boxShadows: { ...boxShadows },
   borders: { ...borders },
-  functions: {
-    boxShadow,
-    hexToRgb,
-    linearGradient,
-    pxToRem,
-    rgba,
-  },
-  components: {
-    MuiCssBaseline: {
-      styleOverrides: {
-        ...globals,
-        ...flatpickr,
-        ...container,
-      },
-    },
-    MuiList: { ...list },
-    MuiListItem: { ...listItem },
-    MuiListItemText: { ...listItemText },
-    MuiCard: { ...card },
-    MuiCardMedia: { ...cardMedia },
-    MuiCardContent: { ...cardContent },
-    MuiButton: { ...button },
-    MuiIconButton: { ...iconButton },
-    MuiInput: { ...input },
-    MuiInputLabel: { ...inputLabel },
-    MuiOutlinedInput: { ...inputOutlined },
-    MuiTextField: { ...textField },
-    MuiMenu: { ...menu },
-    MuiMenuItem: { ...menuItem },
-    MuiSwitch: { ...switchButton },
-    MuiDivider: { ...divider },
-    MuiTableContainer: { ...tableContainer },
-    MuiTableHead: { ...tableHead },
-    MuiTableCell: { ...tableCell },
-    MuiLinearProgress: { ...linearProgress },
-    MuiBreadcrumbs: { ...breadcrumbs },
-    MuiSlider: { ...slider },
-    MuiAvatar: { ...avatar },
-    MuiTooltip: { ...tooltip },
-    MuiAppBar: { ...appBar },
-    MuiTabs: { ...tabs },
-    MuiTab: { ...tab },
-    MuiStepper: { ...stepper },
-    MuiStep: { ...step },
-    MuiStepConnector: { ...stepConnector },
-    MuiStepLabel: { ...stepLabel },
-    MuiStepIcon: { ...stepIcon },
-    MuiSelect: { ...select },
-    MuiFormControlLabel: { ...formControlLabel },
-    MuiFormLabel: { ...formLabel },
-    MuiCheckbox: { ...checkbox },
-    MuiRadio: { ...radio },
-    MuiAutocomplete: { ...autocomplete },
-    MuiPopover: { ...popover },
-    MuiButtonBase: { ...buttonBase },
-    MuiIcon: { ...icon },
-    MuiSvgIcon: { ...svgIcon },
-    MuiLink: { ...link },
-    MuiDialog: { ...dialog },
-    MuiDialogTitle: { ...dialogTitle },
-    MuiDialogContent: { ...dialogContent },
-    MuiDialogContentText: { ...dialogContentText },
-    MuiDialogActions: { ...dialogActions },
-  },
 };
 
-const theme = createTheme(themeOptions);
+let theme = createTheme(baseThemeOptions);
+
+// 2. Build components overrides after theme is available
+const buttonOverrides: Components["MuiButton"]["styleOverrides"] = {
+  root: theme.components?.MuiButton?.styleOverrides?.root || {},
+  contained: getContainedStyles(theme).root,
+  containedSizeSmall: getContainedStyles(theme).sizeSmall,
+  containedSizeLarge: getContainedStyles(theme).sizeLarge,
+  containedPrimary: getContainedStyles(theme).primary,
+  containedSecondary: getContainedStyles(theme).secondary,
+  outlined: getOutlinedStyles(theme).root,
+  outlinedSizeSmall: getOutlinedStyles(theme).sizeSmall,
+  outlinedSizeLarge: getOutlinedStyles(theme).sizeLarge,
+  outlinedPrimary: getOutlinedStyles(theme).primary,
+  outlinedSecondary: getOutlinedStyles(theme).secondary,
+  text: getTextStyles(theme).root,
+  textSizeSmall: getTextStyles(theme).sizeSmall,
+  textSizeLarge: getTextStyles(theme).sizeLarge,
+  textPrimary: getTextStyles(theme).primary,
+  textSecondary: getTextStyles(theme).secondary,
+};
+
+const componentsOverrides: Components = {
+  MuiCssBaseline: {
+    styleOverrides: {
+      ...globals,
+      ...flatpickr,
+      ...container,
+    },
+  },
+  MuiList: list,
+  MuiListItem: listItem,
+  MuiListItemText: listItemText,
+  MuiCard: card,
+  MuiCardMedia: cardMedia,
+  MuiCardContent: cardContent,
+  MuiButton: {
+    defaultProps: { disableRipple: false },
+    styleOverrides: buttonOverrides,
+  },
+  MuiIconButton: iconButton,
+  MuiInput: input,
+  MuiInputLabel: inputLabel,
+  MuiOutlinedInput: inputOutlined,
+  MuiTextField: textField,
+  MuiMenu: menu,
+  MuiMenuItem: menuItem,
+  MuiSwitch: switchButton,
+  MuiDivider: divider,
+  MuiTableContainer: tableContainer,
+  MuiTableHead: tableHead,
+  MuiTableCell: tableCell,
+  MuiLinearProgress: linearProgress,
+  MuiBreadcrumbs: breadcrumbs,
+  MuiSlider: slider,
+  MuiAvatar: avatar,
+  MuiTooltip: tooltip,
+  MuiAppBar: appBar,
+  MuiTabs: tabs,
+  MuiTab: tab,
+  MuiStepper: stepper,
+  MuiStep: step,
+  MuiStepConnector: stepConnector,
+  MuiStepLabel: stepLabel,
+  MuiStepIcon: stepIcon,
+  MuiSelect: select,
+  MuiFormControlLabel: formControlLabel,
+  MuiFormLabel: formLabel,
+  MuiCheckbox: checkbox,
+  MuiRadio: radio,
+  MuiAutocomplete: autocomplete,
+  MuiPopover: popover,
+  MuiButtonBase: buttonBase,
+  MuiIcon: icon,
+  MuiSvgIcon: svgIcon,
+  MuiLink: link,
+  MuiDialog: dialog,
+  MuiDialogTitle: dialogTitle,
+  MuiDialogContent: dialogContent,
+  MuiDialogContentText: dialogContentText,
+  MuiDialogActions: dialogActions,
+};
+
+// 3. Recreate theme with component overrides
+theme = createTheme(theme, { components: componentsOverrides });
 
 export default theme;

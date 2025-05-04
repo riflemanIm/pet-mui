@@ -1,6 +1,5 @@
 // theme/base/typography.ts
-import { Palette } from "@mui/material/styles";
-import { TypographyOptions } from "@mui/material/styles";
+import { ThemeOptions } from "@mui/material/styles";
 
 // Extend Theme interface to include custom sizes and lineHeights
 declare module "@mui/material/styles" {
@@ -14,10 +13,15 @@ declare module "@mui/material/styles" {
   }
 }
 
-const typography: TypographyOptions = {
+// Base typography options conforming to MUI ThemeOptions.typography
+enum BaseFontSizes {
+  Base = 16,
+}
+
+const typography: ThemeOptions["typography"] = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
-  fontSize: 16, // base font size in px
-  htmlFontSize: 16, // used to compute rem values
+  fontSize: BaseFontSizes.Base,
+  htmlFontSize: BaseFontSizes.Base,
 };
 
 // Additional custom sizes and line heights
