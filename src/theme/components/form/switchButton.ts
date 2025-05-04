@@ -2,10 +2,12 @@
 import { Components, Theme } from "@mui/material/styles";
 import pxToRem from "theme/functions/pxToRem";
 import linearGradient from "theme/functions/linearGradient";
-import colors from "theme/base/colors";
 
 export function getSwitchComponents(theme: Theme): Components["MuiSwitch"] {
-  const { white, gradients, grey } = colors;
+  // Теперь берем все из theme.palette
+  const { white } = theme.palette.common;
+  const gradients = theme.palette.gradients!; // у вас в augmentation гарантированно есть Palette.gradients
+  const grey400 = theme.palette.grey[400];
   const bw = theme.borders.borderWidth;
   const boxShadow = theme.boxShadows.md;
 
@@ -38,13 +40,13 @@ export function getSwitchComponents(theme: Theme): Components["MuiSwitch"] {
       thumb: {
         backgroundColor: white,
         boxShadow,
-        border: `${bw.thin} solid ${grey[400]}`,
+        border: `${bw.thin} solid ${grey400}`,
       },
       track: {
         width: pxToRem(32),
         height: pxToRem(15),
-        backgroundColor: grey[400],
-        border: `${bw.thin} solid ${grey[400]}`,
+        backgroundColor: grey400,
+        border: `${bw.thin} solid ${grey400}`,
         opacity: 1,
       },
     },

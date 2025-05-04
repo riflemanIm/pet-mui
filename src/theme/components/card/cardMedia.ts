@@ -2,9 +2,8 @@
 import { Components } from "@mui/material/styles";
 import { CSSObject } from "@mui/system";
 import pxToRem from "theme/functions/pxToRem";
-import { Theme } from "@mui/material/styles";
 
-const cardMediaComponents: Components["MuiCardMedia"] = {
+export const getCardMediaComponents: Components["MuiCardMedia"] = {
   styleOverrides: {
     root: {
       borderRadius: pxToRem(0), // fallback if needed
@@ -15,5 +14,3 @@ const cardMediaComponents: Components["MuiCardMedia"] = {
     } as CSSObject,
   },
 };
-
-export default cardMediaComponents;

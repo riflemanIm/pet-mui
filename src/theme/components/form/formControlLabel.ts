@@ -1,46 +1,41 @@
-/**
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-import colors from "theme/base/colors";
-import typography from "theme/base/typography";
-
-// Shepherd React helper functions
+// theme/components/form/formLabel.ts
+import { Components, Theme } from "@mui/material/styles";
+import { CSSObject } from "@mui/system";
 import pxToRem from "theme/functions/pxToRem";
 
-const { dark } = colors;
-const { size, fontWeightBold } = typography;
+/**
+ * Generate style overrides for MuiFormControlLabel (label slot) component.
+ * @param theme - The MUI theme object
+ * @returns Components['MuiFormControlLabel'] override configuration
+ */
+export function getFormControlLabelComponents(
+  theme: Theme
+): Components["MuiFormControlLabel"] {
+  const darkMain = theme.palette.primary.dark;
 
-export default {
-  styleOverrides: {
-    root: {
-      display: "block",
-      minHeight: pxToRem(24),
-      marginBottom: pxToRem(2),
+  const rootStyles: CSSObject = {
+    display: "block",
+    minHeight: pxToRem(24),
+    marginBottom: pxToRem(2),
+  };
+
+  const labelStyles: CSSObject = {
+    display: "inline-block",
+    fontSize: pxToRem(theme.customSizes.sm),
+    fontWeight: theme.typography.fontWeightBold,
+    color: darkMain,
+    lineHeight: 1,
+    transform: `translateY(${pxToRem(1)})`,
+    marginLeft: pxToRem(4),
+    "&.Mui-disabled": {
+      color: theme.palette.text.disabled,
     },
+  };
 
-    label: {
-      display: "inline-block",
-      fontSize: size.sm,
-      fontWeight: fontWeightBold,
-      color: dark.main,
-      lineHeight: 1,
-      transform: `translateY(${pxToRem(1)})`,
-      marginLeft: pxToRem(4),
-
-      "&.Mui-disabled": {
-        color: dark.main,
-      },
+  return {
+    styleOverrides: {
+      root: rootStyles,
+      label: labelStyles,
     },
-  },
-};
+  };
+}

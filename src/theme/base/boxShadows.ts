@@ -1,12 +1,10 @@
 // theme/base/boxShadows.ts
-import { Palette } from "@mui/material/styles";
-import colors from "theme/base/colors";
 import boxShadow from "theme/functions/boxShadow";
+import colors from "theme/base/colors";
 
-// Cast colors to full Palette to ensure required fields
-const palette = colors as Palette;
-const { black, white, tabs } = palette;
-
+/**
+ * Интерфейс описывает доступные тени в теме
+ */
 export interface BoxShadows {
   xs: string;
   sm: string;
@@ -15,6 +13,18 @@ export interface BoxShadows {
   xl: string;
   xxl: string;
   inset: string;
+  colored: Record<
+    | "primary"
+    | "secondary"
+    | "info"
+    | "success"
+    | "warning"
+    | "error"
+    | "light"
+    | "dark"
+    | "white",
+    string
+  >;
   sliderBoxShadow: {
     thumb: string;
   };
@@ -23,14 +33,68 @@ export interface BoxShadows {
   };
 }
 
+// Берём цвета из палитры
+const { black, white, tabs, coloredShadows } = colors as Required<
+  typeof colors
+>;
+
+// Собираем объект с тенями
 const boxShadows: BoxShadows = {
   xs: boxShadow([0, 2], [9, -5], black.main, 0.15),
   sm: boxShadow([0, 5], [10, 0], black.main, 0.12),
-  md: boxShadow([0, 4], [6, -1], black.main, 0.1),
-  lg: boxShadow([0, 5], [15, 0], black.main, 0.1),
-  xl: boxShadow([0, 10], [20, 0], black.main, 0.1),
-  xxl: boxShadow([0, 20], [25, 0], black.main, 0.2),
-  inset: boxShadow([0, 1], [2, 0], white, 0.07, "inset"),
+  md: [
+    boxShadow([0, 4], [6, -1], black.main, 0.1),
+    boxShadow([0, 2], [4, -1], black.main, 0.06),
+  ].join(", "),
+  lg: [
+    boxShadow([0, 10], [15, -3], black.main, 0.1),
+    boxShadow([0, 4], [6, -2], black.main, 0.05),
+  ].join(", "),
+  xl: [
+    boxShadow([0, 20], [25, -5], black.main, 0.1),
+    boxShadow([0, 10], [10, -5], black.main, 0.04),
+  ].join(", "),
+  xxl: boxShadow([0, 20], [27, 0], black.main, 0.05),
+  inset: boxShadow([0, 1], [2, 0], black.main, 0.075, "inset"),
+
+  colored: {
+    primary: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.primary, 0.4),
+    ].join(", "),
+    secondary: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.secondary, 0.4),
+    ].join(", "),
+    info: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.info, 0.4),
+    ].join(", "),
+    success: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.success, 0.4),
+    ].join(", "),
+    warning: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.warning, 0.4),
+    ].join(", "),
+    error: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.error, 0.4),
+    ].join(", "),
+    light: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.light, 0.4),
+    ].join(", "),
+    dark: [
+      boxShadow([0, 4], [20, 0], black.main, 0.14),
+      boxShadow([0, 7], [10, -5], coloredShadows.dark, 0.4),
+    ].join(", "),
+    white: [
+      boxShadow([0, 4], [20, 0], white.main, 0.14),
+      boxShadow([0, 7], [10, -5], white.main, 0.4),
+    ].join(", "),
+  },
 
   sliderBoxShadow: {
     thumb: boxShadow([0, 1], [13, 0], black.main, 0.2),

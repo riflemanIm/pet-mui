@@ -2,7 +2,7 @@
 import { Components } from "@mui/material/styles";
 import pxToRem from "theme/functions/pxToRem";
 
-const cardContentComponents: Components["MuiCardContent"] = {
+export const getCardContentComponents: Components["MuiCardContent"] = {
   styleOverrides: {
     root: {
       marginTop: 0,
@@ -11,5 +11,3 @@ const cardContentComponents: Components["MuiCardContent"] = {
     },
   },
 };
-
-export default cardContentComponents;

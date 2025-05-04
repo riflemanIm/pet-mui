@@ -1,94 +1,160 @@
 // theme/base/colors.ts
-import { alpha } from "@mui/system";
-import { PaletteOptions } from "@mui/material/styles";
+import { PaletteOptions as MuiPaletteOptions } from "@mui/material/styles";
 
-// Extend MUI Palette and PaletteOptions to include custom colors
 declare module "@mui/material/styles" {
-  interface Palette {
-    white: string;
-    black: {
-      light: string;
-      main: string;
-      dark: string;
-    };
-    inputBorderColor: string;
-    tabs: {
-      indicator: { boxShadow: string };
-    };
+  interface PaletteColor {
+    focus: string;
   }
+  interface SimplePaletteColorOptions {
+    focus?: string;
+  }
+  interface Palette {
+    transparent: { main: string };
+    white: PaletteColor;
+    black: PaletteColor;
+    light: PaletteColor;
+    dark: PaletteColor;
+    gradients: Record<
+      | "primary"
+      | "secondary"
+      | "info"
+      | "success"
+      | "warning"
+      | "error"
+      | "light"
+      | "dark",
+      { main: string; state: string }
+    >;
+    socialMediaColors: Record<
+      | "facebook"
+      | "twitter"
+      | "instagram"
+      | "linkedin"
+      | "pinterest"
+      | "youtube"
+      | "vimeo"
+      | "slack"
+      | "dribbble"
+      | "github"
+      | "reddit"
+      | "tumblr",
+      { main: string; dark: string }
+    >;
+    badgeColors: Record<
+      | "primary"
+      | "secondary"
+      | "info"
+      | "success"
+      | "warning"
+      | "error"
+      | "light"
+      | "dark",
+      { background: string; text: string }
+    >;
+    coloredShadows: Record<
+      | "primary"
+      | "secondary"
+      | "info"
+      | "success"
+      | "warning"
+      | "error"
+      | "light"
+      | "dark",
+      string
+    >;
+    inputBorderColor: string;
+    tabs: { indicator: { boxShadow: string } };
+  }
+
   interface PaletteOptions {
-    white?: string;
-    black?: {
-      light?: string;
-      main?: string;
-      dark?: string;
-    };
+    transparent?: { main: string };
+    white?: { main: string; focus: string };
+    black?: { light: string; main: string; focus: string };
+    light?: { main: string; focus: string };
+    dark?: { main: string; focus: string };
+    gradients?: Palette["gradients"];
+    socialMediaColors?: Palette["socialMediaColors"];
+    badgeColors?: Palette["badgeColors"];
+    coloredShadows?: Palette["coloredShadows"];
     inputBorderColor?: string;
-    tabs?: {
-      indicator: { boxShadow: string };
-    };
+    tabs?: { indicator: { boxShadow: string } };
   }
 }
 
-const colors: PaletteOptions = {
-  white: "#FFFFFF",
-  black: {
-    light: "#676767",
-    main: "#000000",
-    dark: "#000000",
-  },
-  background: {
-    default: alpha("#ECF4E0", 0.5),
-  },
-  text: {
-    primary: "#7b809a",
-    secondary: "#a7a9af",
-  },
-  action: {
-    disabled: "#a7a9af",
-  },
-  info: {
-    main: "#00bbd4",
-  },
-  success: {
-    main: "#4caf4f",
-  },
-  warning: {
-    main: "#ff9900",
-  },
-  error: {
-    main: "#f44336",
-  },
+const colors: MuiPaletteOptions = {
+  background: { default: "#EEF6FF" },
+  text: { primary: "#7b809a", secondary: "#7b809a" },
+  transparent: { main: "transparent" },
+  white: { main: "#ffffff", focus: "#ffffff" },
+  black: { light: "#000000", main: "#000000", focus: "#000000" },
+  primary: { main: "#F40080", focus: "#F40080" },
+  secondary: { main: "#7b809a", focus: "#8f93a9" },
+  info: { main: "#24a5e0", focus: "#0085C1" },
+  success: { main: "#4CAF50", focus: "#67bb6a" },
+  warning: { main: "#fb8c00", focus: "#fc9d26" },
+  error: { main: "#F44335", focus: "#f65f53" },
+
+  // добавленные
+  light: { main: "#f0f2f5", focus: "#f0f2f5" },
+  dark: { main: "#344767", focus: "#2c3c58" },
+
   grey: {
-    50: "#fafafa",
-    100: "#f5f5f5",
-    200: "#eeeeee",
-    300: "#e0e0e0",
-    400: "#bdbdbd",
-    500: "#9e9e9e",
-    600: "#757575",
-    700: "#616161",
-    800: "#424242",
-    900: "#212121",
-    A100: "#d5d5d5",
-    A200: "#aaaaaa",
-    A400: "#303030",
-    A700: "#616161",
+    100: "#f8f9fa",
+    200: "#f0f2f5",
+    300: "#dee2e6",
+    400: "#ced4da",
+    500: "#adb5bd",
+    600: "#6c757d",
+    700: "#495057",
+    800: "#343a40",
+    900: "#212529",
   },
-  primary: {
-    main: "#7367F0",
-    light: "#9f95f7",
-    dark: "#5948c6",
+  gradients: {
+    primary: { main: "#EC407A", state: "#D81B60" },
+    secondary: { main: "#747b8a", state: "#495361" },
+    info: { main: "#24a5e0", state: "#009ce2" },
+    success: { main: "#66BB6A", state: "#43A047" },
+    warning: { main: "#FFA726", state: "#FB8C00" },
+    error: { main: "#EF5350", state: "#E53935" },
+    light: { main: "#EBEFF4", state: "#CED4DA" },
+    dark: { main: "#42424a", state: "#191919" },
   },
-  secondary: {
-    main: "#828fa0",
-    light: "#a5a8b4",
-    dark: "#5c5f6e",
+  socialMediaColors: {
+    facebook: { main: "#3b5998", dark: "#344e86" },
+    twitter: { main: "#55acee", dark: "#3ea1ec" },
+    instagram: { main: "#125688", dark: "#0e456d" },
+    linkedin: { main: "#0077b5", dark: "#00669c" },
+    pinterest: { main: "#cc2127", dark: "#b21d22" },
+    youtube: { main: "#e52d27", dark: "#d41f1a" },
+    vimeo: { main: "#1ab7ea", dark: "#13a3d2" },
+    slack: { main: "#3aaf85", dark: "#329874" },
+    dribbble: { main: "#ea4c89", dark: "#e73177" },
+    github: { main: "#24292e", dark: "#171a1d" },
+    reddit: { main: "#ff4500", dark: "#e03d00" },
+    tumblr: { main: "#35465c", dark: "#2a3749" },
+  },
+  badgeColors: {
+    primary: { background: "#f8b3ca", text: "#cc084b" },
+    secondary: { background: "#d7d9e1", text: "#6c757d" },
+    info: { background: "#91dbfd", text: "#095bc6" },
+    success: { background: "#bce2be", text: "#339537" },
+    warning: { background: "#ffd59f", text: "#c87000" },
+    error: { background: "#fcd3d0", text: "#f61200" },
+    light: { background: "#ffffff", text: "#c7d3de" },
+    dark: { background: "#8097bf", text: "#1e2e4a" },
+  },
+  coloredShadows: {
+    primary: "#e91e62",
+    secondary: "#110e0e",
+    info: "#00bbd4",
+    success: "#4caf4f",
+    warning: "#ff9900",
+    error: "#f44336",
+    light: "#adb5bd",
+    dark: "#404040",
   },
   inputBorderColor: "#d2d6da",
-  tabs: {
-    indicator: { boxShadow: "#ddd" },
-  },
+  tabs: { indicator: { boxShadow: "#ddd" } },
 };
 
 export default colors;
