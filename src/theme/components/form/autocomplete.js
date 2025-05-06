@@ -85,7 +85,7 @@ export default {
 
       "& .MuiChip-label": {
         lineHeight: 1.2,
-        padding: `0 ${pxToRem(10)} 0 ${pxToRem(4)}`,
+        //padding: `0 ${pxToRem(10)} 0 ${pxToRem(4)}`,
       },
 
       "& .MuiSvgIcon-root, & .MuiSvgIcon-root:hover, & .MuiSvgIcon-root:focus":

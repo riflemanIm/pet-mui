@@ -1,586 +1,175 @@
-import * as React from "react";
-import { useSnackbar } from "notistack";
-
-import { useRecoilState } from "recoil";
-import { foodDictsState, homePageQueryState } from "atoms";
-
-import { fetchFoodDicts } from "actions/food";
-
+import ClearAllIcon from "@mui/icons-material/ClearAll";
 import {
   Box,
   Chip,
+  CircularProgress,
   FormControl,
   FormControlLabel,
   FormLabel,
-  Grid,
-  InputLabel,
+  IconButton,
+  InputAdornment,
   MenuItem,
   OutlinedInput,
   Radio,
   RadioGroup,
   Select,
-  SelectChangeEvent,
 } from "@mui/material";
+import Grid2 from "@mui/material/Grid2";
+import { useSnackbar } from "notistack";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { useRecoilState } from "recoil";
+
+import { fetchFoodDicts } from "actions/food";
+import { foodDictsState, homePageQueryState } from "atoms";
 
 const ITEM_HEIGHT = 48;
-const ITEM_PADDING_TOP = 8;
-const MenuProps = {
+const ITEM_PADDING = 8;
+const menuProps = {
   PaperProps: {
     style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING,
       width: 250,
     },
   },
 };
-function getStyles(name: string, vals: readonly string[]) {
-  return {
-    fontWeight: !vals.includes(name) ? 400 : 550,
-  };
-}
 
 export default function ProductFilter() {
-  const [loadingFoodType, setLoadingFoodType] = React.useState(false);
-
-  const [foodDicts, setFoodDicts] = useRecoilState(foodDictsState);
-
-  const [homePageQueryData, setHomePageQueryData] =
-    useRecoilState(homePageQueryState);
+  const [loading, setLoading] = useState(false);
+  const [dicts, setDicts] = useRecoilState(foodDictsState);
+  const [query, setQuery] = useRecoilState(homePageQueryState);
   const { enqueueSnackbar } = useSnackbar();
 
-  React.useEffect(() => {
-    const func = async () => {
-      setLoadingFoodType(true);
+  // Load dictionaries
+  useEffect(() => {
+    async function loadDicts() {
+      setLoading(true);
       const res = await fetchFoodDicts();
-      const {
-        error,
-        content: {
-          foodTypes,
-          ages,
-          taste,
-          designedFor,
-          ingridient,
-          hardness,
-          packages,
-          petSizes,
-          specialNeeds,
-        },
-      } = res;
-      if (error) {
-        setLoadingFoodType(false);
-        enqueueSnackbar(`Error: Fetch Food Dicts`, {
-          variant: "error",
-        });
-        return;
+      if (res.error) {
+        enqueueSnackbar("Не удалось загрузить справочники", { variant: "error" });
+      } else {
+        setDicts(res.content);
       }
-      setFoodDicts({
-        foodTypes,
-        ages,
-        taste,
-        designedFor,
-        ingridient,
-        hardness,
-        packages,
-        petSizes,
-        specialNeeds,
-      });
-      setLoadingFoodType(false);
-    };
-    if (typeof window !== "undefined") func();
-  }, []);
+      setLoading(false);
+    }
+    if (typeof window !== "undefined") loadDicts();
+  }, [enqueueSnackbar, setDicts]);
 
-  const handleChangeRadio = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    name: string
-  ) => {
-    setHomePageQueryData({
-      ...homePageQueryData,
-      page: 1,
-      [name]: (event.target as HTMLInputElement).value,
-    });
-  };
+  // Handler for radio fields
+  const handleRadioChange = useCallback((field) => (e) => {
+    setQuery(prev => ({ ...prev, page: 1, [field]: e.target.value }));
+  }, [setQuery]);
 
-  const handleChangeMulty = (
-    event: SelectChangeEvent<string[]>,
-    name: string
-  ) => {
-    const {
-      target: { value },
-    } = event;
-    const vals = typeof value === "string" ? value.split(",") : value;
-    setHomePageQueryData({
-      ...homePageQueryData,
-      page: 1,
-      [name]: vals.join(","),
-    });
-  };
-  //console.log("homePageQueryData", homePageQueryData);
+  // Handler for multi-select
+  const handleMultiChange = useCallback((field) => (e) => {
+    const value = e.target.value;
+    const items = Array.isArray(value) ? value : String(value).split(',');
+    setQuery(prev => ({ ...prev, page: 1, [field]: items.join(',') }));
+  }, [setQuery]);
+
+  // Clear field
+  const handleClear = useCallback((field) => () => {
+    setQuery(prev => ({ ...prev, page: 1, [field]: '' }));
+  }, [setQuery]);
+
+  // Define filters
+  const filters = useMemo(() => [
+    {
+      name: "type",
+      label: "Категория товара",
+      type: "radio",
+      options: [
+        { id: "Treat", label: "Лакомства" },
+        { id: "Souvenirs", label: "Аксессуары" },
+      ],
+    },
+    { name: "ingridient", label: "Ингредиенты", type: "multi", chipColor: "info" },
+    { name: "designedFor", label: "Разработано для", type: "radio", dynamic: true },
+    { name: "specialNeeds", label: "Особые потребности", type: "multi", chipColor: "info" },
+    { name: "petSizes", label: "Размер питомца", type: "multi", chipColor: "info" },
+    { name: "taste", label: "Вкус", type: "multi", chipColor: "warning" },
+    { name: "hardness", label: "Консистенция корма", type: "multi", chipColor: "info" },
+    { name: "ages", label: "Возраст", type: "multi", chipColor: "primary" },
+    { name: "packages", label: "Упаковка", type: "multi", chipColor: "default" },
+  ], []);
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" p={4}>
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <Grid
-      container
-      spacing={3}
-      data-aos={"fade-up"}
-      data-aos-delay={100}
-      data-aos-offset={100}
-      data-aos-duration={600}
-    >
-      <Grid item xs={12} sm={12}>
-        <FormControl>
-          <FormLabel
-            id="demo-row-radio-buttons-group-label"
-            sx={{ fontSize: 13, color: "secondary" }}
-          >
-            Категория товара
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="demo-row-radio-buttons-group-label"
-            onChange={(e) => handleChangeRadio(e, "type")}
-          >
-            <FormControlLabel
-              value="Treat"
-              checked={homePageQueryData?.type === "Treat"}
-              control={<Radio />}
-              label="Лакомства"
-            />
-            <FormControlLabel
-              value="Souvenirs"
-              checked={homePageQueryData?.type === "Souvenirs"}
-              control={<Radio />}
-              label="Аксессуары"
-            />
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-ingridient-label">Ингридиенты</InputLabel>
-          <Select
-            labelId="demo-ingridient-label"
-            id="demo-ingridient"
-            multiple
-            value={
-              homePageQueryData?.ingridient
-                ? homePageQueryData?.ingridient.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "ingridient")}
-            input={<OutlinedInput id="select-ingridient" label="Ингридиенты" />}
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.ingridient.find((item) => item.id == val)
-                          ?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.ingridient.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.ingridient
-                    ? homePageQueryData?.ingridient.split(",")
-                    : []
-                )}
+    <Grid2 container spacing={3} data-aos="fade-up" data-aos-delay={100} data-aos-offset={100} data-aos-duration={600}>
+      {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
+        <Grid2 size={12} key={name}>
+          {type === "radio" ? (
+            <FormControl fullWidth>
+              <FormLabel sx={{ fontSize: 13, color: 'secondary' }}>{label}</FormLabel>
+              <RadioGroup
+                row
+                value={query[name] || ''}
+                onChange={handleRadioChange(name)}
               >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl>
-          <FormLabel
-            id="designedFor-group-label"
-            sx={{ fontSize: 13, color: "secondary" }}
-          >
-            Разработано для
-          </FormLabel>
-          <RadioGroup
-            row
-            aria-labelledby="designedFor-group-label"
-            onChange={(e) => handleChangeRadio(e, "designedFor")}
-          >
-            {foodDicts.designedFor.map((item) => (
-              <FormControlLabel
-                value={item.id}
-                checked={homePageQueryData?.designedFor == item.id}
-                control={<Radio />}
-                label={item.name}
-              />
-            ))}
-          </RadioGroup>
-        </FormControl>
-      </Grid>
-
-      {/* <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-designedFor-label">Разработано для</InputLabel>
-          <Select
-            labelId="demo-designedFor-label"
-            id="demo-designedFor"
-            multiple
-            value={
-              homePageQueryData?.designedFor
-                ? homePageQueryData?.designedFor.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "designedFor")}
-            input={
-              <OutlinedInput id="select-designedFor" label="Разработано для" />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.designedFor.find((item) => item.id == val)
-                          ?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.designedFor.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.designedFor
-                    ? homePageQueryData?.designedFor.split(",")
-                    : []
+                {(dynamic ? dicts[name] : options).map(opt => (
+                  <FormControlLabel
+                    key={opt.id}
+                    value={opt.id}
+                    control={<Radio />}
+                    label={opt.label || opt.name}
+                  />
+                ))}
+              </RadioGroup>
+            </FormControl>
+          ) : (
+            <FormControl fullWidth>
+              <FormLabel sx={{ fontSize: 13, color: 'secondary', mb: 1 }}>{label}</FormLabel>
+              <Select
+                multiple
+                value={query[name] ? query[name].split(',') : []}
+                onChange={handleMultiChange(name)}
+                input={
+                  <OutlinedInput
+                    endAdornment={
+                      query[name]?.length > 0 && (
+                        <InputAdornment position="end" sx={{ mr: 1 }}>
+                          <IconButton
+                            size="small"
+                            onClick={handleClear(name)}
+                            aria-label="Очистить"
+                          >
+                            <ClearAllIcon fontSize="small" />
+                          </IconButton>
+                        </InputAdornment>
+                      )
+                    }
+                  />
+                }
+                renderValue={selected => (
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                    {selected.map(val => {
+                      const item = dicts[name].find(i => String(i.id) === val);
+                      return <Chip key={val} label={item?.name} color={chipColor} size="small" />;
+                    })}
+                  </Box>
                 )}
+                MenuProps={menuProps}
               >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid> */}
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-specialNeeds-label">
-            Особые потребности
-          </InputLabel>
-          <Select
-            labelId="demo-specialNeeds-label"
-            id="demo-specialNeeds"
-            multiple
-            value={
-              homePageQueryData?.specialNeeds
-                ? homePageQueryData?.specialNeeds.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "specialNeeds")}
-            input={
-              <OutlinedInput
-                id="select-specialNeeds"
-                label="Особые потребности"
-              />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.specialNeeds.find((item) => item.id == val)
-                          ?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.specialNeeds.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.specialNeeds
-                    ? homePageQueryData?.specialNeeds.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-petSizes-label">Размер питомца</InputLabel>
-          <Select
-            labelId="demo-petSizes-label"
-            id="demo-petSizes"
-            multiple
-            value={
-              homePageQueryData?.petSizes
-                ? homePageQueryData?.petSizes.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "petSizes")}
-            input={
-              <OutlinedInput id="select-petSizes" label="Размер питомца" />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.petSizes.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.petSizes.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.petSizes
-                    ? homePageQueryData?.petSizes.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-taste-label">Вкус</InputLabel>
-          <Select
-            labelId="demo-taste-label"
-            id="demo-taste"
-            multiple
-            value={
-              homePageQueryData?.taste
-                ? homePageQueryData?.taste.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "taste")}
-            input={<OutlinedInput id="select-taste" label="Вкус" />}
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="warning"
-                      label={
-                        foodDicts.taste.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.taste.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.taste
-                    ? homePageQueryData?.taste.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-hardness-label">Консистенция корма</InputLabel>
-          <Select
-            labelId="demo-hardness-label"
-            id="demo-hardness"
-            multiple
-            value={
-              homePageQueryData?.hardness
-                ? homePageQueryData?.hardness.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "hardness")}
-            input={
-              <OutlinedInput id="select-hardness" label="Консистенция корма" />
-            }
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="info"
-                      label={
-                        foodDicts.hardness.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.hardness.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.hardness
-                    ? homePageQueryData?.hardness.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-ages-label">Возраст</InputLabel>
-          <Select
-            labelId="demo-ages-label"
-            id="demo-ages"
-            multiple
-            value={
-              homePageQueryData?.ages ? homePageQueryData?.ages.split(",") : []
-            }
-            onChange={(e) => handleChangeMulty(e, "ages")}
-            input={<OutlinedInput id="select-ages" label="Возраст" />}
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      color="primary"
-                      label={
-                        foodDicts.ages.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.ages.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.ages
-                    ? homePageQueryData?.ages.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-
-      <Grid item xs={12} sm={12}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-packages-label">Упаковка</InputLabel>
-          <Select
-            labelId="demo-packages-label"
-            id="demo-packages"
-            multiple
-            value={
-              homePageQueryData?.packages
-                ? homePageQueryData?.packages.split(",")
-                : []
-            }
-            onChange={(e) => handleChangeMulty(e, "packages")}
-            input={<OutlinedInput id="select-packages" label="Упаковка" />}
-            renderValue={(selected) => {
-              return (
-                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                  {selected.map((val) => (
-                    <Chip
-                      key={val}
-                      label={
-                        foodDicts.packages.find((item) => item.id == val)?.name
-                      }
-                    />
-                  ))}
-                </Box>
-              );
-            }}
-            MenuProps={MenuProps}
-          >
-            {foodDicts.packages.map((item) => (
-              <MenuItem
-                key={item.id}
-                value={item.id.toString()}
-                style={getStyles(
-                  item.id.toString(),
-                  homePageQueryData?.packages
-                    ? homePageQueryData?.packages.split(",")
-                    : []
-                )}
-              >
-                {item.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Grid>
-    </Grid>
+                {dicts[name].map(item => (
+                  <MenuItem
+                    key={item.id}
+                    value={String(item.id)}
+                    sx={{ fontWeight: query[name]?.split(',').includes(String(item.id)) ? 600 : 400 }}
+                  >
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          )}
+        </Grid2>
+      ))}
+    </Grid2>
   );
 }

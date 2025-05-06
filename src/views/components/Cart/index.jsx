@@ -1,23 +1,20 @@
-import React from "react";
-import Card from "@mui/material/Card";
+import  Card  from "@mui/material/Card";
 import Grid2 from "@mui/material/Grid2";
+import footerRoutes from "assets/footer.routes";
+import bgImage from "assets/images/bg-about-us.jpg";
+import routes from "assets/routes";
 import Container from "components/Container";
-import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import DefaultFooter from "components/Footers/DefaultFooter";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
+import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
-import bgImage from "assets/images/bg-about-us.jpg";
-import routes from "assets/routes";
-import footerRoutes from "assets/footer.routes";
+import ShoppingCartList from "./ShoppingCartList";
 
-import Products from "./Products";
-
-export default function IndexProducts() {
+const IndexProducts = () => {
   return (
     <>
-      {/* Navbar */}
       <DefaultNavbar
         routes={routes}
         action={{
@@ -29,21 +26,23 @@ export default function IndexProducts() {
         transparent
         light
       />
-
-      {/* Hero Section */}
       <MKBox
         minHeight="35vh"
         width="100%"
-        sx={(theme) => ({
-          backgroundImage: `${theme.functions.linearGradient(
-            theme.functions.rgba(theme.palette.gradients.dark.main, 0.6),
-            theme.functions.rgba(theme.palette.gradients.dark.state, 0.6)
-          )}, url(${bgImage.src})`,
+        sx={{
+          backgroundImage: ({
+            functions: { linearGradient, rgba },
+            palette: { gradients },
+          }) =>
+            `${linearGradient(
+              rgba(gradients.dark.main, 0.6),
+              rgba(gradients.dark.state, 0.6)
+            )}, url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "grid",
           placeItems: "center",
-        })}
+        }}
       >
         <Container>
           <Grid2
@@ -65,43 +64,47 @@ export default function IndexProducts() {
             >
               Work with an amazing design
             </MKTypography>
-
-            <MKTypography variant="body1" color="white" opacity={0.8} mt={1} mb={3}>
+            <MKTypography
+              variant="body1"
+              color="white"
+              opacity={0.8}
+              mt={1}
+              mb={3}
+            >
               We&apos;re constantly trying to express ourselves and actualize
               our dreams. If you have the opportunity to play this game
             </MKTypography>
-
-            <MKButton color="default" sx={{ color: (theme) => theme.palette.dark.main }}>
+            <MKButton
+              color="default"
+              sx={{ color: ({ palette: { dark } }) => dark.main }}
+            >
               create account
             </MKButton>
-
             <MKTypography variant="h6" color="white" mt={8} mb={1}>
               Find us on
             </MKTypography>
-            {/* TODO: Social Icons */}
+           
           </Grid2>
         </Container>
       </MKBox>
-
-      {/* Products Section */}
       <Card
-        sx={(theme) => ({
+        sx={{
           p: 2,
           mx: { xs: 2, lg: 3 },
           mt: -8,
           mb: 4,
-          boxShadow: theme.boxShadows.xxl,
-        })}
-      >
-        <Container>
-          <Products />
+          boxShadow: ({ boxShadows: { xxl } }) => xxl,
+        }}
+      ><Container>
+        <ShoppingCartList />
         </Container>
       </Card>
 
-      {/* Footer */}
       <MKBox pt={6} px={1} mt={6}>
         <DefaultFooter content={footerRoutes} />
       </MKBox>
     </>
   );
-}
+};
+
+export default IndexProducts

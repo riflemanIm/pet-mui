@@ -8,7 +8,7 @@ export function getSelectComponents(theme: Theme): Components["MuiSelect"] {
       select: {
         display: "grid",
         alignItems: "center",
-        padding: `0 ${pxToRem(12)} !important`,
+         //padding: `0 ${pxToRem(12)} !important`,
         "& .Mui-selected": {
           backgroundColor: theme.palette.background.paper,
         },
