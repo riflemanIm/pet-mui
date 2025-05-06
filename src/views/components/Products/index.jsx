@@ -80,6 +80,9 @@ const IndexProducts = () => {
             >
               create account
             </MKButton>
+            <MKTypography variant="h6" color="white" mt={8} mb={1}>
+              Find us on
+            </MKTypography>
            
           </Grid2>
         </Container>
