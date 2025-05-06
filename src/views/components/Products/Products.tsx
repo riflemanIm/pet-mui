@@ -1,24 +1,21 @@
-import React, { FC, useState } from "react";
-import { alpha, useTheme } from "@mui/material/styles";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { alpha, useTheme } from "@mui/material/styles";
+import { FC, useState } from "react";
 
+import { Alert, Pagination, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Grid2 from "@mui/material/Grid2";
-import { Alert, Pagination, Stack } from "@mui/material";
+import Typography from "@mui/material/Typography";
 
+import { homePageFoodSumState, homePageQueryState } from "atoms";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
-import { homePageFoodSumState, homePageQueryState } from "atoms";
 import { FoodProps, PAGE_SIZE } from "types";
-import ProductItem from "./ProductItem";
-import ProductFilterSidebar from "./ProductFilterSidebar";
 import ProductFilter from "./ProductFilter";
+import ProductFilterSidebar from "./ProductFilterSidebar";
+import ProductItem from "./ProductItem";
 import ProductSort from "./ProductSort";
-import Headline from "../Headline";
-import DefaultNavbar from "components/Navbars/DefaultNavbar";
-import routes from "assets/routes";
 
 const Products: FC = () => {
   const theme = useTheme();
@@ -95,18 +92,8 @@ const Products: FC = () => {
   };
 
   return (
-    <>
-      <DefaultNavbar
-        routes={routes}
-        action={{
-          type: "external",
-          route: "/catalog",
-          label: "Каталог",
-          color: "default",
-        }}
-        transparent
-        light
-      />
+    
+    
       <Grid2 container spacing={3} p={3}>
         <Grid2 size={{ xs: 12, sm: 6, md: 9 }} />
         <Grid2
@@ -147,7 +134,7 @@ const Products: FC = () => {
           <RenderItems />
         </Grid2>
       </Grid2>
-    </>
+    
   );
 };
 
