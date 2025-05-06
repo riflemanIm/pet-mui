@@ -1,0 +1,46 @@
+/**
+=========================================================
+* Shepherd React - v2.1.0
+=========================================================
+
+
+
+
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+
+import colors from "theme/base/colors";
+import typography from "theme/base/typography";
+
+// Shepherd React helper functions
+import pxToRem from "theme/functions/pxToRem";
+
+const { dark } = colors;
+const { size, fontWeightBold } = typography;
+
+export default {
+  styleOverrides: {
+    root: {
+      display: "block",
+      minHeight: pxToRem(24),
+      marginBottom: pxToRem(2),
+    },
+
+    label: {
+      display: "inline-block",
+      fontSize: size.sm,
+      fontWeight: fontWeightBold,
+      color: dark.main,
+      lineHeight: 1,
+      transform: `translateY(${pxToRem(1)})`,
+      marginLeft: pxToRem(4),
+
+      "&.Mui-disabled": {
+        color: dark.main,
+      },
+    },
+  },
+};

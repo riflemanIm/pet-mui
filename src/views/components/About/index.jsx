@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Typography, Divider } from "@mui/material";
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Grid2";
 import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/bg-about-us.jpg";
 import routes from "assets/routes";
