@@ -27,10 +27,10 @@ import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import DefaultFooter from "components/Footers/DefaultFooter";
 
 // About Us page sections
-import Information from "views/LandingPages/AboutUs/sections/Information";
-import Team from "views/LandingPages/AboutUs/sections/Team";
-import Featuring from "views/LandingPages/AboutUs/sections/Featuring";
-import Newsletter from "views/LandingPages/AboutUs/sections/Newsletter";
+import Information from "views/AboutUs/sections/Information";
+import Team from "views/AboutUs/sections/Team";
+import Featuring from "views/AboutUs/sections/Featuring";
+import Newsletter from "views/AboutUs/sections/Newsletter";
 
 // Routes
 import routes from "assets/routes";

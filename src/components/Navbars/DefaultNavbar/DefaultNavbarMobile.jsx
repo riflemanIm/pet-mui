@@ -1,34 +1,23 @@
-/**
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { useState } from "react";
 
-// react-router components
-import Link from "@mui/material/Link";
-
-// prop-types is a library for typechecking of props.
+import Link from "next/link";
 
 // @mui material components
-import Collapse from "@mui/material/Collapse";
 import MuiLink from "@mui/material/Link";
+import Collapse from "@mui/material/Collapse";
 
-//
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
-
+// Wrapper to combine Next.js Link with MUI Link
+function NextMuiLink({ href, children, ...props }) {
+  return (
+    <Link href={href} passHref>
+      <MuiLink {...props}>{children}</MuiLink>
+    </Link>
+  );
+}
 function DefaultNavbarMobile({ routes, open }) {
   const [collapse, setCollapse] = useState("");
 
@@ -73,37 +62,36 @@ function DefaultNavbarMobile({ routes, open }) {
                       {item.name}
                     </MKTypography>
                     {item.collapse.map((el) => (
-                      <MKTypography
+                      <NextMuiLink
                         key={el.name}
-                        component={el.route ? Link : MuiLink}
-                        to={el.route ? el.route : ""}
-                        href={el.href ? el.href : ""}
-                        target={el.href ? "_blank" : ""}
-                        rel={el.href ? "noreferrer" : "noreferrer"}
-                        minWidth="11.25rem"
-                        display="block"
-                        variant="button"
-                        color="secondary"
-                        textTransform="capitalize"
-                        fontWeight="regular"
-                        py={0.625}
-                        px={2}
-                        sx={({
-                          palette: { grey, dark },
-                          borders: { borderRadius },
-                        }) => ({
-                          borderRadius: borderRadius.md,
-                          cursor: "pointer",
-                          transition: "all 300ms linear",
-
-                          "&:hover": {
-                            backgroundColor: grey[200],
-                            color: dark.main,
-                          },
-                        })}
+                        href={el.route || el.href || "#"}
                       >
-                        {el.name}
-                      </MKTypography>
+                        <MKTypography
+                          minWidth="11.25rem"
+                          display="block"
+                          variant="button"
+                          color="secondary"
+                          textTransform="capitalize"
+                          fontWeight="regular"
+                          py={0.625}
+                          px={2}
+                          sx={({
+                            palette: { grey, dark },
+                            borders: { borderRadius },
+                          }) => ({
+                            borderRadius: borderRadius.md,
+                            cursor: "pointer",
+                            transition: "all 300ms linear",
+
+                            "&:hover": {
+                              backgroundColor: grey[200],
+                              color: dark.main,
+                            },
+                          })}
+                        >
+                          {el.name}
+                        </MKTypography>
+                      </NextMuiLink>
                     ))}
                   </>
                 ) : (

@@ -1,18 +1,4 @@
-/*
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
 
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
-// @mui material components
 import Card from "@mui/material/Card";
 
 //
@@ -22,10 +8,10 @@ import MKBox from "components/MKBox";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
 // Author page sections
-import Profile from "views/LandingPages/Author/sections/Profile";
-import Posts from "views/LandingPages/Author/sections/Posts";
-import Contact from "views/LandingPages/Author/sections/Contact";
-import Footer from "views/LandingPages/Author/sections/Footer";
+import Profile from "views/Author/sections/Profile";
+import Posts from "views/Author/sections/Posts";
+import Contact from "views/Author/sections/Contact";
+import Footer from "views/Author/sections/Footer";
 
 // Routes
 import routes from "assets/routes";

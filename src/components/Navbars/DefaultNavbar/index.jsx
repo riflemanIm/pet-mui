@@ -1,25 +1,6 @@
-/* eslint-disable no-param-reassign */
-/**
-=========================================================
-* Shepherd React - v2.1.0
-=========================================================
-
-
-
-
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 import { Fragment, useEffect, useState } from "react";
 
-// react-router components
-import Link from "@mui/material/Link";
-
-// prop-types is a library for typechecking of props.
-
+import Link from "next/link";
 // @mui material components
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
@@ -37,16 +18,23 @@ import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavba
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
 import ShoppingCartButton from "components/ShoppingCartButton";
 import UserAuthButtons from "components/UserAuthButtons";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
 import logo_light from "assets/images_pet/logo_shepherd_light.svg";
 import breakpoints from "theme/base/breakpoints";
+// Wrapper to combine Next.js Link with MUI Link
+function NextMuiLink({ href, children, ...props }) {
+  return (
+    <Link href={href} passHref legacyBehavior>
+      <MuiLink {...props}>{children}</MuiLink>
+    </Link>
+  );
+}
 function DefaultNavbar({
-  brand,
   routes,
   transparent,
   light,
-  action,
+
   sticky,
   relative = false,
   center,
@@ -156,38 +144,35 @@ function DefaultNavbar({
                         {col.name}
                       </MKTypography>
                       {col.collapse.map((item) => (
-                        <MKTypography
+                        <NextMuiLink
                           key={item.name}
-                          component={item.route ? Link : MuiLink}
-                          to={item.route ? item.route : ""}
-                          href={
-                            item.href ? item.href : (e) => e.preventDefault()
-                          }
-                          target={item.href ? "_blank" : ""}
-                          rel={item.href ? "noreferrer" : "noreferrer"}
-                          minWidth="11.25rem"
-                          display="block"
-                          variant="button"
-                          textTransform="capitalize"
-                          fontWeight="regular"
-                          py={0.625}
-                          px={2}
-                          sx={({
-                            palette: { grey, secondary },
-                            borders: { borderRadius },
-                          }) => ({
-                            borderRadius: borderRadius.md,
-                            cursor: "pointer",
-                            transition: "all 300ms linear",
-
-                            "&:hover": {
-                              backgroundColor: grey[200],
-                              color: secondary.main,
-                            },
-                          })}
+                          href={item.route || item.href || "#"}
                         >
-                          {item.name}
-                        </MKTypography>
+                          <MKTypography
+                            minWidth="11.25rem"
+                            display="block"
+                            variant="button"
+                            textTransform="capitalize"
+                            fontWeight="regular"
+                            py={0.625}
+                            px={2}
+                            sx={({
+                              palette: { grey, secondary },
+                              borders: { borderRadius },
+                            }) => ({
+                              borderRadius: borderRadius.md,
+                              cursor: "pointer",
+                              transition: "all 300ms linear",
+
+                              "&:hover": {
+                                backgroundColor: grey[200],
+                                color: secondary.main,
+                              },
+                            })}
+                          >
+                            {item.name}
+                          </MKTypography>
+                        </NextMuiLink>
                       ))}
                     </Fragment>
                   ))}
@@ -213,91 +198,79 @@ function DefaultNavbar({
         // Render the dropdown menu that should be display as list items
       } else if (collapse && name === dropdownName) {
         template = collapse.map((item) => {
-          const linkComponent = {
-            component: MuiLink,
-            href: item.href,
-            target: "_blank",
-            rel: "noreferrer",
-          };
-
-          const routeComponent = {
-            component: Link,
-            to: item.route,
-          };
-
           return (
-            <MKTypography
-              key={item.name}
-              {...(item.route ? routeComponent : linkComponent)}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              variant="button"
-              textTransform="capitalize"
-              minWidth={item.description ? "14rem" : "12rem"}
-              color={item.description ? "secondary" : "text"}
-              fontWeight={item.description ? "bold" : "regular"}
-              py={item.description ? 1 : 0.625}
-              px={2}
-              sx={({
-                palette: { grey, secondary },
-                borders: { borderRadius },
-              }) => ({
-                borderRadius: borderRadius.md,
-                cursor: "pointer",
-                transition: "all 300ms linear",
+            <NextMuiLink key={item.name} href={item.route || item.href || "#"}>
+              <MKTypography
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                variant="button"
+                textTransform="capitalize"
+                minWidth={item.description ? "14rem" : "12rem"}
+                color={item.description ? "secondary" : "text"}
+                fontWeight={item.description ? "bold" : "regular"}
+                py={item.description ? 1 : 0.625}
+                px={2}
+                sx={({
+                  palette: { grey, secondary },
+                  borders: { borderRadius },
+                }) => ({
+                  borderRadius: borderRadius.md,
+                  cursor: "pointer",
+                  transition: "all 300ms linear",
 
-                "&:hover": {
-                  backgroundColor: grey[200],
-                  color: secondary.main,
-
-                  "& *": {
+                  "&:hover": {
+                    backgroundColor: grey[200],
                     color: secondary.main,
+
+                    "& *": {
+                      color: secondary.main,
+                    },
                   },
-                },
-              })}
-              onMouseEnter={({ currentTarget }) => {
-                if (item.dropdown) {
-                  setNestedDropdown(currentTarget);
-                  setNestedDropdownEl(currentTarget);
-                  setNestedDropdownName(item.name);
-                }
-              }}
-              onMouseLeave={() => {
-                if (item.dropdown) {
-                  setNestedDropdown(null);
-                }
-              }}
-            >
-              {item.description ? (
-                <MKBox>
-                  {item.name}
-                  <MKTypography
-                    display="block"
-                    variant="button"
-                    color="text"
-                    fontWeight="regular"
-                    sx={{ transition: "all 300ms linear" }}
+                })}
+                onMouseEnter={({ currentTarget }) => {
+                  if (item.dropdown) {
+                    setNestedDropdown(currentTarget);
+                    setNestedDropdownEl(currentTarget);
+                    setNestedDropdownName(item.name);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (item.dropdown) {
+                    setNestedDropdown(null);
+                  }
+                }}
+              >
+                {item.description ? (
+                  <MKBox>
+                    {item.name}
+                    <MKTypography
+                      display="block"
+                      variant="button"
+                      color="text"
+                      fontWeight="regular"
+                      sx={{ transition: "all 300ms linear" }}
+                    >
+                      {item.description}
+                    </MKTypography>
+                  </MKBox>
+                ) : (
+                  item.name
+                )}
+                {item.collapse && (
+                  <Icon
+                    fontSize="small"
+                    sx={{
+                      fontWeight: "normal",
+                      verticalAlign: "middle",
+                      mr: -0.5,
+                    }}
                   >
-                    {item.description}
-                  </MKTypography>
-                </MKBox>
-              ) : (
-                item.name
-              )}
-              {item.collapse && (
-                <Icon
-                  fontSize="small"
-                  sx={{
-                    fontWeight: "normal",
-                    verticalAlign: "middle",
-                    mr: -0.5,
-                  }}
-                >
-                  keyboard_arrow_right
-                </Icon>
-              )}
-            </MKTypography>
+                    keyboard_arrow_right
+                  </Icon>
+                )}
+              </MKTypography>
+            </NextMuiLink>
           );
         });
       }
@@ -365,79 +338,70 @@ function DefaultNavbar({
             template =
               nestedCollapse &&
               nestedCollapse.map((item) => {
-                const linkComponent = {
-                  component: MuiLink,
-                  href: item.href,
-                  target: "_blank",
-                  rel: "noreferrer",
-                };
-
-                const routeComponent = {
-                  component: Link,
-                  to: item.route,
-                };
-
                 return (
-                  <MKTypography
+                  <NextMuiLink
                     key={item.name}
-                    {...(item.route ? routeComponent : linkComponent)}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    variant="button"
-                    textTransform="capitalize"
-                    minWidth={item.description ? "14rem" : "12rem"}
-                    color={item.description ? "secondary" : "text"}
-                    fontWeight={item.description ? "bold" : "regular"}
-                    py={item.description ? 1 : 0.625}
-                    px={2}
-                    sx={({
-                      palette: { grey, secondary },
-                      borders: { borderRadius },
-                    }) => ({
-                      borderRadius: borderRadius.md,
-                      cursor: "pointer",
-                      transition: "all 300ms linear",
-
-                      "&:hover": {
-                        backgroundColor: grey[200],
-                        color: secondary.main,
-
-                        "& *": {
-                          color: secondary.main,
-                        },
-                      },
-                    })}
+                    href={item.route || item.href || "#"}
                   >
-                    {item.description ? (
-                      <MKBox>
-                        {item.name}
-                        <MKTypography
-                          display="block"
-                          variant="button"
-                          color="text"
-                          fontWeight="regular"
-                          sx={{ transition: "all 300ms linear" }}
+                    <MKTypography
+                      display="flex"
+                      justifyContent="space-between"
+                      alignItems="center"
+                      variant="button"
+                      textTransform="capitalize"
+                      minWidth={item.description ? "14rem" : "12rem"}
+                      color={item.description ? "secondary" : "text"}
+                      fontWeight={item.description ? "bold" : "regular"}
+                      py={item.description ? 1 : 0.625}
+                      px={2}
+                      sx={({
+                        palette: { grey, secondary },
+                        borders: { borderRadius },
+                      }) => ({
+                        borderRadius: borderRadius.md,
+                        cursor: "pointer",
+                        transition: "all 300ms linear",
+
+                        "&:hover": {
+                          backgroundColor: grey[200],
+                          color: secondary.main,
+
+                          "& *": {
+                            color: secondary.main,
+                          },
+                        },
+                      })}
+                    >
+                      {item.description ? (
+                        <MKBox>
+                          {item.name}
+                          <MKTypography
+                            display="block"
+                            variant="button"
+                            color="text"
+                            fontWeight="regular"
+                            sx={{ transition: "all 300ms linear" }}
+                          >
+                            {item.description}
+                          </MKTypography>
+                        </MKBox>
+                      ) : (
+                        item.name
+                      )}
+                      {item.collapse && (
+                        <Icon
+                          fontSize="small"
+                          sx={{
+                            fontWeight: "normal",
+                            verticalAlign: "middle",
+                            mr: -0.5,
+                          }}
                         >
-                          {item.description}
-                        </MKTypography>
-                      </MKBox>
-                    ) : (
-                      item.name
-                    )}
-                    {item.collapse && (
-                      <Icon
-                        fontSize="small"
-                        sx={{
-                          fontWeight: "normal",
-                          verticalAlign: "middle",
-                          mr: -0.5,
-                        }}
-                      >
-                        keyboard_arrow_right
-                      </Icon>
-                    )}
-                  </MKTypography>
+                          keyboard_arrow_right
+                        </Icon>
+                      )}
+                    </MKTypography>
+                  </NextMuiLink>
                 );
               });
           }
@@ -541,7 +505,7 @@ function DefaultNavbar({
           justifyContent="space-between"
           alignItems="center"
         >
-          <MKBox component={Link} to="/">
+          <NextMuiLink href="/">
             <MKBox
               component="img"
               src={!light ? logo.src : logo_light.src}
@@ -552,7 +516,7 @@ function DefaultNavbar({
                 mt: 0.8,
               }}
             />
-          </MKBox>
+          </NextMuiLink>
 
           <MKBox
             color="inherit"
@@ -567,16 +531,11 @@ function DefaultNavbar({
             ml={{ xs: "auto", lg: 0 }}
             display={{ xs: "none", lg: "flex" }}
           >
-            <Button
-              color="primary"
-              size="large"
-              variant="contained"
-              component={Link}
-              href={"#"}
-              fullWidth
-            >
-              Каталог
-            </Button>
+            <NextMuiLink href="/catalog">
+              <Button variant="contained" color="primary" sx={{ ml: 2 }}>
+                Каталог
+              </Button>
+            </NextMuiLink>
           </MKBox>
           <MKBox alignItems={"right"}>
             <ShoppingCartButton />

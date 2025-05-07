@@ -20,12 +20,6 @@ function Presentation() {
     <>
       <DefaultNavbar
         routes={routes}
-        action={{
-          type: "external",
-          route: "/",
-          label: "free download",
-          color: "info",
-        }}
         sticky
       />
       <MKBox

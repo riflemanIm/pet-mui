@@ -1,5 +1,5 @@
 import React from "react";
-import AboutSideCover from "components/About";
+import AboutSideCover from "views/components/About";
 import { NextPage } from "next";
 
 const PageViews: NextPage = () => {

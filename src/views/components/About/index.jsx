@@ -12,8 +12,8 @@ import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import { Gallery, Headline, Numbers, Story } from "./components";
 
-import Information from "views/LandingPages/AboutUs/sections/Information";
-import Team from "views/LandingPages/AboutUs/sections/Team";
+import Information from "views/AboutUs/sections/Information";
+import Team from "views/AboutUs/sections/Team";
 
 const AboutSideCover = () => {
   return (
