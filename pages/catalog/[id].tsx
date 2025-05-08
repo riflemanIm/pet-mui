@@ -1,9 +1,9 @@
 import React from "react";
-import EcommerceDetails from "../../srcOld/components/Ecommerce/components/Details";
+import EcommerceDetails from "views/Details";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import { foodDetailsIdState } from "../../srcOld/atoms";
+import { foodDetailsIdState } from "atoms";
 
 const PageEcommerceDetails: NextPage = () => {
   const router = useRouter();

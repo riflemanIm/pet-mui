@@ -1,0 +1,42 @@
+/* eslint-disable no-param-reassign */
+/**
+=========================================================
+* Shepherd React - v2.1.0
+=========================================================
+
+
+
+
+
+ =========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+*/
+
+// @mui material components
+import Container from "@mui/material/Container";
+import Grid from "@mui/material/Grid";
+
+//
+import MKBox from "components/MKBox";
+import MKInput from "components/MKInput";
+
+function InputStatic() {
+  return (
+    <MKBox component="section" py={12}>
+      <Container>
+        <Grid container item xs={12} lg={4} py={1} mx="auto">
+          <MKInput
+            variant="standard"
+            label="Full Name"
+            placeholder="eg. Thomas Shelby"
+            InputLabelProps={{ shrink: true }}
+            fullWidth
+          />
+        </Grid>
+      </Container>
+    </MKBox>
+  );
+}
+
+export default InputStatic;

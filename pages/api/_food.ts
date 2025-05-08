@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { FoodType, FoodAge } from "@prisma/client";
 import prisma from "../../lib/prisma";
-import { bigIntToSrtArr } from "../../srcOld/helpers";
+import { bigIntToSrtArr } from "../../src/helpers";
 
 const DEFAULT_PAGE_NUM = 1;
 const DEFAULT_PAGE_SIZE = 8;

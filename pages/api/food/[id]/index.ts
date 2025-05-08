@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import prisma from "lib/prisma";
-import { bigIntToSrt } from "srcOld/helpers";
+import prisma from "../../../../lib/prisma";
+import { bigIntToSrt } from "helpers";
 
 const ALLOW_UPDATE_FIELDS = ["type", "price", "stock", "publishedAt"];
 
