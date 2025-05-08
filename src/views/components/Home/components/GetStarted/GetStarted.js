@@ -14,7 +14,7 @@ const GetStarted = () => {
   return (
     <Box>
       <Typography
-        variant="h4"
+        variant="h3"
         color="text.primary"
         align={"center"}
         gutterBottom

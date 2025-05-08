@@ -28,7 +28,7 @@ const { dark } = colors;
 
 const baseProperties = {
   fontFamily: '"Roboto",  "Arial", sans-serif',
-  fontFamily2: '"Roboto", sans-serif',
+  fontFamily2: '"Roboto Slab", sans-serif',
   fontWeightLighter: 100,
   fontWeightLight: 300,
   fontWeightRegular: 400,

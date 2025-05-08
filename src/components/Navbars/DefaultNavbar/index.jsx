@@ -1,35 +1,27 @@
 import { Fragment, useEffect, useState } from "react";
 
-import Link from "next/link";
 // @mui material components
 import Container from "@mui/material/Container";
 import Divider from "@mui/material/Divider";
 import Grid from "@mui/material/Grid";
 import Grow from "@mui/material/Grow";
 import Icon from "@mui/material/Icon";
-import MuiLink from "@mui/material/Link";
 import Popper from "@mui/material/Popper";
 
 //
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
+import { Button } from "@mui/material";
+import logo_light from "assets/images_pet/logo_shepherd_light.svg";
+import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
+import NextMuiLink from "components/NextMuiLink";
 import ShoppingCartButton from "components/ShoppingCartButton";
 import UserAuthButtons from "components/UserAuthButtons";
-import { Button } from "@mui/material";
-import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
-import logo_light from "assets/images_pet/logo_shepherd_light.svg";
 import breakpoints from "theme/base/breakpoints";
-// Wrapper to combine Next.js Link with MUI Link
-function NextMuiLink({ href, children, ...props }) {
-  return (
-    <Link href={href} passHref>
-      <MuiLink {...props}>{children}</MuiLink>
-    </Link>
-  );
-}
+
 function DefaultNavbar({
   routes,
   transparent,
@@ -48,6 +40,13 @@ function DefaultNavbar({
   const [arrowRef, setArrowRef] = useState(null);
   const [mobileNavbar, setMobileNavbar] = useState(false);
   const [mobileView, setMobileView] = useState(false);
+  // New state for scroll
+  const [scrolled, setScrolled] = useState(false);
+
+  // Background color variables
+
+  const scrolledBg = "#EDDED2";
+  const arrowBg = scrolled ? scrolledBg : "#fff";
 
   const openMobileNavbar = () => setMobileNavbar(!mobileNavbar);
 
@@ -74,6 +73,17 @@ function DefaultNavbar({
 
     // Remove event listener on cleanup
     return () => window.removeEventListener("resize", displayMobileNavbar);
+  }, []);
+
+  // Scroll listener to toggle navbar color
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.pageYOffset > 655);
+    };
+    window.addEventListener("scroll", handleScroll);
+    // initialize on mount
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const renderNavbarItems = routes.map(
@@ -157,7 +167,7 @@ function DefaultNavbar({
                             py={0.625}
                             px={2}
                             sx={({
-                              palette: { grey, secondary },
+                              palette: { grey, secondary, primary },
                               borders: { borderRadius },
                             }) => ({
                               borderRadius: borderRadius.md,
@@ -166,7 +176,7 @@ function DefaultNavbar({
 
                               "&:hover": {
                                 backgroundColor: grey[200],
-                                color: secondary.main,
+                                color: scrolled ? primary.main : secondary.main,
                               },
                             })}
                           >
@@ -310,12 +320,13 @@ function DefaultNavbar({
           {...TransitionProps}
           sx={{
             transformOrigin: "left top",
-            background: ({ palette: { white } }) => white.main,
+            background: ({ palette: { white } }) =>
+              scrolled ? scrolledBg : white.main,
           }}
         >
           <MKBox borderRadius="lg">
             <MKTypography variant="h1" color="white">
-              <Icon ref={setArrowRef} sx={{ mt: -3 }}>
+              <Icon ref={setArrowRef} sx={{ mt: -3, color: arrowBg }}>
                 arrow_drop_up
               </Icon>
             </MKTypography>
@@ -449,35 +460,37 @@ function DefaultNavbar({
 
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
-      <MKBox
-        position={relative ? "relative" : "absolute"}
-        my={relative ? 0 : 1}
-        width={relative ? "100%" : "calc(100% - 48px)"}
-        display="flex"
-        justifyContent="right"
-        alignItems="center"
-      >
-        <MKTypography
-          variant="subtitle2"
-          component="a"
-          href="/map"
-          color="white"
-          fontWeight="regular"
-          mx={2}
+      {!scrolled && (
+        <MKBox
+          position={relative ? "relative" : "absolute"}
+          my={relative ? 0 : 1}
+          width={relative ? "100%" : "calc(100% - 48px)"}
+          display="flex"
+          justifyContent="right"
+          alignItems="center"
         >
-          На карте
-        </MKTypography>
-        <MKTypography
-          variant="subtitle2"
-          component="a"
-          href="tel:+79897772000"
-          color="white"
-          my={0}
-          mr={2.5}
-        >
-          +7 989 777 2000
-        </MKTypography>
-      </MKBox>
+          <MKTypography
+            variant="subtitle2"
+            component="a"
+            href="/map"
+            color="white"
+            fontWeight="regular"
+            mx={2}
+          >
+            На карте
+          </MKTypography>
+          <MKTypography
+            variant="subtitle2"
+            component="a"
+            href="tel:+79897772000"
+            color="white"
+            my={0}
+            mr={2.5}
+          >
+            +7 989 777 2000
+          </MKTypography>
+        </MKBox>
+      )}
       <MKBox
         py={1}
         px={{ xs: 4, sm: transparent ? 2 : 3, lg: transparent ? 0 : 2 }}
@@ -494,7 +507,10 @@ function DefaultNavbar({
           palette: { transparent: transparentColor, white },
           functions: { rgba },
         }) => ({
-          backgroundColor: transparent
+          backgroundColor: scrolled
+            ? /* new color when scrolled past 655px */
+              scrolledBg
+            : transparent
             ? transparentColor.main
             : rgba(white.main, 0.8),
           backdropFilter: transparent ? "none" : `saturate(200%) blur(30px)`,

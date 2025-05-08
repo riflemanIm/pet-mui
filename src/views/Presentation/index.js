@@ -13,17 +13,16 @@ import routes from "assets/routes";
 import IndexView from "views/components/Home";
 // Images
 import bgImage from "assets/images/bg-hero.jpg";
-import { Typography } from "@mui/material";
+import logo from "assets/logo-white.svg";
+import Container from "components/Container";
+import MKTypography from "components/MKTypography";
 
 function Presentation() {
   return (
     <>
-      <DefaultNavbar
-        routes={routes}
-        sticky
-      />
+      <DefaultNavbar routes={routes} sticky />
       <MKBox
-        minHeight="75vh"
+        minHeight="95vh"
         width="100%"
         sx={{
           backgroundImage: `url(${bgImage.src})`,
@@ -33,32 +32,46 @@ function Presentation() {
           placeItems: "center",
         }}
       >
-        {/* <Container>
-          <Grid container item xs={12} lg={7} justifyContent="center" mx="">
-            <MKTypography
-              variant="h1"
-              color="white"
-              mt={-6}
-              mb={1}
-              sx={({ breakpoints, typography: { size } }) => ({
-                [breakpoints.down("md")]: {
-                  fontSize: size["3xl"],
-                },
-              })}
-            >
-              Кубань-Телеком, Кубтел. Провайдер Краснодар.
-            </MKTypography>
-            <MKTypography
-              variant="body1"
-              color="white"
-              textAlign="center"
-              px={{ xs: 6, lg: 12 }}
-              mt={1}
-            >
-              Домашний интернет и ТВ, безлимитные тарифы. Интернет оператор.
-            </MKTypography>
-          </Grid>
-        </Container> */}
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <MKBox
+            component="img"
+            src={logo.src}
+            alt="logo"
+            width={{ xs: "60%", sm: "40%", md: "30%" }}
+            mt={{ xs: 10, sm: 20, md: 30 }}
+            mb={15}
+          />
+
+          <MKTypography
+            variant="h1"
+            color="white"
+            textAlign="center"
+            sx={({ breakpoints, typography: { size } }) => ({
+              [breakpoints.down("md")]: {
+                fontSize: size["3xl"],
+              },
+            })}
+          >
+            Лучшие корма и лакомства для Вашего питомца.
+          </MKTypography>
+          <MKTypography
+            variant="body1"
+            color="white"
+            textAlign="center"
+            px={{ xs: 6, lg: 12 }}
+            mt={1}
+          >
+            100% натуральный продукт. Мы заботимся о здоровье ваших питомцев
+            вместе.
+          </MKTypography>
+        </Container>
       </MKBox>
       <Card
         sx={{

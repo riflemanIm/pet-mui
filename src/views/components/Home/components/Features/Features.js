@@ -49,10 +49,14 @@ const Features = () => {
       <Grid container direction={isMd ? "row" : "column-reverse"}>
         <Grid item xs={12} md={6}>
           <Box marginBottom={4}>
-            <Typography sx={{ fontWeight: 700 }} variant={"h4"} gutterBottom>
+            <Typography sx={{ fontWeight: 700 }} variant={"h3"} gutterBottom>
               Кто мы
             </Typography>
-            <Typography variant={"h6"} component={"p"} color={"text.secondary"}>
+            <Typography
+              variant={"body2"}
+              component={"p"}
+              color={"text.secondary"}
+            >
               Компания Shepherd Pet предлагает любые кома и лакомства, которые
               помогут не просто кормить, но и дрессировать Вашего питомца. Мы
               помогаем каждый день нашим клиентам находить информацию,

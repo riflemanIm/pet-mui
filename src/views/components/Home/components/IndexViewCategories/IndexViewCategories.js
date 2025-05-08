@@ -65,7 +65,7 @@ const IndexViewCategories = () => {
     <>
       <Box marginBottom={4}>
         <Typography
-          variant="h4"
+          variant="h2"
           color="text.primary"
           align={"center"}
           gutterBottom
@@ -78,7 +78,7 @@ const IndexViewCategories = () => {
         </Typography>
 
         <Typography
-          variant="h6"
+          variant="subtitle2"
           align={"center"}
           color={"text.secondary"}
           data-aos={"fade-up"}

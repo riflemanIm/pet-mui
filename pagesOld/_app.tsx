@@ -3,17 +3,18 @@ import { RecoilRoot, useRecoilSnapshot } from "recoil";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import { AppProps } from "next/app";
-import { Roboto } from "next/font/google";
+import { Roboto_Slab } from "next/font/google";
 import { SnackbarProvider } from "notistack";
 import { useEffect, useState } from "react";
 import { RecoilURLSyncJSONNext } from "recoil-sync-next";
 import "../srcOld/components/Home/components/HeroImageSlider/index.css";
 import getTheme from "../srcOld/theme";
 
-// Импорт Roboto с нужными весами и подмножествами
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
-  subsets: ["latin"],
+// Инициализируем шрифт здесь:
+const roboto = Roboto_Slab({
+  subsets: ["cyrillic", "cyrillic-ext", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  // display: 'swap' // по-умолчанию уже swap
 });
 
 function DebugObserver() {
@@ -73,8 +74,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             theme={getTheme(themeMode, themeToggler)}
             //theme="light"
           >
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline /> <Component {...pageProps} />
+            <div className={roboto.className}>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline /> <Component {...pageProps} />
+            </div>
           </ThemeProvider>
         </SnackbarProvider>
       </RecoilURLSyncJSONNext>

@@ -10,14 +10,8 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
-// Wrapper to combine Next.js Link with MUI Link
-function NextMuiLink({ href, children, ...props }) {
-  return (
-    <Link href={href} passHref>
-      <MuiLink {...props}>{children}</MuiLink>
-    </Link>
-  );
-}
+import NextMuiLink from "components/NextMuiLink";
+
 function DefaultNavbarMobile({ routes, open }) {
   const [collapse, setCollapse] = useState("");
 

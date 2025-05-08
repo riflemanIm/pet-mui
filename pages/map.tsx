@@ -1,5 +1,5 @@
 import React from "react";
-import Map from "views/components/Map";
+import Map from "views/Map";
 import { NextPage } from "next";
 
 const PageViews: NextPage = () => {

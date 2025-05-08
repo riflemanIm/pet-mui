@@ -8,14 +8,8 @@ import Icon from "@mui/material/Icon";
 //
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-// Wrapper to combine Next.js Link with MUI Link
-function NextMuiLink({ href, children, ...props }) {
-  return (
-    <Link href={href} passHref>
-      <MuiLink {...props}>{children}</MuiLink>
-    </Link>
-  );
-}
+import NextMuiLink from "components/NextMuiLink";
+
 function DefaultNavbarDropdown({
   name,
   icon,
