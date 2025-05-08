@@ -11,7 +11,7 @@ import MKTypography from "components/MKTypography";
 // Wrapper to combine Next.js Link with MUI Link
 function NextMuiLink({ href, children, ...props }) {
   return (
-    <Link href={href} passHref legacyBehavior>
+    <Link href={href} passHref>
       <MuiLink {...props}>{children}</MuiLink>
     </Link>
   );
