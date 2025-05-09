@@ -3,7 +3,7 @@ import Router from "next/router";
 import { NextPage } from "next";
 import { currentUserState } from "../srcOld/atoms";
 import { useRecoilValue } from "recoil";
-import SignUp from "components/SignUp";
+import SignUp from "views/SignUp";
 
 const PageSignUp: NextPage = () => {
   const currentUser = useRecoilValue(currentUserState);

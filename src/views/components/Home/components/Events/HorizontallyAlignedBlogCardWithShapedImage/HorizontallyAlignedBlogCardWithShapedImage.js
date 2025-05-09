@@ -9,7 +9,7 @@ import Avatar from "@mui/material/Avatar";
 import Chip from "@mui/material/Chip";
 
 import Container from "components/Container";
-import img from "assets/images/abou3.jpg";
+import img from "assets/images/woman-playing-with-her-dog.png";
 import img1 from "assets/images/team/LLxas-lK8IE.jpg";
 
 const mock = {

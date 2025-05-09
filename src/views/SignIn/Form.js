@@ -39,25 +39,7 @@ const Form = ({ signState, setSignState }) => {
   return (
     <Box>
       <Box marginBottom={4}>
-        <Typography
-          sx={{
-            textTransform: "uppercase",
-            fontWeight: "medium",
-          }}
-          gutterBottom
-          color={"text.secondary"}
-        >
-          вход
-        </Typography>
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 700,
-          }}
-        >
-          Добро пожаловать
-        </Typography>
-        <Typography color="text.secondary">
+        <Typography variant="h4" color="text.secondary">
           Введите email и Вам придет код подтверждения
         </Typography>
         <Fade
@@ -76,9 +58,6 @@ const Form = ({ signState, setSignState }) => {
       <form onSubmit={formik.handleSubmit}>
         <Grid container spacing={4}>
           <Grid item xs={12}>
-            <Typography variant={"subtitle2"} sx={{ marginBottom: 2 }}>
-              Enter your email
-            </Typography>
             <TextField
               label="Введите Ваш Email *"
               variant="outlined"
@@ -143,7 +122,7 @@ const Form = ({ signState, setSignState }) => {
                   <Link
                     component={"a"}
                     color={"primary"}
-                    href={"/signup-simple"}
+                    href={"/signup"}
                     underline={"none"}
                   >
                     Вам сюда

@@ -49,22 +49,12 @@ const FormSignUp = ({ signState, setSignState }) => {
     <Box>
       <Box mb={4}>
         <Typography
-          sx={{
-            textTransform: "uppercase",
-            fontWeight: "medium",
-          }}
-          gutterBottom
-          color={"text.secondary"}
-        >
-          регистрация
-        </Typography>
-        <Typography
           variant="h4"
           sx={{
             fontWeight: 600,
           }}
         >
-          Создайте аккаунт
+          Регистрация
         </Typography>
         <Typography color="text.secondary" fontSize={14} marginBottom={6}>
           У нас упрощенная регистрация. Просто введите email, Вам придет код

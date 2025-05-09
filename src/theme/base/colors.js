@@ -8,12 +8,12 @@ import { alpha } from "@mui/system";
 
 export default {
   background: {
-    default: alpha("#ECF4E0", 0.5),
+    default: alpha("#6fb910", 0.1),
   },
 
   text: {
-    main: "#7b809a",
-    focus: "#7b809a",
+    main: "#2C394B",
+    focus: "#2C394B",
   },
 
   transparent: {
@@ -33,31 +33,31 @@ export default {
 
   primary: {
     main: "#852E2E",
-    focus: "#0D3C3C",
+    focus: "#851c08",
   },
 
   secondary: {
-    main: "#0d3c3c",
-    focus: "#111211",
+    main: "#0D3C3C",
+    focus: "#cd361a",
   },
 
   info: {
-    main: "#24a5e0",
-    focus: "#0085C1",
+    main: "#7E8E8E",
+    focus: "#E69D4F",
   },
 
   success: {
-    main: "#4CAF50",
+    main: "#6fb910",
     focus: "#67bb6a",
   },
 
   warning: {
-    main: "#fb8c00",
+    main: "#CB3212",
     focus: "#fc9d26",
   },
 
   error: {
-    main: "#F44335",
+    main: "#CB3212",
     focus: "#f65f53",
   },
 

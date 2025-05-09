@@ -25,7 +25,8 @@ import Grid from "@mui/material/Grid";
 //
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-
+import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
+import NextMuiLink from "components/NextMuiLink";
 function DefaultFooter({ content }) {
   const { brand, socials, menus, copyright } = content;
 
@@ -34,9 +35,16 @@ function DefaultFooter({ content }) {
       <Container>
         <Grid container spacing={3}>
           <Grid item xs={12} md={3} sx={{ ml: "auto", mb: 3 }}>
-            <MKBox>
-              <MKTypography variant="h6">{brand.name}</MKTypography>
-            </MKBox>
+            <NextMuiLink href="/">
+              <MKBox
+                component="img"
+                src={logo.src}
+                alt="logo"
+                width="62%"
+                opacity={1}
+              />
+            </NextMuiLink>
+
             <MKBox display="flex" alignItems="center" mt={3}>
               {socials.map(({ icon, link }, key) => (
                 <MKTypography

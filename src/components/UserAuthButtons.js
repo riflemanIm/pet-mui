@@ -20,9 +20,9 @@ const TopButtons = () => (
         component="a"
         href="/signin"
         sx={{
-          backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+          backgroundColor: (theme) => alpha(theme.palette.white.main, 0.3),
           "&:hover": {
-            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.16),
+            backgroundColor: (theme) => alpha(theme.palette.white.main, 0.5),
           },
         }}
       >
@@ -119,12 +119,12 @@ const UserAuthButtons = ({ top = true, colorInvert = false }) => {
       <Box ml={top ? 4 : 0} mt={!top ? 2 : 0}>
         <IconButton
           size="large"
-          variant="outlined"
-          color="secondary"
+          variant="contained"
+          color=""
           onClick={logout}
           fullWidth
           sx={{
-            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.08),
+            backgroundColor: (theme) => alpha(theme.palette.white.main, 0.8),
             "&:hover": {
               backgroundColor: (theme) =>
                 alpha(theme.palette.primary.main, 0.16),

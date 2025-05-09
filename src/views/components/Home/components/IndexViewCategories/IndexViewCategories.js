@@ -113,9 +113,10 @@ const IndexViewCategories = () => {
                 data-aos={"fade-up"}
                 data-aos-delay={i * 100}
                 sx={{
+                  backgroundColor: `${theme.palette.white.main} !important`,
                   "& > div > div > img": { filter: "grayscale(.7)" },
                   "&:hover": {
-                    backgroundColor: `${theme.palette.grey[100]} !important`,
+                    backgroundColor: `${theme.palette.background.default} !important`,
                     "& > div > div > img": { filter: "none" },
                   },
                 }}
