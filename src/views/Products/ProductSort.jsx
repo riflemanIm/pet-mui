@@ -1,16 +1,9 @@
-import * as React from "react";
-import { useRecoilState } from "recoil";
 import { homePageQueryState } from "atoms";
+import { useRecoilState } from "recoil";
 
-import { SORT_VALUE } from "types";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-} from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import { SORT_VALUE } from "types";
 const useStyles = makeStyles((theme) => ({
   select: {
     color: theme.palette.text.main,
@@ -35,7 +28,7 @@ export default function ProductSort() {
   const [homePageQueryData, setHomePageQueryData] =
     useRecoilState(homePageQueryState);
 
-  const handleChangeOrder = (event: SelectChangeEvent) => {
+  const handleChangeOrder = (event) => {
     setHomePageQueryData({
       ...homePageQueryData,
       page: 1,

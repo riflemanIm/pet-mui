@@ -1,30 +1,29 @@
-import React, { useCallback } from "react";
-import NextLink from "next/link";
-import Icon from "@mui/material/Icon";
-import Grid2 from "@mui/material/Grid2";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useRecoilState } from "recoil";
+import Grid2 from "@mui/material/Grid2";
+import Icon from "@mui/material/Icon";
+import NextLink from "next/link";
 import { useSnackbar } from "notistack";
+import { useCallback } from "react";
+import { useRecoilState } from "recoil";
 
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
-import { shoppingCartState } from "atoms";
-import { addItemShoppingCart } from "selectors";
-import HandCounter from "components/HandCounter";
-import type { FoodProps } from "types";
 import { Card } from "@mui/material";
-import boxShadows from "theme/base/boxShadows";
+import { shoppingCartState } from "atoms";
+import HandCounter from "components/HandCounter";
+import MKBox from "components/MKBox";
+import MKButton from "components/MKButton";
+import MKTypography from "components/MKTypography";
+import { addItemShoppingCart } from "selectors";
 import borders from "theme/base/borders";
+import boxShadows from "theme/base/boxShadows";
 const { borderRadius } = borders;
-const { xxl,colored } = boxShadows;
+const { xxl, colored } = boxShadows;
 
-interface ProductItemProps {
-  item: FoodProps;
-  index: number;
-}
+// interface ProductItemProps {
+//   item: FoodProps;
+//   index: number;
+// }
 
-export default function ProductItem({ item, index }: ProductItemProps) {
+export default function ProductItem({ item, index }) {
   const [cart, setCart] = useRecoilState(shoppingCartState);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,7 +31,7 @@ export default function ProductItem({ item, index }: ProductItemProps) {
     addItemShoppingCart(setCart, item, enqueueSnackbar);
   }, [item, setCart, enqueueSnackbar]);
 
-  const inCart = cart.some(c => c.id === item.id);
+  const inCart = cart.some((c) => c.id === item.id);
 
   return (
     <Grid2
@@ -44,11 +43,11 @@ export default function ProductItem({ item, index }: ProductItemProps) {
       data-aos-duration={600}
     >
       <Card
-            sx={{
-              borderRadius: borderRadius.lg,
-      boxShadow: colored.info,
-            }}
-          >
+        sx={{
+          borderRadius: borderRadius.lg,
+          boxShadow: colored.info,
+        }}
+      >
         {/* Image section */}
         <MKBox position="relative">
           <MKBox
@@ -56,8 +55,12 @@ export default function ProductItem({ item, index }: ProductItemProps) {
             src={`/images/catalog/${item.img}`}
             alt={item.title}
             width="100%"
-            sx={{ height: { xs: 200, sm: 280, md: 240 },borderRadius: borderRadius.lg,
-            boxShadow: xxl, objectFit: 'cover' }}
+            sx={{
+              height: { xs: 200, sm: 280, md: 240 },
+              borderRadius: borderRadius.lg,
+              boxShadow: xxl,
+              objectFit: "cover",
+            }}
           />
           <MKBox
             position="absolute"
@@ -65,17 +68,17 @@ export default function ProductItem({ item, index }: ProductItemProps) {
             left={0}
             right={0}
             sx={{
-              height: '40%',
-              background: 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)',
+              height: "40%",
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
             }}
           />
-          <MKBox
-            component="span"
-            position="absolute"
-            top={8}
-            right={8}
-          >
-            <Icon component={FavoriteBorderIcon} fontSize="small" sx={{ color: 'white' }} />
+          <MKBox component="span" position="absolute" top={8} right={8}>
+            <Icon
+              component={FavoriteBorderIcon}
+              fontSize="small"
+              sx={{ color: "white" }}
+            />
           </MKBox>
         </MKBox>
 
@@ -86,12 +89,17 @@ export default function ProductItem({ item, index }: ProductItemProps) {
             href={`/catalog/${item.id}`}
             variant="h6"
             textTransform="capitalize"
-            sx={{ textDecoration: 'none', color: 'text.primary' }}
+            sx={{ textDecoration: "none", color: "text.primary" }}
           >
             {item.title}
           </MKTypography>
 
-          <MKBox display="flex" justifyContent="space-between" alignItems="center" mt={1}>
+          <MKBox
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mt={1}
+          >
             <MKTypography variant="subtitle2" color="primary">
               {item.price}₽
             </MKTypography>
@@ -100,7 +108,11 @@ export default function ProductItem({ item, index }: ProductItemProps) {
               inCart ? (
                 <HandCounter id={item.id} />
               ) : (
-                <MKButton variant="gradient" size="small" onClick={handleAddToCart}>
+                <MKButton
+                  variant="gradient"
+                  size="small"
+                  onClick={handleAddToCart}
+                >
                   В корзину
                 </MKButton>
               )

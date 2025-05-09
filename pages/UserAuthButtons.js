@@ -6,7 +6,7 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { currentUserState, shoppingCartState } from "../../../atoms";
+import { currentUserState, shoppingCartState } from "atoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { alpha } from "@mui/material/styles";
 import { IconButton } from "@mui/material";

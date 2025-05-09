@@ -3,16 +3,15 @@ import {
   Box,
   CircularProgress,
   Pagination,
-  Stack,
   Typography,
 } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useTheme } from "@mui/material/styles";
 import { homePageFoodSumState, homePageQueryState } from "atoms";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useRecoilState, useRecoilValueLoadable } from "recoil";
 import { homePageQuery } from "selectors";
-import { FoodProps, PAGE_SIZE } from "types";
+import { PAGE_SIZE } from "types";
 import ProductItem from "./ProductItem";
 
 export default function Products() {
@@ -24,7 +23,7 @@ export default function Products() {
   const page = queryData?.page ?? 1;
 
   const handlePageChange = useCallback(
-    (event: React.ChangeEvent<unknown>, value: number) => {
+    (event, value) => {
       setQueryData((prev) => ({ ...prev, page: value }));
     },
     [setQueryData]
@@ -63,7 +62,7 @@ export default function Products() {
         return (
           <>
             <Grid2 container spacing={6}>
-              {items.map((food: FoodProps, idx: number) => (
+              {items.map((food, idx) => (
                 <ProductItem key={food.id} item={food} index={idx} />
               ))}
 
