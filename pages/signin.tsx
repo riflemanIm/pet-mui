@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Router from "next/router";
 import { NextPage } from "next";
-import { currentUserState } from "../srcOld/atoms";
+import { currentUserState } from "atoms";
 import { useRecoilValue } from "recoil";
 import SignIn from "views/SignIn";
 

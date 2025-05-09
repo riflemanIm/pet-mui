@@ -4,7 +4,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import MKTypography from "components/MKTypography";
-import logo from "assets/images_pet/logo_shepherd_navy.svg";
+import logo from "assets/logo_shepherd_navy.svg";
 
 export interface SocialLink {
   icon: ReactElement;
@@ -99,7 +99,7 @@ const footerConfig: FooterConfig = {
   ],
   copyright: (
     <MKTypography variant="button" fontWeight="regular">
-      All rights reserved. Copyright &copy; {date} Shepherd by .
+      All rights reserved. Copyright &copy; {date} Shepherd
     </MKTypography>
   ),
 };

@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 
-import prisma from "lib/prisma";
-import { getRandomInt } from "srcOld/helpers";
+import prisma from "../../../../lib/prisma";
+import { getRandomInt } from "helpers";
 
 const buyFoodHandler = async (
   req: NextApiRequest,

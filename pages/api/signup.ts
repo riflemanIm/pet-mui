@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
-import { isValidEmail } from "../../srcOld/validation/validators";
-import isEmpty from "../../srcOld/helpers";
+import { isValidEmail } from "validation/validators";
+import isEmpty from "helpers";
 //import md5 from "md5";
 import { randomInt, randomUUID } from "node:crypto";
 

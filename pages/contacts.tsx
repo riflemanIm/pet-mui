@@ -1,5 +1,5 @@
 import React from "react";
-import Contact from "components/Contact";
+import Contact from "views/Contact";
 import { NextPage } from "next";
 
 const PageViews: NextPage = () => {

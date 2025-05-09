@@ -1,21 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from "react";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import { useTheme } from "@mui/material/styles";
 //import CardMedia from '@mui/material/CardMedia';
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 //import { CardActionArea } from '@mui/material';
-import img from "assets/images/pets.jpg";
-import img1 from "assets/images/hero/25155454.jpg";
-import img2 from "assets/images/puppies.jpg";
 import img3 from "assets/images/big_small.jpg";
+import img1 from "assets/images/hero/25155454.jpg";
+import img from "assets/images/pets.jpg";
+import img2 from "assets/images/puppies.jpg";
 import img4 from "assets/images/taste.jpeg";
 
 import img5 from "assets/images/hardness.jpg";
-import MKAvatar from "components/MKAvatar";
 import MKBox from "components/MKBox";
 const mock = [
   {

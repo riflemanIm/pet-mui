@@ -25,7 +25,7 @@ import Grid from "@mui/material/Grid";
 //
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
+import logo from "assets/logo_shepherd_navy_opt.svg";
 import NextMuiLink from "components/NextMuiLink";
 function DefaultFooter({ content }) {
   const { brand, socials, menus, copyright } = content;

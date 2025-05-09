@@ -13,8 +13,8 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 
 import { Button } from "@mui/material";
-import logo_light from "assets/images_pet/logo_shepherd_light.svg";
-import logo from "assets/images_pet/logo_shepherd_navy_opt.svg";
+import logo_light from "assets/logo_shepherd_light.svg";
+import logo from "assets/logo_shepherd_navy_opt.svg";
 import DefaultNavbarDropdown from "components/Navbars/DefaultNavbar/DefaultNavbarDropdown";
 import DefaultNavbarMobile from "components/Navbars/DefaultNavbar/DefaultNavbarMobile";
 import NextMuiLink from "components/NextMuiLink";
@@ -485,9 +485,20 @@ function DefaultNavbar({
             href="tel:+79897772000"
             color="white"
             my={0}
+            mx={2}
             mr={2.5}
           >
             +7 989 777 2000
+          </MKTypography>
+          <MKTypography
+            variant="subtitle2"
+            component="a"
+            href="/contacts"
+            color="white"
+            fontWeight="regular"
+            mx={0}
+          >
+            Контакты
           </MKTypography>
         </MKBox>
       )}

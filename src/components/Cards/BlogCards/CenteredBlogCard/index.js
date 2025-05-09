@@ -26,6 +26,7 @@ import MuiLink from "@mui/material/Link";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import MKButton from "components/MKButton";
+import NextMuiLink from "components/NextMuiLink";
 
 function CenteredBlogCard({ image, title, description, action }) {
   return (
@@ -70,29 +71,16 @@ function CenteredBlogCard({ image, title, description, action }) {
             {description}
           </MKTypography>
         </MKBox>
-        {action.type === "external" ? (
-          <MKButton
-            component={MuiLink}
-            href={action.route}
-            target="_blank"
-            rel="noreferrer"
-            variant="gradient"
-            size="small"
-            color={action.color ? action.color : "dark"}
-          >
-            {action.label}
-          </MKButton>
-        ) : (
-          <MKButton
-            component={Link}
-            to={action.route}
-            variant="gradient"
-            size="small"
-            color={action.color ? action.color : "dark"}
-          >
-            {action.label}
-          </MKButton>
-        )}
+
+        <MKButton
+          component={NextMuiLink}
+          href={action.route}
+          variant="gradient"
+          size="small"
+          color={action.color ? action.color : "dark"}
+        >
+          {action.label}
+        </MKButton>
       </MKBox>
     </Card>
   );

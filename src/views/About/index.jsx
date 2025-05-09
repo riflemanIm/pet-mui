@@ -12,10 +12,10 @@ import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import { Gallery, Headline, Numbers, Story } from "./components";
 
-import Information from "views/_AboutUs/sections/Information";
-import Team from "views/_AboutUs/sections/Team";
+import Information from "./sections/Information";
+import Team from "./sections/Team";
 
-const AboutSideCover = () => {
+const About = () => {
   return (
     <>
       <DefaultNavbar routes={routes} transparent light />
@@ -122,4 +122,4 @@ const AboutSideCover = () => {
   );
 };
 
-export default AboutSideCover;
+export default About;

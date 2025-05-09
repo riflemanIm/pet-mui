@@ -62,7 +62,7 @@
     "yup": "^1.4.0"
   },
   "scripts": {    
-    "predev": "sudo fuser -k 3000/tcp",
+
     "dev": "next dev -p 3000",    
     "build": "next build",
     "start": "next start",
