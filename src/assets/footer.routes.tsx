@@ -99,18 +99,7 @@ const footerConfig: FooterConfig = {
   ],
   copyright: (
     <MKTypography variant="button" fontWeight="regular">
-      All rights reserved. Copyright &copy; {date} Shepherd by{" "}
-      <MKTypography
-        component="a"
-        href="https://shepherd-pet.ru/"
-        target="_blank"
-        rel="noreferrer"
-        variant="button"
-        fontWeight="regular"
-      >
-        Kubtel
-      </MKTypography>
-      .
+      All rights reserved. Copyright &copy; {date} Shepherd by .
     </MKTypography>
   ),
 };

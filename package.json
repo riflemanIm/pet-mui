@@ -62,7 +62,8 @@
     "yup": "^1.4.0"
   },
   "scripts": {    
-    "dev": "sudo fuser -k 3000/tcp && next dev -p 3000",    
+    "predev": "sudo fuser -k 3000/tcp",
+    "dev": "next dev -p 3000",    
     "build": "next build",
     "start": "next start",
     "prisma:dev": "prisma migrate dev",

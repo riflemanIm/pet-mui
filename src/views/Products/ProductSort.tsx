@@ -10,14 +10,28 @@ import {
   Select,
   SelectChangeEvent,
 } from "@mui/material";
-
-function getStyles(name: string, vals: readonly string[]) {
-  return {
-    fontWeight: !vals.includes(name) ? 400 : 550,
-  };
-}
-
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles((theme) => ({
+  select: {
+    color: theme.palette.text.main,
+    [theme.breakpoints.down("md")]: {
+      color: theme.palette.white.main,
+    },
+  },
+  icon: {
+    color: theme.palette.text.main,
+    [theme.breakpoints.down("md")]: {
+      color: theme.palette.white.main,
+    },
+  },
+  label: {
+    [theme.breakpoints.down("md")]: {
+      color: `${theme.palette.white.main} !important`,
+    },
+  },
+}));
 export default function ProductSort() {
+  const classes = useStyles();
   const [homePageQueryData, setHomePageQueryData] =
     useRecoilState(homePageQueryState);
 
@@ -32,14 +46,23 @@ export default function ProductSort() {
   //console.log("homePageQueryData", homePageQueryData);
 
   return (
-    <FormControl fullWidth size="medium">
-      <InputLabel id="demo-simple-select-label"> Сортировать по</InputLabel>
+    <FormControl size="medium" variant="outlined">
+      <InputLabel id="demo-simple-select-label" className={classes.label}>
+        Сортировать по
+      </InputLabel>
       <Select
         value={homePageQueryData?.sort || "published_at"}
         label="Сортировать по"
         onChange={handleChangeOrder}
         variant="outlined"
-        sx={{ borderRadius: 2, width: 200 }}
+        sx={{
+          borderRadius: 2,
+          width: 200,
+        }}
+        classes={{
+          select: classes.select,
+          icon: classes.icon,
+        }}
       >
         {SORT_VALUE.map((sortType) => (
           <MenuItem key={sortType} value={sortType}>

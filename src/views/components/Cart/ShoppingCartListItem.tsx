@@ -9,7 +9,7 @@ import { ShoppingCartItemProps } from "types";
 import { currencyFormat } from "helpers/utils";
 import { Divider, Grid, IconButton, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
-import HandCounter from "../../../HandCounter";
+import HandCounter from "components/HandCounter";
 import { deleteItemShoppingCart } from "selectors";
 
 export default function ShoppingCartListItem(props: ShoppingCartItemProps) {

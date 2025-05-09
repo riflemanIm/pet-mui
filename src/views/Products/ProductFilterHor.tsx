@@ -1,4 +1,3 @@
-import ClearAllIcon from "@mui/icons-material/ClearAll";
 import {
   Box,
   Chip,
@@ -22,8 +21,9 @@ import { useRecoilState } from "recoil";
 import { fetchFoodDicts } from "actions/food";
 import { foodDictsState, homePageQueryState } from "atoms";
 import MKButton from "components/MKButton";
-import { width } from "@mui/system";
-
+import ClearIcon from "@mui/icons-material/Clear";
+import FilterListIcon from "@mui/icons-material/FilterList";
+import ProductSort from "./ProductSort";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
 const menuProps = {
@@ -108,21 +108,6 @@ export default function ProductFilterHor() {
   const filtersExt = useMemo(
     () => [
       {
-        name: "designedFor",
-        label: "Разработано для",
-        type: "radio",
-        dynamic: true,
-      },
-      {
-        name: "type",
-        label: "Категория товара",
-        type: "radio",
-        options: [
-          { id: "Treat", label: "Лакомства" },
-          { id: "Souvenirs", label: "Аксессуары" },
-        ],
-      },
-      {
         name: "ingridient",
         label: "Ингредиенты",
         type: "multi",
@@ -167,10 +152,10 @@ export default function ProductFilterHor() {
   }
 
   return (
-    <Grid2 container spacing={3}>
-      {(!ext ? filters : filtersExt).map(
-        ({ name, label, type, options, dynamic, chipColor }) => (
-          <Grid2 key={name} sx={{ minWidth: 180 }}>
+    <>
+      <Grid2 container spacing={3}>
+        {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
+          <Grid2 key={name} size={"auto"}>
             {type === "radio" ? (
               <FormControl fullWidth>
                 <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
@@ -184,7 +169,7 @@ export default function ProductFilterHor() {
                   {(dynamic ? dicts[name] : options).map((opt) => (
                     <FormControlLabel
                       key={opt.id}
-                      value={opt.id}
+                      value={opt.id || 1}
                       control={<Radio />}
                       label={opt.label || opt.name}
                     />
@@ -192,12 +177,11 @@ export default function ProductFilterHor() {
                 </RadioGroup>
               </FormControl>
             ) : (
-              <FormControl fullWidth>
+              <FormControl fullWidth variant="outlined">
                 <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>
                   {label}
                 </FormLabel>
                 <Select
-                  variant="filled"
                   multiple
                   value={query[name] ? query[name].split(",") : []}
                   onChange={handleMultiChange(name)}
@@ -211,7 +195,7 @@ export default function ProductFilterHor() {
                               onClick={handleClear(name)}
                               aria-label="Очистить"
                             >
-                              <ClearAllIcon fontSize="small" />
+                              <ClearIcon fontSize="small" />
                             </IconButton>
                           </InputAdornment>
                         )
@@ -262,20 +246,132 @@ export default function ProductFilterHor() {
               </FormControl>
             )}
           </Grid2>
-        )
-      )}
-      <Grid2 size={12} textAlign="right">
-        <MKButton
-          variant="outlined"
-          color="secondary"
-          fullWidth
-          onClick={() => setSetExt((prev) => !prev)}
-          startIcon={<ClearAllIcon />}
-          sx={{ width: 250 }}
+        ))}
+
+        <Grid2
+          size="grow"
+          textAlign="right"
+          justifySelf="right"
+          alignSelf="end"
         >
-          {ext ? "Скрыть" : "Показать"} расширенные фильтры
-        </MKButton>
+          <MKButton
+            variant="contained"
+            color="primary"
+            size="small"
+            onClick={() => setSetExt((prev) => !prev)}
+            startIcon={<FilterListIcon />}
+          >
+            фильтры
+          </MKButton>
+        </Grid2>
       </Grid2>
-    </Grid2>
+      <Grid2 container spacing={3} mt={3}>
+        {ext &&
+          filtersExt.map(
+            ({ name, label, type, options, dynamic, chipColor }) => (
+              <Grid2 key={name} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+                {type === "radio" ? (
+                  <FormControl fullWidth>
+                    <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
+                      {label}
+                    </FormLabel>
+                    <RadioGroup
+                      row
+                      value={query[name] || ""}
+                      onChange={handleRadioChange(name)}
+                    >
+                      {(dynamic ? dicts[name] : options).map((opt) => (
+                        <FormControlLabel
+                          key={opt.id}
+                          value={opt.id || 1}
+                          control={<Radio />}
+                          label={opt.label || opt.name}
+                        />
+                      ))}
+                    </RadioGroup>
+                  </FormControl>
+                ) : (
+                  <FormControl fullWidth>
+                    <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>
+                      {label}
+                    </FormLabel>
+                    <Select
+                      variant="filled"
+                      multiple
+                      value={query[name] ? query[name].split(",") : []}
+                      onChange={handleMultiChange(name)}
+                      input={
+                        <OutlinedInput
+                          endAdornment={
+                            query[name]?.length > 0 && (
+                              <InputAdornment position="end" sx={{ mr: 1 }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={handleClear(name)}
+                                  aria-label="Очистить"
+                                >
+                                  <ClearIcon fontSize="small" />
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }
+                        />
+                      }
+                      renderValue={(selected) => (
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: 0.5,
+                          }}
+                        >
+                          {selected.map((val) => {
+                            const item = dicts[name].find(
+                              (i) => String(i.id) === val
+                            );
+                            return (
+                              <Chip
+                                key={val}
+                                label={item?.name}
+                                color={chipColor}
+                                size="small"
+                              />
+                            );
+                          })}
+                        </Box>
+                      )}
+                      MenuProps={menuProps}
+                    >
+                      {dicts[name].map((item) => (
+                        <MenuItem
+                          key={item.id}
+                          value={String(item.id)}
+                          sx={{
+                            fontWeight: query[name]
+                              ?.split(",")
+                              .includes(String(item.id))
+                              ? 600
+                              : 400,
+                          }}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
+              </Grid2>
+            )
+          )}
+        <Grid2
+          alignSelf="end"
+          textAlign="right"
+          justifySelf="right"
+          size="grow"
+        >
+          <ProductSort />
+        </Grid2>
+      </Grid2>
+    </>
   );
 }
