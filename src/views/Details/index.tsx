@@ -11,14 +11,16 @@ import routes from "assets/routes";
 
 import ProductFilterHor from "../Products/ProductFilterHor";
 
-import ProductSort from "../Products/ProductSort";
+import { useMediaQuery } from "@mui/system";
 import { foodDetailsIdState } from "atoms";
 import { useRecoilState } from "recoil";
-import { Details } from "./components";
+import ProductSort from "../Products/ProductSort";
 import CardDetails from "./CardDetails";
 
 export default function IndexProducts() {
   const [foodDetailsId] = useRecoilState(foodDetailsIdState);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+
   return (
     <>
       {/* Navbar */}
@@ -26,7 +28,7 @@ export default function IndexProducts() {
 
       {/* Hero Section */}
       <MKBox
-        minHeight="65vh"
+        minHeight={{ xs: "55vh", sm: "55vh", md: "55vh", lg: "55vh" }}
         width="100%"
         sx={(theme) => ({
           backgroundImage: `${theme.functions.linearGradient(
@@ -55,7 +57,7 @@ export default function IndexProducts() {
                 fontSize: size["3xl"],
               },
             })}
-            mt={2}
+            mt={{ xs: 10, sm: 10, md: -10, lg: -20 }}
           >
             Каталог продуктов
           </MKTypography>
@@ -73,20 +75,46 @@ export default function IndexProducts() {
 
           {/* Sort */}
         </Container>
-        <Card
-          sx={{
-            p: 4,
-            mx: { xs: 2, lg: 3 },
-            mt: -22,
-            backgroundColor: ({ palette: { white }, functions: { rgba } }) =>
-              rgba(white.main, 0.9),
-            backdropFilter: "saturate(200%) blur(30px)",
-            boxShadow: ({ boxShadows: { xxl } }) => xxl,
-          }}
-        >
-          <ProductFilterHor />
-          <ProductSort />
-        </Card>
+        {!isMobile && (
+          <Card
+            sx={{
+              p: 4,
+              mx: { xs: 2, lg: 3 },
+              mt: 42,
+              backgroundColor: ({ palette: { white }, functions: { rgba } }) =>
+                rgba(white.main, 0.9),
+              backdropFilter: "saturate(200%) blur(30px)",
+              boxShadow: ({ boxShadows: { xxl } }) => xxl,
+              position: "absolute",
+              zIndex: 999,
+            }}
+          >
+            <ProductFilterHor />
+          </Card>
+        )}
+        {/* Mobile Filters Button */}
+        {isMobile && (
+          <Stack direction="row" spacing={2} mt={{ xs: -20, sm: -20 }}>
+            <MKButton
+              onClick={handleToggleFilters}
+              variant="contained"
+              sx={(theme) => ({
+                borderRadius: 2,
+                minWidth: "auto",
+                p: 1,
+              })}
+              startIcon={<FilterAltIcon />}
+            >
+              Фильтры
+            </MKButton>
+            <ProductSort />
+            <ProductFilterSidebar
+              open={openFiltersBar}
+              onClose={handleToggleFilters}
+              variant="temporary"
+            />
+          </Stack>
+        )}
       </MKBox>
 
       {/* Products Section */}

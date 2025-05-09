@@ -1,31 +1,18 @@
+import React from "react";
 import BubbleChartIcon from "@mui/icons-material/BubbleChart";
 import PersonIcon from "@mui/icons-material/Person";
 import PetsIcon from "@mui/icons-material/Pets";
 import Avatars from "layouts/sections/elements/avatars";
 import Navbars from "layouts/sections/navigation/navbars";
-import { ReactElement } from "react";
 
-export interface RouteItem {
-  name: string;
-  icon?: ReactElement;
-  route?: string;
-  href?: string;
-  component?: ReactElement;
-  description?: string;
-  dropdown?: boolean;
-  collapse?: RouteItem[];
-  columns?: number;
-  rowsPerColumn?: number;
-}
-
-const routes: RouteItem[] = [
+const routes = [
   {
     name: "Кошки",
     icon: <PetsIcon />,
     route: "/catalog",
   },
   {
-    name: "Coбаки",
+    name: "Собаки",
     icon: <PetsIcon />,
     route: "/catalog",
   },
@@ -43,7 +30,7 @@ const routes: RouteItem[] = [
       {
         name: "Компаниям",
         description: "Сотрудничество юр. лицами",
-        route: "/sections/navigation/navbars",
+        route: "/partners",
         component: <Navbars />,
       },
     ],
@@ -58,24 +45,24 @@ const routes: RouteItem[] = [
         href: "/about",
       },
       {
-        name: "Лицензии",
+        name: "Документы",
         description: "Лицензии и сертификаты",
-        href: "https://shepherd-pet.ru/learning-lab/react/quick-start/material-kit/",
+        href: "/docs",
       },
       {
         name: "Производство",
         description: "Исключительно натуральные ингредиенты",
-        href: "https://shepherd-pet.ru/learning-lab/react/colors/material-kit/",
+        href: "/production",
       },
       {
         name: "Хранение",
         description: "О защите персональных данных",
-        href: "https://shepherd-pet.ru/learning-lab/react/alerts/material-kit/",
+        href: "/keeping",
       },
       {
         name: "Контактная информация",
         description: "Получить консультацию",
-        href: "https://shepherd-pet.ru/learning-lab/react/datepicker/material-kit/",
+        href: "/contacts",
       },
     ],
   },
