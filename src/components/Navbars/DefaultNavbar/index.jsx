@@ -159,7 +159,6 @@ function DefaultNavbar({
                           href={item.route || item.href || "#"}
                         >
                           <MKTypography
-                            minWidth="11.25rem"
                             display="block"
                             variant="button"
                             textTransform="capitalize"

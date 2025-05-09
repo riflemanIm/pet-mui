@@ -9,6 +9,7 @@ import Icon from "@mui/material/Icon";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import NextMuiLink from "components/NextMuiLink";
+import pxToRem from "theme/functions/pxToRem";
 
 function DefaultNavbarDropdown({
   name,
@@ -35,9 +36,13 @@ function DefaultNavbarDropdown({
         >
           <MKTypography
             variant="body2"
-            lineHeight={1}
+            lineHeight={0.8}
             color="inherit"
-            sx={{ alignSelf: "center", "& *": { verticalAlign: "middle" } }}
+            sx={{
+              fontSize: pxToRem(18),
+              alignSelf: "center",
+              "& *": { verticalAlign: "middle" },
+            }}
           >
             {icon}
           </MKTypography>
@@ -46,7 +51,7 @@ function DefaultNavbarDropdown({
             fontWeight="regular"
             textTransform="capitalize"
             color={light ? "white" : "primary"}
-            sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+            sx={{ ml: 1, mr: 0.25, fontSize: pxToRem(16) }}
           >
             {name}
           </MKTypography>
