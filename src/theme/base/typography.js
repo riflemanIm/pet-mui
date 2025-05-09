@@ -27,8 +27,8 @@ import pxToRem from "theme/functions/pxToRem";
 const { dark } = colors;
 
 const baseProperties = {
-  fontFamily: '"Roboto",  "Arial", sans-serif',
-  fontFamily2: '"Roboto Slab", sans-serif',
+  fontFamily: '"roboto",  "Arial", sans-serif',
+  fontFamily2: '"robotoSlab", sans-serif',
   fontWeightLighter: 100,
   fontWeightLight: 300,
   fontWeightRegular: 400,

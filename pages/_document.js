@@ -28,10 +28,7 @@ export default class MyDocument extends Document {
             href="/favicon/favicon-16x16.png"
           />
           <link rel="manifest" href="/favicon/site.webmanifest" />
-          <link
-            href="https://fonts.googleapis.com/css?family=Roboto:400,500,600,700,800,900&amp;subset=cyrillic,cyrillic-ext,latin-ext"
-            rel="stylesheet"
-          />
+
           <link
             href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
             rel="stylesheet"
