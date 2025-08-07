@@ -10,7 +10,7 @@ export interface FoodDicts {
   ages: Dict[];
   taste: Dict[];
   designedFor: Dict[];
-  ingridient: Dict[];
+  ingredient: Dict[];
   hardness: Dict[];
   packages: Dict[];
   petSizes: Dict[];

@@ -14,7 +14,7 @@ export async function fetchFoods(data: {
   ages?: string;
   taste?: string;
   designedFor?: string;
-  ingridient?: string;
+  ingredient?: string;
   hardness?: string;
   packages?: string;
   petSizes?: string;
@@ -69,7 +69,7 @@ export async function fetchFoodDicts(): Promise<{
         ages: [],
         taste: [],
         designedFor: [],
-        ingridient: [],
+        ingredient: [],
         hardness: [],
         packages: [],
         petSizes: [],

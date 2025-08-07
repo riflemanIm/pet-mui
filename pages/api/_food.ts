@@ -157,12 +157,12 @@ function parsefoodListQuery(
       .map((it: string) => parseInt(it, 10));
     q.where.designedForId = { in: designedFor };
   }
-  if (typeof query.ingridient === "string") {
-    const ingridient = query.ingridient
+  if (typeof query.ingredient === "string") {
+    const ingredient = query.ingredient
       .split(",")
       .filter((it: string) => parseInt(it, 10))
       .map((it: string) => parseInt(it, 10));
-    q.where.designedForId = { in: ingridient };
+    q.where.designedForId = { in: ingredient };
   }
   if (typeof query.hardness === "string") {
     const hardness = query.hardness

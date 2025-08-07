@@ -8,55 +8,43 @@ generator client {
 }
 
 model Food {
-  id                 Int     @id @default(autoincrement())
-  artikul            String?
-  title              String?
-  price              Float   @default(0.0)
-  priceDiscount      Float   @default(0.0)
-  vat                Boolean @default(false)
-  isPromo            Boolean @default(false)
-  ozonId             String?
-  barcode            String?
-  packageSize        String?
-  img                String?
-  imgUrl             String?
-  imgs               Json?
-  feature            String?
-  annotation         String?
-  keywords           String?
-  composition        String?
-  materials          String?
-  weight             Int?
-  quantity           Int?
-  quantityPackages   Int?
-  possibleStartMonth Int?
-  numInPackage       Int?
-  proteins           Float?
-  fats               Float?
-  contentOfMeet      Int?
-  energyValue        Int?
-  expiration         Int?
-  type               String?
+  id            Int     @id @default(autoincrement())
+  artikul       String?
+  title         String?
+  price         Float   @default(0.0)
+  priceDiscount Float   @default(0.0)
+  vat           Boolean @default(false)
+  isPromo       Boolean @default(false)
+  ozonId        String?
 
-  brandId        Int?
-  brand          Brand?        @relation(fields: [brandId], references: [id])
-  tasteId        Int?
-  taste          Taste?        @relation(fields: [tasteId], references: [id])
-  ingridientId   Int?
-  ingridient     Ingridient?   @relation(fields: [ingridientId], references: [id])
-  hardnessId     Int?
-  hardness       Hardness?     @relation(fields: [hardnessId], references: [id])
-  specialNeedsId Int?
-  specialNeeds   SpecialNeeds? @relation(fields: [specialNeedsId], references: [id])
-  madeInId       Int?
-  madeIn         MadeIn?       @relation(fields: [madeInId], references: [id])
+  imgUrl String?
+  imgs   String? @db.Text
 
-  designed     FoodDesignedFor[]
-  ages         FoodAge[]
-  packages     FoodPackage[]
-  typeTreats   FoodTypeTreat[]
-  petSizes     FoodPetSize[]
-  featuresList FoodFeature[]
+  feature          String?
+  weight           Int?
+  quantity         Int?
+  quantityPackages Int?
+  type             String?
+
+  expiration  Int?
+  annotation  String? @db.Text
+  packageSize String?
+
+  tasteId Int?
+  taste   Taste? @relation(fields: [tasteId], references: [id])
+
+  ingredientId Int?
+  ingredient   ingredient? @relation(fields: [ingredientId], references: [id])
+
+  hardnessId Int?
+  hardness   Hardness? @relation(fields: [hardnessId], references: [id])
+
+  designed    FoodDesignedFor[]
+  ages        FoodAge[]
+  typeTreats  FoodTypeTreat[]
+  petSizes    FoodPetSize[]
+  foodPackage FoodPackage[]
+  // FoodFeature    FoodFeature[]
 }
 
 model DesignedFor {
@@ -74,6 +62,21 @@ model FoodDesignedFor {
   @@id([foodId, designedForId])
 }
 
+model TypeTreat {
+  id    Int             @id @default(autoincrement())
+  name  String          @unique
+  foods FoodTypeTreat[]
+}
+
+model FoodTypeTreat {
+  foodId      Int
+  typeTreatId Int
+  food        Food      @relation(fields: [foodId], references: [id])
+  typeTreat   TypeTreat @relation(fields: [typeTreatId], references: [id])
+
+  @@id([foodId, typeTreatId])
+}
+
 model Age {
   id    Int       @id @default(autoincrement())
   name  String    @unique
@@ -89,11 +92,11 @@ model FoodAge {
   @@id([foodId, ageId])
 }
 
-model Brand {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  foods Food[]
-}
+// model Brand {
+//   id    Int    @id @default(autoincrement())
+//   name  String @unique
+//   foods Food[]
+// }
 
 model Taste {
   id    Int    @id @default(autoincrement())
@@ -101,7 +104,7 @@ model Taste {
   foods Food[]
 }
 
-model Ingridient {
+model ingredient {
   id    Int    @id @default(autoincrement())
   name  String @unique
   foods Food[]
@@ -113,40 +116,24 @@ model Hardness {
   foods Food[]
 }
 
-model SpecialNeeds {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  foods Food[]
-}
+// model FoodFeature {
+//   foodId    Int
+//   featureId Int
+//   food      Food    @relation(fields: [foodId], references: [id])
+//   feature   Feature @relation(fields: [featureId], references: [id])
 
-model MadeIn {
-  id    Int    @id @default(autoincrement())
-  name  String @unique
-  foods Food[]
-}
+//   @@id([foodId, featureId])
+// }
+// model Feature {
+//   id    Int           @id @default(autoincrement())
+//   name  String        @unique
+//   foods FoodFeature[]
+// }
 
 model Package {
   id    Int           @id @default(autoincrement())
   name  String        @unique
   foods FoodPackage[]
-}
-
-model TypeTreat {
-  id    Int             @id @default(autoincrement())
-  name  String          @unique
-  foods FoodTypeTreat[]
-}
-
-model PetSize {
-  id    Int           @id @default(autoincrement())
-  name  String        @unique
-  foods FoodPetSize[]
-}
-
-model Feature {
-  id    Int           @id @default(autoincrement())
-  name  String        @unique
-  foods FoodFeature[]
 }
 
 model FoodPackage {
@@ -158,13 +145,10 @@ model FoodPackage {
   @@id([foodId, packageId])
 }
 
-model FoodTypeTreat {
-  foodId      Int
-  typeTreatId Int
-  food        Food      @relation(fields: [foodId], references: [id])
-  typeTreat   TypeTreat @relation(fields: [typeTreatId], references: [id])
-
-  @@id([foodId, typeTreatId])
+model PetSize {
+  id    Int           @id @default(autoincrement())
+  name  String        @unique
+  foods FoodPetSize[]
 }
 
 model FoodPetSize {
@@ -176,11 +160,29 @@ model FoodPetSize {
   @@id([foodId, petSizeId])
 }
 
-model FoodFeature {
-  foodId    Int
-  featureId Int
-  food      Food    @relation(fields: [foodId], references: [id])
-  feature   Feature @relation(fields: [featureId], references: [id])
+// model FoodFeature {
+//   foodId    Int
+//   featureId Int
+//   food      Food    @relation(fields: [foodId], references: [id])
+//   feature   Feature @relation(fields: [featureId], references: [id])
 
-  @@id([foodId, featureId])
-}
+//   @@id([foodId, featureId])
+// }
+
+// model SpecialNeeds {
+//   id    Int    @id @default(autoincrement())
+//   name  String @unique
+//   foods Food[]
+// }
+
+// model MadeIn {
+//   id    Int    @id @default(autoincrement())
+//   name  String @unique
+//   foods Food[]
+// }
+
+// model Feature {
+//   id    Int           @id @default(autoincrement())
+//   name  String        @unique
+//   foods FoodFeature[]
+// }

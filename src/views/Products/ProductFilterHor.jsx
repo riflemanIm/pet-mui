@@ -108,7 +108,7 @@ export default function ProductFilterHor() {
   const filtersExt = useMemo(
     () => [
       {
-        name: "ingridient",
+        name: "ingredient",
         label: "Ингредиенты",
         type: "multi",
         chipColor: "info",

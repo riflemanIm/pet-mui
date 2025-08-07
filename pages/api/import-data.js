@@ -74,13 +74,7 @@ async function main() {
       const vat = String(it.F || "").trim() === "Да";
       const isPromo = String(it.G || "").trim() === "Да";
       const ozonId = it.J ? String(it.J).trim() : null;
-      // //const barcode = String(it.K || "").trim();
-      // const packageWeight = parseInt(it.K || 0, 10);
-      // const packageWidth = parseInt(it.L || 0, 10);
-      // const packageHeight = parseInt(it.M || 0, 10);
-      // const lengthHeight = parseInt(it.N || 0, 10);
 
-      //const img = String(it.O || "").replace(/\r?\n/g, ";");
       const imgUrl = it.O ? String(it.O).trim() : null;
       const imgs = it.P ? String(it.P).trim() : null;
 
@@ -91,37 +85,16 @@ async function main() {
       const quantityPackages = it.W != null ? parseInt(it.W, 10) : null;
 
       const typeId = it.X ? String(it.X).trim() : null;
-      const foodType = typeId === "Лакомство" ? "Treat" : "Souvenirs";
+      const foodType = typeId === "Лакомство" ? "Treat" : "DryFood";
 
       const expiration = it.Z != null ? parseInt(it.Z, 10) : null;
       const annotation = it.AC ? String(it.AC).trim() : null;
       const packageSize = it.AG ? String(it.AG).trim() : null;
 
-      const composition = it.AI ? String(it.AI).trim() : null;
+      const tasteId = await getId("taste", it.AM);
+      const ingredientId = await getId("ingredient", it.AR);
+      const hardnessId = await getId("hardness", it.AN);
 
-      const materials = it.AQ ? String(it.AQ).trim() : null;
-      // const proteins = it.AD != null ? parseFloat(it.AD) : null;
-      // const fats = it.AE != null && !isNaN(it.AE) ? parseFloat(it.AE) : null;
-      // const keywords = it.AI ? String(it.AI).trim() : null;
-      // const possibleStartMonth = it.AL != null ? parseInt(it.AL, 10) : null;
-      // const numInPackage = it.AO != null ? parseInt(it.AO, 10) : null;
-
-      // const contentOfMeet =
-      //   it.AR != null && !isNaN(it.AR) ? parseInt(it.AR, 10) : null;
-      // const energyValue =
-      //   it.AS != null && !isNaN(it.AS) ? parseInt(it.AS, 10) : null;
-      //
-
-      // // Вспомогательные связи
-      // const brandId = await getId("brand", it.T);
-      // const tasteId = await getId("taste", it.Y);
-
-      // const ingridientId = await getId("ingridient", it.AH);
-      // const hardnessId = await getId("hardness", it.AT);
-      // const specialNeedsId = it.AM ? await getId("specialNeeds", it.AM) : null;
-      // const madeInId = it.AU ? await getId("madeIn", it.AU) : null;
-
-      // Создание записи Food (без id — автоинкремент)
       const food = await prisma.food.create({
         data: {
           artikul,
@@ -146,33 +119,15 @@ async function main() {
           annotation,
           packageSize,
 
-          composition,
-          materials,
-
-          // proteins,
-          // fats,
-          // possibleStartMonth,
-          // numInPackage,
-          // contentOfMeet,
-          // energyValue,
-
-          // brand: brandId ? { connect: { id: brandId } } : undefined,
-          // taste: tasteId ? { connect: { id: tasteId } } : undefined,
-
-          // ingridient: ingridientId
-          //   ? { connect: { id: ingridientId } }
-          //   : undefined,
-          // hardness: hardnessId ? { connect: { id: hardnessId } } : undefined,
-          // specialNeeds: specialNeedsId
-          //   ? { connect: { id: specialNeedsId } }
-          //   : undefined,
-          // madeIn: madeInId ? { connect: { id: madeInId } } : undefined,
+          taste: tasteId ? { connect: { id: tasteId } } : undefined,
+          ingredient: ingredientId
+            ? { connect: { id: ingredientId } }
+            : undefined,
+          hardness: hardnessId ? { connect: { id: hardnessId } } : undefined,
         },
       });
 
       // M2M
-      await bindMany(food.id, "age", "foodAge", "ageId", it.AA);
-
       await bindMany(
         food.id,
         "designedFor",
@@ -180,17 +135,17 @@ async function main() {
         "designedForId",
         it.Y
       );
+      await bindMany(food.id, "age", "foodAge", "ageId", it.AA);
 
+      await bindMany(
+        food.id,
+        "typeTreat",
+        "foodTypeTreat",
+        "typeTreatId",
+        it.AL
+      );
       await bindMany(food.id, "package", "foodPackage", "packageId", it.AH);
-      // await bindMany(
-      //   food.id,
-      //   "typeTreat",
-      //   "foodTypeTreat",
-      //   "typeTreatId",
-      //   it.AF
-      // );
       await bindMany(food.id, "petSize", "foodPetSize", "petSizeId", it.AT);
-      // await bindMany(food.id, "feature", "foodFeature", "featureId", it.AN);
     } catch (error) {
       errors.push({
         row: it.A,

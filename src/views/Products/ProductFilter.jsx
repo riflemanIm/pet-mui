@@ -95,7 +95,7 @@ export default function ProductFilter() {
         ],
       },
       {
-        name: "ingridient",
+        name: "ingredient",
         label: "Ингредиенты",
         type: "multi",
         chipColor: "info",

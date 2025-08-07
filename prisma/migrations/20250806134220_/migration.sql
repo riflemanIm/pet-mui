@@ -35,7 +35,7 @@ CREATE TABLE `Food` (
     `brandId` INTEGER NULL,
     `tasteId` INTEGER NULL,
     `designedForId` INTEGER NULL,
-    `ingridientId` INTEGER NULL,
+    `ingredientId` INTEGER NULL,
     `hardnessId` INTEGER NULL,
     `specialNeedsId` INTEGER NULL,
     `madeInId` INTEGER NULL,
@@ -71,11 +71,11 @@ CREATE TABLE `DesignedFor` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Ingridient` (
+CREATE TABLE `ingredient` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
 
-    UNIQUE INDEX `Ingridient_name_key`(`name`),
+    UNIQUE INDEX `ingredient_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -201,7 +201,7 @@ ALTER TABLE `Food` ADD CONSTRAINT `Food_tasteId_fkey` FOREIGN KEY (`tasteId`) RE
 ALTER TABLE `Food` ADD CONSTRAINT `Food_designedForId_fkey` FOREIGN KEY (`designedForId`) REFERENCES `DesignedFor`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `Food` ADD CONSTRAINT `Food_ingridientId_fkey` FOREIGN KEY (`ingridientId`) REFERENCES `Ingridient`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE `Food` ADD CONSTRAINT `Food_ingredientId_fkey` FOREIGN KEY (`ingredientId`) REFERENCES `ingredient`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Food` ADD CONSTRAINT `Food_hardnessId_fkey` FOREIGN KEY (`hardnessId`) REFERENCES `Hardness`(`id`) ON DELETE SET NULL ON UPDATE CASCADE;

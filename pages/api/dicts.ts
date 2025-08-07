@@ -14,7 +14,7 @@ const foodAgeListHandler = async (
   const taste = await prisma.taste.findMany();
   const packages = await prisma.package.findMany();
   const designedFor = await prisma.designedFor.findMany();
-  const ingridient = await prisma.ingridient.findMany();
+  const ingredient = await prisma.ingredient.findMany();
   const hardness = await prisma.hardness.findMany();
   const petSizes = await prisma.petSize.findMany();
   const specialNeeds = await prisma.specialNeeds.findMany();
@@ -27,7 +27,7 @@ const foodAgeListHandler = async (
       taste,
       packages,
       designedFor,
-      ingridient,
+      ingredient,
       hardness,
       petSizes,
       specialNeeds,

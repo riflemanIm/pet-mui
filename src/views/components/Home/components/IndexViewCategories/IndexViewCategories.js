@@ -19,7 +19,7 @@ const mock = [
     title: "Разработано для",
     subtitle: "Наши товары разработаны для конкретного вида питомца",
     icon: img.src,
-    //href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ages":"","taste":"","designedFor":"1","ingridient":"","hardness":"","packages":"","petSizes":"","sort":"","size":6}',
+    //href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ages":"","taste":"","designedFor":"1","ingredient":"","hardness":"","packages":"","petSizes":"","sort":"","size":6}',
     href: '/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"1"}',
   },
   {
@@ -27,7 +27,7 @@ const mock = [
     subtitle:
       "Вам следует изучить, какие продукты питания будут наиболее полезными для вашего питомца",
     icon: img1.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ingridient":"1,2,3"}',
+    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ingredient":"1,2,3"}',
   },
   {
     title: "Особые потребности",
