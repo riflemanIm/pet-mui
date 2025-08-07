@@ -1,6 +1,6 @@
 // next.config.js
+/** @type {import('next').NextConfig} */
 module.exports = {
-  experimental: {
-    esmExternals: true, // если включено, попробуй отключить
-  },
+  reactStrictMode: true,
+  // ваши другие опции
 };

@@ -14,8 +14,9 @@
     "@mui/styles": "^6.4.8",
     "@mui/system": "6",
     "@pbe/react-yandex-maps": "^1.2.5",
-    "@prisma/client": "5.9.1",
+    "@prisma/client": "5.22.0",
     "@trendyol-js/react-carousel": "^3.0.2",
+    "@types/node": "^24.1.0",
     "aos": "^2.3.4",
     "apexcharts": "^4.7.0",
     "axios": "^1.6.7",
@@ -61,15 +62,16 @@
     "tinycolor2": "^1.6.0",
     "yup": "^1.4.0"
   },
-  "scripts": {    
-
-    "dev": "next dev -p 3000",    
+  "scripts": {
+    "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start",
+    "db:clear": "prisma migrate reset --force",
     "prisma:dev": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
+    "import:data": "node pages/api/import-data.js"
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.1",
@@ -78,6 +80,7 @@
     "convert-excel-to-json": "^1.7.0",
     "kill-port": "^2.0.1",
     "prisma": "^5.9.1",
-    "typescript": "5.3.3"
+    "ts-node-esm": "^0.0.6",
+    "typescript": "^5.8.3"
   }
 }

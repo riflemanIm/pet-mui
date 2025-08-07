@@ -1,227 +1,214 @@
-import {
-  getOzonGoodsCategoryAttributeValue,
-  getOzonGoodsCategoryAttributes,
-} from "../../src/actions/user";
-import prisma from "../../lib/prisma";
-import isEmpty from "../../src/helpers";
-import jsonData from "../../import_data/data.json";
+// import-data.js
+import { writeFileSync } from "fs";
+import excelToJson from "convert-excel-to-json";
+import path from "path";
+import { PrismaClient } from "@prisma/client";
 
-const mapTables = {
-  designedFor: "Предназначено для",
-  age: "Возраст животного",
-  petSize: "Размер животного",
-  MadeIn: "Страна-изготовитель",
-  feature: "Особенности",
-  specialNeeds: "Особые потребности",
-  taste: "Вкус корма для животных",
-  package: "Упаковка",
-  ingridient: "Основной ингредиент",
-  hardness: "Жесткость",
-  typeTreat: "Вид лакомства",
-};
-const getKeyByValue = (value) => {
-  return Object.keys(mapTables).find((key) => mapTables[key] === value);
-};
-const getId = async (tableName, name) => {
-  try {
-    const res = await prisma[tableName].findFirst({
-      where: {
-        name,
-      },
-    });
-    console.log("getId tableName", tableName, res.id);
-    return res.id;
-  } catch (error) {
-    console.log("getId error:", error);
+const prisma = new PrismaClient();
+
+// Параметры
+const SHEET_NAME = "Шаблон";
+const EXCEL_FILE = path.resolve(process.cwd(), "import_data", "data.xlsx");
+
+/**
+ * Найти или создать запись в справочной таблице с полем `name`.
+ */
+async function getId(table, name) {
+  if (!name) return null;
+  const value = String(name).trim();
+  let rec = await prisma[table].findFirst({ where: { name: value } });
+  if (!rec) {
+    rec = await prisma[table].create({ data: { name: value } });
+    console.log(`Создана запись в ${table}: "${value}" (id=${rec.id})`);
   }
-};
-const getIds = async (tableName, valsStr) => {
-  const vals = valsStr.split(";");
-  try {
-    const res = await prisma[tableName].findMany({
-      where: {
-        name: { in: vals },
-      },
-    });
-    console.log("getIds", tableName, res);
-    return res;
-  } catch (error) {
-    console.log("getId error:", error);
-  }
-};
+  return rec.id;
+}
 
-// Seed books and authors data.
-// async function seedBooksAndAuthors(client, books, authors) {
-//   const records = books.map((book) => {
-//     const authorIndex = faker.datatype.number({
-//       min: 0,
-//       max: authors.length - 1,
-//     });
-//     const author = authors[authorIndex];
+/**
+ * Создать M2M-связи через joinModel
+ */
+async function bindMany(foodId, table, joinModel, field, valueStr) {
+  if (!valueStr) return;
+  const names = String(valueStr)
+    .split(";")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
-//     return {
-//       bookId: book.id,
-//       authorId: author.id,
-//     };
-//   });
-
-//   const added = await client.bookAuthor.createMany({
-//     data: records,
-//     skipDuplicates: true,
-//   });
-
-//   if (added.count > 0) {
-//     console.log(
-//       `Successfully inserted ${added.count} book and author relation records.`
-//     );
-//   }
-
-//   return records;
-// }
-const creatBound = async (foodId, tableName, boundTable, fieldName, val) => {
-  const data = await getIds(tableName, val);
-  const records = data.map((itt) => ({
-    foodId,
-    [fieldName]: itt.id,
-  }));
-  await prisma[boundTable].createMany({
-    data: records,
-    skipDuplicates: true,
-  });
-
-  // const vals = val.split(";");
-  // vals.forEach(async (itt) => {
-  //   const field = {};
-  //   field[fieldName] = await getId(tableName, itt);
-  //   await prisma[boundTable].create({
-  //     data: {
-  //       foodId,
-  //       ...field,
-  //     },
-  //   });
-  // });
-};
-export default async function handler(req, res) {
-  //const attributes = await getOzonGoodsCategoryAttributes();
-  // try {
-  //   attributes.result.forEach(
-  //     async ({ id, is_required, name, attribute_complex_id }) => {
-  //       const tableName = getKeyByValue(name);
-  //       if (tableName != null) {
-  //         const data = await getOzonGoodsCategoryAttributeValue(id);
-
-  //         if (!isEmpty(data)) {
-  //           //console.log("data", data);
-  //           console.log("tableName", name, tableName);
-  //           data.result.forEach(async (row) => {
-  //             await prisma[tableName].create({
-  //               data: {
-  //                 name: row.value,
-  //               },
-  //             });
-  //           });
-  //           res.status(200).json(data);
-  //         }
-  //       }
-  //     }
-  //   );
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
-  try {
-    jsonData.forEach(async (it) => {
-      const brandId = await getId("brand", it.R);
-      const tasteId = await getId("taste", it.X);
-      const designedForId = await getId("designedFor", it.Z);
-      const ingridientId = await getId("ingridient", it.AM);
-      const hardnessId = await getId("hardness", it.AO);
-      const specialNeedsId = await getId("specialNeeds", it.AR);
-      const madeInId = await getId("madeIn", it.AZ);
-
-      await prisma.food.create({
+  for (const name of names) {
+    // если нет — создаём справочник
+    const refId = await getId(table, name);
+    await prisma[joinModel]
+      .create({
         data: {
-          id: parseInt(it.A),
-          artikul: it.B,
-          title: it.C,
-          price: parseFloat(it.D),
-          priceDiscount: parseFloat(it.E),
-          vat: it.F === "Не облагается" ? false : true,
-          isPromo: it.G === "Нет" ? false : true,
-          ozonId: it.H ?? null,
-          barcode: it.I,
-          packageWeight: parseInt(it.J, 10),
-          packageWidth: parseInt(it.K, 10),
-          packageHeight: parseInt(it.L, 10),
-          lengthHeight: parseInt(it.M, 10),
-          img: it.N,
-          imgs: it.O,
-          brandId: brandId,
-          type: "Treat",
-          feature: it.T,
-          weight: parseInt(it.V),
-          quantity: parseInt(it.W) || null,
-          tasteId: tasteId,
-          quantityPackages: parseInt(it.Y) || null,
-          designedForId: designedForId,
-          expiration: parseInt(it.AA),
-          proteins: parseInt(it.AD) || null,
-          fats: parseInt(it.AE) || null,
-          anatation: it.AL,
-          ingridientId: ingridientId,
-          keywords: it.AN,
-          hardnessId: hardnessId,
-          posibleStartMoth: parseInt(it.AQ),
-          specialNeedsId: specialNeedsId,
-          numInPackage: parseInt(it.AT) || null,
-          composition: it.AU ?? null,
-          materials: it.AV ?? null,
-          contentOfMeet: parseInt(it.AW) || null,
-          energyValue: parseInt(it.AX) || null,
-          madeInId: madeInId,
+          foodId,
+          [field]: refId,
         },
+      })
+      .catch((e) => {
+        // на случай дублирования
+        if (e.code !== "P2002") console.error(e);
       });
-      if (it.U != null && it.U != "") {
-        creatBound(parseInt(it.A), "age", "foodAge", "ageId", it.U);
-      }
-      if (it.AC != null && it.AC != "") {
-        creatBound(
-          parseInt(it.A),
-          "package",
-          "foodPackage",
-          "packageId",
-          it.AC
-        );
-      }
-      if (it.AK != null && it.AK != "") {
-        creatBound(
-          parseInt(it.A),
-          "typeTreat",
-          "foodTypeTreat",
-          "typeTreatId",
-          it.AK
-        );
-      }
-      if (it.AP != null && it.AP != "") {
-        creatBound(
-          parseInt(it.A),
-          "petSize",
-          "foodPetSize",
-          "petSizeId",
-          it.AP
-        );
-      }
-      if (it.AS != null && it.AS != "") {
-        creatBound(
-          parseInt(it.A),
-          "feature",
-          "foodFeature",
-          "featureId",
-          it.AS
-        );
-      }
-    });
-  } catch (error) {
-    console.log(error);
   }
 }
+
+async function main() {
+  // 1) Чтение и конвертация Excel в JSON
+  const result = excelToJson({ sourceFile: EXCEL_FILE });
+  const rows = result[SHEET_NAME] || [];
+  if (!rows.length) {
+    console.error(`Лист "${SHEET_NAME}" пуст или не найден.`);
+    process.exit(1);
+  }
+
+  // 2) Фильтрация: только числовые ID в колонке A
+  const dataRows = rows.filter((r) => /^\d+$/.test(String(r.A)));
+  const errors = [];
+
+  for (const it of dataRows) {
+    try {
+      // Парсинг полей из строк Excel
+      const artikul = String(it.B || "").trim();
+      const title = String(it.C || "").trim();
+      const price = it.D != null ? parseFloat(it.D) : 0.0;
+      const priceDiscount = it.E != null ? parseFloat(it.E) : 0.0;
+      const vat = String(it.F || "").trim() === "Да";
+      const isPromo = String(it.G || "").trim() === "Да";
+      const ozonId = it.J ? String(it.J).trim() : null;
+      // //const barcode = String(it.K || "").trim();
+      // const packageWeight = parseInt(it.K || 0, 10);
+      // const packageWidth = parseInt(it.L || 0, 10);
+      // const packageHeight = parseInt(it.M || 0, 10);
+      // const lengthHeight = parseInt(it.N || 0, 10);
+
+      //const img = String(it.O || "").replace(/\r?\n/g, ";");
+      const imgUrl = it.O ? String(it.O).trim() : null;
+      const imgs = it.P ? String(it.P).trim() : null;
+
+      const feature = it.T ? String(it.T).trim() : null;
+      const weight = parseInt(it.U || 0, 10);
+
+      const quantity = it.V != null ? parseInt(it.V, 10) : null;
+      const quantityPackages = it.W != null ? parseInt(it.W, 10) : null;
+
+      const typeId = it.X ? String(it.X).trim() : null;
+      const foodType = typeId === "Лакомство" ? "Treat" : "Souvenirs";
+
+      const expiration = it.Z != null ? parseInt(it.Z, 10) : null;
+      const annotation = it.AC ? String(it.AC).trim() : null;
+      const packageSize = it.AG ? String(it.AG).trim() : null;
+
+      const composition = it.AI ? String(it.AI).trim() : null;
+
+      const materials = it.AQ ? String(it.AQ).trim() : null;
+      // const proteins = it.AD != null ? parseFloat(it.AD) : null;
+      // const fats = it.AE != null && !isNaN(it.AE) ? parseFloat(it.AE) : null;
+      // const keywords = it.AI ? String(it.AI).trim() : null;
+      // const possibleStartMonth = it.AL != null ? parseInt(it.AL, 10) : null;
+      // const numInPackage = it.AO != null ? parseInt(it.AO, 10) : null;
+
+      // const contentOfMeet =
+      //   it.AR != null && !isNaN(it.AR) ? parseInt(it.AR, 10) : null;
+      // const energyValue =
+      //   it.AS != null && !isNaN(it.AS) ? parseInt(it.AS, 10) : null;
+      //
+
+      // // Вспомогательные связи
+      // const brandId = await getId("brand", it.T);
+      // const tasteId = await getId("taste", it.Y);
+
+      // const ingridientId = await getId("ingridient", it.AH);
+      // const hardnessId = await getId("hardness", it.AT);
+      // const specialNeedsId = it.AM ? await getId("specialNeeds", it.AM) : null;
+      // const madeInId = it.AU ? await getId("madeIn", it.AU) : null;
+
+      // Создание записи Food (без id — автоинкремент)
+      const food = await prisma.food.create({
+        data: {
+          artikul,
+          title,
+          price,
+          priceDiscount,
+          vat,
+          isPromo,
+          ozonId,
+
+          //img,
+          imgUrl,
+          imgs,
+
+          feature,
+          weight,
+          quantity,
+          quantityPackages,
+          type: foodType,
+
+          expiration,
+          annotation,
+          packageSize,
+
+          composition,
+          materials,
+
+          // proteins,
+          // fats,
+          // possibleStartMonth,
+          // numInPackage,
+          // contentOfMeet,
+          // energyValue,
+
+          // brand: brandId ? { connect: { id: brandId } } : undefined,
+          // taste: tasteId ? { connect: { id: tasteId } } : undefined,
+
+          // ingridient: ingridientId
+          //   ? { connect: { id: ingridientId } }
+          //   : undefined,
+          // hardness: hardnessId ? { connect: { id: hardnessId } } : undefined,
+          // specialNeeds: specialNeedsId
+          //   ? { connect: { id: specialNeedsId } }
+          //   : undefined,
+          // madeIn: madeInId ? { connect: { id: madeInId } } : undefined,
+        },
+      });
+
+      // M2M
+      await bindMany(food.id, "age", "foodAge", "ageId", it.AA);
+
+      await bindMany(
+        food.id,
+        "designedFor",
+        "foodDesignedFor",
+        "designedForId",
+        it.Y
+      );
+
+      await bindMany(food.id, "package", "foodPackage", "packageId", it.AH);
+      // await bindMany(
+      //   food.id,
+      //   "typeTreat",
+      //   "foodTypeTreat",
+      //   "typeTreatId",
+      //   it.AF
+      // );
+      await bindMany(food.id, "petSize", "foodPetSize", "petSizeId", it.AT);
+      // await bindMany(food.id, "feature", "foodFeature", "featureId", it.AN);
+    } catch (error) {
+      errors.push({
+        row: it.A,
+        error: {
+          name: error.name,
+          code: error.code,
+          meta: error.meta,
+          message: error.message,
+        },
+      });
+    }
+  }
+
+  // сохранить ошибки
+  writeFileSync("import-errors.json", JSON.stringify(errors, null, 2));
+  console.log(JSON.stringify(errors, null, 2));
+  console.log("Done.");
+  process.exit(0);
+}
+
+main();
