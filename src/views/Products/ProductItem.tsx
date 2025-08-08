@@ -19,7 +19,7 @@ import type { FoodProps } from "types";
 const { borderRadius } = borders;
 const { xxl, colored } = boxShadows;
 
-type Props = { item: FoodProps, index: number };
+type Props = { item: FoodProps; index: number };
 
 export default function ProductItem({ item, index }: Props) {
   const [cart, setCart] = useRecoilState(shoppingCartState);
@@ -39,7 +39,7 @@ export default function ProductItem({ item, index }: Props) {
 
   return (
     <Grid2
-      size={{ xs: 12, sm: 6, md: 4 }}
+      size={{ xs: 12, sm: 12, md: 6, lg: 4 }}
       key={item.id}
       data-aos="fade-up"
       data-aos-delay={index * 100}

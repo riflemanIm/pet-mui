@@ -19,6 +19,7 @@ import ProductFilterHor from "./ProductFilterHor";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 import Products from "./Products";
 import ProductSort from "./ProductSort";
+import ProductFilter from "./ProductFilter";
 
 export default function IndexProducts() {
   const [openFiltersBar, setOpenFiltersBar] = useState(false);
@@ -81,25 +82,7 @@ export default function IndexProducts() {
             вместе.
           </MKTypography>
         </Container>
-        {!isMobile && (
-          <Card
-            sx={{
-              p: 4,
-              mx: { xs: 2, lg: 3 },
-              mt: 42,
-              backgroundColor: ({
-                palette: { white },
-                functions: { rgba },
-              }: any) => rgba(white.main, 0.9),
-              backdropFilter: "saturate(200%) blur(30px)",
-              boxShadow: ({ boxShadows: { xxl } }: any) => xxl,
-              position: "absolute",
-              zIndex: 999,
-            }}
-          >
-            <ProductFilterHor />
-          </Card>
-        )}
+
         {isMobile && (
           <Stack direction="row" spacing={2} mt={{ xs: -20, sm: -20 }}>
             <MKButton
@@ -124,13 +107,19 @@ export default function IndexProducts() {
         sx={(theme) => ({
           p: 2,
           mx: { xs: 2, lg: 3 },
-          mt: -8,
+          mt: { xs: -20, sm: -20 },
           mb: 4,
           boxShadow: (theme as any).boxShadows.xxl,
         })}
       >
         <Container>
-          <Products />
+          {!isMobile && (
+            <Stack direction="row" spacing={2}>
+              <ProductFilter />
+              <Products />
+            </Stack>
+          )}
+          {isMobile && <Products />}
         </Container>
       </Card>
 
