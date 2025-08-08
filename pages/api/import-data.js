@@ -146,6 +146,13 @@ async function main() {
       );
       await bindMany(food.id, "package", "foodPackage", "packageId", it.AH);
       await bindMany(food.id, "petSize", "foodPetSize", "petSizeId", it.AT);
+      await bindMany(
+        food.id,
+        "specialNeeds",
+        "foodSpecialNeeds",
+        "specialNeedsId",
+        it.AU
+      );
     } catch (error) {
       errors.push({
         row: it.A,

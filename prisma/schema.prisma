@@ -41,17 +41,17 @@ model Food {
   hardnessId Int?
   hardness   Hardness? @relation(fields: [hardnessId], references: [id])
 
-  designed    FoodDesignedFor[]
-  ages        FoodAge[]
-  typeTreats  FoodTypeTreat[]
-  petSizes    FoodPetSize[]
-  foodPackage FoodPackage[]
-
-  ratings     Rating[]
-  orders      Order[]
-  publishedAt DateTime @default(now()) @map("published_at") @db.DateTime(0)
-  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
-  stock       Int      @default(0)
+  designed     FoodDesignedFor[]
+  ages         FoodAge[]
+  typeTreats   FoodTypeTreat[]
+  petSizes     FoodPetSize[]
+  foodPackage  FoodPackage[]
+  specialNeeds FoodSpecialNeeds[]
+  ratings      Rating[]
+  orders       Order[]
+  publishedAt  DateTime           @default(now()) @map("published_at") @db.DateTime(0)
+  createdAt    DateTime           @default(now()) @map("created_at") @db.DateTime(0)
+  stock        Int                @default(0)
 
   @@index([tasteId])
   @@index([ingredientId])
@@ -158,6 +158,21 @@ model FoodPetSize {
   @@id([foodId, petSizeId])
 }
 
+model SpecialNeeds {
+  id    Int                @id @default(autoincrement())
+  name  String             @unique
+  foods FoodSpecialNeeds[]
+}
+
+model FoodSpecialNeeds {
+  foodId         Int
+  specialNeedsId Int
+  food           Food         @relation(fields: [foodId], references: [id])
+  specialNeeds   SpecialNeeds @relation(fields: [specialNeedsId], references: [id])
+
+  @@id([foodId, specialNeedsId])
+}
+
 model User {
   id       Int     @id @default(autoincrement())
   balance  Decimal @default(0.0) @db.Decimal(15, 2)
@@ -231,8 +246,8 @@ enum AuthType {
 }
 
 model FoodImgAdd {
-  food   Food   @relation(fields: [foodId], references: [id])
-  foodId BigInt @map("food_id")
+  food   Food @relation(fields: [foodId], references: [id])
+  foodId Int  @map("food_id")
 
   img String @db.VarChar(256)
 
