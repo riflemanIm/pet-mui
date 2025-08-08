@@ -1,236 +1,160 @@
-import { NextApiRequest, NextApiResponse } from "next";
-
-import { FoodType, FoodAge } from "@prisma/client";
+// pages/api/food/index.ts — aligned with current schema & existing client params
+import type { NextApiRequest, NextApiResponse } from "next";
+import { Prisma } from "@prisma/client";
 import prisma from "../../../lib/prisma";
-import { bigIntToSrtArr } from "helpers";
 
-const DEFAULT_PAGE_NUM = 1;
-const DEFAULT_PAGE_SIZE = 8;
-
-enum SortType {
-  PRICE = "price",
-  PUBLISHED_AT = "publishedAt",
+function asInt(val: unknown, fallback: number): number {
+  const n = Number(val);
+  return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
 }
-enum SortOrder {
-  ASC = "asc",
-  DESC = "desc",
+function asFloat(val: unknown): number | undefined {
+  if (val === undefined || val === null || val === "") return undefined;
+  const n = Number(val);
+  return Number.isFinite(n) ? n : undefined;
 }
-const sortTypes = Object.values(SortType);
-const sortOrders = Object.values(SortOrder);
-const FoodTypes = Object.keys(FoodType);
+function asBool(val: unknown): boolean | undefined {
+  if (val === undefined) return undefined;
+  if (val === "true" || val === true) return true;
+  if (val === "false" || val === false) return false;
+  return undefined;
+}
+function splitIds(v: unknown): number[] | undefined {
+  if (!v) return undefined;
+  const arr = Array.isArray(v) ? v : String(v).split(",");
+  const ids = arr
+    .map((x) => Number(String(x).trim()))
+    .filter((n) => Number.isFinite(n) && n > 0) as number[];
+  return ids.length ? ids : undefined;
+}
 
-const foodListHandler = async (
+// Accept both new and legacy sort keys
+function mapSortField(v: unknown): "price" | "publishedAt" {
+  const s = String(v || "publishedAt");
+  if (s === "price") return "price";
+  if (s === "publishedAt" || s === "published_at") return "publishedAt";
+  return "publishedAt";
+}
+
+export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<any>
-) => {
-  if (req.method === "GET") {
-    try {
-      res.status(200).json(await getfoodList(req));
-    } catch (err: any) {
-      console.error(err);
-      res.status(500).json({
-        message: err.message,
-      });
-    }
-  } else {
-    res.status(401).json({
-      message: `HTTP method ${req.method} is not supported.`,
-    });
-  }
-};
-
-async function getfoodList(req: NextApiRequest) {
-  // Querying with joins (Many to many relation).
-  const query = parsefoodListQuery(req.query, true, true);
-  const foods: any[] = await prisma.food.findMany({
-    ...query,
-    include: {
-      ages: {
-        select: {
-          age: {
-            select: {
-              id: true,
-              name: true,
-            },
-          },
-        },
-      },
-    },
-  });
-  const foodIds = foods.map((b) => b.id);
-
-  // Grouping.
-  //
-  // Calculate the average rating score for the foods in the result.
-  //
-  // Notice: It is more suitable to add column named `average_rating` in foods table to store
-  // the average rating score, which can avoid the need to query every time you use it, and
-  // it is easier to implement the sorting feature.
-  const foodAverageRatings = await prisma.rating.groupBy({
-    by: ["foodId"],
-    _avg: {
-      score: true,
-    },
-    where: {
-      foodId: {
-        in: foodIds,
-      },
-    },
-    // Why must set orderBy?
-    orderBy: {
-      _avg: {
-        score: "asc",
-      },
-    },
-  });
-  for (const rating of foodAverageRatings) {
-    const index = foods.findIndex((b) => b.id === rating.foodId);
-    foods[index].averageRating = rating._avg.score;
-  }
-
-  const foodCountRatings = await prisma.rating.groupBy({
-    by: ["foodId"],
-    _count: {
-      foodId: true,
-    },
-    where: {
-      foodId: {
-        in: foodIds,
-      },
-    },
-    orderBy: {
-      _count: {
-        foodId: "asc",
-      },
-    },
-  });
-  for (const rating of foodCountRatings) {
-    const index = foods.findIndex((b) => b.id === rating.foodId);
-    foods[index].ratings = rating._count.foodId;
-  }
-
-  // Counting.
-  const total = await prisma.food.count(parsefoodListQuery(req.query));
-  if (foods)
-    return {
-      content: bigIntToSrtArr(foods || []),
-      total: total,
-    };
-}
-
-function parsefoodListQuery(
-  query: any,
-  sorting: boolean = false,
-  paging: boolean = false
+  res: NextApiResponse
 ) {
-  const q: any = {};
+  try {
+    if (req.method !== "GET") {
+      res.setHeader("Allow", ["GET"]);
+      return res.status(405).json({ error: "Method Not Allowed" });
+    }
 
-  // Filtering.
-  // Reference: https://www.prisma.io/docs/concepts/components/prisma-client/filtering-and-sorting
-  q.where = {};
-  //q.where.stock = { gt: 5 };
-  if (typeof query.type === "string") {
-    if (!FoodTypes.includes(query.type)) {
-      throw new Error(
-        `Parameter \`type\` must be one of [${FoodTypes.join(", ")}].`
-      );
-    }
-    q.where.type = query.type;
-  }
-  if (typeof query.ages === "string") {
-    const ages = query.ages
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.ages = { some: { ageId: { in: ages } } };
-  }
-  if (typeof query.taste === "string") {
-    const taste = query.taste
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.tasteId = { in: taste };
-  }
-  if (typeof query.designedFor === "string") {
-    const designedFor = query.designedFor
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.designedForId = { in: designedFor };
-  }
-  if (typeof query.ingredient === "string") {
-    const ingredient = query.ingredient
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.designedForId = { in: ingredient };
-  }
-  if (typeof query.hardness === "string") {
-    const hardness = query.hardness
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.designedForId = { in: hardness };
-  }
-  if (typeof query.packages === "string") {
-    const packages = query.packages
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.packages = { some: { packageId: { in: packages } } };
-  }
-  if (typeof query.petSizes === "string") {
-    const petSizes = query.petSizes
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.petSizes = { some: { petSizeId: { in: petSizes } } };
-  }
-  if (typeof query.specialNeeds === "string") {
-    const specialNeeds = query.specialNeeds
-      .split(",")
-      .filter((it: string) => parseInt(it, 10))
-      .map((it: string) => parseInt(it, 10));
-    q.where.specialNeedsId = { in: specialNeeds };
-  }
-  // Sorting.
-  if (sorting) {
-    if (sortTypes.includes(query.sort)) {
-      let order = SortOrder.ASC;
-      if (sortOrders.includes(query.order)) {
-        order = query.order;
-      }
+    // --- Query params (support old names from the frontend) ---
+    const q = (req.query.q as string) || undefined;
+    const page = (req.query.page as string) || "1";
+    const pageSize =
+      (req.query.pageSize as string) || (req.query.size as string) || "12";
 
-      if (query.sort === SortType.PRICE) {
-        q.orderBy = {
-          price: order,
-        };
-      } else if (query.sort === SortType.PUBLISHED_AT) {
-        q.orderBy = {
-          createdAt: order,
-        };
-      }
-    }
-  }
+    const sortField = mapSortField(req.query.sort);
+    const order =
+      (req.query.order as string) === "asc" ? "asc" : ("desc" as const);
 
-  // Paging.
-  if (paging) {
-    let page = DEFAULT_PAGE_NUM;
-    let size = DEFAULT_PAGE_SIZE;
-    if (typeof query.page === "string") {
-      page = parseInt(query.page);
-    }
-    if (typeof query.size === "string") {
-      size = parseInt(query.size);
-    }
-    if (size < 0 || size > 100) {
-      throw new Error("Parameter `size` must between 0 and 100.");
-    }
-    q.take = size;
-    q.skip = (page - 1) * size;
-  }
+    const minPrice = asFloat(req.query.minPrice);
+    const maxPrice = asFloat(req.query.maxPrice);
+    const isPromo = asBool(req.query.isPromo);
+    const vat = asBool(req.query.vat);
 
-  return q;
+    // One-to-many (single id)
+    const tasteId = req.query.taste ? Number(req.query.taste) : undefined;
+    const ingredientId = req.query.ingredient
+      ? Number(req.query.ingredient)
+      : undefined;
+    const hardnessId = req.query.hardness
+      ? Number(req.query.hardness)
+      : undefined;
+
+    // Many-to-many (comma-separated ids) — support both legacy and new names
+    const designedFor = splitIds(
+      req.query.designedFor ?? req.query.designedForIds
+    );
+    const ages = splitIds(req.query.ages ?? req.query.ageIds);
+    const typeTreats = splitIds(req.query.typeTreatIds); // no legacy key seen on FE
+    const petSizes = splitIds(req.query.petSizes ?? req.query.petSizeIds);
+    const packages = splitIds(req.query.packages ?? req.query.packageIds);
+    const specialNeeds = splitIds(
+      req.query.specialNeeds ?? req.query.specialNeedsIds
+    );
+
+    const pageNum = asInt(page, 1);
+    const take = asInt(pageSize, 12);
+    const skip = (pageNum - 1) * take;
+
+    const where: Prisma.FoodWhereInput = {
+      ...(q
+        ? {
+            OR: [
+              { title: { contains: String(q) } as any },
+              { feature: { contains: String(q) } as any },
+              { annotation: { contains: String(q) } as any },
+              { artikul: { contains: String(q) } as any },
+            ],
+          }
+        : {}),
+      ...(isPromo !== undefined ? { isPromo } : {}),
+      ...(vat !== undefined ? { vat } : {}),
+      ...(minPrice !== undefined || maxPrice !== undefined
+        ? {
+            price: {
+              ...(minPrice !== undefined ? { gte: minPrice } : {}),
+              ...(maxPrice !== undefined ? { lte: maxPrice } : {}),
+            },
+          }
+        : {}),
+      ...(tasteId ? { tasteId } : {}),
+      ...(ingredientId ? { ingredientId } : {}),
+      ...(hardnessId ? { hardnessId } : {}),
+      ...(designedFor
+        ? { designed: { some: { designedForId: { in: designedFor } } } }
+        : {}),
+      ...(ages ? { ages: { some: { ageId: { in: ages } } } } : {}),
+      ...(typeTreats
+        ? { typeTreats: { some: { typeTreatId: { in: typeTreats } } } }
+        : {}),
+      ...(petSizes
+        ? { petSizes: { some: { petSizeId: { in: petSizes } } } }
+        : {}),
+      ...(packages
+        ? { foodPackage: { some: { packageId: { in: packages } } } }
+        : {}),
+      ...(specialNeeds
+        ? { specialNeeds: { some: { specialNeedsId: { in: specialNeeds } } } }
+        : {}),
+    };
+
+    const [total, items] = await prisma.$transaction([
+      prisma.food.count({ where }),
+      prisma.food.findMany({
+        where,
+        orderBy: { [sortField]: order },
+        skip,
+        take,
+        include: {
+          taste: true,
+          ingredient: true,
+          hardness: true,
+          imgsAdd: true,
+          designed: { include: { designedFor: true } },
+          ages: { include: { age: true } },
+          typeTreats: { include: { typeTreat: true } },
+          petSizes: { include: { petSize: true } },
+          foodPackage: { include: { package: true } },
+          specialNeeds: { include: { specialNeeds: true } },
+          ratings: true,
+        },
+      }),
+    ]);
+
+    return res
+      .status(200)
+      .json({ page: pageNum, pageSize: take, total, items });
+  } catch (err) {
+    console.error("/api/food error", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 }
-
-export default foodListHandler;

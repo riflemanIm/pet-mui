@@ -1,3 +1,4 @@
+// ProductFilter.tsx
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   Box,
@@ -18,20 +19,30 @@ import Grid2 from "@mui/material/Grid2";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useRecoilState } from "recoil";
-
 import { fetchFoodDicts } from "actions/food";
 import { foodDictsState, homePageQueryState } from "atoms";
+import type { FoodType } from "types";
 
+type DictKey = keyof ReturnType<typeof defaultDicts>;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
 const menuProps = {
   PaperProps: {
-    style: {
-      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING,
-      width: 250,
-    },
+    style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING, width: 250 },
   },
-};
+} as const;
+
+const defaultDicts = () => ({
+  foodTypes: [] as { id: number; name: string }[],
+  ages: [] as { id: number; name: string }[],
+  taste: [] as { id: number; name: string }[],
+  designedFor: [] as { id: number; name: string }[],
+  ingredient: [] as { id: number; name: string }[],
+  hardness: [] as { id: number; name: string }[],
+  packages: [] as { id: number; name: string }[],
+  petSizes: [] as { id: number; name: string }[],
+  specialNeeds: [] as { id: number; name: string }[],
+});
 
 export default function ProductFilter() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +50,6 @@ export default function ProductFilter() {
   const [query, setQuery] = useRecoilState(homePageQueryState);
   const { enqueueSnackbar } = useSnackbar();
 
-  // Load dictionaries
   useEffect(() => {
     async function loadDicts() {
       setLoading(true);
@@ -56,33 +66,29 @@ export default function ProductFilter() {
     if (typeof window !== "undefined") loadDicts();
   }, [enqueueSnackbar, setDicts]);
 
-  // Handler for radio fields
   const handleRadioChange = useCallback(
-    (field) => (e) => {
-      setQuery((prev) => ({ ...prev, page: 1, [field]: e.target.value }));
+    (field: string) => (e: any) => {
+      setQuery((prev: any) => ({ ...prev, page: 1, [field]: e.target.value }));
     },
     [setQuery]
   );
 
-  // Handler for multi-select
   const handleMultiChange = useCallback(
-    (field) => (e) => {
+    (field: string) => (e: any) => {
       const value = e.target.value;
       const items = Array.isArray(value) ? value : String(value).split(",");
-      setQuery((prev) => ({ ...prev, page: 1, [field]: items.join(",") }));
+      setQuery((prev: any) => ({ ...prev, page: 1, [field]: items.join(",") }));
     },
     [setQuery]
   );
 
-  // Clear field
   const handleClear = useCallback(
-    (field) => () => {
-      setQuery((prev) => ({ ...prev, page: 1, [field]: "" }));
+    (field: string) => () => {
+      setQuery((prev: any) => ({ ...prev, page: 1, [field]: "" }));
     },
     [setQuery]
   );
 
-  // Define filters
   const filters = useMemo(
     () => [
       {
@@ -92,7 +98,8 @@ export default function ProductFilter() {
         options: [
           { id: "Treat", label: "Лакомства" },
           { id: "Souvenirs", label: "Аксессуары" },
-        ],
+          { id: "DryFood", label: "Сухой корм" },
+        ] as { id: FoodType; label: string }[],
       },
       {
         name: "ingredient",
@@ -154,7 +161,7 @@ export default function ProductFilter() {
       data-aos-duration={600}
     >
       {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
-        <Grid2 size={12} key={name}>
+        <Grid2 key={name} size={12}>
           {type === "radio" ? (
             <FormControl fullWidth>
               <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
@@ -162,10 +169,10 @@ export default function ProductFilter() {
               </FormLabel>
               <RadioGroup
                 row
-                value={query[name] || ""}
+                value={(query as any)[name] || ""}
                 onChange={handleRadioChange(name)}
               >
-                {(dynamic ? dicts[name] : options).map((opt) => (
+                {(dynamic ? (dicts as any)[name] : options).map((opt: any) => (
                   <FormControlLabel
                     key={opt.id}
                     value={opt.id}
@@ -182,12 +189,16 @@ export default function ProductFilter() {
               </FormLabel>
               <Select
                 multiple
-                value={query[name] ? query[name].split(",") : []}
+                value={
+                  (query as any)[name]
+                    ? String((query as any)[name]).split(",")
+                    : []
+                }
                 onChange={handleMultiChange(name)}
                 input={
                   <OutlinedInput
                     endAdornment={
-                      query[name]?.length > 0 && (
+                      (query as any)[name]?.length > 0 && (
                         <InputAdornment position="end" sx={{ mr: 1 }}>
                           <IconButton
                             size="small"
@@ -203,15 +214,15 @@ export default function ProductFilter() {
                 }
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {selected.map((val) => {
-                      const item = dicts[name].find(
-                        (i) => String(i.id) === val
+                    {(selected as string[]).map((val) => {
+                      const item = (dicts as any)[name].find(
+                        (i: any) => String(i.id) === val
                       );
                       return (
                         <Chip
                           key={val}
                           label={item?.name}
-                          color={chipColor}
+                          color={chipColor as any}
                           size="small"
                         />
                       );
@@ -220,12 +231,12 @@ export default function ProductFilter() {
                 )}
                 MenuProps={menuProps}
               >
-                {dicts[name].map((item) => (
+                {(dicts as any)[name].map((item: any) => (
                   <MenuItem
                     key={item.id}
                     value={String(item.id)}
                     sx={{
-                      fontWeight: query[name]
+                      fontWeight: (query as any)[name]
                         ?.split(",")
                         .includes(String(item.id))
                         ? 600

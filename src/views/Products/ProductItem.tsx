@@ -1,3 +1,4 @@
+// ProductItem.tsx
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Grid2 from "@mui/material/Grid2";
 import Icon from "@mui/material/Icon";
@@ -5,7 +6,6 @@ import NextLink from "next/link";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
-
 import { Card } from "@mui/material";
 import { shoppingCartState } from "atoms";
 import HandCounter from "components/HandCounter";
@@ -15,15 +15,13 @@ import MKTypography from "components/MKTypography";
 import { addItemShoppingCart } from "selectors";
 import borders from "theme/base/borders";
 import boxShadows from "theme/base/boxShadows";
+import type { FoodProps } from "types";
 const { borderRadius } = borders;
 const { xxl, colored } = boxShadows;
 
-// interface ProductItemProps {
-//   item: FoodProps;
-//   index: number;
-// }
+type Props = { item: FoodProps, index: number };
 
-export default function ProductItem({ item, index }) {
+export default function ProductItem({ item, index }: Props) {
   const [cart, setCart] = useRecoilState(shoppingCartState);
   const { enqueueSnackbar } = useSnackbar();
 
@@ -32,6 +30,12 @@ export default function ProductItem({ item, index }) {
   }, [item, setCart, enqueueSnackbar]);
 
   const inCart = cart.some((c) => c.id === item.id);
+
+  const mainImg = item.img
+    ? `/images/catalog/${item.img}`
+    : "/images/no-image.png";
+  const price =
+    typeof item.price === "number" ? item.price : Number(item.price);
 
   return (
     <Grid2
@@ -42,18 +46,12 @@ export default function ProductItem({ item, index }) {
       data-aos-offset={100}
       data-aos-duration={600}
     >
-      <Card
-        sx={{
-          borderRadius: borderRadius.lg,
-          boxShadow: colored.info,
-        }}
-      >
-        {/* Image section */}
+      <Card sx={{ borderRadius: borderRadius.lg, boxShadow: colored.info }}>
         <MKBox position="relative">
           <MKBox
             component="img"
-            src={`/images/catalog/${item.img}`}
-            alt={item.title}
+            src={mainImg}
+            alt={item.title || ""}
             width="100%"
             sx={{
               height: { xs: 200, sm: 280, md: 240 },
@@ -82,7 +80,6 @@ export default function ProductItem({ item, index }) {
           </MKBox>
         </MKBox>
 
-        {/* Content section */}
         <MKBox p={2} backgroundColor="background.paper">
           <MKTypography
             component={NextLink}
@@ -91,7 +88,7 @@ export default function ProductItem({ item, index }) {
             textTransform="capitalize"
             sx={{ textDecoration: "none", color: "text.primary" }}
           >
-            {item.title}
+            {item.title || "Без названия"}
           </MKTypography>
 
           <MKBox
@@ -101,7 +98,7 @@ export default function ProductItem({ item, index }) {
             mt={1}
           >
             <MKTypography variant="subtitle2" color="primary">
-              {item.price}₽
+              {price}₽
             </MKTypography>
 
             {item.stock > 0 ? (

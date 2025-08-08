@@ -1,13 +1,12 @@
 import { atom } from "recoil";
 import { syncEffect } from "recoil-sync";
-
 import {
   ShoppingCartItemProps,
   PAGE_SIZE,
   FoodDicts,
   CurrentUserProps,
+  FoodType,
 } from "../types";
-
 import {
   CheckerReturnType,
   number,
@@ -36,9 +35,10 @@ export const foodDictsState = atom<FoodDicts>({
   },
 });
 
+// Фильтры для главной: вернули 'type' (enum FoodType)
 const viewChecker = object({
   page: optional(number()),
-  type: optional(string()),
+  type: optional(string()), // "Treat" | "Souvenirs" | "DryFood" (валидируем на уровне UI)
   ages: optional(string()),
   taste: optional(string()),
   designedFor: optional(string()),
@@ -50,14 +50,13 @@ const viewChecker = object({
   sort: optional(string()),
   size: optional(number()),
 });
-
 type ViewState = CheckerReturnType<typeof viewChecker>;
 
 export const homePageQueryState = atom<ViewState>({
   key: "homePageQueryState",
   default: {
     page: 1,
-    type: "Treat",
+    type: "Treat" as FoodType, // дефолт как у тебя
     ages: "",
     taste: "",
     designedFor: "",
@@ -72,12 +71,14 @@ export const homePageQueryState = atom<ViewState>({
   effects: [syncEffect({ refine: viewChecker })],
 });
 
-export const foodDetailsIdState = atom({
+// id теперь числовой
+export const foodDetailsIdState = atom<number | null>({
   key: "foodDetailsIdState",
-  default: "",
+  default: null,
 });
 
-export const currentUserState = atom<CurrentUserProps>({
+// юзер может быть не залогинен
+export const currentUserState = atom<CurrentUserProps | undefined>({
   key: "currentUserState",
   default: undefined,
 });

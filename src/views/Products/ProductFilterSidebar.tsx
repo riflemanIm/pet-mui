@@ -1,17 +1,19 @@
+// ProductFilterSidebar.tsx
 import React from "react";
-import PropTypes from "prop-types";
 import { useTheme } from "@mui/material/styles";
 import Drawer from "@mui/material/Drawer";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import ProductFilter from "./ProductFilter";
 
-const ProductFilterSidebar = ({ open, variant, onClose }) => {
+type Props = { open: boolean; variant: "temporary" | "persistent" | "permanent"; onClose: () => void };
+
+const ProductFilterSidebar: React.FC<Props> = ({ open, variant, onClose }) => {
   const theme = useTheme();
   return (
     <Drawer
       anchor="right"
-      onClose={() => onClose()}
+      onClose={onClose}
       open={open}
       variant={variant}
       sx={{
@@ -20,20 +22,12 @@ const ProductFilterSidebar = ({ open, variant, onClose }) => {
           maxWidth: { xs: 256, sm: 400 },
           top: { xs: 0, md: 81 },
           height: { xs: "100%" },
-          background: theme.palette.background.paper,
+          background: (theme as any).palette.background.paper,
         },
       }}
     >
       <Box p={3}>
-        <Typography
-          variant="h6"
-          sx={{
-            fontWeight: "medium",
-          }}
-          gutterBottom
-          color={"secondary"}
-          //align={"center"}
-        >
+        <Typography variant="h6" sx={{ fontWeight: "medium" }} gutterBottom color={"secondary"}>
           Фильтры
         </Typography>
         <ProductFilter />
@@ -41,11 +35,4 @@ const ProductFilterSidebar = ({ open, variant, onClose }) => {
     </Drawer>
   );
 };
-
-ProductFilterSidebar.propTypes = {
-  onClose: PropTypes.func,
-  open: PropTypes.bool.isRequired,
-  variant: PropTypes.string.isRequired,
-};
-
 export default ProductFilterSidebar;
