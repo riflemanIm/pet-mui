@@ -17,6 +17,7 @@ model Food {
   isPromo       Boolean @default(false)
   ozonId        String?
 
+  img    String?
   imgUrl String?
   imgs   String? @db.Text
 
