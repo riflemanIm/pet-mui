@@ -60,47 +60,47 @@ export default async function handler(req, res) {
           id: item.id,
         },
       });
-      // mainImgs.push(fileName(item.imgUrl));
-      // const urls = item.imgs.split("\n");
-      // if (isArray(urls)) {
-      //   urls.forEach((it) => {
-      //     if (!mainImgs.includes(fileName(it))) {
-      //       console.log(item.id, it, "--");
-      //       //allImgs.push(itemImg(parseInt(item.id, 10), it));
-      //       allImgs.push(it);
-      //     }
-      //     //allImgs.push(itemImg(parseInt(item.id, 10), it));
-      //     //console.log(inxx, itemImg(it), "--");
-      //   });
-      // }
+      mainImgs.push(fileName(item.imgUrl));
+      const urls = item.imgs.split("\n");
+      if (isArray(urls)) {
+        urls.forEach((it) => {
+          if (!mainImgs.includes(fileName(it))) {
+            console.log(item.id, it, "--");
+            //allImgs.push(itemImg(parseInt(item.id, 10), it));
+            allImgs.push(it);
+          }
+          //allImgs.push(itemImg(parseInt(item.id, 10), it));
+          //console.log(inxx, itemImg(it), "--");
+        });
+      }
     });
 
-    // const allImgsUniq = [...new Set(allImgs)];
-    // allImgsUniq.forEach((url) => {
-    //   const destFile = `${path}/${fileName(url)}`;
-    //   //downloadFile(destFile, url);
-    // });
+    const allImgsUniq = [...new Set(allImgs)];
+    allImgsUniq.forEach((url) => {
+      const destFile = `${path}/${fileName(url)}`;
+      downloadFile(destFile, url);
+    });
 
     // const allImgsUniq = [...new Set(allImgs.map((it) => it.img))].map((img) =>
     //   allImgs.find((it) => it.img === img)
     // );
 
-    // allImgsUniq.forEach(async (data) => {
-    //   await prisma.foodImgAdd.create({ data });
-    // });
+    allImgsUniq.forEach(async (data) => {
+      await prisma.foodImgAdd.create({ data });
+    });
 
-    // const group = groupByKey(allImgsUniq, "foodId");
+    const group = groupByKey(allImgsUniq, "foodId");
 
-    // Object.keys(group).map(async (key) => {
-    //   //creatBound(item[], "age", "foodAge", "ageId", it.U);
-    //   //const records = {};
-    //   console.log(group[key]);
-    //   await prisma.foodImgAdd.create({
-    //     data: group[key],
-    //     skipDuplicates: true,
-    //   });
-    //   // return;
-    // });
+    Object.keys(group).map(async (key) => {
+      //creatBound(item[], "age", "foodAge", "ageId", it.U);
+      //const records = {};
+      console.log(group[key]);
+      await prisma.foodImgAdd.create({
+        data: group[key],
+        skipDuplicates: true,
+      });
+      // return;
+    });
 
     res.status(200).json({ len: allImgs.length, lenUnig: allImgsUniq.length });
   } catch (error) {

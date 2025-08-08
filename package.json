@@ -67,11 +67,14 @@
     "build": "next build",
     "start": "next start",
     "db:clear": "prisma migrate reset --force",
+
     "prisma:dev": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
-    "import:data": "node pages/api/import-data.js"
+    "import:data": "node pages/api/import-data.js",
+    "import:imgs": "node pages/api/import-images.js"
+
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.1",

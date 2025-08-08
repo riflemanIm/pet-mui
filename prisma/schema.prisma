@@ -17,15 +17,16 @@ model Food {
   isPromo       Boolean @default(false)
   ozonId        String?
 
-  img    String?
-  imgUrl String?
-  imgs   String? @db.Text
+  img     String?
+  imgUrl  String?
+  imgs    String?      @db.Text
+  imgsAdd FoodImgAdd[]
 
   feature          String?
   weight           Int?
   quantity         Int?
   quantityPackages Int?
-  type             String?
+  type             FoodType
 
   expiration  Int?
   annotation  String? @db.Text
@@ -45,7 +46,17 @@ model Food {
   typeTreats  FoodTypeTreat[]
   petSizes    FoodPetSize[]
   foodPackage FoodPackage[]
-  // FoodFeature    FoodFeature[]
+
+  ratings     Rating[]
+  orders      Order[]
+  publishedAt DateTime @default(now()) @map("published_at") @db.DateTime(0)
+  createdAt   DateTime @default(now()) @map("created_at") @db.DateTime(0)
+  stock       Int      @default(0)
+
+  @@index([tasteId])
+  @@index([ingredientId])
+  @@index([hardnessId])
+  @@map("foods")
 }
 
 model DesignedFor {
@@ -117,20 +128,6 @@ model Hardness {
   foods Food[]
 }
 
-// model FoodFeature {
-//   foodId    Int
-//   featureId Int
-//   food      Food    @relation(fields: [foodId], references: [id])
-//   feature   Feature @relation(fields: [featureId], references: [id])
-
-//   @@id([foodId, featureId])
-// }
-// model Feature {
-//   id    Int           @id @default(autoincrement())
-//   name  String        @unique
-//   foods FoodFeature[]
-// }
-
 model Package {
   id    Int           @id @default(autoincrement())
   name  String        @unique
@@ -161,29 +158,84 @@ model FoodPetSize {
   @@id([foodId, petSizeId])
 }
 
-// model FoodFeature {
-//   foodId    Int
-//   featureId Int
-//   food      Food    @relation(fields: [foodId], references: [id])
-//   feature   Feature @relation(fields: [featureId], references: [id])
+model User {
+  id       Int     @id @default(autoincrement())
+  balance  Decimal @default(0.0) @db.Decimal(15, 2)
+  //nickname String  @unique(map: "nickname") @db.VarChar(100)
+  email    String  @unique(map: "email") @db.VarChar(100)
+  password String? @db.VarChar(256)
 
-//   @@id([foodId, featureId])
-// }
+  //phone String @unique(map: "phone") @db.VarChar(100)
+  name            String?           @db.VarChar(256)
+  authType        AuthType?
+  ratings         Rating[]
+  orders          Order[]
+  createdAt       DateTime          @default(now()) @map("created_at") @db.DateTime(0)
+  UserConfirmCode UserConfirmCode[]
 
-// model SpecialNeeds {
-//   id    Int    @id @default(autoincrement())
-//   name  String @unique
-//   foods Food[]
-// }
+  @@map("users")
+}
 
-// model MadeIn {
-//   id    Int    @id @default(autoincrement())
-//   name  String @unique
-//   foods Food[]
-// }
+model UserConfirmCode {
+  user      User      @relation(fields: [userId], references: [id])
+  userId    Int       @map("user_id")
+  code      String
+  createdAt DateTime  @default(now()) @map("created_at") @db.DateTime(0)
+  tryDate   DateTime? @map("try_date")
+  uuid      String    @unique(map: "uuid") @db.VarChar(100)
 
-// model Feature {
-//   id    Int           @id @default(autoincrement())
-//   name  String        @unique
-//   foods FoodFeature[]
-// }
+  @@id([userId, uuid])
+  @@map("user_confirm_code")
+}
+
+model Order {
+  id        Int      @id @default(autoincrement())
+  food      Food     @relation(fields: [foodId], references: [id])
+  foodId    Int      @map("food_id")
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @map("user_id")
+  quantity  Int
+  orderNum  Int
+  orderedAt DateTime @default(now()) @map("ordered_at") @db.DateTime(0)
+
+  @@index([foodId])
+  @@map("orders")
+}
+
+model Rating {
+  food    Food     @relation(fields: [foodId], references: [id])
+  foodId  Int      @map("food_id")
+  user    User     @relation(fields: [userId], references: [id])
+  userId  Int      @map("user_id")
+  score   Int      @db.TinyInt
+  ratedAt DateTime @default(now()) @map("rated_at") @db.DateTime(0)
+
+  @@id([foodId, userId])
+  @@unique([foodId, userId], map: "uniq_food_user_idx")
+  @@map("ratings")
+}
+
+enum FoodType {
+  Treat // "S": "Лакомство",
+  Souvenirs
+  DryFood
+
+  @@map("foods_type")
+}
+
+enum AuthType {
+  ConfirmCode
+  Password
+
+  @@map("auth_type")
+}
+
+model FoodImgAdd {
+  food   Food   @relation(fields: [foodId], references: [id])
+  foodId BigInt @map("food_id")
+
+  img String @db.VarChar(256)
+
+  @@id([foodId, img])
+  @@map("food_imgs_add")
+}
