@@ -20,6 +20,7 @@ import ProductFilterSidebar from "./ProductFilterSidebar";
 import Products from "./Products";
 import ProductSort from "./ProductSort";
 import ProductFilter from "./ProductFilter";
+import { Grid2 } from "@mui/material";
 
 export default function IndexProducts() {
   const [openFiltersBar, setOpenFiltersBar] = useState(false);
@@ -66,7 +67,7 @@ export default function IndexProducts() {
             sx={({ breakpoints, typography: { size } }: any) => ({
               [breakpoints.down("md")]: { fontSize: size["3xl"] },
             })}
-            mt={{ xs: 10, sm: 10, md: -10, lg: -20 }}
+            mt={{ xs: 10, sm: 0, md: -10, lg: -20 }}
           >
             Каталог продуктов
           </MKTypography>
@@ -84,7 +85,7 @@ export default function IndexProducts() {
         </Container>
 
         {isMobile && (
-          <Stack direction="row" spacing={2} mt={{ xs: -20, sm: -20 }}>
+          <Stack direction="row" spacing={2} mt={{ xs: -30, sm: -50 }}>
             <MKButton
               onClick={handleToggleFilters}
               variant="contained"
@@ -107,17 +108,21 @@ export default function IndexProducts() {
         sx={(theme) => ({
           p: 2,
           mx: { xs: 2, lg: 3 },
-          mt: { xs: -20, sm: -20 },
+          mt: { xs: -20, sm: -30 },
           mb: 4,
           boxShadow: (theme as any).boxShadows.xxl,
         })}
       >
         <Container>
           {!isMobile && (
-            <Stack direction="row" spacing={2}>
-              <ProductFilter />
-              <Products />
-            </Stack>
+            <Grid2 container spacing={2}>
+              <Grid2 size={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}>
+                <ProductFilter />
+              </Grid2>
+              <Grid2 size={{ xs: 6, sm: 6, md: 6, lg: 9, xl: 9 }}>
+                <Products />
+              </Grid2>
+            </Grid2>
           )}
           {isMobile && <Products />}
         </Container>

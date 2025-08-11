@@ -26,7 +26,6 @@ function splitIds(v: unknown): number[] | undefined {
     .filter((n) => Number.isFinite(n) && n > 0) as number[];
   return ids.length ? ids : undefined;
 }
-
 // Accept both new and legacy sort keys
 function mapSortField(v: unknown): "price" | "publishedAt" {
   const s = String(v || "publishedAt");
@@ -46,7 +45,11 @@ export default async function handler(
     }
 
     // --- Query params (support old names from the frontend) ---
+
     const q = (req.query.q as string) || undefined;
+    const foodTypeParam =
+      (req.query.foodType as string) || (req.query.type as string) || undefined;
+
     const page = (req.query.page as string) || "1";
     const pageSize =
       (req.query.pageSize as string) || (req.query.size as string) || "12";
@@ -86,6 +89,7 @@ export default async function handler(
     const skip = (pageNum - 1) * take;
 
     const where: Prisma.FoodWhereInput = {
+      ...(foodTypeParam ? { type: foodTypeParam as Prisma.FoodType } : {}),
       ...(q
         ? {
             OR: [

@@ -39,7 +39,7 @@ export default function ProductItem({ item, index }: Props) {
 
   return (
     <Grid2
-      size={{ xs: 12, sm: 12, md: 6, lg: 4 }}
+      size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }}
       key={item.id}
       data-aos="fade-up"
       data-aos-delay={index * 100}
