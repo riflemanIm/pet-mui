@@ -187,6 +187,7 @@ model User {
   orders          Order[]
   createdAt       DateTime          @default(now()) @map("created_at") @db.DateTime(0)
   UserConfirmCode UserConfirmCode[]
+  role            Role
 
   @@map("users")
 }
@@ -236,6 +237,13 @@ enum FoodType {
   DryFood
 
   @@map("foods_type")
+}
+
+enum Role {
+  User
+  Admin
+
+  @@map("role")
 }
 
 enum AuthType {
