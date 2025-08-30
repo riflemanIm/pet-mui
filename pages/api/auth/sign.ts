@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../lib/prisma";
+import prisma from "../../../lib/prisma";
 import { isValidEmail } from "validation/validators";
 
 //import md5 from "md5";
 import { randomInt, randomUUID } from "node:crypto";
 import { Decimal } from "@prisma/client/runtime/library";
 import { $Enums } from "@prisma/client";
-import SENDMAIL, { HTML_TEMPLATE } from "../../lib/mail";
+import SENDMAIL, { HTML_TEMPLATE } from "../../../lib/mail";
 
 type NewUserType = {
   id: number;
@@ -15,6 +15,7 @@ type NewUserType = {
   password: string | null;
   name: string | null;
   authType: $Enums.AuthType | null;
+  role: $Enums.Role | null;
   createdAt: Date;
 };
 export default async function handler(
@@ -54,6 +55,7 @@ export default async function handler(
           data: {
             email,
             name,
+            role: "User",
           },
         });
 
@@ -106,7 +108,7 @@ async function insertNewCode(newUser: NewUserType, res: NextApiResponse) {
 
     SENDMAIL(options, (info: string, error: any) => {
       if (info != null) {
-        console.log("Email sent successfully");
+        //console.log("Email sent successfully");
         // console.log("info: ", info);
         //res.status(200).json({ sent: "ok", info });
       } else if (error != null) {

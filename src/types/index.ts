@@ -176,7 +176,7 @@ export interface FoodRatingsProps {
   ratedAt: string; // ISO
   user: {
     id: Id;
-    nickname: string;
+    name?: string;
   };
 }
 
