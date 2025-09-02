@@ -30,24 +30,51 @@ export function parseId(v: any): number | null {
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : null;
 }
 
-export function buildWhere(filter: string | null) {
-  if (!filter || !filter.trim()) return undefined;
+export function buildWhere(
+  filter: string | null
+): Prisma.UserWhereInput | undefined {
+  if (!filter) return undefined;
+
+  let q = filter;
+  try {
+    const obj = JSON.parse(filter);
+    q = typeof obj === "string" ? obj : obj?.q ?? obj?.text ?? obj?.value ?? "";
+  } catch {
+    /* not json */
+  }
+
+  if (!q || !String(q).trim()) return undefined;
+
   return {
     OR: [
-      { email: { contains: filter, mode: "insensitive" } },
-      { name: { contains: filter, mode: "insensitive" } },
+      { email: { contains: q } }, // без mode
+      { name: { contains: q } }, // без mode
     ],
-  } as Prisma.UserWhereInput;
+  };
 }
-
 export function mapOrder(
   orderBy: string | null,
   dir: OrderDir
 ): Prisma.Enumerable<Prisma.UserOrderByWithRelationInput> {
-  const key = (orderBy || "id") as keyof Prisma.UserOrderByWithRelationInput;
-  return [{ [key]: dir } as any];
-}
+  // нормализация alias'ов
+  const key = (orderBy || "id").trim();
+  const field =
+    key === "userId"
+      ? "id"
+      : key === "createdAt"
+      ? "createdAt"
+      : key === "email"
+      ? "email"
+      : key === "name"
+      ? "name"
+      : key === "balance"
+      ? "balance"
+      : "id";
 
+  return [
+    { [field]: dir },
+  ] as Prisma.Enumerable<Prisma.UserOrderByWithRelationInput>;
+}
 export function toDto(u: {
   id: number;
   email: string;

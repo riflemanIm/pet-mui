@@ -2,15 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
 import { withCORS } from "../_utils/cors";
 import {
-  parseIntSafe,
-  parseCount,
-  parseOrder,
-  buildWhere,
-  mapOrder,
-  toDto,
-  buildUserData,
-  handlePrismaError,
   buildUserCreateData,
+  buildWhere,
+  handlePrismaError,
+  mapOrder,
+  parseCount,
+  parseIntSafe,
+  parseOrder,
+  toDto,
 } from "../_utils/helpers";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -19,7 +18,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const startIndex = parseIntSafe(req.query.startIndex, 0);
       const count = parseCount(req.query.count, 50);
       const filter = (req.query.filter as string | null) ?? null;
-      const orderBy = (req.query.orderBy as string | null) ?? null;
+
+      const orderByRaw = (req.query.orderBy as string | null) ?? null;
+      const orderBy = orderByRaw === "userId" ? "id" : orderByRaw;
       const order = parseOrder(req.query.order);
 
       const where = buildWhere(filter);
@@ -28,7 +29,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const [totalCount, rows] = await Promise.all([
         prisma.user.count({ where }),
         prisma.user.findMany({
-          where,
+          where: where, // <-- правильно, не "where, {"
           orderBy: orderClause,
           skip: startIndex,
           take: count,
