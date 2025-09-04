@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import prisma from "../../../../lib/prisma";
+import prisma from "../../../../../lib/prisma";
 import {
   withCORS,
   asInt,
@@ -9,7 +9,7 @@ import {
   asListPayload,
   getModel,
   normalizeOrderBy,
-} from "../_utils";
+} from "../../../_utils";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const entity = String(req.query.entity || "");
