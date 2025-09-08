@@ -43,7 +43,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       "feature",
     ]);
 
-    const [totalCount, rows] = await Promise.all([
+    const [totalCount, rowsDb] = await Promise.all([
       prisma.food.count({ where }),
       prisma.food.findMany({
         where,
@@ -61,9 +61,31 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           isPromo: true,
           createdAt: true,
           publishedAt: true,
+          // 1→N
+          tasteId: true,
+          ingredientId: true,
+          hardnessId: true,
+          // M:N — берём только id связей
+          designed: { select: { designedForId: true } },
+          ages: { select: { ageId: true } },
+          typeTreats: { select: { typeTreatId: true } },
+          petSizes: { select: { petSizeId: true } },
+          foodPackage: { select: { packageId: true } },
+          specialNeeds: { select: { specialNeedsId: true } },
         },
       }),
     ]);
+
+    // нормализуем в *_Ids
+    const rows = rowsDb.map((r) => ({
+      ...r,
+      designedForIds: r.designed?.map((x) => x.designedForId) ?? [],
+      ageIds: r.ages?.map((x) => x.ageId) ?? [],
+      typeTreatIds: r.typeTreats?.map((x) => x.typeTreatId) ?? [],
+      petSizeIds: r.petSizes?.map((x) => x.petSizeId) ?? [],
+      packageIds: r.foodPackage?.map((x) => x.packageId) ?? [],
+      specialNeedsIds: r.specialNeeds?.map((x) => x.specialNeedsId) ?? [],
+    }));
     return res.status(200).json({ rows, totalCount, startIndex, count });
   }
 

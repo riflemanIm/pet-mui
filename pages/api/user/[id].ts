@@ -1,14 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../lib/prisma";
-import { withCORS } from "../_utils/cors";
+import { withCORS } from "../_utils";
 
 import {
+  buildUserUpdateData,
+  handlePrismaError,
   parseId,
   toDto,
-  buildUserData,
-  handlePrismaError,
-  buildUserUpdateData,
-} from "../_utils/helpers";
+} from "./helpers";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = parseId(req.query.id);

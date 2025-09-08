@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../lib/prisma";
-import { withCORS } from "../_utils/withCORS";
+import { withCORS } from "../../_utils";
+import { parseMultipart } from "../../_utils/_upload";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = Number(req.query.id);
@@ -40,144 +41,121 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (req.method === "PUT" || req.method === "PATCH") {
-    const {
-      artikul,
-      title,
-      price,
-      priceDiscount,
-      vat,
-      isPromo,
-      ozonId,
-      img,
-      imgUrl,
-      feature,
-      weight,
-      quantity,
-      quantityPackages,
-      type,
-      expiration,
-      annotation,
-      packageSize,
-      tasteId,
-      ingredientId,
-      hardnessId,
-      stock,
-      designedForIds,
-      ageIds,
-      typeTreatIds,
-      petSizeIds,
-      packageIds,
-      specialNeedsIds,
-      imgsAdd,
-    } = req.body || {};
+    const isMultipart = (req.headers["content-type"] || "").includes(
+      "multipart/form-data"
+    );
 
-    // Сначала обновим базовые поля
-    const updated = await prisma.food.update({
-      where: { id },
-      data: {
+    if (isMultipart) {
+      const { fields, files } = await parseMultipart(req);
+      const {
         artikul,
         title,
-        price: Number(price) || 0,
-        priceDiscount: Number(priceDiscount) || 0,
-        vat: !!vat,
-        isPromo: !!isPromo,
-        ozonId: ozonId ?? null,
-        img: img ?? null,
-        imgUrl: imgUrl ?? null,
-        feature: feature ?? null,
-        weight: weight ? Number(weight) : null,
-        quantity: quantity ? Number(quantity) : null,
-        quantityPackages: quantityPackages ? Number(quantityPackages) : null,
         type,
-        expiration: expiration ? Number(expiration) : null,
-        annotation: annotation ?? null,
-        packageSize: packageSize ?? null,
-        tasteId: tasteId ? Number(tasteId) : null,
-        ingredientId: ingredientId ? Number(ingredientId) : null,
-        hardnessId: hardnessId ? Number(hardnessId) : null,
-        stock: stock ? Number(stock) : 0,
-      },
-      select: { id: true },
-    });
+        price,
+        priceDiscount,
+        stock,
+        tasteId,
+        ingredientId,
+        hardnessId,
+        designedForIds = [],
+        ageIds = [],
+        typeTreatIds = [],
+        petSizeIds = [],
+        packageIds = [],
+        specialNeedsIds = [],
+        img, // возможно пришло null/пусто если "Удалить"
+      } = fields as any;
 
-    // Обновим M:N — проще «пересобрать»: удалить все записи связей и создать заново
-    // Можно оптимизировать по-разному; для админки это ок.
-    await prisma.$transaction([
-      prisma.foodDesignedFor.deleteMany({ where: { foodId: id } }),
-      prisma.foodAge.deleteMany({ where: { foodId: id } }),
-      prisma.foodTypeTreat.deleteMany({ where: { foodId: id } }),
-      prisma.foodPetSize.deleteMany({ where: { foodId: id } }),
-      prisma.foodPackage.deleteMany({ where: { foodId: id } }),
-      prisma.foodSpecialNeeds.deleteMany({ where: { foodId: id } }),
-      prisma.foodImgAdd.deleteMany({ where: { foodId: id } }),
+      const imgFile = files.imgFile;
+      const newImg = imgFile ? imgFile.newFilename : img ?? undefined; // undefined — не менять, null — обнулить
 
-      ...(designedForIds?.length
-        ? [
-            prisma.foodDesignedFor.createMany({
-              data: designedForIds.map((d: number) => ({
-                foodId: id,
-                designedForId: d,
-              })),
-            }),
-          ]
-        : []),
-      ...(ageIds?.length
-        ? [
-            prisma.foodAge.createMany({
-              data: ageIds.map((a: number) => ({ foodId: id, ageId: a })),
-            }),
-          ]
-        : []),
-      ...(typeTreatIds?.length
-        ? [
-            prisma.foodTypeTreat.createMany({
-              data: typeTreatIds.map((t: number) => ({
-                foodId: id,
-                typeTreatId: t,
-              })),
-            }),
-          ]
-        : []),
-      ...(petSizeIds?.length
-        ? [
-            prisma.foodPetSize.createMany({
-              data: petSizeIds.map((p: number) => ({
-                foodId: id,
-                petSizeId: p,
-              })),
-            }),
-          ]
-        : []),
-      ...(packageIds?.length
-        ? [
-            prisma.foodPackage.createMany({
-              data: packageIds.map((p: number) => ({
-                foodId: id,
-                packageId: p,
-              })),
-            }),
-          ]
-        : []),
-      ...(specialNeedsIds?.length
-        ? [
-            prisma.foodSpecialNeeds.createMany({
-              data: specialNeedsIds.map((s: number) => ({
-                foodId: id,
-                specialNeedsId: s,
-              })),
-            }),
-          ]
-        : []),
-      ...(imgsAdd?.length
-        ? [
-            prisma.foodImgAdd.createMany({
-              data: imgsAdd.map((img: string) => ({ foodId: id, img })),
-            }),
-          ]
-        : []),
-    ]);
+      await prisma.$transaction(async (tx) => {
+        await tx.food.update({
+          where: { id },
+          data: {
+            artikul: artikul ?? null,
+            title: title ?? null,
+            type,
+            price: price != null ? Number(price) : undefined,
+            priceDiscount:
+              priceDiscount != null ? Number(priceDiscount) : undefined,
+            stock: stock != null ? Number(stock) : undefined,
+            tasteId:
+              tasteId !== undefined
+                ? tasteId
+                  ? Number(tasteId)
+                  : null
+                : undefined,
+            ingredientId:
+              ingredientId !== undefined
+                ? ingredientId
+                  ? Number(ingredientId)
+                  : null
+                : undefined,
+            hardnessId:
+              hardnessId !== undefined
+                ? hardnessId
+                  ? Number(hardnessId)
+                  : null
+                : undefined,
+            ...(newImg === undefined ? {} : { img: newImg || null }),
+          },
+        });
 
-    return res.status(200).json(updated);
+        // зачистка и вставка M:N (как было у тебя)
+        await tx.foodDesignedFor.deleteMany({ where: { foodId: id } });
+        await tx.foodAge.deleteMany({ where: { foodId: id } });
+        await tx.foodTypeTreat.deleteMany({ where: { foodId: id } });
+        await tx.foodPetSize.deleteMany({ where: { foodId: id } });
+        await tx.foodPackage.deleteMany({ where: { foodId: id } });
+        await tx.foodSpecialNeeds.deleteMany({ where: { foodId: id } });
+
+        if (designedForIds?.length)
+          await tx.foodDesignedFor.createMany({
+            data: designedForIds.map((x: number) => ({
+              foodId: id,
+              designedForId: Number(x),
+            })),
+          });
+        if (ageIds?.length)
+          await tx.foodAge.createMany({
+            data: ageIds.map((x: number) => ({ foodId: id, ageId: Number(x) })),
+          });
+        if (typeTreatIds?.length)
+          await tx.foodTypeTreat.createMany({
+            data: typeTreatIds.map((x: number) => ({
+              foodId: id,
+              typeTreatId: Number(x),
+            })),
+          });
+        if (petSizeIds?.length)
+          await tx.foodPetSize.createMany({
+            data: petSizeIds.map((x: number) => ({
+              foodId: id,
+              petSizeId: Number(x),
+            })),
+          });
+        if (packageIds?.length)
+          await tx.foodPackage.createMany({
+            data: packageIds.map((x: number) => ({
+              foodId: id,
+              packageId: Number(x),
+            })),
+          });
+        if (specialNeedsIds?.length)
+          await tx.foodSpecialNeeds.createMany({
+            data: specialNeedsIds.map((x: number) => ({
+              foodId: id,
+              specialNeedsId: Number(x),
+            })),
+          });
+      });
+
+      return res.status(200).json({ id });
+    }
+
+    // JSON-путь (оставь при необходимости)
+    return res.status(400).json({ message: "Use multipart/form-data" });
   }
 
   if (req.method === "DELETE") {

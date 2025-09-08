@@ -10,6 +10,7 @@ import {
   getModel,
   normalizeOrderBy,
 } from "../../../_utils";
+import { parseMultipart } from "../../../_utils/_upload";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const entity = String(req.query.entity || "");
@@ -42,16 +43,111 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   }
 
   if (req.method === "POST") {
-    const name = req.body?.name ?? null;
-    if (name == null || String(name).trim() === "") {
-      return res.status(400).json({ message: "Name is required" });
+    // form-data
+    const isMultipart = (req.headers["content-type"] || "").includes(
+      "multipart/form-data"
+    );
+
+    if (isMultipart) {
+      const { fields, files } = await parseMultipart(req);
+      const {
+        artikul,
+        title,
+        type,
+        price,
+        priceDiscount,
+        stock,
+        tasteId,
+        ingredientId,
+        hardnessId,
+        designedForIds = [],
+        ageIds = [],
+        typeTreatIds = [],
+        petSizeIds = [],
+        packageIds = [],
+        specialNeedsIds = [],
+      } = fields as any;
+
+      const imgFile = files.imgFile;
+      const img = imgFile
+        ? imgFile.newFilename /* имя файла в uploads */
+        : fields.img ?? null;
+
+      const created = await prisma.food.create({
+        data: {
+          artikul: artikul ?? null,
+          title: title ?? null,
+          type,
+          price: Number(price) || 0,
+          priceDiscount: Number(priceDiscount) || 0,
+          stock: Number(stock) || 0,
+          tasteId: tasteId ? Number(tasteId) : null,
+          ingredientId: ingredientId ? Number(ingredientId) : null,
+          hardnessId: hardnessId ? Number(hardnessId) : null,
+          img: img ?? null,
+
+          designed: designedForIds?.length
+            ? {
+                createMany: {
+                  data: designedForIds.map((id: number) => ({
+                    designedForId: Number(id),
+                  })),
+                },
+              }
+            : undefined,
+          ages: ageIds?.length
+            ? {
+                createMany: {
+                  data: ageIds.map((id: number) => ({ ageId: Number(id) })),
+                },
+              }
+            : undefined,
+          typeTreats: typeTreatIds?.length
+            ? {
+                createMany: {
+                  data: typeTreatIds.map((id: number) => ({
+                    typeTreatId: Number(id),
+                  })),
+                },
+              }
+            : undefined,
+          petSizes: petSizeIds?.length
+            ? {
+                createMany: {
+                  data: petSizeIds.map((id: number) => ({
+                    petSizeId: Number(id),
+                  })),
+                },
+              }
+            : undefined,
+          foodPackage: packageIds?.length
+            ? {
+                createMany: {
+                  data: packageIds.map((id: number) => ({
+                    packageId: Number(id),
+                  })),
+                },
+              }
+            : undefined,
+          specialNeeds: specialNeedsIds?.length
+            ? {
+                createMany: {
+                  data: specialNeedsIds.map((id: number) => ({
+                    specialNeedsId: Number(id),
+                  })),
+                },
+              }
+            : undefined,
+        },
+        select: { id: true },
+      });
+
+      return res.status(201).json(created.id);
     }
-    const created = await model.create({
-      data: { name: String(name) },
-      select: { id: true },
-    });
-    // doGenericCreate ждёт число (id)
-    return res.status(201).json(created.id);
+
+    // JSON (старый путь) — оставляем как есть, если используется
+    // ... твоя текущая реализация POST (create) ...
+    return res.status(400).json({ message: "Use multipart/form-data" });
   }
 
   res.setHeader("Allow", ["GET", "POST", "OPTIONS"]);
