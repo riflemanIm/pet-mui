@@ -4,7 +4,12 @@ import formidable, { File } from "formidable";
 import fs from "fs";
 import path from "path";
 
-export const UPLOAD_DIR = path.join(process.cwd(), "public", "uploads");
+export const UPLOAD_DIR = path.join(
+  process.cwd(),
+  "public",
+  "images",
+  "catalog"
+);
 
 export function ensureUploadDir() {
   if (!fs.existsSync(UPLOAD_DIR)) fs.mkdirSync(UPLOAD_DIR, { recursive: true });

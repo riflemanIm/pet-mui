@@ -53,6 +53,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         select: {
           id: true,
           artikul: true,
+          img: true,
+
           title: true,
           price: true,
           priceDiscount: true,

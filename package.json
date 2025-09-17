@@ -79,6 +79,7 @@
   "devDependencies": {
     "@types/chroma-js": "^3.1.1",
     "@types/cookie": "^1.0.0",
+    "@types/formidable": "^3.4.5",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/md5": "^2.3.5",
     "convert-excel-to-json": "^1.7.0",
