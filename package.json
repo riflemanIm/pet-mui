@@ -74,7 +74,7 @@
     "prisma:generate": "prisma generate",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
     "import:data": "node pages/api/import-data.js",
-    "import:imgs": "node pages/api/import-images.js"
+    "update:imgs": "node pages/api/update-img-fields.js"
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.1",
