@@ -109,8 +109,9 @@ export function getModel(prisma: PrismaClient, entity: string) {
   };
 }
 
-export function normalizeOrderBy(orderByRaw: string | null) {
-  const key = (orderByRaw || "id").trim();
+export function normalizeOrderBy(orderByRaw: string | string[] | null | undefined) {
+  const value = Array.isArray(orderByRaw) ? orderByRaw[0] : orderByRaw;
+  const key = typeof value === "string" ? value.trim() : "";
   return key === "name" ? "name" : "id";
 }
 

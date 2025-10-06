@@ -39,7 +39,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         hardness: true,
         designed: { include: { designedFor: true } },
         ages: { include: { age: true } },
-        typeTreats: { include: { typeTreat: true } },
+        typeTreat: { include: { typeTreat: true } },
         petSizes: { include: { petSize: true } },
         foodPackage: { include: { package: true } },
         specialNeeds: { include: { specialNeeds: true } },
@@ -47,14 +47,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     });
     if (!row) return res.status(404).json({ message: "Not found" });
 
+    const { typeTreat, ...rest } = row;
+    const typeTreatRelations = typeTreat ?? [];
+
     const dto = {
-      ...row,
-      designedForIds: row.designed.map((d) => d.designedForId),
-      ageIds: row.ages.map((a) => a.ageId),
-      typeTreatIds: row.typeTreats.map((t) => t.typeTreatId),
-      petSizeIds: row.petSizes.map((p) => p.petSizeId),
-      packageIds: row.foodPackage.map((p) => p.packageId),
-      specialNeedsIds: row.specialNeeds.map((s) => s.specialNeedsId),
+      ...rest,
+      typeTreat: typeTreatRelations,
+      designedForIds: rest.designed.map((d) => d.designedForId),
+      ageIds: rest.ages.map((a) => a.ageId),
+      typeTreatIds: typeTreatRelations.map((t) => t.typeTreatId),
+      petSizeIds: rest.petSizes.map((p) => p.petSizeId),
+      packageIds: rest.foodPackage.map((p) => p.packageId),
+      specialNeedsIds: rest.specialNeeds.map((s) => s.specialNeedsId),
     };
     return res.status(200).json(dto);
   }
@@ -74,32 +78,59 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         fields = req.body ?? {};
       }
 
-      // базовые поля
-      const dataToUpdate: any = {
-        artikul: strOrNull(fields.artikul),
-        title: strOrNull(fields.title),
-        price: Number(numOrNull(fields.price) ?? 0),
-        priceDiscount: Number(numOrNull(fields.priceDiscount) ?? 0),
-        vat: boolOrUndefined(fields.vat),
-        isPromo: boolOrUndefined(fields.isPromo),
-        ozonId: strOrNull(fields.ozonId),
-        imgUrl: strOrNull(fields.imgUrl),
-        feature: strOrNull(fields.feature),
-        weight: numOrNull(fields.weight),
-        quantity: numOrNull(fields.quantity),
-        quantityPackages: numOrNull(fields.quantityPackages),
-        type: strOrNull(fields.type) as any, // enum: 'Treat' | 'Souvenirs' | 'DryFood'
-        expiration: numOrNull(fields.expiration),
-        annotation: strOrNull(fields.annotation),
-        packageSize: strOrNull(fields.packageSize),
-        tasteId: numOrNull(fields.tasteId),
-        ingredientId: numOrNull(fields.ingredientId),
-        hardnessId: (() => {
-          const v = numOrNull(fields.hardnessId);
-          return v && v > 0 ? v : null; // 0 → null
-        })(),
-        stock: Number(numOrNull(fields.stock) ?? 0),
+      const hasField = (key: string) =>
+        fields && typeof fields === "object"
+          ? Object.prototype.hasOwnProperty.call(fields, key)
+          : false;
+
+      // базовые поля: обновляем только то, что пришло в запросе
+      const dataToUpdate: Record<string, any> = {};
+
+      const assignString = (key: string) => {
+        if (!hasField(key)) return;
+        dataToUpdate[key] = strOrNull(fields[key]);
       };
+
+      const assignNumber = (key: string) => {
+        if (!hasField(key)) return;
+        const value = numOrNull(fields[key]);
+        dataToUpdate[key] = Number(value ?? 0);
+      };
+
+      const assignNullableNumber = (key: string) => {
+        if (!hasField(key)) return;
+        dataToUpdate[key] = numOrNull(fields[key]);
+      };
+
+      const assignBool = (key: string) => {
+        if (!hasField(key)) return;
+        const value = boolOrUndefined(fields[key]);
+        if (value !== undefined) dataToUpdate[key] = value;
+      };
+
+      assignString("artikul");
+      assignString("title");
+      assignNumber("price");
+      assignNumber("priceDiscount");
+      assignBool("vat");
+      assignBool("isPromo");
+      assignString("ozonId");
+      assignString("imgUrl");
+      assignString("feature");
+      assignNullableNumber("weight");
+      assignNullableNumber("quantity");
+      assignNullableNumber("quantityPackages");
+      if (hasField("type")) dataToUpdate.type = strOrNull(fields.type) as any; // enum: 'Treat' | 'Souvenirs' | 'DryFood'
+      assignNullableNumber("expiration");
+      assignString("annotation");
+      assignString("packageSize");
+      assignNullableNumber("tasteId");
+      assignNullableNumber("ingredientId");
+      if (hasField("hardnessId")) {
+        const v = numOrNull(fields.hardnessId);
+        dataToUpdate.hardnessId = v && v > 0 ? v : null; // 0 → null
+      }
+      assignNumber("stock");
 
       // основное изображение: либо новое, либо оставить/очистить по строковому значению
       const imgUploaded = pickUploadedName(files, "imgFile");
@@ -117,52 +148,79 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
 
       // M:N — массивы id (при multipart приходят как JSON-строки/CSV)
-      const designedForIds = toIdArray(fields.designedForIds);
-      const ageIds = toIdArray(fields.ageIds);
-      const typeTreatIds = toIdArray(fields.typeTreatIds);
-      const petSizeIds = toIdArray(fields.petSizeIds);
-      const packageIds = toIdArray(fields.packageIds);
-      const specialNeedsIds = toIdArray(fields.specialNeedsIds);
+      const designedForIds = hasField("designedForIds")
+        ? toIdArray(fields.designedForIds)
+        : null;
+      const ageIds = hasField("ageIds") ? toIdArray(fields.ageIds) : null;
+      const typeTreatIds = hasField("typeTreatIds")
+        ? toIdArray(fields.typeTreatIds)
+        : null;
+      const petSizeIds = hasField("petSizeIds")
+        ? toIdArray(fields.petSizeIds)
+        : null;
+      const packageIds = hasField("packageIds")
+        ? toIdArray(fields.packageIds)
+        : null;
+      const specialNeedsIds = hasField("specialNeedsIds")
+        ? toIdArray(fields.specialNeedsIds)
+        : null;
 
       await prisma.$transaction(async (tx) => {
         // 1→N
         await tx.food.update({ where: { id }, data: dataToUpdate });
 
         // M:N — пересобираем
-        await tx.foodDesignedFor.deleteMany({ where: { foodId: id } });
-        await tx.foodAge.deleteMany({ where: { foodId: id } });
-        await tx.foodTypeTreat.deleteMany({ where: { foodId: id } });
-        await tx.foodPetSize.deleteMany({ where: { foodId: id } });
-        await tx.foodPackage.deleteMany({ where: { foodId: id } });
-        await tx.foodSpecialNeeds.deleteMany({ where: { foodId: id } });
-
-        if (designedForIds.length)
-          await tx.foodDesignedFor.createMany({
-            data: designedForIds.map((x) => ({ foodId: id, designedForId: x })),
-          });
-        if (ageIds.length)
-          await tx.foodAge.createMany({
-            data: ageIds.map((x) => ({ foodId: id, ageId: x })),
-          });
-        if (typeTreatIds.length)
-          await tx.foodTypeTreat.createMany({
-            data: typeTreatIds.map((x) => ({ foodId: id, typeTreatId: x })),
-          });
-        if (petSizeIds.length)
-          await tx.foodPetSize.createMany({
-            data: petSizeIds.map((x) => ({ foodId: id, petSizeId: x })),
-          });
-        if (packageIds.length)
-          await tx.foodPackage.createMany({
-            data: packageIds.map((x) => ({ foodId: id, packageId: x })),
-          });
-        if (specialNeedsIds.length)
-          await tx.foodSpecialNeeds.createMany({
-            data: specialNeedsIds.map((x) => ({
-              foodId: id,
-              specialNeedsId: x,
-            })),
-          });
+        if (designedForIds !== null) {
+          await tx.foodDesignedFor.deleteMany({ where: { foodId: id } });
+          if (designedForIds.length)
+            await tx.foodDesignedFor.createMany({
+              data: designedForIds.map((x) => ({
+                foodId: id,
+                designedForId: x,
+              })),
+            });
+        }
+        if (ageIds !== null) {
+          await tx.foodAge.deleteMany({ where: { foodId: id } });
+          if (ageIds.length)
+            await tx.foodAge.createMany({
+              data: ageIds.map((x) => ({ foodId: id, ageId: x })),
+            });
+        }
+        if (typeTreatIds !== null) {
+          await tx.foodTypeTreat.deleteMany({ where: { foodId: id } });
+          if (typeTreatIds.length)
+            await tx.foodTypeTreat.createMany({
+              data: typeTreatIds.map((x) => ({
+                foodId: id,
+                typeTreatId: x,
+              })),
+            });
+        }
+        if (petSizeIds !== null) {
+          await tx.foodPetSize.deleteMany({ where: { foodId: id } });
+          if (petSizeIds.length)
+            await tx.foodPetSize.createMany({
+              data: petSizeIds.map((x) => ({ foodId: id, petSizeId: x })),
+            });
+        }
+        if (packageIds !== null) {
+          await tx.foodPackage.deleteMany({ where: { foodId: id } });
+          if (packageIds.length)
+            await tx.foodPackage.createMany({
+              data: packageIds.map((x) => ({ foodId: id, packageId: x })),
+            });
+        }
+        if (specialNeedsIds !== null) {
+          await tx.foodSpecialNeeds.deleteMany({ where: { foodId: id } });
+          if (specialNeedsIds.length)
+            await tx.foodSpecialNeeds.createMany({
+              data: specialNeedsIds.map((x) => ({
+                foodId: id,
+                specialNeedsId: x,
+              })),
+            });
+        }
       });
 
       return res.status(200).json({ id });

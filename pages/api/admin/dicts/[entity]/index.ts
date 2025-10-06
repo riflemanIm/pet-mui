@@ -22,7 +22,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const startIndex = asInt(req.query.startIndex, 0);
       const count = asCount(req.query.count, 50);
       const order = asOrder(req.query.order);
-      const orderBy = normalizeOrderBy((req.query.orderBy as string) || null);
+      const orderBy = normalizeOrderBy(req.query.orderBy);
       const filter = (req.query.filter as string | null) ?? null;
 
       const where = buildWhere(filter);

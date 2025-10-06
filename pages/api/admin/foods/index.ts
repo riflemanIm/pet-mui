@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     const count = asCount(req.query.count, 50);
     const order = asOrder(req.query.order);
     const orderBy = normalizeOrderBy(
-      (req.query.orderBy as string) || null,
+      req.query.orderBy,
       ORDER_FIELDS as unknown as readonly string[],
       "id"
     );
@@ -76,7 +76,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           // M:N — только ID связей
           designed: { select: { designedForId: true } },
           ages: { select: { ageId: true } },
-          typeTreats: { select: { typeTreatId: true } },
+          typeTreat: { select: { typeTreatId: true } },
           petSizes: { select: { petSizeId: true } },
           foodPackage: { select: { packageId: true } },
           specialNeeds: { select: { specialNeedsId: true } },
@@ -84,15 +84,21 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }),
     ]);
 
-    const rows = rowsDb.map((r) => ({
-      ...r,
-      designedForIds: r.designed?.map((x) => x.designedForId) ?? [],
-      ageIds: r.ages?.map((x) => x.ageId) ?? [],
-      typeTreatIds: r.typeTreats?.map((x) => x.typeTreatId) ?? [],
-      petSizeIds: r.petSizes?.map((x) => x.petSizeId) ?? [],
-      packageIds: r.foodPackage?.map((x) => x.packageId) ?? [],
-      specialNeedsIds: r.specialNeeds?.map((x) => x.specialNeedsId) ?? [],
-    }));
+    const rows = rowsDb.map((r) => {
+      const { typeTreat, ...rest } = r;
+      const relations = typeTreat ?? [];
+
+      return {
+        ...rest,
+        typeTreat: relations,
+        designedForIds: rest.designed?.map((x) => x.designedForId) ?? [],
+        ageIds: rest.ages?.map((x) => x.ageId) ?? [],
+        typeTreatIds: relations.map((x) => x.typeTreatId),
+        petSizeIds: rest.petSizes?.map((x) => x.petSizeId) ?? [],
+        packageIds: rest.foodPackage?.map((x) => x.packageId) ?? [],
+        specialNeedsIds: rest.specialNeeds?.map((x) => x.specialNeedsId) ?? [],
+      };
+    });
 
     return res.status(200).json({ rows, totalCount, startIndex, count });
   } catch (err: any) {

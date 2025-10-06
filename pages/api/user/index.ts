@@ -35,12 +35,9 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         }),
       ]);
 
-      return res.status(200).json({
-        rows: rows.map(toDto),
-        totalCount,
-        startIndex,
-        count,
-      });
+      return res
+        .status(200)
+        .json({ rows: rows.map(toDto), totalCount, startIndex, count });
     } catch (err) {
       return handlePrismaError(res, err);
     }

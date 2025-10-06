@@ -76,7 +76,7 @@ model Food {
     //"AE": 8.5,
     fats             Decimal?        @default(0.0) @db.Decimal(3, 1)
     //"AK": "Корень",
-    typeTreats       FoodTypeTreat[]
+    typeTreat        FoodTypeTreat[]
     //  "AL": "Это лакомство для собак является отличным источником
     anatation        String?         @db.Text
     // "AM": "Мясо",

@@ -3,7 +3,7 @@ import prisma from "../../../lib/prisma";
 import { sign } from "jsonwebtoken";
 import md5 from "md5";
 import * as cookie from "cookie";
-import { withCORS } from "../_utils/cors";
+import { withCORS } from "../_utils";
 
 type UserSafe = {
   id: number;

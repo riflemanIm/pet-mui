@@ -53,7 +53,7 @@ model Food {
 
   designed     FoodDesignedFor[]
   ages         FoodAge[]
-  typeTreats   FoodTypeTreat[]
+  typeTreat    FoodTypeTreat[]
   petSizes     FoodPetSize[]
   foodPackage  FoodPackage[]
   specialNeeds FoodSpecialNeeds[]

@@ -1,22 +1,54 @@
-// import-images.js
-import { PrismaClient } from "@prisma/client";
-import axios from "axios";
-import fs from "fs/promises";
+// import-data.js — Excel -> DB + изображения
 import path from "path";
+import fs from "fs/promises";
+import axios from "axios";
+import excelToJson from "convert-excel-to-json";
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const SHEET_NAME = "Шаблон";
+const EXCEL_FILE = path.resolve(process.cwd(), "import_data", "data.xlsx");
 const IMG_DIR = path.resolve(process.cwd(), "public", "images", "catalog");
-const CONCURRENCY = 5; // лимит параллельных скачиваний
+const CONCURRENCY = Number(process.env.DOWNLOAD_CONCURRENCY || 5);
+const DOWNLOAD_IMAGES = String(process.env.DOWNLOAD_IMAGES || "true").toLowerCase() !== "false";
 
-// --- helpers --------------------------------------------------
-const fileName = (url) => {
-  if (!url) return null;
-  const parts = String(url).split("/");
-  if (parts.length < 3) return parts[parts.length - 1] || null;
-  return `${parts[parts.length - 3]}_${parts[parts.length - 2]}_${
-    parts[parts.length - 1]
-  }`;
+// ------------------- helpers -------------------
+const textOrNull = (value) => {
+  if (value === null || value === undefined) return null;
+  const str = String(value).trim();
+  return str.length ? str : null;
+};
+
+const parseNumber = (value) => {
+  if (value === null || value === undefined || value === "") return null;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  const cleaned = String(value).replace(/\s+/g, "").replace(",", ".");
+  const num = Number(cleaned);
+  return Number.isFinite(num) ? num : null;
+};
+
+const parseIntOrNull = (value) => {
+  const num = parseNumber(value);
+  if (num === null) return null;
+  const intNum = Math.round(num);
+  return Number.isFinite(intNum) ? intNum : null;
+};
+
+const parseBool = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (!str) return false;
+  if (["да", "yes", "true", "1"].includes(str)) return true;
+  if (["нет", "no", "false", "0"].includes(str)) return false;
+  return false;
+};
+
+const parseVat = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (!str || str === "не облагается" || str === "нет") return false;
+  const num = parseNumber(str.replace("%", ""));
+  if (num === null) return false;
+  return num > 0;
 };
 
 const splitUrls = (str) =>
@@ -24,6 +56,39 @@ const splitUrls = (str) =>
     .split(/[\n;]+/g)
     .map((s) => s.trim())
     .filter(Boolean);
+
+const splitNames = (value) => {
+  if (value === null || value === undefined) return [];
+  if (Array.isArray(value)) return value.flatMap((v) => splitNames(v));
+  const str = String(value).trim();
+  if (!str) return [];
+  return str
+    .split(/[;,\n]+/g)
+    .map((part) => part.trim())
+    .filter(Boolean);
+};
+
+const firstName = (value) => {
+  const arr = splitNames(value);
+  return arr.length ? arr[0] : null;
+};
+
+const normalizeFoodType = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (str === "лакомство") return "Treat";
+  if (str === "корм сухой") return "DryFood";
+  return "Treat";
+};
+
+const fileName = (url) => {
+  if (!url) return null;
+  const parts = String(url).split("/").filter(Boolean);
+  if (!parts.length) return null;
+  if (parts.length < 3) return parts[parts.length - 1] || null;
+  return `${parts[parts.length - 3]}_${parts[parts.length - 2]}_${
+    parts[parts.length - 1]
+  }`;
+};
 
 async function ensureDir(dir) {
   await fs.mkdir(dir, { recursive: true });
@@ -43,7 +108,6 @@ async function downloadFile(destPath, url) {
     const res = await axios.get(url, {
       responseType: "arraybuffer",
       timeout: 30000,
-      // Можно добавить maxContentLength / maxBodyLength при необходимости
     });
     await fs.writeFile(destPath, res.data);
     console.log("  ✓", path.basename(destPath));
@@ -52,116 +116,217 @@ async function downloadFile(destPath, url) {
   }
 }
 
-/** Пул параллельных задач с лимитом */
 async function runWithConcurrency(items, limit, worker) {
   let index = 0;
-  const results = [];
   const total = items.length;
 
-  async function runNext() {
-    const current = index++;
-    if (current >= total) return;
-
-    const item = items[current];
-    try {
-      const r = await worker(item, current, total);
-      results[current] = r;
-    } catch (e) {
-      results[current] = undefined;
-      // worker сам логирует ошибку; здесь молчим
+  async function runner() {
+    for (;;) {
+      const current = index++;
+      if (current >= total) return;
+      await worker(items[current], current, total);
     }
-    await runNext();
   }
 
-  const runners = Array.from({ length: Math.min(limit, total) }, () =>
-    runNext()
-  );
+  const runners = Array.from({ length: Math.min(limit, total) }, () => runner());
   await Promise.all(runners);
-  return results;
 }
-// --------------------------------------------------------------
+
+// prisma helpers
+async function getId(table, name) {
+  const value = textOrNull(name);
+  if (!value) return null;
+  let rec = await prisma[table].findFirst({ where: { name: value } });
+  if (!rec) {
+    rec = await prisma[table].create({ data: { name: value } });
+    console.log(`Создана запись в ${table}: "${value}" (id=${rec.id})`);
+  }
+  return rec.id;
+}
+
+async function bindMany(foodId, table, joinModel, field, rawValue) {
+  const names = Array.from(new Set(splitNames(rawValue)));
+  if (!names.length) return;
+
+  for (const name of names) {
+    const refId = await getId(table, name);
+    if (!refId) continue;
+    try {
+      await prisma[joinModel].create({
+        data: {
+          foodId,
+          [field]: refId,
+        },
+      });
+    } catch (err) {
+      if (!err || err.code !== "P2002") throw err;
+    }
+  }
+}
+// ------------------------------------------------
 
 async function main() {
-  console.log("→ Начинаю загрузку изображений…");
-  await ensureDir(IMG_DIR);
+  console.log("→ Читаю Excel", EXCEL_FILE);
+  const workbook = excelToJson({ sourceFile: EXCEL_FILE });
+  const sheet = workbook[SHEET_NAME] || [];
+  const rows = sheet.filter((r) => /^\d+$/.test(String(r.A || "")));
 
-  const foods = await prisma.food.findMany({
-    select: { id: true, imgUrl: true, imgs: true },
-  });
-  console.log(`Найдены товары: ${foods.length}`);
+  if (!rows.length) {
+    console.error(`Лист "${SHEET_NAME}" пуст или нет строк с ID.`);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
 
-  // Ключ: имя файла, Значение: исходный URL
+  const errors = [];
+  const imgRecords = [];
   const toDownload = new Map();
 
-  for (const f of foods) {
-    const mainName = fileName(f.imgUrl);
+  for (const row of rows) {
+    try {
+      const artikul = textOrNull(row.B);
+      const title = textOrNull(row.C);
+      const price = parseNumber(row.D) ?? 0;
+      const priceDiscount = parseNumber(row.E) ?? 0;
+      const vat = parseVat(row.F);
+      const isPromo = parseBool(row.G);
+      const ozonId = textOrNull(row.J);
 
-    // Доп. изображения из поля imgs
-    const urls = splitUrls(f.imgs);
-    const extraNamesAll = urls.map((u) => fileName(u)).filter(Boolean);
+      const mainImgUrl = textOrNull(row.O);
+      const extraUrls = splitUrls(row.P);
 
-    // Уникальные доп. имена и без главного
-    const extraUnique = Array.from(new Set(extraNamesAll)).filter(
-      (name) => name !== mainName
-    );
+      const feature = textOrNull(row.T);
+      const weight = parseIntOrNull(row.U);
+      const quantity = parseIntOrNull(row.V);
+      const quantityPackages = parseIntOrNull(row.W);
 
-    // Берём первые 10
-    const top10 = extraUnique.slice(0, 10);
+      const type = normalizeFoodType(row.X);
+      const expiration = parseIntOrNull(row.Z);
+      const annotation = textOrNull(row.AC);
+      const packageSize = textOrNull(row.AG);
 
-    // Готовим объект апдейта с img1..img10
-    const imgFields = {};
-    for (let i = 0; i < 10; i++) {
-      imgFields[`img${i + 1}`] = top10[i] ?? null; // null если меньше 10
-    }
+      const tasteId = await getId("taste", firstName(row.AM));
+      const ingredientId = await getId("ingredient", firstName(row.AR));
+      const hardnessId = await getId("hardness", firstName(row.AN));
 
-    // Обновляем запись food: главное фото + img1..img10
-    await prisma.food.update({
-      where: { id: f.id },
-      data: {
-        ...(mainName ? { img: mainName } : {}),
-        ...imgFields,
-      },
-    });
+      const mainName = fileName(mainImgUrl);
 
-    // К скачиванию: главное фото (если есть)
-    if (mainName && f.imgUrl && !toDownload.has(mainName)) {
-      toDownload.set(mainName, f.imgUrl);
-    }
+      const extrasMap = new Map();
+      for (const url of extraUrls) {
+        const name = fileName(url);
+        if (!name) continue;
+        if (name === mainName) continue;
+        if (!extrasMap.has(name)) extrasMap.set(name, { name, url });
+      }
+      const extraEntries = Array.from(extrasMap.values());
+      const top10 = extraEntries.slice(0, 10);
 
-    // К скачиванию: доп. фото (только те, что попали в топ10)
-    for (const url of urls) {
-      const name = fileName(url);
-      if (!name) continue;
-      if (name === mainName) continue;
-      if (!top10.includes(name)) continue; // игнорируем >10
-      if (!toDownload.has(name)) toDownload.set(name, url);
+      const imgFields = {};
+      for (let i = 0; i < 10; i++) {
+        imgFields[`img${i + 1}`] = top10[i]?.name ?? null;
+      }
+
+      const food = await prisma.food.create({
+        data: {
+          artikul,
+          title,
+          price,
+          priceDiscount,
+          vat,
+          isPromo,
+          ozonId,
+          img: mainName ?? null,
+          imgUrl: mainImgUrl ?? null,
+          imgs: textOrNull(row.P),
+          ...imgFields,
+          feature,
+          weight,
+          quantity,
+          quantityPackages,
+          type,
+          expiration,
+          annotation,
+          packageSize,
+          tasteId,
+          ingredientId,
+          hardnessId,
+        },
+      });
+
+      await bindMany(food.id, "designedFor", "foodDesignedFor", "designedForId", row.Y);
+      await bindMany(food.id, "age", "foodAge", "ageId", row.AA);
+      await bindMany(food.id, "typeTreat", "foodTypeTreat", "typeTreatId", row.AL);
+      await bindMany(food.id, "package", "foodPackage", "packageId", row.AH);
+      await bindMany(food.id, "petSize", "foodPetSize", "petSizeId", row.AT);
+      await bindMany(food.id, "specialNeeds", "foodSpecialNeeds", "specialNeedsId", row.AU);
+
+      if (extraEntries.length) {
+        for (const entry of extraEntries) {
+          imgRecords.push({ foodId: food.id, img: entry.name });
+        }
+      }
+
+      if (mainName && mainImgUrl && !toDownload.has(mainName)) {
+        toDownload.set(mainName, mainImgUrl);
+      }
+      for (const entry of extraEntries) {
+        if (!toDownload.has(entry.name) && entry.url) {
+          toDownload.set(entry.name, entry.url);
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при обработке строки", row.A, error.message);
+      errors.push({
+        row: row.A,
+        error: {
+          name: error.name,
+          code: error.code,
+          meta: error.meta,
+          message: error.message,
+        },
+      });
     }
   }
 
-  // Скачивание файлов (уникальные) с проверкой наличия и лимитом параллельности
-  const entries = Array.from(toDownload.entries()); // [ [name, url], ... ]
-  console.log(`К скачиванию файлов: ${entries.length} (лимит: ${CONCURRENCY})`);
-
-  await runWithConcurrency(
-    entries,
-    CONCURRENCY,
-    async ([name, url], idx, total) => {
-      const dest = path.join(IMG_DIR, name);
-      const exists = await fileExists(dest);
-      if (exists) {
-        console.log(`[${idx + 1}/${total}] • уже есть: ${name}`);
-        return;
-      }
-      process.stdout.write(`[${idx + 1}/${total}] ${name}\n`);
-      await downloadFile(dest, url);
+  if (imgRecords.length) {
+    try {
+      await prisma.foodImgAdd.createMany({ data: imgRecords, skipDuplicates: true });
+      console.log(`Создано записей в foodImgAdd (с учётом дублей): ${imgRecords.length}`);
+    } catch (e) {
+      console.error("Ошибка при createMany foodImgAdd:", e.message);
     }
+  }
+
+  await fs.writeFile(
+    "import-errors.json",
+    JSON.stringify(errors, null, 2),
+    "utf8"
+  );
+  console.log(
+    `Импорт завершён. Обработано: ${rows.length}. Успешно: ${rows.length - errors.length}. Ошибки: ${errors.length}.`
   );
 
-  console.log("Готово ✅");
+  if (DOWNLOAD_IMAGES && toDownload.size) {
+    await ensureDir(IMG_DIR);
+    const entries = Array.from(toDownload.entries());
+    console.log(`→ Скачивание ${entries.length} файлов (потоков: ${CONCURRENCY})`);
+    await runWithConcurrency(entries, CONCURRENCY, async ([name, url], idx, total) => {
+      const dest = path.join(IMG_DIR, name);
+      if (await fileExists(dest)) {
+        console.log(`[${idx + 1}/${total}] уже есть: ${name}`);
+        return;
+      }
+      console.log(`[${idx + 1}/${total}] ${name}`);
+      await downloadFile(dest, url);
+    });
+  } else if (DOWNLOAD_IMAGES) {
+    console.log("Нет изображений для скачивания.");
+  } else {
+    console.log("Скачивание изображений отключено (DOWNLOAD_IMAGES=false).");
+  }
+
   await prisma.$disconnect();
 }
 
-// Запуск как standalone
 main().catch(async (e) => {
   console.error(e);
   await prisma.$disconnect();

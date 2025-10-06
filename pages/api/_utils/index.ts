@@ -57,11 +57,12 @@ export const asOrder = (v: any): OrderDir =>
  * Если поле не указано/невалидно — вернётся defaultKey.
  */
 export function normalizeOrderBy(
-  raw: string | null,
+  raw: string | string[] | null | undefined,
   allowed: readonly string[] = ["id", "name"],
   defaultKey: string = allowed[0] ?? "id"
 ) {
-  const key = (raw || "").trim();
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  const key = typeof value === "string" ? value.trim() : "";
   return allowed.includes(key) ? key : defaultKey;
 }
 
@@ -153,9 +154,34 @@ export const ENTITY_TO_MODEL = {
   packages: "package",
   petSizes: "petSize",
   specialNeeds: "specialNeeds",
+  typeTreat: "typeTreat",
 } as const;
 
 export type EntityKey = keyof typeof ENTITY_TO_MODEL;
+
+const ENTITY_USAGE_COUNTERS: Partial<
+  Record<
+    EntityKey,
+    (prisma: PrismaClient, id: number) => Promise<number>
+  >
+> = {
+  ages: (prisma, id) => prisma.foodAge.count({ where: { ageId: id } }),
+  taste: (prisma, id) => prisma.food.count({ where: { tasteId: id } }),
+  designedFor: (prisma, id) =>
+    prisma.foodDesignedFor.count({ where: { designedForId: id } }),
+  ingredient: (prisma, id) =>
+    prisma.food.count({ where: { ingredientId: id } }),
+  hardness: (prisma, id) =>
+    prisma.food.count({ where: { hardnessId: id } }),
+  packages: (prisma, id) =>
+    prisma.foodPackage.count({ where: { packageId: id } }),
+  petSizes: (prisma, id) =>
+    prisma.foodPetSize.count({ where: { petSizeId: id } }),
+  specialNeeds: (prisma, id) =>
+    prisma.foodSpecialNeeds.count({ where: { specialNeedsId: id } }),
+  typeTreat: (prisma, id) =>
+    prisma.foodTypeTreat.count({ where: { typeTreatId: id } }),
+};
 
 export function getModel(prisma: PrismaClient, entity: string) {
   const key = entity as EntityKey;
@@ -170,6 +196,22 @@ export function getModel(prisma: PrismaClient, entity: string) {
     update: (args: any) => Promise<any>;
     delete: (args: any) => Promise<any>;
   };
+}
+
+export async function getDictUsageCount(
+  prisma: PrismaClient,
+  entity: string,
+  id: number
+) {
+  const key = entity as EntityKey;
+  const counter = ENTITY_USAGE_COUNTERS[key];
+  if (!counter) return 0;
+  try {
+    return await counter(prisma, id);
+  } catch (err) {
+    console.error(`[api] usage check failed for ${entity}#${id}:`, err);
+    return 0;
+  }
 }
 
 export function handlePrismaError(res: NextApiResponse, err: any) {
@@ -216,16 +258,39 @@ export const boolOrUndefined = (v: any): boolean | undefined => {
 
 /** "1,2,3" | "[1,2]" | ["1","2"] | "1\n2" -> number[] */
 export const toIdArray = (v: any): number[] => {
-  if (Array.isArray(v)) return v.map((x) => Number(x)).filter(Number.isFinite);
-  const s = first<string>(v);
-  if (!s) return [];
-  try {
-    const j = JSON.parse(s);
-    if (Array.isArray(j))
-      return j.map((x) => Number(x)).filter(Number.isFinite);
-  } catch {}
-  return String(s)
-    .split(/[\n,]/g)
-    .map((p) => Number(p.trim()))
-    .filter(Number.isFinite);
+  const collect = (value: any): number[] => {
+    if (value === null || value === undefined) return [];
+    if (Array.isArray(value)) {
+      return value.flatMap((item) => collect(item));
+    }
+
+    const primitive = first<any>(value);
+    if (primitive === null || primitive === undefined) return [];
+
+    if (typeof primitive === "number") {
+      return Number.isFinite(primitive) ? [primitive] : [];
+    }
+
+    const str = String(primitive).trim();
+    if (!str) return [];
+
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) return collect(parsed);
+      if (typeof parsed === "number")
+        return Number.isFinite(parsed) ? [parsed] : [];
+    } catch {
+      // not JSON — fall through
+    }
+
+    return str
+      .split(/[\n,]/g)
+      .map((part) => part.trim())
+      .filter(Boolean)
+      .map((part) => Number(part))
+      .filter(Number.isFinite);
+  };
+
+  const result = collect(v);
+  return Array.from(new Set(result));
 };

@@ -163,7 +163,7 @@ export type FoodDetailProps = FoodProps & {
   // many-to-many relations expanded with their dict rows
   designed: { designedFor: Dict }[];
   ages: { age: Dict }[];
-  typeTreats: { typeTreat: Dict }[];
+  typeTreat: { typeTreat: Dict }[];
   petSizes: { petSize: Dict }[];
   foodPackage: { package: Dict }[];
   specialNeeds: { specialNeeds: Dict }[];

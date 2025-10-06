@@ -77,7 +77,7 @@ export default async function handler(
       req.query.designedFor ?? req.query.designedForIds
     );
     const ages = splitIds(req.query.ages ?? req.query.ageIds);
-    const typeTreats = splitIds(req.query.typeTreatIds); // no legacy key seen on FE
+    const typeTreat = splitIds(req.query.typeTreatIds); // no legacy key seen on FE
     const petSizes = splitIds(req.query.petSizes ?? req.query.petSizeIds);
     const packages = splitIds(req.query.packages ?? req.query.packageIds);
     const specialNeeds = splitIds(
@@ -89,7 +89,9 @@ export default async function handler(
     const skip = (pageNum - 1) * take;
 
     const where: Prisma.FoodWhereInput = {
-      ...(foodTypeParam ? { type: foodTypeParam as Prisma.FoodType } : {}),
+      ...(foodTypeParam
+        ? { type: foodTypeParam as Prisma.$Enums.FoodType }
+        : {}),
       ...(q
         ? {
             OR: [
@@ -117,8 +119,8 @@ export default async function handler(
         ? { designed: { some: { designedForId: { in: designedFor } } } }
         : {}),
       ...(ages ? { ages: { some: { ageId: { in: ages } } } } : {}),
-      ...(typeTreats
-        ? { typeTreats: { some: { typeTreatId: { in: typeTreats } } } }
+      ...(typeTreat
+        ? { typeTreat: { some: { typeTreatId: { in: typeTreat } } } }
         : {}),
       ...(petSizes
         ? { petSizes: { some: { petSizeId: { in: petSizes } } } }
@@ -145,7 +147,7 @@ export default async function handler(
           imgsAdd: true,
           designed: { include: { designedFor: true } },
           ages: { include: { age: true } },
-          typeTreats: { include: { typeTreat: true } },
+          typeTreat: { include: { typeTreat: true } },
           petSizes: { include: { petSize: true } },
           foodPackage: { include: { package: true } },
           specialNeeds: { include: { specialNeeds: true } },
@@ -154,9 +156,14 @@ export default async function handler(
       }),
     ]);
 
+    const itemsNormalized = items.map((item) => {
+      const { typeTreat, ...rest } = item;
+      return { ...rest, typeTreat: typeTreat };
+    });
+
     return res
       .status(200)
-      .json({ page: pageNum, pageSize: take, total, items });
+      .json({ page: pageNum, pageSize: take, total, items: itemsNormalized });
   } catch (err) {
     console.error("/api/food error", err);
     return res.status(500).json({ error: "Internal Server Error" });

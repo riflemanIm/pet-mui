@@ -1,6 +1,11 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../../../../lib/prisma";
-import { getModel, handlePrismaError, withCORS } from "../../../_utils";
+import {
+  getModel,
+  getDictUsageCount,
+  handlePrismaError,
+  withCORS,
+} from "../../../_utils";
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const entity = String(req.query.entity || "");
   const model = getModel(prisma, entity);
@@ -43,6 +48,15 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   if (req.method === "DELETE") {
     try {
+      const usage = await getDictUsageCount(prisma, entity, id);
+      if (usage > 0) {
+        return res
+          .status(409)
+          .json({
+            message: "Unable to delete dictionary item that is used by products",
+            usage,
+          });
+      }
       await model.delete({ where: { id } });
       return res.status(200).json({ id });
     } catch (err) {
