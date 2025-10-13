@@ -10,13 +10,12 @@ import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/bg-sign-in-basic.jpeg";
 import img from "assets/images/signup1.png";
 import routes from "assets/routes";
-import { currentUserState } from "atoms";
 import Container from "components/Container";
 import DefaultFooter from "components/Footers/DefaultFooter";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
-import { useRecoilState } from "recoil";
+import { useAppState } from "context/AppStateContext";
 import ConfirnCode from "./components/ConfirnCode";
 import FormSignUp from "./components/FormSignUp";
 
@@ -25,16 +24,15 @@ const SignUp = () => {
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
-  const [, setCurrentUser] = useRecoilState(currentUserState);
+  const { setCurrentUser } = useAppState();
   const [signState, setSignState] = useState();
 
   useEffect(() => {
-    if (signState && signState.response === "USER_AUTH") {
+    if (signState?.response === "USER_AUTH" && signState.user) {
       setCurrentUser(signState.user);
-      localStorage.setItem("user", JSON.stringify(signState.user));
       Router.push("/catalog");
     }
-  }, [signState?.response]);
+  }, [signState, setCurrentUser]);
 
   //console.log("signState", signState);
   return (

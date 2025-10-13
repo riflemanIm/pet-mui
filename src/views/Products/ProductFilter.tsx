@@ -18,10 +18,9 @@ import {
 import Grid2 from "@mui/material/Grid2";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRecoilState } from "recoil";
 import { fetchFoodDicts } from "actions/food";
-import { foodDictsState, homePageQueryState } from "atoms";
 import type { FoodType } from "types";
+import { useAppState } from "context/AppStateContext";
 
 type DictKey = keyof ReturnType<typeof defaultDicts>;
 const ITEM_HEIGHT = 48;
@@ -46,8 +45,12 @@ const defaultDicts = () => ({
 
 export default function ProductFilter() {
   const [loading, setLoading] = useState(false);
-  const [dicts, setDicts] = useRecoilState(foodDictsState);
-  const [query, setQuery] = useRecoilState(homePageQueryState);
+  const {
+    foodDicts,
+    setFoodDicts,
+    homePageQuery,
+    setHomePageQuery,
+  } = useAppState();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -59,34 +62,42 @@ export default function ProductFilter() {
           variant: "error",
         });
       } else {
-        setDicts(res.content);
+        setFoodDicts(res.content);
       }
       setLoading(false);
     }
     if (typeof window !== "undefined") loadDicts();
-  }, [enqueueSnackbar, setDicts]);
+  }, [enqueueSnackbar, setFoodDicts]);
 
   const handleRadioChange = useCallback(
     (field: string) => (e: any) => {
-      setQuery((prev: any) => ({ ...prev, page: 1, [field]: e.target.value }));
+      setHomePageQuery((prev) => ({
+        ...prev,
+        page: 1,
+        [field]: e.target.value,
+      }));
     },
-    [setQuery]
+    [setHomePageQuery]
   );
 
   const handleMultiChange = useCallback(
     (field: string) => (e: any) => {
       const value = e.target.value;
       const items = Array.isArray(value) ? value : String(value).split(",");
-      setQuery((prev: any) => ({ ...prev, page: 1, [field]: items.join(",") }));
+      setHomePageQuery((prev) => ({
+        ...prev,
+        page: 1,
+        [field]: items.join(","),
+      }));
     },
-    [setQuery]
+    [setHomePageQuery]
   );
 
   const handleClear = useCallback(
     (field: string) => () => {
-      setQuery((prev: any) => ({ ...prev, page: 1, [field]: "" }));
+      setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: "" }));
     },
-    [setQuery]
+    [setHomePageQuery]
   );
 
   const filters = useMemo(
@@ -169,10 +180,10 @@ export default function ProductFilter() {
               </FormLabel>
               <RadioGroup
                 row
-                value={(query as any)[name] || ""}
+                value={(homePageQuery as any)[name] || ""}
                 onChange={handleRadioChange(name)}
               >
-                {(dynamic ? (dicts as any)[name] : options).map((opt: any) => (
+                {(dynamic ? (foodDicts as any)[name] : options).map((opt: any) => (
                   <FormControlLabel
                     key={opt.id}
                     value={opt.id}
@@ -189,16 +200,14 @@ export default function ProductFilter() {
               </FormLabel>
               <Select
                 multiple
-                value={
-                  (query as any)[name]
-                    ? String((query as any)[name]).split(",")
-                    : []
-                }
+                value={(homePageQuery as any)[name]
+                  ? String((homePageQuery as any)[name]).split(",")
+                  : []}
                 onChange={handleMultiChange(name)}
                 input={
                   <OutlinedInput
                     endAdornment={
-                      (query as any)[name]?.length > 0 && (
+                      (homePageQuery as any)[name]?.length > 0 && (
                         <InputAdornment position="end" sx={{ mr: 1 }}>
                           <IconButton
                             size="small"
@@ -215,7 +224,7 @@ export default function ProductFilter() {
                 renderValue={(selected) => (
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {(selected as string[]).map((val) => {
-                      const item = (dicts as any)[name].find(
+                      const item = (foodDicts as any)[name].find(
                         (i: any) => String(i.id) === val
                       );
                       return (
@@ -231,12 +240,12 @@ export default function ProductFilter() {
                 )}
                 MenuProps={menuProps}
               >
-                {(dicts as any)[name].map((item: any) => (
+                {(foodDicts as any)[name].map((item: any) => (
                   <MenuItem
                     key={item.id}
                     value={String(item.id)}
                     sx={{
-                      fontWeight: (query as any)[name]
+                      fontWeight: (homePageQuery as any)[name]
                         ?.split(",")
                         .includes(String(item.id))
                         ? 600

@@ -1,12 +1,10 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
-//import PropTypes from "prop-types";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { alpha, Badge, IconButton } from "@mui/material";
-import { shoppingCartState } from "atoms";
+import React from "react";
+import { useAppState } from "context/AppStateContext";
 
 const ShoppingCartButton = () => {
-  const shoppingCart = useRecoilValue(shoppingCartState);
+  const { shoppingCart } = useAppState();
 
   const total = shoppingCart.reduce(
     (a, { quantityInCart }) => quantityInCart + a,

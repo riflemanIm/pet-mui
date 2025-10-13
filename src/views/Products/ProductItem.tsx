@@ -5,14 +5,12 @@ import Icon from "@mui/material/Icon";
 import NextLink from "next/link";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
-import { useRecoilState } from "recoil";
 import { Card } from "@mui/material";
-import { shoppingCartState } from "atoms";
 import HandCounter from "components/HandCounter";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
-import { addItemShoppingCart } from "selectors";
+import { useAppState } from "context/AppStateContext";
 import borders from "theme/base/borders";
 import boxShadows from "theme/base/boxShadows";
 import type { FoodProps } from "types";
@@ -22,14 +20,14 @@ const { xxl, colored } = boxShadows;
 type Props = { item: FoodProps; index: number };
 
 export default function ProductItem({ item, index }: Props) {
-  const [cart, setCart] = useRecoilState(shoppingCartState);
+  const { shoppingCart, addCartItem } = useAppState();
   const { enqueueSnackbar } = useSnackbar();
 
   const handleAddToCart = useCallback(() => {
-    addItemShoppingCart(setCart, item, enqueueSnackbar);
-  }, [item, setCart, enqueueSnackbar]);
+    addCartItem(item, enqueueSnackbar);
+  }, [item, addCartItem, enqueueSnackbar]);
 
-  const inCart = cart.some((c) => c.id === item.id);
+  const inCart = shoppingCart.some((c) => c.id === item.id);
 
   const mainImg = item.img
     ? `/images/catalog/${item.img}`

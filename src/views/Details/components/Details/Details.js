@@ -9,22 +9,20 @@ import Typography from "@mui/material/Typography";
 // import FacebookIcon from "@mui/icons-material/Facebook";
 // import InstagramIcon from "@mui/icons-material/Instagram";
 // import TwitterIcon from "@mui/icons-material/Twitter";
-import { shoppingCartState } from "atoms";
 import HandCounter from "components/HandCounter";
 import isEmpty from "helpers";
 import { useSnackbar } from "notistack";
-import { useRecoilState } from "recoil";
-import { addItemShoppingCart } from "selectors";
+import { useAppState } from "context/AppStateContext";
 
 const Details = ({ item }) => {
   // const theme = useTheme();
   // const [size, setSize] = useState("M");
   // const [color, setColor] = useState("white");
 
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  const { shoppingCart, addCartItem } = useAppState();
   const { enqueueSnackbar } = useSnackbar();
   const addItem = () => {
-    addItemShoppingCart(setShoppingCart, item, enqueueSnackbar);
+    addCartItem(item, enqueueSnackbar);
   };
   const shoppingCartItem = shoppingCart.find((it) => it.id === item.id);
   const SetCart = () => {

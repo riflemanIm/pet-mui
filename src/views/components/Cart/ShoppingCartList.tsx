@@ -1,7 +1,5 @@
 import * as React from "react";
 import { useRouter } from "next/navigation";
-import { useRecoilState } from "recoil";
-import { currentUserState, shoppingCartState } from "atoms";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { useSnackbar } from "notistack";
 
@@ -21,21 +19,16 @@ import {
   Typography,
 } from "@mui/material";
 import { buyFood } from "actions/food";
+import { useAppState } from "context/AppStateContext";
 
 export default function ShoppingCartList() {
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
-  const [currentUser] = useRecoilState(currentUserState);
+  const { shoppingCart, currentUser, clearCart } = useAppState();
   const [buy, setBuy] = React.useState<{
     loading: boolean;
     responseText: string | null;
   }>({ loading: false, responseText: null });
 
   const { enqueueSnackbar } = useSnackbar();
-
-  console.log(
-    "shoppingCart",
-    shoppingCart.map((it) => ({ id: it.id, stock: it.stock }))
-  );
 
   const router = useRouter();
   const handleBuyClick = async () => {
@@ -73,8 +66,7 @@ export default function ShoppingCartList() {
   };
 
   function handleSetEmptyCart() {
-    setShoppingCart([]);
-    window.localStorage.removeItem("card");
+    clearCart();
   }
 
   return (

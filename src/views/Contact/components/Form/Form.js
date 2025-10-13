@@ -12,8 +12,7 @@ import { Link } from "@mui/material";
 import * as yup from "yup";
 import { useFormik } from "formik";
 import isEmpty from "helpers";
-import { currentUserState } from "atoms";
-import { useRecoilValue } from "recoil";
+import { useAppState } from "context/AppStateContext";
 import MKTypography from "components/MKTypography";
 
 const validationSchema = yup.object({
@@ -44,7 +43,7 @@ const Form = () => {
   const onSubmit = (values) => {
     sign(values, setSignState);
   };
-  const currentUser = useRecoilValue(currentUserState);
+  const { currentUser } = useAppState();
   const initialValues = {
     name:
       currentUser != null

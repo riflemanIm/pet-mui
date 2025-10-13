@@ -6,11 +6,10 @@ import LoginOutlinedIcon from "@mui/icons-material/LoginOutlined";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import Typography from "@mui/material/Typography";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { currentUserState, shoppingCartState } from "atoms";
-import { useRecoilState, useRecoilValue } from "recoil";
 import { alpha } from "@mui/material/styles";
 import { IconButton } from "@mui/material";
 import MKBox from "./MKBox";
+import { useAppState } from "context/AppStateContext";
 
 const TopButtons = () => (
   <>
@@ -79,18 +78,11 @@ const NavButtons = () => (
 );
 
 const UserAuthButtons = ({ top = true, colorInvert = false }) => {
-  const currentUser = useRecoilValue(currentUserState);
-  console.log("currentUser", currentUser);
-  const [, setCurrentUser] = useRecoilState(currentUserState);
-  const [, setShoppingCart] = useRecoilState(shoppingCartState);
+  const { currentUser, setCurrentUser, clearCart } = useAppState();
 
   const logout = () => {
     setCurrentUser(null);
-    setShoppingCart([]);
-
-    window.localStorage.removeItem("user");
-    window.localStorage.removeItem("card");
-
+    clearCart();
     Router.push("/");
   };
 

@@ -19,40 +19,39 @@ const mock = [
     title: "Разработано для",
     subtitle: "Наши товары разработаны для конкретного вида питомца",
     icon: img.src,
-    //href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ages":"","taste":"","designedFor":"1","ingredient":"","hardness":"","packages":"","petSizes":"","sort":"","size":6}',
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","designedFor":"1"}',
+    href: '/catalog?type=Treat&designedFor=1',
   },
   {
     title: "Ингридиенты",
     subtitle:
       "Вам следует изучить, какие продукты питания будут наиболее полезными для вашего питомца",
     icon: img1.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","ingredient":"1,2,3"}',
+    href: '/catalog?type=Treat&ingredient=1,2,3',
   },
   {
     title: "Особые потребности",
     subtitle:
       "Здесь можно сделать акцент на определенной потребности для здоровья Вашего питомца ",
     icon: img2.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","specialNeeds":"1,9"}',
+    href: '/catalog?type=Treat&specialNeeds=1,9',
   },
   {
     title: "Размер питомца",
     subtitle: "У нас есть лакомства для любого размера Вашего питомца",
     icon: img3.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","petSizes":"1,2"}',
+    href: '/catalog?type=Treat&petSizes=1,2',
   },
   {
     title: "Вкус",
     subtitle: "Вкусняшки на любой вкус для Вашего питомца",
     icon: img4.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","taste":"1,2,3"}',
+    href: '/catalog?type=Treat&taste=1,2,3',
   },
   {
     title: "Консистенция корма",
     subtitle: "Все, что вы хотели про влажные, твердые, мягкие корма",
     icon: img5.src,
-    href: '/catalog?homePageQueryState={"page":1,"type":"Treat","hardness":"1,2,3"}',
+    href: '/catalog?type=Treat&hardness=1,2,3',
   },
 ];
 

@@ -12,13 +12,12 @@ import routes from "assets/routes";
 import ProductFilterHor from "../Products/ProductFilterHor";
 
 import { useMediaQuery } from "@mui/system";
-import { foodDetailsIdState } from "atoms";
-import { useRecoilState } from "recoil";
+import { useAppState } from "context/AppStateContext";
 import ProductSort from "../Products/ProductSort";
 import CardDetails from "./CardDetails";
 
 export default function IndexProducts() {
-  const [foodDetailsId] = useRecoilState(foodDetailsIdState);
+  const { foodDetailsId } = useAppState();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
 
   return (

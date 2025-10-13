@@ -1,9 +1,8 @@
 // ProductSort.tsx
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import { homePageQueryState } from "atoms";
-import { useRecoilState } from "recoil";
 import { SORT_VALUE } from "types";
+import { useAppState } from "context/AppStateContext";
 
 const useStyles = makeStyles((theme: any) => ({
   select: {
@@ -23,15 +22,14 @@ const useStyles = makeStyles((theme: any) => ({
 
 export default function ProductSort() {
   const classes = useStyles();
-  const [homePageQueryData, setHomePageQueryData] =
-    useRecoilState(homePageQueryState);
+  const { homePageQuery, setHomePageQuery } = useAppState();
 
   const handleChangeOrder = (event: any) => {
-    setHomePageQueryData({
-      ...(homePageQueryData as any),
+    setHomePageQuery((prev) => ({
+      ...prev,
       page: 1,
       sort: event.target.value,
-    });
+    }));
   };
 
   // Поддерживаем текущие значения + мапим на новое имя поля publishedAt
@@ -42,7 +40,7 @@ export default function ProductSort() {
       </InputLabel>
       <Select
         labelId="product-sort"
-        value={(homePageQueryData as any)?.sort || "publishedAt"}
+        value={(homePageQuery as any)?.sort || "publishedAt"}
         label="Сортировать по"
         onChange={handleChangeOrder}
         variant="outlined"

@@ -3,14 +3,13 @@ import { Box, Chip, CircularProgress, FormControl, FormControlLabel, FormLabel, 
 import Grid2 from "@mui/material/Grid2";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { useRecoilState } from "recoil";
 import { fetchFoodDicts } from "actions/food";
-import { foodDictsState, homePageQueryState } from "atoms";
 import MKButton from "components/MKButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ProductSort from "./ProductSort";
 import type { FoodType } from "types";
+import { useAppState } from "context/AppStateContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
@@ -18,8 +17,12 @@ const menuProps = { PaperProps: { style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_P
 
 export default function ProductFilterHor() {
   const [loading, setLoading] = useState(false);
-  const [dicts, setDicts] = useRecoilState(foodDictsState);
-  const [query, setQuery] = useRecoilState(homePageQueryState);
+  const {
+    foodDicts,
+    setFoodDicts,
+    homePageQuery,
+    setHomePageQuery,
+  } = useAppState();
   const { enqueueSnackbar } = useSnackbar();
   const [ext, setExt] = useState(false);
 
@@ -30,26 +33,26 @@ export default function ProductFilterHor() {
       if (res.error) {
         enqueueSnackbar("Не удалось загрузить справочники", { variant: "error" });
       } else {
-        setDicts(res.content);
+        setFoodDicts(res.content);
       }
       setLoading(false);
     }
     if (typeof window !== "undefined") loadDicts();
-  }, [enqueueSnackbar, setDicts]);
+  }, [enqueueSnackbar, setFoodDicts]);
 
   const handleRadioChange = useCallback((field: string) => (e: any) => {
-    setQuery((prev: any) => ({ ...prev, page: 1, [field]: e.target.value }));
-  }, [setQuery]);
+    setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: e.target.value }));
+  }, [setHomePageQuery]);
 
   const handleMultiChange = useCallback((field: string) => (e: any) => {
     const value = e.target.value;
     const items = Array.isArray(value) ? value : String(value).split(",");
-    setQuery((prev: any) => ({ ...prev, page: 1, [field]: items.join(",") }));
-  }, [setQuery]);
+    setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: items.join(",") }));
+  }, [setHomePageQuery]);
 
   const handleClear = useCallback((field: string) => () => {
-    setQuery((prev: any) => ({ ...prev, page: 1, [field]: "" }));
-  }, [setQuery]);
+    setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: "" }));
+  }, [setHomePageQuery]);
 
   const filters = useMemo(() => ([
     { name: "designedFor", label: "Разработано для", type: "radio", dynamic: true },
@@ -87,8 +90,8 @@ export default function ProductFilterHor() {
             {type === "radio" ? (
               <FormControl fullWidth>
                 <FormLabel sx={{ fontSize: 13, color: "secondary" }}>{label}</FormLabel>
-                <RadioGroup row value={(query as any)[name] || ""} onChange={handleRadioChange(name)}>
-                  {(dynamic ? (dicts as any)[name] : options).map((opt: any) => (
+                <RadioGroup row value={(homePageQuery as any)[name] || ""} onChange={handleRadioChange(name)}>
+                  {(dynamic ? (foodDicts as any)[name] : options).map((opt: any) => (
                     <FormControlLabel key={opt.id} value={opt.id} control={<Radio />} label={opt.label || opt.name} />
                   ))}
                 </RadioGroup>
@@ -98,9 +101,9 @@ export default function ProductFilterHor() {
                 <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>{label}</FormLabel>
                 <Select
                   multiple
-                  value={(query as any)[name] ? String((query as any)[name]).split(",") : []}
+                  value={(homePageQuery as any)[name] ? String((homePageQuery as any)[name]).split(",") : []}
                   onChange={handleMultiChange(name)}
-                  input={<OutlinedInput endAdornment={(query as any)[name]?.length > 0 && (
+                  input={<OutlinedInput endAdornment={(homePageQuery as any)[name]?.length > 0 && (
                     <InputAdornment position="end" sx={{ mr: 1 }}>
                       <IconButton size="small" onClick={handleClear(name)} aria-label="Очистить">
                         <ClearIcon fontSize="small" />
@@ -110,15 +113,15 @@ export default function ProductFilterHor() {
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {(selected as string[]).map((val) => {
-                        const item = (dicts as any)[name].find((i: any) => String(i.id) === val);
+                        const item = (foodDicts as any)[name].find((i: any) => String(i.id) === val);
                         return <Chip key={val} label={item?.name} color={chipColor as any} size="small" />;
                       })}
                     </Box>
                   )}
                   MenuProps={menuProps}
                 >
-                  {(dicts as any)[name].map((item: any) => (
-                    <MenuItem key={item.id} value={String(item.id)} sx={{ fontWeight: (query as any)[name]?.split(",").includes(String(item.id)) ? 600 : 400 }}>
+                  {(foodDicts as any)[name].map((item: any) => (
+                    <MenuItem key={item.id} value={String(item.id)} sx={{ fontWeight: (homePageQuery as any)[name]?.split(",").includes(String(item.id)) ? 600 : 400 }}>
                       {item.name}
                     </MenuItem>
                   ))}
@@ -140,8 +143,8 @@ export default function ProductFilterHor() {
             {type === "radio" ? (
               <FormControl fullWidth>
                 <FormLabel sx={{ fontSize: 13, color: "secondary" }}>{label}</FormLabel>
-                <RadioGroup row value={(query as any)[name] || ""} onChange={handleRadioChange(name)}>
-                  {(dynamic ? (dicts as any)[name] : options).map((opt: any) => (
+                <RadioGroup row value={(homePageQuery as any)[name] || ""} onChange={handleRadioChange(name)}>
+                  {(dynamic ? (foodDicts as any)[name] : options).map((opt: any) => (
                     <FormControlLabel key={opt.id} value={opt.id} control={<Radio />} label={opt.label || opt.name} />
                   ))}
                 </RadioGroup>
@@ -152,9 +155,9 @@ export default function ProductFilterHor() {
                 <Select
                   variant="filled"
                   multiple
-                  value={(query as any)[name] ? String((query as any)[name]).split(",") : []}
+                  value={(homePageQuery as any)[name] ? String((homePageQuery as any)[name]).split(",") : []}
                   onChange={handleMultiChange(name)}
-                  input={<OutlinedInput endAdornment={(query as any)[name]?.length > 0 && (
+                  input={<OutlinedInput endAdornment={(homePageQuery as any)[name]?.length > 0 && (
                     <InputAdornment position="end" sx={{ mr: 1 }}>
                       <IconButton size="small" onClick={handleClear(name)} aria-label="Очистить">
                         <ClearIcon fontSize="small" />
@@ -164,15 +167,15 @@ export default function ProductFilterHor() {
                   renderValue={(selected) => (
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {(selected as string[]).map((val) => {
-                        const item = (dicts as any)[name].find((i: any) => String(i.id) === val);
+                        const item = (foodDicts as any)[name].find((i: any) => String(i.id) === val);
                         return <Chip key={val} label={item?.name} color={chipColor as any} size="small" />;
                       })}
                     </Box>
                   )}
                   MenuProps={menuProps}
                 >
-                  {(dicts as any)[name].map((item: any) => (
-                    <MenuItem key={item.id} value={String(item.id)} sx={{ fontWeight: (query as any)[name]?.split(",").includes(String(item.id)) ? 600 : 400 }}>
+                  {(foodDicts as any)[name].map((item: any) => (
+                    <MenuItem key={item.id} value={String(item.id)} sx={{ fontWeight: (homePageQuery as any)[name]?.split(",").includes(String(item.id)) ? 600 : 400 }}>
                       {item.name}
                     </MenuItem>
                   ))}

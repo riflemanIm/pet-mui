@@ -1,13 +1,31 @@
-import { RecoilRoot } from "recoil";
-
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider } from "@mui/material/styles";
 import classNames from "classnames";
 import { AppProps } from "next/app";
 import localFont from "next/font/local";
 import { SnackbarProvider } from "notistack";
-import { RecoilURLSyncJSONNext } from "recoil-sync-next";
 import theme from "theme";
+import { AppStateProvider } from "context/AppStateContext";
+
+import "simplebar-react/dist/simplebar.min.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
+import "@fontsource/inter/400.css";
+import "@fontsource/inter/500.css";
+import "@fontsource/inter/600.css";
+import "@fontsource/inter/700.css";
+import "@fontsource/poppins/400.css";
+import "@fontsource/poppins/500.css";
+import "@fontsource/poppins/600.css";
+import "@fontsource/poppins/700.css";
+import "@fontsource/public-sans/400.css";
+import "@fontsource/public-sans/500.css";
+import "@fontsource/public-sans/600.css";
+import "@fontsource/public-sans/700.css";
 // Инициализируем шрифт здесь:
 const roboto = localFont({
   src: [
@@ -70,17 +88,15 @@ const robotoSlab = localFont({
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <RecoilRoot>
-      <RecoilURLSyncJSONNext location={{ part: "queryParams" }}>
-        <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
-          <ThemeProvider theme={theme}>
-            <div className={classNames(roboto.className, robotoSlab.className)}>
-              <CssBaseline /> <Component {...pageProps} />{" "}
-            </div>
-          </ThemeProvider>
-        </SnackbarProvider>
-      </RecoilURLSyncJSONNext>
-    </RecoilRoot>
+    <AppStateProvider>
+      <SnackbarProvider maxSnack={3} autoHideDuration={3000}>
+        <ThemeProvider theme={theme}>
+          <div className={classNames(roboto.className, robotoSlab.className)}>
+            <CssBaseline /> <Component {...pageProps} />{" "}
+          </div>
+        </ThemeProvider>
+      </SnackbarProvider>
+    </AppStateProvider>
   );
 }
 

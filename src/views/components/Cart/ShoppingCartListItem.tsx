@@ -1,16 +1,12 @@
-import * as React from "react";
 import Image from "next/image";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-
-import { useRecoilState } from "recoil";
-import { shoppingCartState } from "atoms";
 
 import { ShoppingCartItemProps } from "types";
 import { currencyFormat } from "helpers/utils";
 import { Divider, Grid, IconButton, Typography } from "@mui/material";
 //import { buyBook } from "lib/http";
 import HandCounter from "components/HandCounter";
-import { deleteItemShoppingCart } from "selectors";
+import { useAppState } from "context/AppStateContext";
 
 export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
   const {
@@ -24,8 +20,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     img,
   } = props;
 
-  const [loading, setLoading] = React.useState(false);
-  const [shoppingCart, setShoppingCart] = useRecoilState(shoppingCartState);
+  const { removeCartItem } = useAppState();
 
   return (
     <>
@@ -56,7 +51,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
         <IconButton
           aria-label="delete"
           color="primary"
-          onClick={() => deleteItemShoppingCart(setShoppingCart, id)}
+          onClick={() => removeCartItem(id)}
         >
           <DeleteOutlineIcon />
         </IconButton>

@@ -24,7 +24,12 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "paths": {
+      "@admin/*": [
+        "admin/*"
+      ]
+    }
   },
   "include": [
     "**/*.ts",
