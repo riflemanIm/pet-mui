@@ -69,6 +69,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           isPromo: true,
           createdAt: true,
           publishedAt: true,
+
+          img1: true,
+          img2: true,
+          img3: true,
+          img4: true,
+          img5: true,
+          img6: true,
+          img7: true,
+          img8: true,
+          img9: true,
+          img10: true,
           // 1→N
           tasteId: true,
           ingredientId: true,

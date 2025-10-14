@@ -160,10 +160,7 @@ export const ENTITY_TO_MODEL = {
 export type EntityKey = keyof typeof ENTITY_TO_MODEL;
 
 const ENTITY_USAGE_COUNTERS: Partial<
-  Record<
-    EntityKey,
-    (prisma: PrismaClient, id: number) => Promise<number>
-  >
+  Record<EntityKey, (prisma: PrismaClient, id: number) => Promise<number>>
 > = {
   ages: (prisma, id) => prisma.foodAge.count({ where: { ageId: id } }),
   taste: (prisma, id) => prisma.food.count({ where: { tasteId: id } }),
@@ -171,8 +168,7 @@ const ENTITY_USAGE_COUNTERS: Partial<
     prisma.foodDesignedFor.count({ where: { designedForId: id } }),
   ingredient: (prisma, id) =>
     prisma.food.count({ where: { ingredientId: id } }),
-  hardness: (prisma, id) =>
-    prisma.food.count({ where: { hardnessId: id } }),
+  hardness: (prisma, id) => prisma.food.count({ where: { hardnessId: id } }),
   packages: (prisma, id) =>
     prisma.foodPackage.count({ where: { packageId: id } }),
   petSizes: (prisma, id) =>
@@ -294,3 +290,8 @@ export const toIdArray = (v: any): number[] => {
   const result = collect(v);
   return Array.from(new Set(result));
 };
+
+export type DictRow = { id: number; name: string };
+export const pick = <T extends { id: number; name: string }>(
+  rows: T[]
+): DictRow[] => rows.map(({ id, name }) => ({ id, name }));
