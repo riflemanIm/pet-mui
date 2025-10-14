@@ -1,35 +1,38 @@
-import { useRef, useState } from 'react';
+import { useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
-import { useTheme } from '@mui/material/styles';
-import ButtonBase from '@mui/material/ButtonBase';
-import CardContent from '@mui/material/CardContent';
-import ClickAwayListener from '@mui/material/ClickAwayListener';
-import Grid from '@mui/material/Grid';
-import Paper from '@mui/material/Paper';
-import IconButton from '@mui/material/IconButton';
-import Popper from '@mui/material/Popper';
-import Stack from '@mui/material/Stack';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
+import { useTheme } from "@mui/material/styles";
+import ButtonBase from "@mui/material/ButtonBase";
+import CardContent from "@mui/material/CardContent";
+import ClickAwayListener from "@mui/material/ClickAwayListener";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
+import IconButton from "@mui/material/IconButton";
+import Popper from "@mui/material/Popper";
+import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
 
 // project import
-import Avatar from '@admin/components/@extended/Avatar';
-import MainCard from '@admin/components/MainCard';
-import Transitions from '@admin/components/@extended/Transitions';
-import { useUserState } from '@admin/context/UserContext';
+import Avatar from "@admin/components/@extended/Avatar";
+import MainCard from "@admin/components/MainCard";
+import Transitions from "@admin/components/@extended/Transitions";
+import { useUserDispatch, useUserState, signOut } from "@admin/context/UserContext";
 
 // assets
-import LogoutIcon from '@mui/icons-material/Logout';
-import avatar1 from '@admin/assets/images/users/avatar-1.png';
+import LogoutIcon from "@mui/icons-material/Logout";
+import avatar1 from "@admin/assets/images/users/avatar-1.png";
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 export default function Profile() {
   const theme = useTheme();
   const { currentUser } = useUserState();
+  const dispatch = useUserDispatch();
+  const navigate = useNavigate();
 
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
@@ -44,29 +47,41 @@ export default function Profile() {
     setOpen(false);
   };
 
-  const iconBackColorOpen = 'grey.100';
-  const displayName = currentUser?.name ?? 'name';
-  const displayRole = currentUser?.role ?? 'роль';
+  const iconBackColorOpen = "grey.100";
+  const displayName = currentUser?.name ?? "name";
+  const displayRole = currentUser?.role ?? "роль";
 
+  const handleLogout = async () => {
+    await signOut(dispatch, navigate);
+    setOpen(false);
+  };
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
       <ButtonBase
         sx={{
           p: 0.25,
-          bgcolor: open ? iconBackColorOpen : 'transparent',
+          bgcolor: open ? iconBackColorOpen : "transparent",
           borderRadius: 1,
-          '&:hover': { bgcolor: 'secondary.lighter' },
-          '&:focus-visible': { outline: `2px solid ${theme.palette.secondary.dark}`, outlineOffset: 2 }
+          "&:hover": { bgcolor: "secondary.lighter" },
+          "&:focus-visible": {
+            outline: `2px solid ${theme.palette.secondary.dark}`,
+            outlineOffset: 2,
+          },
         }}
         aria-label="open profile"
         ref={anchorRef}
-        aria-controls={open ? 'profile-grow' : undefined}
+        aria-controls={open ? "profile-grow" : undefined}
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Stack direction="row" spacing={1.25} alignItems="center" sx={{ p: 0.5 }}>
+        <Stack
+          direction="row"
+          spacing={1.25}
+          alignItems="center"
+          sx={{ p: 0.5 }}
+        >
           <Avatar alt="profile user" src={avatar1} size="sm" />
-          <Typography variant="subtitle1" sx={{ textTransform: 'capitalize' }}>
+          <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
             {displayName}
           </Typography>
         </Stack>
@@ -81,26 +96,53 @@ export default function Profile() {
         popperOptions={{
           modifiers: [
             {
-              name: 'offset',
+              name: "offset",
               options: {
-                offset: [0, 9]
-              }
-            }
-          ]
+                offset: [0, 9],
+              },
+            },
+          ],
         }}
       >
         {({ TransitionProps }) => (
-          <Transitions type="grow" position="top-right" in={open} {...TransitionProps}>
-            <Paper sx={{ boxShadow: theme.customShadows.z1, width: 290, minWidth: 240, maxWidth: { xs: 250, md: 290 } }}>
+          <Transitions
+            type="grow"
+            position="top-right"
+            in={open}
+            {...TransitionProps}
+          >
+            <Paper
+              sx={{
+                boxShadow: theme.customShadows.z1,
+                width: 290,
+                minWidth: 240,
+                maxWidth: { xs: 250, md: 290 },
+              }}
+            >
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard elevation={0} border={false} content={false}>
                   <CardContent sx={{ px: 2.5, pt: 3 }}>
-                    <Grid container justifyContent="space-between" alignItems="center">
+                    <Grid
+                      container
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
                       <Grid item>
-                        <Stack direction="row" spacing={1.25} alignItems="center">
-                          <Avatar alt="profile user" src={avatar1} sx={{ width: 32, height: 32 }} />
+                        <Stack
+                          direction="row"
+                          spacing={1.25}
+                          alignItems="center"
+                        >
+                          <Avatar
+                            alt="profile user"
+                            src={avatar1}
+                            sx={{ width: 32, height: 32 }}
+                          />
                           <Stack>
-                            <Typography variant="h6" sx={{ textTransform: 'capitalize' }}>
+                            <Typography
+                              variant="h6"
+                              sx={{ textTransform: "capitalize" }}
+                            >
                               {displayName}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
@@ -111,7 +153,11 @@ export default function Profile() {
                       </Grid>
                       <Grid item>
                         <Tooltip title="Logout">
-                          <IconButton size="large" sx={{ color: 'text.primary' }}>
+                          <IconButton
+                            size="large"
+                            sx={{ color: "text.primary" }}
+                            onClick={handleLogout}
+                          >
                             <LogoutIcon />
                           </IconButton>
                         </Tooltip>
