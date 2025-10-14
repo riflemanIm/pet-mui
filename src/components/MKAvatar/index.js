@@ -24,6 +24,8 @@ const MKAvatar = forwardRef(({ bgColor, size, shadow, ...rest }, ref) => (
   <MKAvatarRoot ref={ref} ownerState={{ shadow, bgColor, size }} {...rest} />
 ));
 
+MKAvatar.displayName = "MKAvatar";
+
 // Setting default values for the props of MKAvatar
 MKAvatar.defaultProps = {
   bgColor: "transparent",

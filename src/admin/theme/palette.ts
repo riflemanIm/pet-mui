@@ -30,6 +30,7 @@ const Palette = (mode: PaletteMode) => {
   colors.grey = [...greyPrimary, ...greyAscent, ...greyConstant];
 
   const paletteColor = Theme(colors);
+  const greyPalette = paletteColor.grey as Record<string, string>;
 
   return createTheme({
     palette: {
@@ -49,8 +50,8 @@ const Palette = (mode: PaletteMode) => {
       },
       divider: paletteColor.grey[200],
       background: {
-        paper: paletteColor.grey[0],
-        default: paletteColor.grey.A50
+        paper: greyPalette['0'] ?? '#fff',
+        default: greyPalette['A50'] ?? '#f5f5f5'
       }
     }
   });

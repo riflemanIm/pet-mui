@@ -6,7 +6,7 @@ import type { GenericState, GenericAction } from '@admin/helpers/state';
 
 type OrderDirection = 'asc' | 'desc';
 
-type DoFetchFn<TRow, TDispatch> = (
+type DoFetchFn<TRow, TDispatch extends React.Dispatch<GenericAction<any>>> = (
   startIndex?: number,
   count?: number,
   filter?: string | null,
@@ -14,8 +14,8 @@ type DoFetchFn<TRow, TDispatch> = (
   order?: OrderDirection
 ) => (dispatch: TDispatch) => Promise<void>;
 
-export interface BaseListGridProps<TRow, TDispatch> {
-  columns: GridColDef<TRow>[];
+export interface BaseListGridProps<TRow, TDispatch extends React.Dispatch<GenericAction<any>>> {
+  columns: GridColDef[];
   idField: keyof TRow;
   exportName: string;
   storagePrefix: string;
@@ -37,7 +37,7 @@ export interface BaseListGridProps<TRow, TDispatch> {
   initialPageSize?: number;
 }
 
-export function BaseListGrid<TRow extends GridValidRowModel, TDispatch extends React.Dispatch<GenericAction<any>>>(
+export function BaseListGrid<TRow, TDispatch extends React.Dispatch<GenericAction<any>>>(
   props: BaseListGridProps<TRow, TDispatch>
 ) {
   const {

@@ -64,10 +64,7 @@ export interface GenericAction<ActionType = any> {
   payload?: any;
 }
 
-export const genericListReducer = <T, S extends GenericListState<T>, A = string>(
-  state: S,
-  { type, payload }: { type: A; payload: any }
-): S => {
+export const genericListReducer = <T, S extends GenericListState<T>, A = string>(state: S, { type, payload }: GenericAction<A>): S => {
   console.log('type, payload', type, payload);
   if (type === 'LIST_FETCH_STARTED') {
     return {
@@ -104,7 +101,7 @@ export const genericListReducer = <T, S extends GenericListState<T>, A = string>
   return state;
 };
 
-export const genericReducer = <T, S extends GenericState<T>, A = string>(state: S, { type, payload }: { type: A; payload: any }): S => {
+export const genericReducer = <T, S extends GenericState<T>, A = string>(state: S, { type, payload }: GenericAction<A>): S => {
   if (type === 'FORM_RESET') {
     return {
       ...state,

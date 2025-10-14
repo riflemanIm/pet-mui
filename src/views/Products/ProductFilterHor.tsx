@@ -1,5 +1,5 @@
 // ProductFilterHor.tsx
-import { Box, Chip, CircularProgress, FormControl, FormControlLabel, FormLabel, IconButton, InputAdornment, MenuItem, OutlinedInput, Radio, RadioGroup, Select } from "@mui/material";
+import { Box, Chip, CircularProgress, FormControl, FormControlLabel, FormLabel, IconButton, InputAdornment, MenuItem, OutlinedInput, Radio, RadioGroup, Select, type ChipProps } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useSnackbar } from "notistack";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -8,12 +8,20 @@ import MKButton from "components/MKButton";
 import ClearIcon from "@mui/icons-material/Clear";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ProductSort from "./ProductSort";
-import type { FoodType } from "types";
 import { useAppState } from "context/AppStateContext";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
 const menuProps = { PaperProps: { style: { maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING, width: 250 } } } as const;
+
+type FilterDefinition = {
+  name: string;
+  label: string;
+  type: "radio" | "multi";
+  dynamic?: boolean;
+  options?: { id: string; label: string }[];
+  chipColor?: ChipProps["color"];
+};
 
 export default function ProductFilterHor() {
   const [loading, setLoading] = useState(false);
@@ -54,7 +62,7 @@ export default function ProductFilterHor() {
     setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: "" }));
   }, [setHomePageQuery]);
 
-  const filters = useMemo(() => ([
+  const filters = useMemo<FilterDefinition[]>(() => ([
     { name: "designedFor", label: "Разработано для", type: "radio", dynamic: true },
     {
       name: "type",
@@ -64,11 +72,11 @@ export default function ProductFilterHor() {
         { id: "Treat", label: "Лакомства" },
         { id: "Souvenirs", label: "Аксессуары" },
         { id: "DryFood", label: "Сухой корм" },
-      ] as { id: FoodType; label: string }[],
+      ] as { id: string; label: string }[],
     },
   ]), []);
 
-  const filtersExt = useMemo(() => ([
+  const filtersExt = useMemo<FilterDefinition[]>(() => ([
     { name: "ingredient", label: "Ингредиенты", type: "multi", chipColor: "info" },
     { name: "specialNeeds", label: "Особые потребности", type: "multi", chipColor: "info" },
     { name: "petSizes", label: "Размер питомца", type: "multi", chipColor: "info" },
@@ -85,7 +93,7 @@ export default function ProductFilterHor() {
   return (
     <>
       <Grid2 container spacing={3}>
-        {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
+        {filters.map(({ name, label, type, options, dynamic }) => (
           <Grid2 key={name} size={"auto"}>
             {type === "radio" ? (
               <FormControl fullWidth>
@@ -114,7 +122,7 @@ export default function ProductFilterHor() {
                     <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                       {(selected as string[]).map((val) => {
                         const item = (foodDicts as any)[name].find((i: any) => String(i.id) === val);
-                        return <Chip key={val} label={item?.name} color={chipColor as any} size="small" />;
+                        return <Chip key={val} label={item?.name} size="small" />;
                       })}
                     </Box>
                   )}

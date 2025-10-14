@@ -35,6 +35,8 @@ const MKSocialButton = forwardRef(
   )
 );
 
+MKSocialButton.displayName = "MKSocialButton";
+
 // Setting default values for the props of MKSocialButton
 MKSocialButton.defaultProps = {
   size: "medium",

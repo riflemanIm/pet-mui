@@ -1,14 +1,18 @@
 // src/pages/user/EditUser.tsx
-import React, { useEffect, useMemo } from 'react';
-import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
-import { useParams, useNavigate } from 'react-router-dom';
-import Widget from '../../components/Widget';
-import { useManagementDispatch, useManagementState, actions } from '../../context/ManagementContext';
-import { UserDto } from '../../helpers/dto';
-import useForm from '../../hooks/useForm';
-import validate from './validation';
+import React, { useEffect, useMemo } from "react";
+import { Box, Button, MenuItem, Stack, TextField } from "@mui/material";
+import { useParams, useNavigate } from "react-router-dom";
+import Widget from "../../components/Widget";
+import {
+  useManagementDispatch,
+  useManagementState,
+  actions,
+} from "../../context/ManagementContext";
+import { UserDto } from "../../helpers/dto";
+import useForm from "../../hooks/useForm";
+import validate from "./validation";
 
-export default function EditUser(): JSX.Element {
+export default function EditUser() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useManagementDispatch();
@@ -19,10 +23,10 @@ export default function EditUser(): JSX.Element {
     if (id) actions.doFind(Number(id))(dispatch);
   }, [id, dispatch]);
 
-  const onSuccess = () => navigate('/user/list');
+  const onSuccess = () => navigate("/user/list");
   const onError = (msg: string) => {
     // сюда можно всплывашку/snackbar
-    console.error('Update error:', msg);
+    console.error("Update error:", msg);
   };
 
   const save = () => {
@@ -30,35 +34,42 @@ export default function EditUser(): JSX.Element {
     const payload: UserDto = {
       ...values,
       // пустое имя -> null
-      name: values.name && String(values.name).trim() !== '' ? values.name : null
+      name:
+        values.name && String(values.name).trim() !== "" ? values.name : null,
       // balance можно оставить строкой — Prisma Decimal его примет
     };
 
     // пустой пароль не отправляем
-    if (!payload.password || String(payload.password).trim() === '') {
+    if (!payload.password || String(payload.password).trim() === "") {
       delete (payload as any).password;
     }
 
     actions.doUpdate(Number(id), payload, onSuccess, onError)(dispatch);
   };
 
-  const { values, errors, handleChange, setValues } = useForm<UserDto, any>(save, validate);
+  const { values, errors, handleChange, setValues } = useForm<UserDto, any>(
+    save,
+    validate
+  );
 
   // заполняем форму данными после загрузки
   useEffect(() => {
     if (current) {
       setValues({
         userId: current.userId,
-        email: current.email ?? '',
-        password: '',
+        email: current.email ?? "",
+        password: "",
         name: current.name ?? null,
-        balance: current.balance ?? '',
-        role: current.role ?? 'User'
+        balance: current.balance ?? "",
+        role: current.role ?? "User",
       } as UserDto);
     }
   }, [current, setValues]);
 
-  const saveDisabled = useMemo(() => !!errors?.email || !!errors?.balance || !!errors?.role || saveLoading, [errors, saveLoading]);
+  const saveDisabled = useMemo(
+    () => !!errors?.email || !!errors?.balance || !!errors?.role || saveLoading,
+    [errors, saveLoading]
+  );
 
   return (
     <Widget title="Редакция пользователя">
@@ -66,10 +77,10 @@ export default function EditUser(): JSX.Element {
         <TextField
           name="email"
           label="Email"
-          value={values.email ?? ''}
+          value={values.email ?? ""}
           onChange={handleChange}
           error={!!errors?.email}
-          helperText={errors?.email || ''}
+          helperText={errors?.email || ""}
           autoComplete="email"
         />
 
@@ -77,45 +88,52 @@ export default function EditUser(): JSX.Element {
           name="password"
           type="password"
           label="Password (leave blank to keep)"
-          value={values.password ?? ''}
+          value={values.password ?? ""}
           onChange={handleChange}
           autoComplete="new-password"
         />
 
-        <TextField name="name" label="Name" value={(values.name as any) ?? ''} onChange={handleChange} />
+        <TextField
+          name="name"
+          label="Name"
+          value={(values.name as any) ?? ""}
+          onChange={handleChange}
+        />
 
         <TextField
           name="balance"
           label="Balance (string/decimal)"
-          value={values.balance ?? ''}
+          value={values.balance ?? ""}
           onChange={handleChange}
           error={!!errors?.balance}
-          helperText={errors?.balance || ''}
-          inputProps={{ inputMode: 'decimal' }}
+          helperText={errors?.balance || ""}
+          inputProps={{ inputMode: "decimal" }}
         />
         <TextField
           select
           name="role"
           label="Role"
-          value={values.role ?? 'User'}
+          value={values.role ?? "User"}
           onChange={handleChange}
           error={!!errors?.role}
-          helperText={errors?.role || ''}
+          helperText={errors?.role || ""}
         >
           <MenuItem value="Admin">Admin</MenuItem>
           <MenuItem value="User">User</MenuItem>
         </TextField>
 
         <Stack direction="row" gap={2} justifyContent="flex-end">
-          <Button variant="outlined" onClick={() => navigate('/user/list')}>
+          <Button variant="outlined" onClick={() => navigate("/user/list")}>
             Cancel
           </Button>
           <Button variant="contained" onClick={save} disabled={saveDisabled}>
-            {saveLoading ? 'Saving…' : 'Save'}
+            {saveLoading ? "Saving…" : "Save"}
           </Button>
         </Stack>
 
-        {errorMessage ? <span style={{ color: '#d32f2f' }}>{errorMessage}</span> : null}
+        {errorMessage ? (
+          <span style={{ color: "#d32f2f" }}>{errorMessage}</span>
+        ) : null}
       </Box>
     </Widget>
   );

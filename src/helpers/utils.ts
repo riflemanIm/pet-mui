@@ -19,7 +19,7 @@ export function calcCartItemSum(cartItems: ShoppingCartItemProps[]) {
 export function calcCartItemTotalPrice(cartItems: ShoppingCartItemProps[]) {
   const sum = cartItems.reduce((prev, item) => {
     const qty = item.quantityInCart;
-    const unitPrice = parseFloat(item.price);
+    const unitPrice = typeof item.price === "number" ? item.price : parseFloat(item.price);
     const total = qty * unitPrice;
     return prev + total;
   }, 0);

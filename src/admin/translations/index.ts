@@ -1,4 +1,4 @@
-import i18n, { use } from 'i18next';
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import resourcesEn from './en.json';
 import resourcesFr from './fr.json';
@@ -7,6 +7,9 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import config from '../config';
 
 const getLang = () => {
+  if (typeof window === 'undefined') {
+    return config.defLang;
+  }
   const user = localStorage.getItem('user');
   if (!user) return config.defLang;
   const { lang } = JSON.parse(user);
@@ -15,7 +18,7 @@ const getLang = () => {
 
 const lang = getLang();
 
-use(LanguageDetector)
+i18n
   .use(initReactI18next)
   .init({
     resources: {

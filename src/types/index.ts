@@ -96,6 +96,17 @@ export interface SendEmailProps {
   message: string;
 }
 
+
+export interface ConfirmCodeProps {
+  code: string;
+  uuid: string;
+}
+
+export interface SignUpProps {
+  response: string;
+  uuid?: string;
+  user?: CurrentUserProps & { token?: string };
+}
 // ===== Admin & shared DTOs =====
 
 export type UserRole = 'User' | 'Admin';

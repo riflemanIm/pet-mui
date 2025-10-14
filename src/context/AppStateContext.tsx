@@ -37,6 +37,8 @@ type SnackbarCb = (
   options?: { variant: VariantType }
 ) => void;
 
+type SnackbarPayload = { message: string; variant: VariantType };
+
 type AppStateContextValue = {
   homePageQuery: HomePageQueryState;
   setHomePageQuery: React.Dispatch<
@@ -374,7 +376,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const addCartItem = useCallback(
     (item: FoodProps, notify?: SnackbarCb) => {
-      let snackbar: { message: string; variant: VariantType } | null = null;
+      let snackbar: SnackbarPayload | null = null;
       updateCart((prev) => {
         const existing = prev.find((cartItem) => cartItem.id === item.id);
         const stock = item.stock ?? 0;
@@ -407,7 +409,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         return [...prev, { ...item, quantityInCart: 1 }];
       });
       if (snackbar && notify) {
-        notify(snackbar.message, { variant: snackbar.variant });
+        const { message, variant } = snackbar;
+        notify(message, { variant });
       }
     },
     [updateCart]

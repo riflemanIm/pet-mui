@@ -46,7 +46,10 @@ async function getFoodRatings(req: NextApiRequest) {
   if (typeof req.query.id !== "string" && typeof req.query.id !== "number") {
     throw new Error("Invalid parameter `id`.");
   }
-  const foodId = BigInt(req.query.id);
+  const foodId = Number(req.query.id);
+  if (!Number.isFinite(foodId) || foodId <= 0) {
+    throw new Error("Invalid parameter `id`.");
+  }
 
   // Querying with joins. (Many to one relation)
   const ratings: any[] = await prisma.rating.findMany({
@@ -83,7 +86,10 @@ async function addFoodRating(req: NextApiRequest, res: NextApiResponse<any>) {
   if (typeof req.query.id !== "string" && typeof req.query.id !== "number") {
     throw new Error("Invalid parameter `id`.");
   }
-  const foodId = BigInt(req.query.id);
+  const foodId = Number(req.query.id);
+  if (!Number.isFinite(foodId) || foodId <= 0) {
+    throw new Error("Invalid parameter `id`.");
+  }
 
   // Get Score.
   if (typeof req.body.score !== "number") {
@@ -143,7 +149,10 @@ async function removeFoodRating(
   if (typeof req.query.id !== "string" && typeof req.query.id !== "number") {
     throw new Error("Invalid parameter `id`.");
   }
-  const foodId = BigInt(req.query.id);
+  const foodId = Number(req.query.id);
+  if (!Number.isFinite(foodId) || foodId <= 0) {
+    throw new Error("Invalid parameter `id`.");
+  }
 
   // Get userID;
   if (

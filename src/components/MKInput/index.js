@@ -24,6 +24,8 @@ const MKInput = forwardRef(({ error, success, disabled, ...rest }, ref) => (
   <MKInputRoot {...rest} ref={ref} ownerState={{ error, success, disabled }} />
 ));
 
+MKInput.displayName = "MKInput";
+
 // Setting default values for the props of MKInput
 MKInput.defaultProps = {
   error: false,

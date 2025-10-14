@@ -25,7 +25,9 @@ export default function NavItem({ item, level }) {
   if (item.target) {
     itemTarget = '_blank';
   }
-  let listItemProps = { component: forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />) };
+  const LinkComponent = forwardRef((props, ref) => <Link ref={ref} {...props} to={item.url} target={itemTarget} />);
+  LinkComponent.displayName = 'NavItemLink';
+  let listItemProps = { component: LinkComponent };
   if (item?.external) {
     listItemProps = { component: 'a', href: item.url, target: itemTarget };
   }

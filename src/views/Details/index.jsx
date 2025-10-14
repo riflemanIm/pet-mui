@@ -1,24 +1,32 @@
 import Card from "@mui/material/Card";
+import Stack from "@mui/material/Stack";
 import Container from "components/Container";
 import DefaultFooter from "components/Footers/DefaultFooter";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
+import MKButton from "components/MKButton";
 
 import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/bg_cat_dog.jpg";
 import routes from "assets/routes";
 
 import ProductFilterHor from "../Products/ProductFilterHor";
-
-import { useMediaQuery } from "@mui/system";
-import { useAppState } from "context/AppStateContext";
+import ProductFilterSidebar from "../Products/ProductFilterSidebar";
 import ProductSort from "../Products/ProductSort";
 import CardDetails from "./CardDetails";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { useCallback, useState } from "react";
+import { useMediaQuery } from "@mui/system";
+import { useAppState } from "context/AppStateContext";
 
 export default function IndexProducts() {
   const { foodDetailsId } = useAppState();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
+  const [openFiltersBar, setOpenFiltersBar] = useState(false);
+  const handleToggleFilters = useCallback(() => {
+    setOpenFiltersBar((prev) => !prev);
+  }, []);
 
   return (
     <>

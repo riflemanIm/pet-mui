@@ -40,7 +40,7 @@ const LayoutContext = React.createContext({
   dispatch: emptyDispatch
 });
 
-const LayoutProvider = ({ children }: { children: React.ReactNode }): JSX.Element => {
+const LayoutProvider = ({ children }: { children: React.ReactNode }) => {
   const [state, dispatch] = React.useReducer(layoutReducer, initialData);
 
   return <LayoutContext.Provider value={{ state, dispatch }}>{children}</LayoutContext.Provider>;

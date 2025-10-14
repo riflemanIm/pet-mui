@@ -14,7 +14,7 @@ import AuthBackground from '@admin/assets/images/auth/AuthBackground';
 
 // ==============================|| AUTHENTICATION - WRAPPER ||============================== //
 
-export default function AuthWrapper({ children }: { children: React.ReactNode }): JSX.Element {
+export default function AuthWrapper({ children }: { children: React.ReactNode }) {
   return (
     <Box sx={{ minHeight: '100vh' }}>
       <AuthBackground />

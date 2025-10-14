@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import { useMemo } from 'react';
 
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Drawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
+import { Theme } from '@mui/material/styles';
 
 // project import
 import DrawerHeader from './DrawerHeader';
@@ -13,19 +13,23 @@ import MiniDrawerStyled from './MiniDrawerStyled';
 import { drawerWidth } from '@admin/config';
 import { handlerDrawerOpen, useGetMenuMaster } from '@admin/api/menu';
 
+type DrawerProps = {
+  window?: () => Window;
+};
+
 // ==============================|| MAIN LAYOUT - DRAWER ||============================== //
 
-export default function MainDrawer({ window }) {
+export default function MainDrawer({ window: windowRef }: DrawerProps) {
   const { menuMaster } = useGetMenuMaster();
-  const drawerOpen = menuMaster.isDashboardDrawerOpened;
-  const matchDownMD = useMediaQuery((theme) => theme.breakpoints.down('lg'));
+  const drawerOpen = menuMaster?.isDashboardDrawerOpened ?? false;
+  const matchDownMD = useMediaQuery((theme: Theme) => theme.breakpoints.down('lg'));
 
   // responsive drawer container
-  const container = window !== undefined ? () => window().document.body : undefined;
+  const container = windowRef ? () => windowRef().document.body : undefined;
 
   // header content
   const drawerContent = useMemo(() => <DrawerContent />, []);
-  const drawerHeader = useMemo(() => <DrawerHeader open={!!drawerOpen} />, [drawerOpen]);
+  const drawerHeader = useMemo(() => <DrawerHeader open={drawerOpen} />, [drawerOpen]);
 
   return (
     <Box component="nav" sx={{ flexShrink: { md: 0 }, zIndex: 1200 }} aria-label="mailbox folders">
@@ -60,5 +64,3 @@ export default function MainDrawer({ window }) {
     </Box>
   );
 }
-
-MainDrawer.propTypes = { window: PropTypes.func };

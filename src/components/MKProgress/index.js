@@ -42,6 +42,8 @@ const MKProgress = forwardRef(
   )
 );
 
+MKProgress.displayName = "MKProgress";
+
 // Setting default values for the props of MKProgress
 MKProgress.defaultProps = {
   variant: "contained",

@@ -16,7 +16,7 @@ interface IRoute {
   icon?: SvgIconComponent;
 }
 
-const BreadCrumbs = (): JSX.Element => {
+const BreadCrumbs = () => {
   const location = useLocation();
 
   const { t } = useTranslation();

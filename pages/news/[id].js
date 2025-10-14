@@ -1,4 +1,5 @@
 import React from "react";
+import Grid from "@mui/material/Grid";
 
 export default function NewsPage(props) {
   return (
@@ -14,6 +15,7 @@ export default function NewsPage(props) {
 export async function getServerSideProps(context) {
   const { id } = context.query;
   const locale = context.locale;
+  const route = id;
 
   const postData = {
     method: "Post",

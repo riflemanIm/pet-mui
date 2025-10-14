@@ -1,14 +1,19 @@
 // src/pages/dicts/EditDictComp.tsx
-import { Box, Button, Stack, TextField } from '@mui/material';
-import { useEffect, useMemo } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import Widget from '../../components/Widget';
-import { useDictActions, useDictDispatch, useDictMeta, useDictState } from '../../context/DictContext';
-import { DictDto } from '../../helpers/dto';
-import useForm from '../../hooks/useForm';
-import validate from './validation';
+import { Box, Button, Stack, TextField } from "@mui/material";
+import { useEffect, useMemo } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Widget from "../../components/Widget";
+import {
+  useDictActions,
+  useDictDispatch,
+  useDictMeta,
+  useDictState,
+} from "../../context/DictContext";
+import { DictDto } from "../../helpers/dto";
+import useForm from "../../hooks/useForm";
+import validate from "./validation";
 
-export default function EditDict(): JSX.Element {
+export default function EditDict() {
   const { id } = useParams();
   const navigate = useNavigate();
   const dispatch = useDictDispatch();
@@ -21,24 +26,32 @@ export default function EditDict(): JSX.Element {
   }, [id, actions, dispatch]);
 
   const onSuccess = () => navigate(`/dicts/${entity}`);
-  const onError = (msg: string) => console.error('Update dict error:', msg);
+  const onError = (msg: string) => console.error("Update dict error:", msg);
 
   const save = () => {
     if (!id) return;
     const payload: DictDto = {
       id: Number(id),
-      name: values.name && String(values.name).trim() !== '' ? values.name : null
+      name:
+        values.name && String(values.name).trim() !== "" ? values.name : null,
     };
     actions.doUpdate(Number(id), payload, onSuccess, onError)(dispatch);
   };
 
-  const { values, errors, handleChange, setValues } = useForm<DictDto, any>(save, validate);
+  const { values, errors, handleChange, setValues } = useForm<DictDto, any>(
+    save,
+    validate
+  );
 
   useEffect(() => {
-    if (current) setValues({ id: current.id, name: current.name ?? '' } as DictDto);
+    if (current)
+      setValues({ id: current.id, name: current.name ?? "" } as DictDto);
   }, [current, setValues]);
 
-  const saveDisabled = useMemo(() => !!errors?.name || saveLoading, [errors, saveLoading]);
+  const saveDisabled = useMemo(
+    () => !!errors?.name || saveLoading,
+    [errors, saveLoading]
+  );
 
   return (
     <Widget>
@@ -46,17 +59,17 @@ export default function EditDict(): JSX.Element {
         <TextField
           name="name"
           label="Название"
-          value={(values.name as any) ?? ''}
+          value={(values.name as any) ?? ""}
           onChange={handleChange}
           error={!!errors?.name}
-          helperText={errors?.name || ''}
+          helperText={errors?.name || ""}
         />
         <Stack direction="row" gap={2} justifyContent="flex-end">
           <Button variant="outlined" onClick={() => navigate(-1)}>
             Cancel
           </Button>
           <Button variant="contained" onClick={save} disabled={saveDisabled}>
-            {saveLoading ? 'Saving…' : 'Save'}
+            {saveLoading ? "Saving…" : "Save"}
           </Button>
         </Stack>
       </Box>

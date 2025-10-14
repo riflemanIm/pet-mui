@@ -55,6 +55,8 @@ const MKBadge = forwardRef(
   )
 );
 
+MKBadge.displayName = "MKBadge";
+
 // Setting default values for the props of MKBadge
 MKBadge.defaultProps = {
   color: "info",

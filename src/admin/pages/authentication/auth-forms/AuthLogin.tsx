@@ -32,9 +32,17 @@ interface AuthLoginProps {
   redirectPath?: string;
 }
 
-export default function AuthLogin({
-  redirectPath,
-}: AuthLoginProps): JSX.Element {
+interface LoginFormValues {
+  login?: string;
+  password?: string;
+}
+
+interface LoginFormErrors {
+  email?: string;
+  password?: string;
+}
+
+export default function AuthLogin({ redirectPath }: AuthLoginProps) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
@@ -54,10 +62,12 @@ export default function AuthLogin({
   }, []);
 
   const login = () => {
+    const loginValue = values.login ?? "";
+    const passwordValue = values.password ?? "";
     loginUser(
       userDispatch,
-      values.login,
-      values.password,
+      loginValue,
+      passwordValue,
       setIsLoading,
       setErrorServer,
       navigate,
@@ -65,7 +75,7 @@ export default function AuthLogin({
     );
   };
 
-  const { values, errors, handleChange, handleSubmit, setValues } = useForm(
+  const { values, errors, handleChange, handleSubmit, setValues } = useForm<LoginFormValues, LoginFormErrors>(
     login,
     validate
   );

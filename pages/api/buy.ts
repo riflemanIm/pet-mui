@@ -15,7 +15,7 @@ type DataType = {
   price: string;
 };
 type DataTypeChecked = {
-  foodId: bigint;
+  foodId: number;
   quantityInCart: number;
   price: string;
 };
@@ -27,7 +27,7 @@ type ResultType = {
   foodTitle: string;
   quantityInCart: number;
   orderNum: number;
-  price: Decimal;
+  price: number;
 };
 
 const buyFoodHandler = async (
@@ -65,7 +65,10 @@ const buyFoodHandler = async (
           throw new Error("Invalid parameter `foodId`.");
         }
 
-        const foodId = BigInt(item.foodId);
+        const foodId = Number(item.foodId);
+        if (!Number.isFinite(foodId) || foodId <= 0) {
+          throw new Error("Invalid parameter `foodId`.");
+        }
 
         // Check quantityInCart;
         if (
@@ -165,7 +168,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
       for (const item of data) {
         const food = await tr.food.findFirst({
           where: {
-            id: item.foodId,
+            id: Number(item.foodId),
           },
         });
 
@@ -208,7 +211,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
             },
           },
           where: {
-            id: item.foodId,
+            id: Number(item.foodId),
           },
         });
         if (newFood.stock < 0) {
@@ -220,7 +223,7 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
         await tr.order.create({
           data: {
             userId,
-            foodId: item.foodId,
+            foodId: Number(item.foodId),
             quantity: item.quantityInCart,
             orderNum,
           },
@@ -228,11 +231,11 @@ async function buyFood(data: DataTypeChecked[], userId: number): Promise<any> {
 
         result.push({
           userId,
-          artikul: food.artikul,
+          artikul: food.artikul ?? "",
           foodId: Number(item.foodId),
-          foodTitle: food.title,
+          foodTitle: food.title ?? "",
           quantityInCart: item.quantityInCart,
-          price: food.price,
+          price: Number(food.price),
           orderNum,
           //cost,
           //remaining: purchaser.balance,

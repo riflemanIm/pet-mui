@@ -56,7 +56,9 @@ export default function ImageField({ label, value, onFileSelect, onClear, baseUr
   };
 
   const isAbsolute = (src?: string | null) => !!src && /^(https?:)?\/\//i.test(src);
-  const currentSrc = preview || (value ? (isAbsolute(value) ? value : `${baseUrl.replace(/\/$/, '')}/${value.replace(/^\//, '')}`) : null);
+  const normalizedBase = baseUrl?.replace(/\/$/, '') ?? '';
+  const normalizedValue = value?.replace(/^\//, '') ?? '';
+  const currentSrc = preview || (value ? (isAbsolute(value) ? value : `${normalizedBase}/${normalizedValue}`.replace(/^\/\//, '/')) : null);
 
   return (
     <Stack spacing={1}>

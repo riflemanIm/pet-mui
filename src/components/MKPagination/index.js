@@ -72,6 +72,8 @@ const MKPagination = forwardRef(
   }
 );
 
+MKPagination.displayName = "MKPagination";
+
 // Setting default values for the props of MKPagination
 MKPagination.defaultProps = {
   item: false,

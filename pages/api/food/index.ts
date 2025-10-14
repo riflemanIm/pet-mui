@@ -89,9 +89,7 @@ export default async function handler(
     const skip = (pageNum - 1) * take;
 
     const where: Prisma.FoodWhereInput = {
-      ...(foodTypeParam
-        ? { type: foodTypeParam as Prisma.$Enums.FoodType }
-        : {}),
+      ...(foodTypeParam ? { type: foodTypeParam as any } : {}),
       ...(q
         ? {
             OR: [

@@ -23,7 +23,7 @@ const SwitchCities = ({ coordinates, setCoordinates, data }) => {
       aria-label="Cities"
     >
       {data.map((item) => (
-        <Tab value={item.value} label={item.label} sx={{ textAlign: "left" }} />
+        <Tab key={item.value} value={item.value} label={item.label} sx={{ textAlign: "left" }} />
       ))}
     </Tabs>
   ) : (

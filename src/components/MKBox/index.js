@@ -50,6 +50,8 @@ const MKBox = forwardRef(
   )
 );
 
+MKBox.displayName = "MKBox";
+
 // Setting default values for the props of MKBox
 MKBox.defaultProps = {
   variant: "contained",

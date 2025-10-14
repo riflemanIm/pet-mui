@@ -32,7 +32,10 @@ async function buyFood(req: NextApiRequest): Promise<any> {
   if (typeof req.query.id !== "string" && typeof req.query.id !== "number") {
     throw new Error("Invalid parameter `id`.");
   }
-  const foodId = BigInt(req.query.id);
+  const foodId = Number(req.query.id);
+  if (!Number.isFinite(foodId) || foodId <= 0) {
+    throw new Error("Invalid parameter `id`.");
+  }
 
   // Get quantityInCart;
   if (
@@ -53,14 +56,17 @@ async function buyFood(req: NextApiRequest): Promise<any> {
   ) {
     throw new Error("Invalid parameter `userId`.");
   }
-  const userId = BigInt(req.query.userId);
+  const userId = Number(req.query.userId);
+  if (!Number.isFinite(userId) || userId <= 0) {
+    throw new Error("Invalid parameter `userId`.");
+  }
 
   try {
     const result = await prisma.$transaction(async (prisma) => {
       // Found the food that the user want to purchase.
       const food = await prisma.food.findFirst({
         where: {
-          id: foodId,
+          id: Number(foodId),
         },
       });
 
@@ -79,7 +85,7 @@ async function buyFood(req: NextApiRequest): Promise<any> {
       }
 
       // Cost the user balance to buy the food.
-      const cost = food?.price.mul(quantityInCart).toNumber();
+      const cost = Number(food?.price ?? 0) * quantityInCart;
       const purchaser = await prisma.user.update({
         data: {
           balance: {
@@ -104,7 +110,7 @@ async function buyFood(req: NextApiRequest): Promise<any> {
           },
         },
         where: {
-          id: foodId,
+          id: Number(foodId),
         },
       });
       if (newFood.stock < 0) {
@@ -124,16 +130,16 @@ async function buyFood(req: NextApiRequest): Promise<any> {
       // Generate a new order to record.
       const order = prisma.order.create({
         data: {
-          userId: parseInt(userId.toString(), 10),
-          foodId: foodId,
+          userId: Number(userId),
+          foodId: Number(foodId),
           quantity: quantityInCart,
           orderNum,
         },
       });
 
       return {
-        userId: parseInt(userId.toString(), 10),
-        foodId: foodId,
+        userId: Number(userId),
+        foodId: Number(foodId),
         foodTitle: food.title,
         cost: cost,
         remaining: purchaser.balance,
