@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { Link, Box, Breadcrumbs, Typography } from '@mui/material';
+import { Link as MuiLink, Box, Breadcrumbs, Typography } from '@mui/material';
 import { NavigateNext as NavigateNextIcon, SvgIconComponent } from '@mui/icons-material';
-import { useLocation } from 'react-router-dom';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 // styles
@@ -65,29 +65,35 @@ const BreadCrumbs = (): JSX.Element => {
     const route = location.pathname
       .split('/')
       .slice(1)
+      .filter((segment) => segment.length > 0)
       .map((route) => route.split('-').join(' '));
     const routes = convertGenericRoute(route);
     const length = routes.length;
     return routes.map((item: IRoute, index: number) => {
+      const isLast = length === index + 1;
+      const Icon = item.icon;
+      const content = (
+        <>
+          {Icon && <Icon fontSize="inherit" sx={{ mr: 0.5 }} />}
+          {item.name}
+        </>
+      );
       return (
-        <Breadcrumbs key={index + '_b'} separator={<NavigateNextIcon fontSize="small" />} aria-label="breadcrumb">
-          {length === index + 1 ? (
-            <Typography variant="h6" sx={{ display: 'flex', alignItems: 'center' }} color={length === index + 1 ? 'primary' : undefined}>
-              {item.icon && <item.icon fontSize="inherit" sx={{ mr: 0.5 }} />}
-              {item.name}
-            </Typography>
-          ) : (
-            <Link
-              variant="h6"
-              href={`/#${item.url}`}
-              sx={{ display: 'flex', alignItems: 'center' }}
-              style={{ color: 'unset', textDecoration: 'none' }}
-            >
-              {item.icon && <item.icon fontSize="inherit" sx={{ mr: 0.5 }} />}
-              {item.name}
-            </Link>
-          )}
-        </Breadcrumbs>
+        isLast ? (
+          <Typography key={`${item.url}-current`} variant="h6" sx={{ display: 'flex', alignItems: 'center' }} color="primary">
+            {content}
+          </Typography>
+        ) : (
+          <MuiLink
+            key={`${item.url}-link`}
+            component={RouterLink}
+            variant="h6"
+            to={item.url}
+            sx={{ display: 'flex', alignItems: 'center', color: 'inherit', textDecoration: 'none' }}
+          >
+            {content}
+          </MuiLink>
+        )
       );
     });
   };

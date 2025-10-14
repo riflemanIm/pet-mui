@@ -1,6 +1,6 @@
 // src/pages/user/EditUser.tsx
 import React, { useEffect, useMemo } from 'react';
-import { Box, Button, Stack, TextField } from '@mui/material';
+import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import Widget from '../../components/Widget';
 import { useManagementDispatch, useManagementState, actions } from '../../context/ManagementContext';
@@ -52,12 +52,13 @@ export default function EditUser(): JSX.Element {
         email: current.email ?? '',
         password: '',
         name: current.name ?? null,
-        balance: current.balance ?? ''
+        balance: current.balance ?? '',
+        role: current.role ?? 'User'
       } as UserDto);
     }
   }, [current, setValues]);
 
-  const saveDisabled = useMemo(() => !!errors?.email || !!errors?.balance || saveLoading, [errors, saveLoading]);
+  const saveDisabled = useMemo(() => !!errors?.email || !!errors?.balance || !!errors?.role || saveLoading, [errors, saveLoading]);
 
   return (
     <Widget title="Редакция пользователя">
@@ -92,6 +93,18 @@ export default function EditUser(): JSX.Element {
           helperText={errors?.balance || ''}
           inputProps={{ inputMode: 'decimal' }}
         />
+        <TextField
+          select
+          name="role"
+          label="Role"
+          value={values.role ?? 'User'}
+          onChange={handleChange}
+          error={!!errors?.role}
+          helperText={errors?.role || ''}
+        >
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="User">User</MenuItem>
+        </TextField>
 
         <Stack direction="row" gap={2} justifyContent="flex-end">
           <Button variant="outlined" onClick={() => navigate('/user/list')}>

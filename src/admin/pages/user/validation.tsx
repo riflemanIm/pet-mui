@@ -40,5 +40,10 @@ export default function validate(values: UserDto): Errors {
 
   // name валидировать не нужно — пустое превратишь в null перед отправкой
 
+  const allowedRoles = ['Admin', 'User'];
+  if (!values.role || !allowedRoles.includes(values.role)) {
+    errors.role = 'Выберите роль';
+  }
+
   return errors;
 }

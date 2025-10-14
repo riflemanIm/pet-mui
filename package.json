@@ -99,8 +99,8 @@
     "yup": "^1.4.0"
   },
   "scripts": {
-    "dev": "kill-port 3000 && next dev -p 3000",
-    "build": "next build",
+    "dev": "node scripts/free-port.js 3000 && next dev",
+    "build": "node scripts/free-port.js 3000 && next build",
     "start": "next start",
     "db:clear": "prisma db push --force-reset",
     "prisma:dev": "prisma migrate dev",

@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { GridActionsCellItem, GridColDef, GridRowParams } from '@mui/x-data-grid';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Widget from '../../components/Widget';
 import { FoodDto, imgApiUrl, useFoodActions, useFoodDispatch, useFoodState } from '../../context/FoodContext';
 import { useFoodRefs } from '../../context/FoodContext';
@@ -261,7 +261,7 @@ const FoodList = (): JSX.Element => {
           doFetch={actions.doFetch}
           defaultSort={[{ field: 'id', sort: 'desc' }]}
           startActions={
-            <Button size="small" color="primary" href="#food/add" startIcon={<AddIcon />}>
+            <Button size="small" color="primary" component={RouterLink} to="/food/add" startIcon={<AddIcon />}>
               Добавить
             </Button>
           }

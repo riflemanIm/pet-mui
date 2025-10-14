@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, Stack } from '@mui/material';
 import { GridActionsCellItem, GridColDef, GridRowParams } from '@mui/x-data-grid';
 import { Add as AddIcon, CreateOutlined as CreateIcon, DeleteOutlined as DeleteIcon } from '@mui/icons-material';
-import { useNavigate } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import Widget from '../../components/Widget';
 import { BaseListGrid } from '../../components/BaseListGrid';
 import { useManagementDispatch, useManagementState, actions } from '../../context/ManagementContext';
@@ -35,6 +35,7 @@ const UserList = (): JSX.Element => {
     },
     { field: 'email', headerName: 'Email', width: 240 },
     { field: 'name', headerName: 'Name', flex: 1, minWidth: 160 },
+    { field: 'role', headerName: 'Role', width: 120 },
     { field: 'balance', headerName: 'Balance', width: 140 }
   ];
 
@@ -57,7 +58,7 @@ const UserList = (): JSX.Element => {
           doFetch={actions.doFetch}
           defaultSort={[{ field: 'userId', sort: 'desc' }]}
           startActions={
-            <Button size="small" color="primary" href="#user/add" startIcon={<AddIcon />}>
+            <Button size="small" color="primary" component={RouterLink} to="/user/add" startIcon={<AddIcon />}>
               Add
             </Button>
           }

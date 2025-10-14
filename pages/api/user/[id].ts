@@ -12,7 +12,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
       const row = await prisma.user.findUnique({
         where: { id },
-        select: { id: true, email: true, name: true, balance: true },
+        select: { id: true, email: true, name: true, balance: true, role: true },
       });
       if (!row) return res.status(404).json({ message: "User not found" });
       return res.status(200).json(toDto(row));
@@ -31,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       const updated = await prisma.user.update({
         where: { id },
         data, // <-- корректный тип для update
-        select: { id: true, email: true, name: true, balance: true },
+        select: { id: true, email: true, name: true, balance: true, role: true },
       });
 
       return res.status(200).json(toDto(updated));

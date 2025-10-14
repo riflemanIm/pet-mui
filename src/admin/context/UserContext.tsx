@@ -4,22 +4,15 @@ import axios, { AxiosError } from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { NavigateFunction } from 'react-router-dom';
 import config from '@admin/config';
+import type { Role, TokenData } from 'types';
 
-export type Role = 'User' | 'Admin';
-
-export interface TokenData {
-  id: number;
-  email: string;
-  name?: string | null;
-  role?: Role;
-  iat?: number;
-  exp?: number;
-}
+const ADMIN_BASE_PATH = (process.env.NEXT_PUBLIC_ADMIN_BASE_PATH || '/admin').replace(/\/$/, '');
 
 export interface AuthResponseDto {
   id: number;
   email: string;
   name?: string | null;
+  role: Role;
   accessToken: string;
   refreshToken: string;
 }
@@ -118,7 +111,8 @@ export async function loginUser(
   password: string,
   setLoading: (v: boolean) => void,
   setError: (v: string) => void,
-  navigate: NavigateFunction
+  navigate: NavigateFunction,
+  redirectPath?: string
 ): Promise<void> {
   setError('');
   setLoading(true);
@@ -140,7 +134,7 @@ export async function loginUser(
       payload: { accessToken, refreshToken, currentUser: user }
     });
     setLoading(false);
-    navigate('/');
+    navigate(redirectPath || '/', { replace: true });
   } catch (err) {
     setLoading(false);
     if (err instanceof AxiosError && err.response?.status === 401) {
@@ -210,7 +204,7 @@ function setInterceptor(dispatch: UserDispatch) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           localStorage.removeItem('user');
-          window.location.href = '/login';
+          window.location.href = `${ADMIN_BASE_PATH}/login`;
           return Promise.reject(e);
         }
       }
@@ -237,11 +231,12 @@ function receiveToken(data: AuthResponseDto): {
   refreshToken: string;
   user: TokenData;
 } {
-  const { accessToken, refreshToken, id, email, name } = data;
+  const { accessToken, refreshToken, id, email, name, role } = data;
   const user = jwtDecode(accessToken) as TokenData;
   user.id = id;
   user.email = email;
   user.name = name;
+  user.role = role;
 
   localStorage.setItem('accessToken', accessToken);
   localStorage.setItem('refreshToken', refreshToken);

@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router-dom';
 // material-ui
 import Grid from '@mui/material/Grid2';
 import Typography from '@mui/material/Typography';
@@ -13,9 +13,10 @@ import { useUserState } from '@admin/context/UserContext';
 
 export default function Login() {
   const { t } = useTranslation();
+  const location = useLocation();
   const { isAuthenticated } = useUserState();
-  console.log('isAuthenticated', isAuthenticated);
-  if (isAuthenticated) return <Navigate to="/" />;
+  const redirectPath = (location.state as { from?: string } | null)?.from || '/';
+  if (isAuthenticated) return <Navigate to={redirectPath} replace />;
   return (
     <AuthWrapper>
       <Grid container spacing={3}>
@@ -23,7 +24,7 @@ export default function Login() {
           <Typography variant="h3">{t('SIGN.SIGN')}</Typography>
         </Grid>
         <Grid size={12}>
-          <AuthLogin />
+          <AuthLogin redirectPath={redirectPath} />
         </Grid>
       </Grid>
     </AuthWrapper>

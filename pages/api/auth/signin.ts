@@ -10,6 +10,7 @@ type UserSafe = {
   email: string;
   name: string | null;
   balance: any; // Decimal; вернётся строкой
+  role: "User" | "Admin";
   accessToken: string;
   refreshToken: string;
   token: string; // access token (для совместимости с фронтом)
@@ -45,7 +46,7 @@ function setAuthCookies(
 
 export default withCORS(async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<UserSafe | { error: string }>
+  res: NextApiResponse<UserSafe | { message: string } | { error: string }>
 ) {
   try {
     if (req.method !== "POST") {
@@ -58,20 +59,28 @@ export default withCORS(async function handler(
       password?: string;
     };
     if (!email || !password) {
-      return res.status(400).json({ error: "Email and password are required" });
+      return res.status(400).json({ message: "Email and password are required" });
     }
 
     // TODO: заменить md5 на bcrypt/argon2. Сейчас оставлено для совместимости.
     const user = await prisma.user.findFirst({
       where: { email, password: md5(password) },
-      select: { id: true, email: true, name: true, balance: true },
+      select: { id: true, email: true, name: true, balance: true, role: true },
     });
-    console.log("user", user);
     if (!user) {
-      return res.status(401).json({ error: "Invalid credentials" });
+      return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const payload = { id: user.id, email: user.email, name: user.name };
+    if (user.role !== "Admin") {
+      return res.status(403).json({ message: "Access denied" });
+    }
+
+    const payload = {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    };
     const accessToken = sign(
       payload,
       process.env.ACCESS_TOKEN_SECRET as string,

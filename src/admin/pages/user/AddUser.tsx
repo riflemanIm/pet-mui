@@ -1,6 +1,6 @@
 // src/pages/user/AddUser.tsx
-import { Box, Button, Stack, TextField } from '@mui/material';
-import { useMemo } from 'react';
+import { Box, Button, MenuItem, Stack, TextField } from '@mui/material';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Widget from '../../components/Widget';
 import { actions, useManagementDispatch, useManagementState } from '../../context/ManagementContext';
@@ -27,8 +27,10 @@ export default function AddUser(): JSX.Element {
       return;
     }
 
+    const role = (values.role as UserDto['role']) ?? 'User';
     const payload: UserDto = {
       ...values,
+      role,
       name: values.name && String(values.name).trim() !== '' ? values.name : null
       // balance оставляем как есть (string/decimal)
     };
@@ -36,9 +38,17 @@ export default function AddUser(): JSX.Element {
     actions.doCreate(payload, onSuccess, onError)(dispatch);
   };
 
-  const { values, errors, handleChange } = useForm<UserDto, any>(save, validate);
+  const { values, errors, handleChange, setValues } = useForm<UserDto, any>(save, validate);
 
-  const saveDisabled = useMemo(() => !!errors?.email || !!errors?.balance || saveLoading, [errors, saveLoading]);
+  useEffect(() => {
+    setValues((prev) => {
+      if ((prev as UserDto).role) return prev;
+      return { ...prev, role: 'User' } as UserDto;
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const saveDisabled = useMemo(() => !!errors?.email || !!errors?.balance || !!errors?.role || saveLoading, [errors, saveLoading]);
 
   return (
     <Widget>
@@ -70,6 +80,18 @@ export default function AddUser(): JSX.Element {
           helperText={errors?.balance || ''}
           inputProps={{ inputMode: 'decimal' }}
         />
+        <TextField
+          select
+          name="role"
+          label="Role"
+          value={values.role ?? 'User'}
+          onChange={handleChange}
+          error={!!errors?.role}
+          helperText={errors?.role || ''}
+        >
+          <MenuItem value="Admin">Admin</MenuItem>
+          <MenuItem value="User">User</MenuItem>
+        </TextField>
         <Stack direction="row" gap={2} justifyContent="flex-end">
           <Button variant="outlined" onClick={() => navigate('/user/list')}>
             Cancel

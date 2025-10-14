@@ -1,5 +1,6 @@
-import type { Prisma } from "@prisma/client";
+import type { Prisma, Role as PrismaRole } from "@prisma/client";
 import md5 from "md5";
+import type { Role, UserDto } from "types";
 
 // --- Примитивы счётчиков/сортировки → используем общие утилиты ---
 import { asCount, asInt, asOrder, normalizeOrderBy } from "../_utils";
@@ -13,13 +14,6 @@ export const parseId = (v: any): number | null => {
   return n > 0 ? n : null;
 };
 
-export interface UserDto {
-  userId?: number;
-  email?: string;
-  name: string | null;
-  balance: string;
-}
-
 export function mapOrder(
   orderBy: string | null,
   dir: "asc" | "desc"
@@ -29,6 +23,7 @@ export function mapOrder(
     "email",
     "name",
     "createdAt",
+    "role",
   ];
   const key = normalizeOrderBy(orderBy, allowed as unknown as string[], "id");
   return [{ [key]: dir } as Prisma.UserOrderByWithRelationInput];
@@ -39,13 +34,22 @@ export function toDto(u: {
   email: string;
   name: string | null;
   balance: Prisma.Decimal;
+  role: PrismaRole;
 }): UserDto {
   return {
     userId: u.id,
     email: u.email,
     name: u.name,
     balance: u.balance?.toString?.() ?? String(u.balance),
+    role: u.role as Role,
   };
+}
+
+function parseRole(value: any): PrismaRole | undefined {
+  if (value === "Admin" || value === "User") {
+    return value as PrismaRole;
+  }
+  return undefined;
 }
 
 export function buildUserCreateData(
@@ -57,6 +61,8 @@ export function buildUserCreateData(
   if (body?.name === null || typeof body?.name === "string")
     data.name = body.name ?? null;
   if (body?.balance !== undefined) data.balance = body.balance;
+  const parsedRole = parseRole(body?.role);
+  data.role = parsedRole ?? "User";
 
   if (typeof body?.password === "string" && body.password.trim() !== "") {
     data.password = md5(body.password.trim());
@@ -76,6 +82,10 @@ export function buildUserUpdateData(
   if (body?.name === null || typeof body?.name === "string")
     data.name = body.name ?? null;
   if (body?.balance !== undefined) data.balance = body.balance;
+  const parsedRole = parseRole(body?.role);
+  if (parsedRole) {
+    data.role = parsedRole;
+  }
 
   if (typeof body?.password === "string" && body.password.trim() !== "") {
     data.password = md5(body.password.trim());

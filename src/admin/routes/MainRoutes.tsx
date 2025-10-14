@@ -6,6 +6,7 @@ import Dashboard from '@admin/layout/Dashboard';
 import { FoodProvider } from '@admin/context/FoodContext';
 import { DictProvider, EntityName } from '@admin/context/DictContext';
 import { ManagementProvider } from '@admin/context/ManagementContext';
+import RequireAuth from './RequireAuth';
 
 const DashboardDefault = Loadable(lazy(() => import('@admin/pages/dashboard/index')));
 const UserList = Loadable(lazy(() => import('@admin/pages/user/index')));
@@ -59,7 +60,11 @@ function DictLegacyListRedirect() {
 
 const MainRoutes = {
   path: '/',
-  element: <Dashboard />,
+  element: (
+    <RequireAuth>
+      <Dashboard />
+    </RequireAuth>
+  ),
   children: [
     { path: '/', element: <DashboardDefault /> },
     {

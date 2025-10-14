@@ -31,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
           orderBy: orderClause,
           skip: startIndex,
           take: count,
-          select: { id: true, email: true, name: true, balance: true },
+          select: { id: true, email: true, name: true, balance: true, role: true },
         }),
       ]);
 
