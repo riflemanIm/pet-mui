@@ -26,7 +26,7 @@ import boxShadow from "theme/functions/boxShadow";
 
 const { black, white, tabs, coloredShadows } = colors;
 
-export default {
+const boxShadowsValues = {
   xs: boxShadow([0, 2], [9, -5], black.main, 0.15),
   sm: boxShadow([0, 5], [10, 0], black.main, 0.12),
   md: `${boxShadow([0, 4], [6, -1], black.main, 0.1)}, ${boxShadow(
@@ -113,3 +113,5 @@ export default {
     indicator: boxShadow([0, 1], [5, 1], tabs.indicator.boxShadow, 1),
   },
 };
+
+export default boxShadowsValues;

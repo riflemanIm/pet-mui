@@ -21,7 +21,7 @@ import pxToRem from "theme/functions/pxToRem";
 const { borderWidth } = borders;
 const { light } = colors;
 
-export default {
+const tableCell = {
   styleOverrides: {
     root: {
       padding: `${pxToRem(12)} ${pxToRem(16)}`,
@@ -29,3 +29,5 @@ export default {
     },
   },
 };
+
+export default tableCell;

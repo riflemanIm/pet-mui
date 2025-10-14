@@ -14,9 +14,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     title,
     type,
     price,
-    averageRating,
     quantityInCart,
-    createdAt,
     img,
   } = props;
 
@@ -26,8 +24,8 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
     <>
       <Grid item xs={2} textAlign="center">
         <Image
-          src={`/images/catalog/${img}`}
-          alt={title}
+          src={`/images/catalog/${img ?? ""}`}
+          alt={title ?? "Товар"}
           width={120}
           height={120}
           style={{ borderRadius: 3 }}
@@ -44,7 +42,7 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
       </Grid>
       <Grid item xs={2}>
         <Typography variant="body1" fontWeight="bold" mt={2}>
-          {currencyFormat(parseFloat(price) * quantityInCart)}₽
+          {currencyFormat((typeof price === "number" ? price : parseFloat(price)) * quantityInCart)}₽
         </Typography>
       </Grid>
       <Grid item xs={1}>

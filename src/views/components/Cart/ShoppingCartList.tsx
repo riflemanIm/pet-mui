@@ -39,7 +39,7 @@ export default function ShoppingCartList() {
     }
 
     const data = shoppingCart.map((item) => ({
-      foodId: parseInt(item.id),
+      foodId: Number(item.id),
       quantityInCart: item.quantityInCart,
     }));
 

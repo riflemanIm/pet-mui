@@ -22,7 +22,7 @@ import pxToRem from "theme/functions/pxToRem";
 const { text, info, secondary, transparent } = colors;
 const { size } = typography;
 
-export default {
+const textButton = {
   base: {
     backgroundColor: transparent.main,
     minHeight: pxToRem(40),
@@ -99,3 +99,5 @@ export default {
     },
   },
 };
+
+export default textButton;

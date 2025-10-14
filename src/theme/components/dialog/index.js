@@ -18,7 +18,7 @@ import boxShadows from "theme/base/boxShadows";
 const { borderRadius } = borders;
 const { xxl } = boxShadows;
 
-export default {
+const dialog = {
   styleOverrides: {
     paper: {
       borderRadius: borderRadius.lg,
@@ -30,3 +30,5 @@ export default {
     },
   },
 };
+
+export default dialog;

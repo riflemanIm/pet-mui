@@ -15,10 +15,12 @@
 // Shepherd React helper functions
 import pxToRem from "theme/functions/pxToRem";
 
-export default {
+const step = {
   styleOverrides: {
     root: {
       padding: `0 ${pxToRem(6)}`,
     },
   },
 };
+
+export default step;

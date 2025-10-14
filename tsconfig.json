@@ -31,8 +31,7 @@
       ]
     },
     "types": [
-      "react",
-      "react-dom"
+      "react"
     ]
   },
   "include": [

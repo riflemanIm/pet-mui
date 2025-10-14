@@ -22,7 +22,7 @@ import linearGradient from "theme/functions/linearGradient";
 const { borderWidth, borderColor } = borders;
 const { transparent, info } = colors;
 
-export default {
+const checkbox = {
   styleOverrides: {
     root: {
       "& .MuiSvgIcon-root": {
@@ -77,3 +77,5 @@ export default {
     },
   },
 };
+
+export default checkbox;

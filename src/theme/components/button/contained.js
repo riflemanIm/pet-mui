@@ -8,7 +8,7 @@ import pxToRem from "theme/functions/pxToRem";
 const { white, text, primary, secondary } = colors;
 const { size } = typography;
 
-export default {
+const contained = {
   base: {
     backgroundColor: primary.main,
     minHeight: pxToRem(40),
@@ -68,3 +68,5 @@ export default {
     },
   },
 };
+
+export default contained;

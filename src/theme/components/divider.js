@@ -20,7 +20,7 @@ import pxToRem from "theme/functions/pxToRem";
 
 const { dark, white } = colors;
 
-export default {
+const divider = {
   styleOverrides: {
     root: {
       background: rgba(dark.main, 0.2),
@@ -47,3 +47,5 @@ export default {
     },
   },
 };
+
+export default divider;

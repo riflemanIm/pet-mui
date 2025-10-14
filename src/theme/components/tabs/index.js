@@ -23,7 +23,7 @@ const { grey, white } = colors;
 const { borderRadius } = borders;
 const { tabsBoxShadow } = boxShadows;
 
-export default {
+const tabs = {
   styleOverrides: {
     root: {
       position: "relative",
@@ -59,3 +59,5 @@ export default {
     },
   },
 };
+
+export default tabs;

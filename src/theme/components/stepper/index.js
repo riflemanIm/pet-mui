@@ -24,7 +24,7 @@ const { transparent, gradients } = colors;
 const { borderRadius } = borders;
 const { colored } = boxShadows;
 
-export default {
+const stepper = {
   styleOverrides: {
     root: {
       background: linearGradient(gradients.info.main, gradients.info.state),
@@ -38,3 +38,5 @@ export default {
     },
   },
 };
+
+export default stepper;

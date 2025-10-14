@@ -34,14 +34,13 @@ const YMap = ({ data, options }) => {
   const theme = useTheme();
   const classes = useStyles();
   // Layout of marker by yandex design
-  const MarkerLayout = useMemo(
-    (item) =>
-      ymaps &&
-      ymaps.templateLayoutFactory.createClass(
-        `<div class=${classes.marker}></div>`
-      ),
-    [ymaps]
-  );
+  const markerClassName = classes.marker;
+  const MarkerLayout = useMemo(() => {
+    if (!ymaps) return null;
+    return ymaps.templateLayoutFactory.createClass(
+      `<div class=${markerClassName}></div>`
+    );
+  }, [ymaps, markerClassName]);
 
   return (
     ymaps && (

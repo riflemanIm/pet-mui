@@ -17,7 +17,7 @@ import colors from "theme/base/colors";
 
 const { info, dark } = colors;
 
-export default {
+const globalStyles = {
   html: {
     scrollBehavior: "smooth",
   },
@@ -36,3 +36,5 @@ export default {
     color: `${info.main} !important`,
   },
 };
+
+export default globalStyles;

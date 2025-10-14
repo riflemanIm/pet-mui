@@ -78,7 +78,7 @@ export default function ProductItem({ item, index }: Props) {
           </MKBox>
         </MKBox>
 
-        <MKBox p={2} backgroundColor="background.paper">
+        <MKBox p={2} bgcolor="background.paper">
           <MKTypography
             component={NextLink}
             href={`/catalog/${item.id}`}

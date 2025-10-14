@@ -6,7 +6,7 @@ import { alpha } from "@mui/system";
  * You can customized the colors for the entire Shepherd React using thie file.
  */
 
-export default {
+const colors = {
   background: {
     default: alpha("#6fb910", 0.1),
   },
@@ -246,3 +246,5 @@ export default {
     indicator: { boxShadow: "#ddd" },
   },
 };
+
+export default colors;

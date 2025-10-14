@@ -1,7 +1,7 @@
 import * as React from "react";
 import type { BoxProps } from "@mui/material/Box";
 
-export interface MKBoxProps extends BoxProps {
+type MKBoxExtraProps = {
   variant?: "contained" | "gradient";
   bgColor?: string;
   color?: string;
@@ -18,10 +18,15 @@ export interface MKBoxProps extends BoxProps {
     | "light"
     | "dark"
     | "none";
-}
+};
 
-declare const MKBox: React.ForwardRefExoticComponent<
-  MKBoxProps & React.RefAttributes<any>
->;
+export type MKBoxProps<C extends React.ElementType = "div"> = Omit<BoxProps<C>, "component"> &
+  MKBoxExtraProps & {
+    component?: C;
+  };
+
+declare function MKBox<C extends React.ElementType = "div">(
+  props: MKBoxProps<C> & React.RefAttributes<any>
+): React.ReactElement | null;
 
 export default MKBox;

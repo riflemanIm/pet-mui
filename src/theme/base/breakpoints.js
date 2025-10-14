@@ -18,7 +18,7 @@
  * You can customized the breakpoints for the entire Shepherd React using thie file.
  */
 
-export default {
+const breakpoints = {
   values: {
     xs: 0,
     sm: 576,
@@ -28,3 +28,5 @@ export default {
     xxl: 1400,
   },
 };
+
+export default breakpoints;

@@ -25,7 +25,7 @@ const { size } = typography;
 const { text, white } = colors;
 const { borderRadius } = borders;
 
-export default {
+const menu = {
   defaultProps: {
     disableAutoFocusItem: true,
   },
@@ -43,3 +43,5 @@ export default {
     },
   },
 };
+
+export default menu;

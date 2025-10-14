@@ -15,7 +15,7 @@
 // Shepherd React helper functions
 import pxToRem from "theme/functions/pxToRem";
 
-export default {
+const svgIcon = {
   defaultProps: {
     fontSize: "inherit",
   },
@@ -34,3 +34,5 @@ export default {
     },
   },
 };
+
+export default svgIcon;

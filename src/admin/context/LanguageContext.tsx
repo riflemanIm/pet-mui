@@ -1,6 +1,7 @@
 import React, { useContext, useReducer, Dispatch, createContext } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '../translations/index';
+import config from '../config';
 
 interface LanguageState {
   language: Language;
@@ -21,8 +22,19 @@ interface LanguageContextI {
   dispatchLanguage: Dispatch<Action>;
 }
 
+const KNOWN_LANGUAGES: Language[] = ['ru', 'fr', 'en'];
+
+const deriveDefaultLanguage = (): Language => {
+  const def = typeof config.defLang === 'string' ? config.defLang.substring(0, 2).toLowerCase() : null;
+  return def && KNOWN_LANGUAGES.includes(def as Language) ? (def as Language) : 'ru';
+};
+
+const FALLBACK_LANGUAGE: Language = deriveDefaultLanguage();
+
 const languageWithoutCountry = (): Language => {
-  return i18n.language.substring(0, 2) as Language;
+  const rawLanguage = i18n?.language ?? config.defLang ?? FALLBACK_LANGUAGE;
+  const normalized = typeof rawLanguage === 'string' ? rawLanguage.substring(0, 2).toLowerCase() : FALLBACK_LANGUAGE;
+  return KNOWN_LANGUAGES.includes(normalized as Language) ? (normalized as Language) : FALLBACK_LANGUAGE;
 };
 
 export const LANGUAGES: Record<string, Language> = {

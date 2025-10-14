@@ -20,7 +20,7 @@ import boxShadow from "theme/functions/boxShadow";
 
 const { white } = colors;
 
-export default {
+const stepIcon = {
   styleOverrides: {
     root: {
       background: "#9fc9ff",
@@ -51,3 +51,5 @@ export default {
     },
   },
 };
+
+export default stepIcon;

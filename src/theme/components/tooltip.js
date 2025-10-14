@@ -26,7 +26,7 @@ const { black, light } = colors;
 const { size, fontWeightRegular } = typography;
 const { borderRadius } = borders;
 
-export default {
+const tooltip = {
   defaultProps: {
     arrow: true,
     TransitionComponent: Fade,
@@ -50,3 +50,5 @@ export default {
     },
   },
 };
+
+export default tooltip;
