@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "../../lib/prisma";
-import isEmpty from "../../src/helpers";
+import isEmpty from "helpers";
 import { sign } from "jsonwebtoken";
 
 export default async function handler(

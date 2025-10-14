@@ -1,0 +1,162 @@
+/* eslint-disable react/no-unescaped-entities */
+import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
+import { useTheme } from "@mui/material/styles";
+//import CardMedia from '@mui/material/CardMedia';
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+//import { CardActionArea } from '@mui/material';
+import img3 from "assets/images/big_small.jpg";
+import img1 from "assets/images/hero/25155454.jpg";
+import img from "assets/images/pets.jpg";
+import img2 from "assets/images/puppies.jpg";
+import img4 from "assets/images/taste.jpeg";
+
+import img5 from "assets/images/hardness.jpg";
+import MKBox from "components/MKBox";
+const mock = [
+  {
+    title: "Разработано для",
+    subtitle: "Наши товары разработаны для конкретного вида питомца",
+    icon: img.src,
+    href: '/catalog?type=Treat&designedFor=1',
+  },
+  {
+    title: "Ингридиенты",
+    subtitle:
+      "Вам следует изучить, какие продукты питания будут наиболее полезными для вашего питомца",
+    icon: img1.src,
+    href: '/catalog?type=Treat&ingredient=1,2,3',
+  },
+  {
+    title: "Особые потребности",
+    subtitle:
+      "Здесь можно сделать акцент на определенной потребности для здоровья Вашего питомца ",
+    icon: img2.src,
+    href: '/catalog?type=Treat&specialNeeds=1,9',
+  },
+  {
+    title: "Размер питомца",
+    subtitle: "У нас есть лакомства для любого размера Вашего питомца",
+    icon: img3.src,
+    href: '/catalog?type=Treat&petSizes=1,2',
+  },
+  {
+    title: "Вкус",
+    subtitle: "Вкусняшки на любой вкус для Вашего питомца",
+    icon: img4.src,
+    href: '/catalog?type=Treat&taste=1,2,3',
+  },
+  {
+    title: "Консистенция корма",
+    subtitle: "Все, что вы хотели про влажные, твердые, мягкие корма",
+    icon: img5.src,
+    href: '/catalog?type=Treat&hardness=1,2,3',
+  },
+];
+
+const IndexViewCategories = () => {
+  const theme = useTheme();
+  return (
+    <>
+      <Box marginBottom={4}>
+        <Typography
+          variant="h2"
+          color="text.primary"
+          align={"center"}
+          gutterBottom
+          sx={{
+            fontWeight: 700,
+          }}
+          mb={3}
+        >
+          Категории товаров
+        </Typography>
+
+        <Typography
+          variant="subtitle2"
+          align={"center"}
+          color={"text.secondary"}
+          data-aos={"fade-up"}
+        >
+          На нашем сайте мы поможем Вам подобрать идеальный баланс питания{" "}
+          <br />
+          или выбрать просто вкусняшку для Вашего питомца
+        </Typography>
+      </Box>
+      <Grid container spacing={4}>
+        {mock.map((item, i) => (
+          <Grid item xs={12} sm={6} md={4} key={i}>
+            <Box
+              component={"a"}
+              display={"block"}
+              sx={{
+                textDecoration: "none",
+                transition: "all .2s ease-in-out",
+                "&:hover": {
+                  transform: `translateY(-${theme.spacing(1 / 2)})`,
+                },
+              }}
+              href={item.href ?? "/"}
+              style={{ textDecoration: "none", height: "100%" }}
+            >
+              <MKBox
+                shadow="md"
+                borderRadius="md"
+                padding={4}
+                width={1}
+                height={1}
+                data-aos={"fade-up"}
+                data-aos-delay={i * 100}
+                sx={{
+                  backgroundColor: `${theme.palette.white.main} !important`,
+                  "& > div > div > img": { filter: "grayscale(.7)" },
+                  "&:hover": {
+                    backgroundColor: `${theme.palette.background.default} !important`,
+                    "& > div > div > img": { filter: "none" },
+                  },
+                }}
+              >
+                <Box
+                  display={"flex"}
+                  flexDirection={"column"}
+                  align={"center"}
+                  justifyContent="center"
+                >
+                  <Box
+                    component={Avatar}
+                    width={200}
+                    height={200}
+                    marginBottom={2}
+                    bgcolor={theme.palette.grey[400]}
+                    color={theme.palette.background.paper}
+                    alignSelf="center"
+                    src={item.icon}
+                    sx={{
+                      "& .MuiAvatar-img": {
+                        height: "100% !important",
+                      },
+                    }}
+                  />
+                  <Typography
+                    variant={"h6"}
+                    gutterBottom
+                    color="text.primary"
+                    sx={{ fontWeight: 500 }}
+                  >
+                    {item.title}
+                  </Typography>
+                  <Typography color="text.secondary">
+                    {item.subtitle}
+                  </Typography>
+                </Box>
+              </MKBox>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
+    </>
+  );
+};
+
+export default IndexViewCategories;

@@ -1,227 +1,334 @@
-import {
-  getOzonGoodsCategoryAttributeValue,
-  getOzonGoodsCategoryAttributes,
-} from "../../src/actions/user";
-import prisma from "../../lib/prisma";
-import isEmpty from "../../src/helpers";
-import jsonData from "../../import_data/data.json";
+// import-data.js — Excel -> DB + изображения
+import path from "path";
+import fs from "fs/promises";
+import axios from "axios";
+import excelToJson from "convert-excel-to-json";
+import { PrismaClient } from "@prisma/client";
 
-const mapTables = {
-  designedFor: "Предназначено для",
-  age: "Возраст животного",
-  petSize: "Размер животного",
-  MadeIn: "Страна-изготовитель",
-  feature: "Особенности",
-  specialNeeds: "Особые потребности",
-  taste: "Вкус корма для животных",
-  package: "Упаковка",
-  ingridient: "Основной ингредиент",
-  hardness: "Жесткость",
-  typeTreat: "Вид лакомства",
+const prisma = new PrismaClient();
+
+const SHEET_NAME = "Шаблон";
+const EXCEL_FILE = path.resolve(process.cwd(), "import_data", "data.xlsx");
+const IMG_DIR = path.resolve(process.cwd(), "public", "images", "catalog");
+const CONCURRENCY = Number(process.env.DOWNLOAD_CONCURRENCY || 5);
+const DOWNLOAD_IMAGES = String(process.env.DOWNLOAD_IMAGES || "true").toLowerCase() !== "false";
+
+// ------------------- helpers -------------------
+const textOrNull = (value) => {
+  if (value === null || value === undefined) return null;
+  const str = String(value).trim();
+  return str.length ? str : null;
 };
-const getKeyByValue = (value) => {
-  return Object.keys(mapTables).find((key) => mapTables[key] === value);
+
+const parseNumber = (value) => {
+  if (value === null || value === undefined || value === "") return null;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  const cleaned = String(value).replace(/\s+/g, "").replace(",", ".");
+  const num = Number(cleaned);
+  return Number.isFinite(num) ? num : null;
 };
-const getId = async (tableName, name) => {
+
+const parseIntOrNull = (value) => {
+  const num = parseNumber(value);
+  if (num === null) return null;
+  const intNum = Math.round(num);
+  return Number.isFinite(intNum) ? intNum : null;
+};
+
+const parseBool = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (!str) return false;
+  if (["да", "yes", "true", "1"].includes(str)) return true;
+  if (["нет", "no", "false", "0"].includes(str)) return false;
+  return false;
+};
+
+const parseVat = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (!str || str === "не облагается" || str === "нет") return false;
+  const num = parseNumber(str.replace("%", ""));
+  if (num === null) return false;
+  return num > 0;
+};
+
+const splitUrls = (str) =>
+  String(str || "")
+    .split(/[\n;]+/g)
+    .map((s) => s.trim())
+    .filter(Boolean);
+
+const splitNames = (value) => {
+  if (value === null || value === undefined) return [];
+  if (Array.isArray(value)) return value.flatMap((v) => splitNames(v));
+  const str = String(value).trim();
+  if (!str) return [];
+  return str
+    .split(/[;,\n]+/g)
+    .map((part) => part.trim())
+    .filter(Boolean);
+};
+
+const firstName = (value) => {
+  const arr = splitNames(value);
+  return arr.length ? arr[0] : null;
+};
+
+const normalizeFoodType = (value) => {
+  const str = String(value ?? "").trim().toLowerCase();
+  if (str === "лакомство") return "Treat";
+  if (str === "корм сухой") return "DryFood";
+  return "Treat";
+};
+
+const fileName = (url) => {
+  if (!url) return null;
+  const parts = String(url).split("/").filter(Boolean);
+  if (!parts.length) return null;
+  if (parts.length < 3) return parts[parts.length - 1] || null;
+  return `${parts[parts.length - 3]}_${parts[parts.length - 2]}_${
+    parts[parts.length - 1]
+  }`;
+};
+
+async function ensureDir(dir) {
+  await fs.mkdir(dir, { recursive: true });
+}
+
+async function fileExists(p) {
   try {
-    const res = await prisma[tableName].findFirst({
-      where: {
-        name,
-      },
-    });
-    console.log("getId tableName", tableName, res.id);
-    return res.id;
-  } catch (error) {
-    console.log("getId error:", error);
-  }
-};
-const getIds = async (tableName, valsStr) => {
-  const vals = valsStr.split(";");
-  try {
-    const res = await prisma[tableName].findMany({
-      where: {
-        name: { in: vals },
-      },
-    });
-    console.log("getIds", tableName, res);
-    return res;
-  } catch (error) {
-    console.log("getId error:", error);
-  }
-};
-
-// Seed books and authors data.
-// async function seedBooksAndAuthors(client, books, authors) {
-//   const records = books.map((book) => {
-//     const authorIndex = faker.datatype.number({
-//       min: 0,
-//       max: authors.length - 1,
-//     });
-//     const author = authors[authorIndex];
-
-//     return {
-//       bookId: book.id,
-//       authorId: author.id,
-//     };
-//   });
-
-//   const added = await client.bookAuthor.createMany({
-//     data: records,
-//     skipDuplicates: true,
-//   });
-
-//   if (added.count > 0) {
-//     console.log(
-//       `Successfully inserted ${added.count} book and author relation records.`
-//     );
-//   }
-
-//   return records;
-// }
-const creatBound = async (foodId, tableName, boundTable, fieldName, val) => {
-  const data = await getIds(tableName, val);
-  const records = data.map((itt) => ({
-    foodId,
-    [fieldName]: itt.id,
-  }));
-  await prisma[boundTable].createMany({
-    data: records,
-    skipDuplicates: true,
-  });
-
-  // const vals = val.split(";");
-  // vals.forEach(async (itt) => {
-  //   const field = {};
-  //   field[fieldName] = await getId(tableName, itt);
-  //   await prisma[boundTable].create({
-  //     data: {
-  //       foodId,
-  //       ...field,
-  //     },
-  //   });
-  // });
-};
-export default async function handler(req, res) {
-  //const attributes = await getOzonGoodsCategoryAttributes();
-  // try {
-  //   attributes.result.forEach(
-  //     async ({ id, is_required, name, attribute_complex_id }) => {
-  //       const tableName = getKeyByValue(name);
-  //       if (tableName != null) {
-  //         const data = await getOzonGoodsCategoryAttributeValue(id);
-
-  //         if (!isEmpty(data)) {
-  //           //console.log("data", data);
-  //           console.log("tableName", name, tableName);
-  //           data.result.forEach(async (row) => {
-  //             await prisma[tableName].create({
-  //               data: {
-  //                 name: row.value,
-  //               },
-  //             });
-  //           });
-  //           res.status(200).json(data);
-  //         }
-  //       }
-  //     }
-  //   );
-  // } catch (err) {
-  //   console.log(err);
-  // }
-
-  try {
-    jsonData.forEach(async (it) => {
-      const brandId = await getId("brand", it.R);
-      const tasteId = await getId("taste", it.X);
-      const designedForId = await getId("designedFor", it.Z);
-      const ingridientId = await getId("ingridient", it.AM);
-      const hardnessId = await getId("hardness", it.AO);
-      const specialNeedsId = await getId("specialNeeds", it.AR);
-      const madeInId = await getId("madeIn", it.AZ);
-
-      await prisma.food.create({
-        data: {
-          id: parseInt(it.A),
-          artikul: it.B,
-          title: it.C,
-          price: parseFloat(it.D),
-          priceDiscount: parseFloat(it.E),
-          vat: it.F === "Не облагается" ? false : true,
-          isPromo: it.G === "Нет" ? false : true,
-          ozonId: it.H ?? null,
-          barcode: it.I,
-          packageWeight: parseInt(it.J, 10),
-          packageWidth: parseInt(it.K, 10),
-          packageHeight: parseInt(it.L, 10),
-          lengthHeight: parseInt(it.M, 10),
-          img: it.N,
-          imgs: it.O,
-          brandId: brandId,
-          type: "Treat",
-          feature: it.T,
-          weight: parseInt(it.V),
-          quantity: parseInt(it.W) || null,
-          tasteId: tasteId,
-          quantityPackages: parseInt(it.Y) || null,
-          designedForId: designedForId,
-          expiration: parseInt(it.AA),
-          proteins: parseInt(it.AD) || null,
-          fats: parseInt(it.AE) || null,
-          anatation: it.AL,
-          ingridientId: ingridientId,
-          keywords: it.AN,
-          hardnessId: hardnessId,
-          posibleStartMoth: parseInt(it.AQ),
-          specialNeedsId: specialNeedsId,
-          numInPackage: parseInt(it.AT) || null,
-          composition: it.AU ?? null,
-          materials: it.AV ?? null,
-          contentOfMeet: parseInt(it.AW) || null,
-          energyValue: parseInt(it.AX) || null,
-          madeInId: madeInId,
-        },
-      });
-      if (it.U != null && it.U != "") {
-        creatBound(parseInt(it.A), "age", "foodAge", "ageId", it.U);
-      }
-      if (it.AC != null && it.AC != "") {
-        creatBound(
-          parseInt(it.A),
-          "package",
-          "foodPackage",
-          "packageId",
-          it.AC
-        );
-      }
-      if (it.AK != null && it.AK != "") {
-        creatBound(
-          parseInt(it.A),
-          "typeTreat",
-          "foodTypeTreat",
-          "typeTreatId",
-          it.AK
-        );
-      }
-      if (it.AP != null && it.AP != "") {
-        creatBound(
-          parseInt(it.A),
-          "petSize",
-          "foodPetSize",
-          "petSizeId",
-          it.AP
-        );
-      }
-      if (it.AS != null && it.AS != "") {
-        creatBound(
-          parseInt(it.A),
-          "feature",
-          "foodFeature",
-          "featureId",
-          it.AS
-        );
-      }
-    });
-  } catch (error) {
-    console.log(error);
+    await fs.access(p);
+    return true;
+  } catch {
+    return false;
   }
 }
+
+async function downloadFile(destPath, url) {
+  try {
+    const res = await axios.get(url, {
+      responseType: "arraybuffer",
+      timeout: 30000,
+    });
+    await fs.writeFile(destPath, res.data);
+    console.log("  ✓", path.basename(destPath));
+  } catch (e) {
+    console.warn("  ✗", path.basename(destPath), "-", e.message);
+  }
+}
+
+async function runWithConcurrency(items, limit, worker) {
+  let index = 0;
+  const total = items.length;
+
+  async function runner() {
+    for (;;) {
+      const current = index++;
+      if (current >= total) return;
+      await worker(items[current], current, total);
+    }
+  }
+
+  const runners = Array.from({ length: Math.min(limit, total) }, () => runner());
+  await Promise.all(runners);
+}
+
+// prisma helpers
+async function getId(table, name) {
+  const value = textOrNull(name);
+  if (!value) return null;
+  let rec = await prisma[table].findFirst({ where: { name: value } });
+  if (!rec) {
+    rec = await prisma[table].create({ data: { name: value } });
+    console.log(`Создана запись в ${table}: "${value}" (id=${rec.id})`);
+  }
+  return rec.id;
+}
+
+async function bindMany(foodId, table, joinModel, field, rawValue) {
+  const names = Array.from(new Set(splitNames(rawValue)));
+  if (!names.length) return;
+
+  for (const name of names) {
+    const refId = await getId(table, name);
+    if (!refId) continue;
+    try {
+      await prisma[joinModel].create({
+        data: {
+          foodId,
+          [field]: refId,
+        },
+      });
+    } catch (err) {
+      if (!err || err.code !== "P2002") throw err;
+    }
+  }
+}
+// ------------------------------------------------
+
+async function main() {
+  console.log("→ Читаю Excel", EXCEL_FILE);
+  const workbook = excelToJson({ sourceFile: EXCEL_FILE });
+  const sheet = workbook[SHEET_NAME] || [];
+  const rows = sheet.filter((r) => /^\d+$/.test(String(r.A || "")));
+
+  if (!rows.length) {
+    console.error(`Лист "${SHEET_NAME}" пуст или нет строк с ID.`);
+    await prisma.$disconnect();
+    process.exit(1);
+  }
+
+  const errors = [];
+  const imgRecords = [];
+  const toDownload = new Map();
+
+  for (const row of rows) {
+    try {
+      const artikul = textOrNull(row.B);
+      const title = textOrNull(row.C);
+      const price = parseNumber(row.D) ?? 0;
+      const priceDiscount = parseNumber(row.E) ?? 0;
+      const vat = parseVat(row.F);
+      const isPromo = parseBool(row.G);
+      const ozonId = textOrNull(row.J);
+
+      const mainImgUrl = textOrNull(row.O);
+      const extraUrls = splitUrls(row.P);
+
+      const feature = textOrNull(row.T);
+      const weight = parseIntOrNull(row.U);
+      const quantity = parseIntOrNull(row.V);
+      const quantityPackages = parseIntOrNull(row.W);
+
+      const type = normalizeFoodType(row.X);
+      const expiration = parseIntOrNull(row.Z);
+      const annotation = textOrNull(row.AC);
+      const packageSize = textOrNull(row.AG);
+
+      const tasteId = await getId("taste", firstName(row.AM));
+      const ingredientId = await getId("ingredient", firstName(row.AR));
+      const hardnessId = await getId("hardness", firstName(row.AN));
+
+      const mainName = fileName(mainImgUrl);
+
+      const extrasMap = new Map();
+      for (const url of extraUrls) {
+        const name = fileName(url);
+        if (!name) continue;
+        if (name === mainName) continue;
+        if (!extrasMap.has(name)) extrasMap.set(name, { name, url });
+      }
+      const extraEntries = Array.from(extrasMap.values());
+      const top10 = extraEntries.slice(0, 10);
+
+      const imgFields = {};
+      for (let i = 0; i < 10; i++) {
+        imgFields[`img${i + 1}`] = top10[i]?.name ?? null;
+      }
+
+      const food = await prisma.food.create({
+        data: {
+          artikul,
+          title,
+          price,
+          priceDiscount,
+          vat,
+          isPromo,
+          ozonId,
+          img: mainName ?? null,
+          imgUrl: mainImgUrl ?? null,
+          imgs: textOrNull(row.P),
+          ...imgFields,
+          feature,
+          weight,
+          quantity,
+          quantityPackages,
+          type,
+          expiration,
+          annotation,
+          packageSize,
+          tasteId,
+          ingredientId,
+          hardnessId,
+        },
+      });
+
+      await bindMany(food.id, "designedFor", "foodDesignedFor", "designedForId", row.Y);
+      await bindMany(food.id, "age", "foodAge", "ageId", row.AA);
+      await bindMany(food.id, "typeTreat", "foodTypeTreat", "typeTreatId", row.AL);
+      await bindMany(food.id, "package", "foodPackage", "packageId", row.AH);
+      await bindMany(food.id, "petSize", "foodPetSize", "petSizeId", row.AT);
+      await bindMany(food.id, "specialNeeds", "foodSpecialNeeds", "specialNeedsId", row.AU);
+
+      if (extraEntries.length) {
+        for (const entry of extraEntries) {
+          imgRecords.push({ foodId: food.id, img: entry.name });
+        }
+      }
+
+      if (mainName && mainImgUrl && !toDownload.has(mainName)) {
+        toDownload.set(mainName, mainImgUrl);
+      }
+      for (const entry of extraEntries) {
+        if (!toDownload.has(entry.name) && entry.url) {
+          toDownload.set(entry.name, entry.url);
+        }
+      }
+    } catch (error) {
+      console.error("Ошибка при обработке строки", row.A, error.message);
+      errors.push({
+        row: row.A,
+        error: {
+          name: error.name,
+          code: error.code,
+          meta: error.meta,
+          message: error.message,
+        },
+      });
+    }
+  }
+
+  if (imgRecords.length) {
+    try {
+      await prisma.foodImgAdd.createMany({ data: imgRecords, skipDuplicates: true });
+      console.log(`Создано записей в foodImgAdd (с учётом дублей): ${imgRecords.length}`);
+    } catch (e) {
+      console.error("Ошибка при createMany foodImgAdd:", e.message);
+    }
+  }
+
+  await fs.writeFile(
+    "import-errors.json",
+    JSON.stringify(errors, null, 2),
+    "utf8"
+  );
+  console.log(
+    `Импорт завершён. Обработано: ${rows.length}. Успешно: ${rows.length - errors.length}. Ошибки: ${errors.length}.`
+  );
+
+  if (DOWNLOAD_IMAGES && toDownload.size) {
+    await ensureDir(IMG_DIR);
+    const entries = Array.from(toDownload.entries());
+    console.log(`→ Скачивание ${entries.length} файлов (потоков: ${CONCURRENCY})`);
+    await runWithConcurrency(entries, CONCURRENCY, async ([name, url], idx, total) => {
+      const dest = path.join(IMG_DIR, name);
+      if (await fileExists(dest)) {
+        console.log(`[${idx + 1}/${total}] уже есть: ${name}`);
+        return;
+      }
+      console.log(`[${idx + 1}/${total}] ${name}`);
+      await downloadFile(dest, url);
+    });
+  } else if (DOWNLOAD_IMAGES) {
+    console.log("Нет изображений для скачивания.");
+  } else {
+    console.log("Скачивание изображений отключено (DOWNLOAD_IMAGES=false).");
+  }
+
+  await prisma.$disconnect();
+}
+
+main().catch(async (e) => {
+  console.error(e);
+  await prisma.$disconnect();
+  process.exit(1);
+});

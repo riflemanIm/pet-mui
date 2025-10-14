@@ -1460,7 +1460,7 @@ CREATE TABLE `foods` (
   `proteins` decimal(3,1) DEFAULT 0.0,
   `fats` decimal(3,1) DEFAULT 0.0,
   `anatation` text DEFAULT NULL,
-  `ingridient_id` int(11) NOT NULL,
+  `ingredient_id` int(11) NOT NULL,
   `keywords` text DEFAULT NULL,
   `hardness_id` int(11) NOT NULL,
   `posible_start_moth` int(11) NOT NULL,
@@ -1479,14 +1479,14 @@ CREATE TABLE `foods` (
   KEY `foods_brand_id_idx` (`brand_id`),
   KEY `foods_taste_id_idx` (`taste_id`),
   KEY `foods_designed_for_id_idx` (`designed_for_id`),
-  KEY `foods_ingridient_id_idx` (`ingridient_id`),
+  KEY `foods_ingredient_id_idx` (`ingredient_id`),
   KEY `foods_special_needs_id_idx` (`special_needs_id`),
   KEY `foods_hardness_id_idx` (`hardness_id`),
   KEY `foods_made_in_id_idx` (`made_in_id`),
   CONSTRAINT `foods_brand_id_fkey` FOREIGN KEY (`brand_id`) REFERENCES `brands` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `foods_designed_for_id_fkey` FOREIGN KEY (`designed_for_id`) REFERENCES `designed_for` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `foods_hardness_id_fkey` FOREIGN KEY (`hardness_id`) REFERENCES `hardness` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `foods_ingridient_id_fkey` FOREIGN KEY (`ingridient_id`) REFERENCES `ingridients` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `foods_ingredient_id_fkey` FOREIGN KEY (`ingredient_id`) REFERENCES `ingredients` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `foods_made_in_id_fkey` FOREIGN KEY (`made_in_id`) REFERENCES `country_made_in` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `foods_special_needs_id_fkey` FOREIGN KEY (`special_needs_id`) REFERENCES `special_needs` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `foods_taste_id_fkey` FOREIGN KEY (`taste_id`) REFERENCES `tastes` (`id`) ON UPDATE CASCADE
@@ -1584,32 +1584,32 @@ INSERT INTO `hardness` VALUES
 UNLOCK TABLES;
 
 --
--- Table structure for table `ingridients`
+-- Table structure for table `ingredients`
 --
 
-DROP TABLE IF EXISTS `ingridients`;
+DROP TABLE IF EXISTS `ingredients`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `ingridients` (
+CREATE TABLE `ingredients` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `ingridients_name_key` (`name`)
+  UNIQUE KEY `ingredients_name_key` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ingridients`
+-- Dumping data for table `ingredients`
 --
 
-LOCK TABLES `ingridients` WRITE;
-/*!40000 ALTER TABLE `ingridients` DISABLE KEYS */;
-INSERT INTO `ingridients` VALUES
+LOCK TABLES `ingredients` WRITE;
+/*!40000 ALTER TABLE `ingredients` DISABLE KEYS */;
+INSERT INTO `ingredients` VALUES
 (4,'Злаки'),
 (1,'Мясо'),
 (2,'Птица'),
 (3,'Рыба');
-/*!40000 ALTER TABLE `ingridients` ENABLE KEYS */;
+/*!40000 ALTER TABLE `ingredients` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

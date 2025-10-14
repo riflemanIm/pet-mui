@@ -1,5 +1,5 @@
 import { Decimal } from "@prisma/client/runtime/library";
-import { ShoppingCartItemProps } from "types";
+import { ShoppingCartItemProps } from "../types";
 // import _ from 'lodash';
 
 export function currencyFormat(num: number | Decimal | string) {

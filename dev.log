@@ -1,0 +1,5 @@
+yarn run v1.22.22
+$ kill-port 3000 && next dev -p 3000
+Process on port 3000 killed
+[?25h
+Done in 0.93s.

@@ -4,7 +4,10 @@ import prisma from "../../lib/prisma";
 import SENDMAIL, { HTML_TEMPLATE } from "../../lib/mail";
 
 import isEmpty, { getError, getRandomInt } from "helpers";
-import { calcCartItemTotalPrice, currencyFormat } from "helpers/utils";
+import {
+  calcCartItemTotalPrice,
+  currencyFormat,
+} from "helpers/utils";
 import { Decimal } from "@prisma/client/runtime/library";
 type DataType = {
   foodId: number;

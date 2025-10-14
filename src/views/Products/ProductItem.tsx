@@ -1,0 +1,124 @@
+// ProductItem.tsx
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import Grid2 from "@mui/material/Grid2";
+import Icon from "@mui/material/Icon";
+import NextLink from "next/link";
+import { useSnackbar } from "notistack";
+import { useCallback } from "react";
+import { Card } from "@mui/material";
+import HandCounter from "components/HandCounter";
+import MKBox from "components/MKBox";
+import MKButton from "components/MKButton";
+import MKTypography from "components/MKTypography";
+import { useAppState } from "context/AppStateContext";
+import borders from "theme/base/borders";
+import boxShadows from "theme/base/boxShadows";
+import type { FoodProps } from "types";
+const { borderRadius } = borders;
+const { xxl, colored } = boxShadows;
+
+type Props = { item: FoodProps; index: number };
+
+export default function ProductItem({ item, index }: Props) {
+  const { shoppingCart, addCartItem } = useAppState();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const handleAddToCart = useCallback(() => {
+    addCartItem(item, enqueueSnackbar);
+  }, [item, addCartItem, enqueueSnackbar]);
+
+  const inCart = shoppingCart.some((c) => c.id === item.id);
+
+  const mainImg = item.img
+    ? `/images/catalog/${item.img}`
+    : "/images/no-image.png";
+  const price =
+    typeof item.price === "number" ? item.price : Number(item.price);
+
+  return (
+    <Grid2
+      size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }}
+      key={item.id}
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
+      data-aos-offset={100}
+      data-aos-duration={600}
+    >
+      <Card sx={{ borderRadius: borderRadius.lg, boxShadow: colored.info }}>
+        <MKBox position="relative">
+          <MKBox
+            component="img"
+            src={mainImg}
+            alt={item.title || ""}
+            width="100%"
+            sx={{
+              height: { xs: 200, sm: 280, md: 240 },
+              borderRadius: borderRadius.lg,
+              boxShadow: xxl,
+              objectFit: "cover",
+            }}
+          />
+          <MKBox
+            position="absolute"
+            bottom={0}
+            left={0}
+            right={0}
+            sx={{
+              height: "40%",
+              background:
+                "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
+            }}
+          />
+          <MKBox component="span" position="absolute" top={8} right={8}>
+            <Icon
+              component={FavoriteBorderIcon}
+              fontSize="small"
+              sx={{ color: "white" }}
+            />
+          </MKBox>
+        </MKBox>
+
+        <MKBox p={2} backgroundColor="background.paper">
+          <MKTypography
+            component={NextLink}
+            href={`/catalog/${item.id}`}
+            variant="h6"
+            textTransform="capitalize"
+            sx={{ textDecoration: "none", color: "text.primary" }}
+          >
+            {item.title || "Без названия"}
+          </MKTypography>
+
+          <MKBox
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            mt={1}
+          >
+            <MKTypography variant="subtitle2" color="primary">
+              {price}₽
+            </MKTypography>
+
+            {item.stock > 0 ? (
+              inCart ? (
+                <HandCounter id={item.id} />
+              ) : (
+                <MKButton
+                  variant="gradient"
+                  size="small"
+                  onClick={handleAddToCart}
+                >
+                  В корзину
+                </MKButton>
+              )
+            ) : (
+              <MKTypography variant="caption" color="text.secondary">
+                Нет в наличии
+              </MKTypography>
+            )}
+          </MKBox>
+        </MKBox>
+      </Card>
+    </Grid2>
+  );
+}
