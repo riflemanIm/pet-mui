@@ -2,7 +2,7 @@
 module.exports = {
   apps: [
     {
-      name: "next-app",
+      name: "s-pet",
       script: "node_modules/next/dist/bin/next",
       args: "start -p 3000",
       cwd: "/mnt/disk-1/www/s-pet.ru",
