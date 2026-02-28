@@ -1,5 +1,5 @@
 source_materials/
-
+.well-known/
 .now
 node_modules/
 *.env*
