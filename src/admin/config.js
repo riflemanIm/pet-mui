@@ -6,8 +6,8 @@ const config = {
   baseURLApi: process.env.NEXT_PUBLIC_ADMIN_API_URL || '/api',
   defLang: 'ru',
   auth: {
-    email: process.env.NEXT_PUBLIC_ADMIN_LOGIN || '',
-    password: process.env.NEXT_PUBLIC_ADMIN_PASS || ''
+    email: '',
+    password: ''
   },
   defaultPath: '/food',
   fontFamily: `'Public Sans', sans-serif`,

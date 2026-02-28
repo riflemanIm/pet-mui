@@ -106,9 +106,10 @@
     "prisma:dev": "prisma migrate dev",
     "prisma:deploy": "prisma migrate deploy",
     "prisma:generate": "prisma generate",
+    "admin:seed": "node scripts/create-admin-users.js",
     "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
-    "import:data": "node pages/api/import-data.js",
-    "update:imgs": "node pages/api/update-img-fields.js"
+    "import:data": "node scripts/import-data.js",
+    "update:imgs": "node scripts/update-img-fields.js"
   },
   "devDependencies": {
     "@types/chroma-js": "^3.1.1",
