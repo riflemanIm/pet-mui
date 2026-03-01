@@ -100,7 +100,7 @@
   },
   "scripts": {
     "dev": "node scripts/free-port.js 3000 && next dev",
-    "build": "NODE_OPTIONS=\"--max-old-space-size=4096\" node scripts/free-port.js 3000 && next build",
+    "build": "node scripts/free-port.js 3000 && NODE_OPTIONS=\"--max-old-space-size=4096\" next build",
     "start": "next start",
     "db:clear": "prisma db push --force-reset",
     "prisma:dev": "prisma migrate dev",
