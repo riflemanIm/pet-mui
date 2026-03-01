@@ -7,20 +7,19 @@ import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 
 import footerRoutes from "assets/footer.routes";
-import bgImage from "assets/images/bg_cat_dog.jpg";
+import bgImage from "assets/images/2149392632.jpg";
 import routes from "assets/routes";
 
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import { Grid2 } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useMediaQuery } from "@mui/system";
 import MKButton from "components/MKButton";
 import { useCallback, useState } from "react";
-import ProductFilterHor from "./ProductFilterHor";
+import ProductFilter from "./ProductFilter";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 import Products from "./Products";
 import ProductSort from "./ProductSort";
-import ProductFilter from "./ProductFilter";
-import { Grid2 } from "@mui/material";
 
 export default function IndexProducts() {
   const [openFiltersBar, setOpenFiltersBar] = useState(false);
@@ -40,12 +39,12 @@ export default function IndexProducts() {
           backgroundImage: `${(theme as any).functions.linearGradient(
             (theme as any).functions.rgba(
               (theme as any).palette.gradients.dark.main,
-              0.6
+              0.6,
             ),
             (theme as any).functions.rgba(
               (theme as any).palette.gradients.dark.state,
-              0.6
-            )
+              0.6,
+            ),
           )}, url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",

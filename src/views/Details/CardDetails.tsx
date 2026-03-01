@@ -6,17 +6,20 @@ import { useAppState } from "context/AppStateContext";
 import type { FoodDetailProps, FoodImgAddProp } from "types";
 import { Details, ImageView } from "./components";
 
-const CardDetails: FC = () => {
+type Props = {
+  onDetailsLoaded?: (details: FoodDetailProps | null) => void;
+};
+
+const CardDetails: FC<Props> = ({ onDetailsLoaded }) => {
   const { foodDetailsId } = useAppState();
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<any>(null);
-  const [foodDetails, setFoodDetails] = useState<FoodDetailProps | null>(
-    null
-  );
+  const [foodDetails, setFoodDetails] = useState<FoodDetailProps | null>(null);
 
   useEffect(() => {
     if (foodDetailsId == null) {
       setFoodDetails(null);
+      onDetailsLoaded?.(null);
       setLoading(false);
       return;
     }
@@ -33,13 +36,14 @@ const CardDetails: FC = () => {
         return;
       }
       setFoodDetails(response.content);
+      onDetailsLoaded?.(response.content);
       setLoading(false);
     }
     loadDetails();
     return () => {
       cancelled = true;
     };
-  }, [foodDetailsId]);
+  }, [foodDetailsId, onDetailsLoaded]);
 
   if (loading) {
     return <CircularProgress />;
@@ -59,13 +63,13 @@ const CardDetails: FC = () => {
 
   return (
     <Grid container spacing={{ xs: 2, md: 4 }}>
-      <Grid item xs={12} md={7}>
+      <Grid item xs={12} md={6}>
         <ImageView
           imgs={[...mainImg, ...extraImgs]}
           title={foodDetails.title}
         />
       </Grid>
-      <Grid item xs={12} md={5}>
+      <Grid item xs={12} md={6}>
         <Details item={foodDetails} />
       </Grid>
     </Grid>

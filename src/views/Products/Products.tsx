@@ -1,5 +1,11 @@
 // Products.tsx
-import { Alert, Box, CircularProgress, Pagination, Typography } from "@mui/material";
+import {
+  Alert,
+  Box,
+  CircularProgress,
+  Pagination,
+  Typography,
+} from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
@@ -11,16 +17,19 @@ import ProductItem from "./ProductItem";
 export default function Products() {
   const { homePageQuery, setHomePageQuery } = useAppState();
   const [status, setStatus] = useState<"success" | "loading" | "error">(
-    "loading"
+    "loading",
   );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [items, setItems] = useState<any[]>([]);
   const [total, setTotal] = useState(0);
   const [pageSize, setPageSize] = useState(homePageQuery.size);
 
-  const handlePageChange = useCallback((_event: any, value: number) => {
-    setHomePageQuery((prev) => ({ ...prev, page: value }));
-  }, [setHomePageQuery]);
+  const handlePageChange = useCallback(
+    (_event: any, value: number) => {
+      setHomePageQuery((prev) => ({ ...prev, page: value }));
+    },
+    [setHomePageQuery],
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -95,9 +104,7 @@ export default function Products() {
     }
     if (status === "success" && total === 0) {
       return (
-        <Alert severity="info">
-          По заданным фильтрам товаров не найдено
-        </Alert>
+        <Alert severity="info">По заданным фильтрам товаров не найдено</Alert>
       );
     }
     return (
@@ -120,7 +127,7 @@ export default function Products() {
             <Typography variant="body2" color="secondary" align="center" mt={5}>
               {`${pageSize * (homePageQuery.page - 1) + 1}–${Math.min(
                 pageSize * homePageQuery.page,
-                total
+                total,
               )} из ${total} товаров`}
             </Typography>
           </Grid2>

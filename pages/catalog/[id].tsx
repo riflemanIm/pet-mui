@@ -11,8 +11,9 @@ const PageEcommerceDetails: NextPage = () => {
   const { setFoodDetailsId } = useAppState();
 
   React.useEffect(() => {
-    if (id) {
-      setFoodDetailsId(id as string);
+    const normalizedId = Array.isArray(id) ? id[0] : id;
+    if (normalizedId && /^\d+$/.test(normalizedId)) {
+      setFoodDetailsId(normalizedId);
     }
     return () => {
       setFoodDetailsId(null);

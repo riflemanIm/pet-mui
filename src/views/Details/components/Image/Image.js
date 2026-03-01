@@ -26,17 +26,18 @@ const ImageView = ({ imgs, title }) => {
   const showCarImgs = !downLg
     ? 7
     : downLg && !downMd
-    ? 5
-    : downMd && !downSm
-    ? 6
-    : 3;
+      ? 5
+      : downMd && !downSm
+        ? 6
+        : 3;
   //console.log("isMd", isMd, "isLg", isLg);
   return (
     <Box>
       {current && (
         <Box
           sx={{
-            marginBottom: 2,
+            px: 2,
+            pb: 2,
             width: 1,
             height: "auto",
             "& img": {
@@ -93,7 +94,7 @@ const ImageView = ({ imgs, title }) => {
                 key={i}
                 onClick={() => setCurrent(item)}
                 sx={{
-                  width: 80,
+                  width: 65,
                   height: "auto",
                   cursor: "pointer",
                   "& img": {

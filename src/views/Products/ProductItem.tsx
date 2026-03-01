@@ -3,6 +3,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import Grid2 from "@mui/material/Grid2";
 import Icon from "@mui/material/Icon";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
 import { Card } from "@mui/material";
@@ -20,8 +21,20 @@ const { xxl, colored } = boxShadows;
 type Props = { item: FoodProps; index: number };
 
 export default function ProductItem({ item, index }: Props) {
+  const router = useRouter();
   const { shoppingCart, addCartItem } = useAppState();
   const { enqueueSnackbar } = useSnackbar();
+  const detailsHref = {
+    pathname: `/catalog/${item.id}`,
+    query: { returnTo: router.asPath },
+  } as const;
+
+  const handleOpenDetails = useCallback(() => {
+    router.push({
+      pathname: `/catalog/${item.id}`,
+      query: { returnTo: router.asPath },
+    });
+  }, [router, item.id]);
 
   const handleAddToCart = useCallback(() => {
     addCartItem(item, enqueueSnackbar);
@@ -39,12 +52,33 @@ export default function ProductItem({ item, index }: Props) {
     <Grid2
       size={{ xs: 12, sm: 12, md: 12, lg: 6, xl: 4 }}
       key={item.id}
+      sx={{ display: "flex" }}
       data-aos="fade-up"
       data-aos-delay={index * 100}
       data-aos-offset={100}
       data-aos-duration={600}
     >
-      <Card sx={{ borderRadius: borderRadius.lg, boxShadow: colored.info }}>
+      <Card
+        onClick={handleOpenDetails}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            handleOpenDetails();
+          }
+        }}
+        sx={{
+          borderRadius: borderRadius.lg,
+          boxShadow: colored.info,
+          width: "100%",
+          minWidth: { xs: 0, sm: 280, md: 320, lg: 0, xl: 0 },
+          display: "flex",
+          flexDirection: "column",
+          height: "100%",
+          cursor: "pointer",
+        }}
+      >
         <MKBox position="relative">
           <MKBox
             component="img"
@@ -78,13 +112,31 @@ export default function ProductItem({ item, index }: Props) {
           </MKBox>
         </MKBox>
 
-        <MKBox p={2} bgcolor="background.paper">
+        <MKBox
+          p={2}
+          bgcolor="background.paper"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            flexGrow: 1,
+            minHeight: 132,
+          }}
+        >
           <MKTypography
             component={NextLink}
-            href={`/catalog/${item.id}`}
+            href={detailsHref}
+            onClick={(e) => e.stopPropagation()}
             variant="h6"
             textTransform="capitalize"
-            sx={{ textDecoration: "none", color: "text.primary" }}
+            sx={{
+              textDecoration: "none",
+              color: "text.primary",
+              display: "-webkit-box",
+              WebkitLineClamp: 2,
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              minHeight: "3.5rem",
+            }}
           >
             {item.title || "Без названия"}
           </MKTypography>
@@ -93,7 +145,10 @@ export default function ProductItem({ item, index }: Props) {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            mt={1}
+            mt="auto"
+            pt={1}
+            gap={1}
+            onClick={(e) => e.stopPropagation()}
           >
             <MKTypography variant="subtitle2" color="primary">
               {price}₽
@@ -112,7 +167,11 @@ export default function ProductItem({ item, index }: Props) {
                 </MKButton>
               )
             ) : (
-              <MKTypography variant="caption" color="text.secondary">
+              <MKTypography
+                variant="caption"
+                color="text"
+                sx={{ color: "text.secondary" }}
+              >
                 Нет в наличии
               </MKTypography>
             )}

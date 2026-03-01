@@ -301,6 +301,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   );
 
   const latestHomePageQueryRef = useRef<HomePageQueryState>(defaultHomePageQuery);
+  const applyingUrlStateRef = useRef(false);
+  const latestParsedHomePageQueryRef =
+    useRef<HomePageQueryState>(defaultHomePageQuery);
 
   useEffect(() => {
     latestHomePageQueryRef.current = homePageQuery;
@@ -313,7 +316,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!router.isReady) return;
-    if (!router.asPath.startsWith('/catalog')) return;
+    if (router.pathname !== '/catalog') return;
     const searchPart = router.asPath.includes('?')
       ? router.asPath.slice(router.asPath.indexOf('?') + 1).split('#')[0]
       : '';
@@ -324,13 +327,23 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const currentState = latestHomePageQueryRef.current;
     if (!initializedQueryRef.current || !homeQueryStatesEqual(currentState, nextState)) {
       initializedQueryRef.current = true;
+      applyingUrlStateRef.current = true;
+      latestParsedHomePageQueryRef.current = nextState;
       setHomePageQuery(nextState);
     }
   }, [router.isReady, router.asPath, router.query.homePageQueryState]);
 
   useEffect(() => {
+    if (!applyingUrlStateRef.current) return;
+    if (homeQueryStatesEqual(homePageQuery, latestParsedHomePageQueryRef.current)) {
+      applyingUrlStateRef.current = false;
+    }
+  }, [homePageQuery]);
+
+  useEffect(() => {
     if (!router.isReady || router.pathname !== '/catalog') return;
     if (!initializedQueryRef.current) return;
+    if (applyingUrlStateRef.current) return;
 
     const currentParams = paramsFromQuery(router.query as Record<string, string | string[] | undefined>);
     const cleanedParams = new URLSearchParams();

@@ -64,9 +64,9 @@ const Details = ({ item }) => {
           {item?.artikul}
         </Typography>
       </Box>
-      <Typography variant={"h4"} fontWeight={700}>
+      {/* <Typography variant={"h4"} fontWeight={700}>
         {item.title}
-      </Typography>
+      </Typography> */}
       <Box marginY={3}>
         <Box display={"flex"}>
           <Typography

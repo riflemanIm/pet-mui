@@ -7,14 +7,15 @@ import Navbars from "layouts/sections/navigation/navbars";
 
 const routes = [
   {
-    name: "Кошки",
-    icon: <PetsIcon />,
-    route: "/catalog",
-  },
-  {
     name: "Собаки",
     icon: <PetsIcon />,
-    route: "/catalog",
+    route: "/catalog?type=Treat&designedFor=1",
+  },
+
+  {
+    name: "Кошки",
+    icon: <PetsIcon />,
+    route: "catalog?type=Treat&designedFor=2",
   },
   {
     name: "Партнерам",

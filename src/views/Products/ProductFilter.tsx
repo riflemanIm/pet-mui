@@ -22,7 +22,6 @@ import { fetchFoodDicts } from "actions/food";
 import type { FoodType } from "types";
 import { useAppState } from "context/AppStateContext";
 
-type DictKey = keyof ReturnType<typeof defaultDicts>;
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
 const menuProps = {
@@ -31,26 +30,10 @@ const menuProps = {
   },
 } as const;
 
-const defaultDicts = () => ({
-  foodTypes: [] as { id: number; name: string }[],
-  ages: [] as { id: number; name: string }[],
-  taste: [] as { id: number; name: string }[],
-  designedFor: [] as { id: number; name: string }[],
-  ingredient: [] as { id: number; name: string }[],
-  hardness: [] as { id: number; name: string }[],
-  packages: [] as { id: number; name: string }[],
-  petSizes: [] as { id: number; name: string }[],
-  specialNeeds: [] as { id: number; name: string }[],
-});
-
 export default function ProductFilter() {
   const [loading, setLoading] = useState(false);
-  const {
-    foodDicts,
-    setFoodDicts,
-    homePageQuery,
-    setHomePageQuery,
-  } = useAppState();
+  const { foodDicts, setFoodDicts, homePageQuery, setHomePageQuery } =
+    useAppState();
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
@@ -77,7 +60,7 @@ export default function ProductFilter() {
         [field]: e.target.value,
       }));
     },
-    [setHomePageQuery]
+    [setHomePageQuery],
   );
 
   const handleMultiChange = useCallback(
@@ -90,14 +73,14 @@ export default function ProductFilter() {
         [field]: items.join(","),
       }));
     },
-    [setHomePageQuery]
+    [setHomePageQuery],
   );
 
   const handleClear = useCallback(
     (field: string) => () => {
       setHomePageQuery((prev) => ({ ...prev, page: 1, [field]: "" }));
     },
-    [setHomePageQuery]
+    [setHomePageQuery],
   );
 
   const filters = useMemo(
@@ -108,7 +91,7 @@ export default function ProductFilter() {
         type: "radio",
         options: [
           { id: "Treat", label: "Лакомства" },
-          { id: "Souvenirs", label: "Аксессуары" },
+          // { id: "Souvenirs", label: "Аксессуары" },
           { id: "DryFood", label: "Сухой корм" },
         ] as { id: FoodType; label: string }[],
       },
@@ -151,7 +134,7 @@ export default function ProductFilter() {
         chipColor: "default",
       },
     ],
-    []
+    [],
   );
 
   if (loading) {
@@ -183,14 +166,16 @@ export default function ProductFilter() {
                 value={(homePageQuery as any)[name] || ""}
                 onChange={handleRadioChange(name)}
               >
-                {(dynamic ? (foodDicts as any)[name] : options).map((opt: any) => (
-                  <FormControlLabel
-                    key={opt.id}
-                    value={opt.id}
-                    control={<Radio />}
-                    label={opt.label || opt.name}
-                  />
-                ))}
+                {(dynamic ? (foodDicts as any)[name] : options).map(
+                  (opt: any) => (
+                    <FormControlLabel
+                      key={opt.id}
+                      value={opt.id}
+                      control={<Radio />}
+                      label={opt.label || opt.name}
+                    />
+                  ),
+                )}
               </RadioGroup>
             </FormControl>
           ) : (
@@ -200,9 +185,11 @@ export default function ProductFilter() {
               </FormLabel>
               <Select
                 multiple
-                value={(homePageQuery as any)[name]
-                  ? String((homePageQuery as any)[name]).split(",")
-                  : []}
+                value={
+                  (homePageQuery as any)[name]
+                    ? String((homePageQuery as any)[name]).split(",")
+                    : []
+                }
                 onChange={handleMultiChange(name)}
                 input={
                   <OutlinedInput
@@ -225,7 +212,7 @@ export default function ProductFilter() {
                   <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                     {(selected as string[]).map((val) => {
                       const item = (foodDicts as any)[name].find(
-                        (i: any) => String(i.id) === val
+                        (i: any) => String(i.id) === val,
                       );
                       return (
                         <Chip

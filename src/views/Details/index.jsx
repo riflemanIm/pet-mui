@@ -1,32 +1,45 @@
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Card from "@mui/material/Card";
-import Stack from "@mui/material/Stack";
 import Container from "components/Container";
 import DefaultFooter from "components/Footers/DefaultFooter";
 import MKBox from "components/MKBox";
+import MKButton from "components/MKButton";
 import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
-import MKButton from "components/MKButton";
+import { useRouter } from "next/router";
 
 import footerRoutes from "assets/footer.routes";
-import bgImage from "assets/images/bg_cat_dog.jpg";
+import bgImage from "assets/images/2149392633.jpg";
 import routes from "assets/routes";
 
-import ProductFilterHor from "../Products/ProductFilterHor";
-import ProductFilterSidebar from "../Products/ProductFilterSidebar";
-import ProductSort from "../Products/ProductSort";
-import CardDetails from "./CardDetails";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import { useCallback, useState } from "react";
-import { useMediaQuery } from "@mui/system";
-import { useAppState } from "context/AppStateContext";
+import CardDetails from "./CardDetails";
 
 export default function IndexProducts() {
-  const { foodDetailsId } = useAppState();
-  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md"));
-  const [openFiltersBar, setOpenFiltersBar] = useState(false);
-  const handleToggleFilters = useCallback(() => {
-    setOpenFiltersBar((prev) => !prev);
+  const router = useRouter();
+  const [detailsTitle, setDetailsTitle] = useState("");
+  const handleDetailsLoaded = useCallback((item) => {
+    setDetailsTitle(item?.title ?? "");
   }, []);
+
+  const handleBackToCatalog = useCallback(() => {
+    const returnToParam = router.query.returnTo;
+    const returnTo = Array.isArray(returnToParam)
+      ? returnToParam[0]
+      : returnToParam;
+
+    if (typeof returnTo === "string" && returnTo.startsWith("/catalog")) {
+      router.push(returnTo);
+      return;
+    }
+
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+
+    router.push("/catalog");
+  }, [router]);
 
   return (
     <>
@@ -40,7 +53,7 @@ export default function IndexProducts() {
         sx={(theme) => ({
           backgroundImage: `${theme.functions.linearGradient(
             theme.functions.rgba(theme.palette.gradients.dark.main, 0.6),
-            theme.functions.rgba(theme.palette.gradients.dark.state, 0.6)
+            theme.functions.rgba(theme.palette.gradients.dark.state, 0.6),
           )}, url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -64,9 +77,9 @@ export default function IndexProducts() {
                 fontSize: size["3xl"],
               },
             })}
-            mt={{ xs: 10, sm: 10, md: -10, lg: -20 }}
+            mt={{ xs: 10, sm: 10, md: -5, lg: -10 }}
           >
-            Каталог продуктов
+            {detailsTitle || "Каталог продуктов"}
           </MKTypography>
 
           <MKTypography
@@ -80,48 +93,20 @@ export default function IndexProducts() {
             вместе.
           </MKTypography>
 
-          {/* Sort */}
-        </Container>
-        {!isMobile && (
-          <Card
-            sx={{
-              p: 4,
-              mx: { xs: 2, lg: 3 },
-              mt: 42,
-              backgroundColor: ({ palette: { white }, functions: { rgba } }) =>
-                rgba(white.main, 0.9),
-              backdropFilter: "saturate(200%) blur(30px)",
-              boxShadow: ({ boxShadows: { xxl } }) => xxl,
-              position: "absolute",
-              zIndex: 999,
-            }}
+          <MKButton
+            variant="contained"
+            onClick={handleBackToCatalog}
+            sx={() => ({
+              borderRadius: 2,
+              minWidth: "auto",
+              p: 1,
+              zIndex: 100,
+            })}
+            startIcon={<ArrowBackIcon />}
           >
-            <ProductFilterHor />
-          </Card>
-        )}
-        {/* Mobile Filters Button */}
-        {isMobile && (
-          <Stack direction="row" spacing={2} mt={{ xs: -20, sm: -20 }}>
-            <MKButton
-              onClick={handleToggleFilters}
-              variant="contained"
-              sx={(theme) => ({
-                borderRadius: 2,
-                minWidth: "auto",
-                p: 1,
-              })}
-              startIcon={<FilterAltIcon />}
-            >
-              Фильтры
-            </MKButton>
-            <ProductSort />
-            <ProductFilterSidebar
-              open={openFiltersBar}
-              onClose={handleToggleFilters}
-              variant="temporary"
-            />
-          </Stack>
-        )}
+            Вернуться в Каталог
+          </MKButton>
+        </Container>
       </MKBox>
 
       {/* Products Section */}
@@ -129,12 +114,14 @@ export default function IndexProducts() {
         sx={(theme) => ({
           p: 2,
           mx: { xs: 2, lg: 3 },
-          mt: -8,
+          mt: -20,
           mb: 4,
           boxShadow: theme.boxShadows.xxl,
         })}
       >
-        <Container>{foodDetailsId && <CardDetails />}</Container>
+        <Container>
+          <CardDetails onDetailsLoaded={handleDetailsLoaded} />
+        </Container>
       </Card>
 
       {/* Footer */}
