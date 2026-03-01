@@ -6,17 +6,13 @@ import { useAppState } from "context/AppStateContext";
 
 const useStyles = makeStyles((theme: any) => ({
   select: {
-    color: theme.palette.text.main,
-    [theme.breakpoints.down("md")]: { color: theme.palette.white.main },
+    color: theme.palette.white.main,
   },
   icon: {
-    color: theme.palette.text.main,
-    [theme.breakpoints.down("md")]: { color: theme.palette.white.main },
+    color: theme.palette.white.main,
   },
   label: {
-    [theme.breakpoints.down("md")]: {
-      color: `${theme.palette.white.main} !important`,
-    },
+    color: `${theme.palette.white.main} !important`,
   },
 }));
 

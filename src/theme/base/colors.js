@@ -72,7 +72,7 @@ const colors = {
   },
 
   grey: {
-    100: alpha("#ECF4E0", 0.3),
+    100: alpha("#ECF4E0", 0.1),
     200: "#f0f2f5",
     300: "#dee2e6",
     400: "#ced4da",

@@ -2,6 +2,7 @@
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   Box,
+  Card,
   Chip,
   CircularProgress,
   FormControl,
@@ -21,6 +22,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchFoodDicts } from "actions/food";
 import type { FoodType } from "types";
 import { useAppState } from "context/AppStateContext";
+import theme from "theme";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
@@ -146,107 +148,118 @@ export default function ProductFilter() {
   }
 
   return (
-    <Grid2
-      container
-      spacing={3}
-      data-aos="fade-up"
-      data-aos-delay={100}
-      data-aos-offset={100}
-      data-aos-duration={600}
+    <Card
+      sx={(theme) => ({
+        borderRadius: 3,
+        boxShadow: theme.shadows[1],
+        p: 1,
+        background: theme.palette.grey[100],
+        maxHeight: "calc(100vh - 112px)",
+        overflowY: "auto",
+      })}
     >
-      {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
-        <Grid2 key={name} size={12}>
-          {type === "radio" ? (
-            <FormControl fullWidth>
-              <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
-                {label}
-              </FormLabel>
-              <RadioGroup
-                row
-                value={(homePageQuery as any)[name] || ""}
-                onChange={handleRadioChange(name)}
-              >
-                {(dynamic ? (foodDicts as any)[name] : options).map(
-                  (opt: any) => (
-                    <FormControlLabel
-                      key={opt.id}
-                      value={opt.id}
-                      control={<Radio />}
-                      label={opt.label || opt.name}
+      <Grid2
+        container
+        spacing={3}
+        data-aos="fade-up"
+        data-aos-delay={100}
+        data-aos-offset={100}
+        data-aos-duration={600}
+      >
+        {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
+          <Grid2 key={name} size={12}>
+            {type === "radio" ? (
+              <FormControl fullWidth>
+                <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
+                  {label}
+                </FormLabel>
+                <RadioGroup
+                  row
+                  value={(homePageQuery as any)[name] || ""}
+                  onChange={handleRadioChange(name)}
+                >
+                  {(dynamic ? (foodDicts as any)[name] : options).map(
+                    (opt: any) => (
+                      <FormControlLabel
+                        key={opt.id}
+                        value={opt.id}
+                        control={<Radio />}
+                        label={opt.label || opt.name}
+                      />
+                    ),
+                  )}
+                </RadioGroup>
+              </FormControl>
+            ) : (
+              <FormControl fullWidth>
+                <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>
+                  {label}
+                </FormLabel>
+                <Select
+                  multiple
+                  value={
+                    (homePageQuery as any)[name]
+                      ? String((homePageQuery as any)[name]).split(",")
+                      : []
+                  }
+                  onChange={handleMultiChange(name)}
+                  input={
+                    <OutlinedInput
+                      endAdornment={
+                        (homePageQuery as any)[name]?.length > 0 && (
+                          <InputAdornment position="end" sx={{ mr: 1 }}>
+                            <IconButton
+                              size="small"
+                              onClick={handleClear(name)}
+                              aria-label="Очистить"
+                            >
+                              <ClearIcon fontSize="small" />
+                            </IconButton>
+                          </InputAdornment>
+                        )
+                      }
                     />
-                  ),
-                )}
-              </RadioGroup>
-            </FormControl>
-          ) : (
-            <FormControl fullWidth>
-              <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>
-                {label}
-              </FormLabel>
-              <Select
-                multiple
-                value={
-                  (homePageQuery as any)[name]
-                    ? String((homePageQuery as any)[name]).split(",")
-                    : []
-                }
-                onChange={handleMultiChange(name)}
-                input={
-                  <OutlinedInput
-                    endAdornment={
-                      (homePageQuery as any)[name]?.length > 0 && (
-                        <InputAdornment position="end" sx={{ mr: 1 }}>
-                          <IconButton
+                  }
+                  renderValue={(selected) => (
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                      {(selected as string[]).map((val) => {
+                        const item = (foodDicts as any)[name].find(
+                          (i: any) => String(i.id) === val,
+                        );
+                        return (
+                          <Chip
+                            key={val}
+                            label={item?.name}
+                            color={chipColor as any}
                             size="small"
-                            onClick={handleClear(name)}
-                            aria-label="Очистить"
-                          >
-                            <ClearIcon fontSize="small" />
-                          </IconButton>
-                        </InputAdornment>
-                      )
-                    }
-                  />
-                }
-                renderValue={(selected) => (
-                  <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                    {(selected as string[]).map((val) => {
-                      const item = (foodDicts as any)[name].find(
-                        (i: any) => String(i.id) === val,
-                      );
-                      return (
-                        <Chip
-                          key={val}
-                          label={item?.name}
-                          color={chipColor as any}
-                          size="small"
-                        />
-                      );
-                    })}
-                  </Box>
-                )}
-                MenuProps={menuProps}
-              >
-                {(foodDicts as any)[name].map((item: any) => (
-                  <MenuItem
-                    key={item.id}
-                    value={String(item.id)}
-                    sx={{
-                      fontWeight: (homePageQuery as any)[name]
-                        ?.split(",")
-                        .includes(String(item.id))
-                        ? 600
-                        : 400,
-                    }}
-                  >
-                    {item.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-          )}
-        </Grid2>
-      ))}
-    </Grid2>
+                          />
+                        );
+                      })}
+                    </Box>
+                  )}
+                  MenuProps={menuProps}
+                >
+                  {(foodDicts as any)[name].map((item: any) => (
+                    <MenuItem
+                      key={item.id}
+                      value={String(item.id)}
+                      sx={{
+                        fontWeight: (homePageQuery as any)[name]
+                          ?.split(",")
+                          .includes(String(item.id))
+                          ? 600
+                          : 400,
+                      }}
+                    >
+                      {item.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            )}
+          </Grid2>
+        ))}
+      </Grid2>
+    </Card>
   );
 }

@@ -70,9 +70,9 @@ export default function ProductItem({ item, index }: Props) {
         }}
         sx={{
           borderRadius: borderRadius.lg,
-          boxShadow: colored.info,
+          boxShadow: colored.light,
           width: "100%",
-          minWidth: { xs: 0, sm: 280, md: 320, lg: 0, xl: 0 },
+          minWidth: { xs: 0, sm: 280, md: 320, lg: 252, xl: 252 },
           display: "flex",
           flexDirection: "column",
           height: "100%",

@@ -81,6 +81,7 @@ export default function IndexProducts() {
             100% натуральный продукт. Мы заботимся о здоровье ваших питомцев
             вместе.
           </MKTypography>
+          {!isMobile && <ProductSort />}
         </Container>
 
         {isMobile && (
@@ -105,7 +106,6 @@ export default function IndexProducts() {
 
       <Card
         sx={(theme) => ({
-          p: 2,
           mx: { xs: 2, lg: 3 },
           mt: { xs: -20, sm: -30 },
           mb: 4,
@@ -115,7 +115,15 @@ export default function IndexProducts() {
         <Container>
           {!isMobile && (
             <Grid2 container spacing={2}>
-              <Grid2 size={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}>
+              <Grid2
+                size={{ xs: 6, sm: 6, md: 6, lg: 3, xl: 3 }}
+                sx={{
+                  position: "sticky",
+                  top: { lg: 88, xl: 88 },
+                  alignSelf: "flex-start",
+                  zIndex: 10,
+                }}
+              >
                 <ProductFilter />
               </Grid2>
               <Grid2 size={{ xs: 6, sm: 6, md: 6, lg: 9, xl: 9 }}>
