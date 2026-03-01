@@ -186,7 +186,7 @@ const Docs = () => {
             >
               Компания ООО «ШЕПАРД ПЕТ». Товарный знак SHEPHERD.
             </MKTypography>
-            <MKButton
+            {/* <MKButton
               component="a"
               href={documentsSource}
               target="_blank"
@@ -195,7 +195,7 @@ const Docs = () => {
               variant="outlined"
             >
               Источник: shepherd-pet.ru/documents
-            </MKButton>
+            </MKButton> */}
           </Grid2>
         </Container>
       </MKBox>
