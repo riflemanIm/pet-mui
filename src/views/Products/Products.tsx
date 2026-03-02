@@ -1,5 +1,13 @@
 // Products.tsx
-import { Alert, Pagination, Typography } from "@mui/material";
+import {
+  Alert,
+  Button,
+  Chip,
+  Pagination,
+  Paper,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
@@ -8,9 +16,10 @@ import { useAppState } from "context/AppStateContext";
 import type { FoodType } from "types";
 import ProductItem from "./ProductItem";
 import ProductItemSkeleton from "./ProductItemSkeleton";
+import ProductSort from "./ProductSort";
 
 export default function Products() {
-  const { homePageQuery, setHomePageQuery } = useAppState();
+  const { homePageQuery, setHomePageQuery, foodDicts } = useAppState();
   const [status, setStatus] = useState<"success" | "loading" | "error">(
     "loading",
   );
@@ -22,6 +31,41 @@ export default function Products() {
   const handlePageChange = useCallback(
     (_event: any, value: number) => {
       setHomePageQuery((prev) => ({ ...prev, page: value }));
+    },
+    [setHomePageQuery],
+  );
+
+  const resetFilters = useCallback(() => {
+    setHomePageQuery((prev) => ({
+      ...prev,
+      page: 1,
+      type: "",
+      ages: "",
+      taste: "",
+      designedFor: "",
+      ingredient: "",
+      hardness: "",
+      packages: "",
+      petSizes: "",
+      specialNeeds: "",
+    }));
+  }, [setHomePageQuery]);
+
+  const removeFilterValue = useCallback(
+    (field: string, value?: string) => {
+      setHomePageQuery((prev) => {
+        if (!value) {
+          return { ...prev, page: 1, [field]: "" };
+        }
+
+        const current = String((prev as any)[field] || "")
+          .split(",")
+          .filter(Boolean)
+          .filter((v) => v !== value)
+          .join(",");
+
+        return { ...prev, page: 1, [field]: current };
+      });
     },
     [setHomePageQuery],
   );
@@ -86,6 +130,67 @@ export default function Products() {
     };
   }, [homePageQuery]);
 
+  const activeFilters = useMemo(() => {
+    const labelByField: Record<string, string> = {
+      type: "Категория",
+      ingredient: "Ингредиент",
+      designedFor: "Для",
+      specialNeeds: "Особые потребности",
+      petSizes: "Размер",
+      taste: "Вкус",
+      hardness: "Консистенция",
+      ages: "Возраст",
+      packages: "Упаковка",
+    };
+
+    const typeLabel: Record<string, string> = {
+      Treat: "Лакомства",
+      DryFood: "Сухой корм",
+      Souvenirs: "Аксессуары",
+    };
+
+    const fields = Object.keys(labelByField);
+    const chips: Array<{ key: string; label: string; field: string; value?: string }> = [];
+
+    fields.forEach((field) => {
+      const raw = String((homePageQuery as any)[field] || "");
+      if (!raw) return;
+
+      if (field === "type") {
+        chips.push({
+          key: `${field}-${raw}`,
+          label: `${labelByField[field]}: ${typeLabel[raw] || raw}`,
+          field,
+        });
+        return;
+      }
+
+      const values = raw.split(",").filter(Boolean);
+      const dict = ((foodDicts as any)[field] || []) as Array<{
+        id: number | string;
+        name: string;
+      }>;
+
+      values.forEach((value) => {
+        const found = dict.find((item) => String(item.id) === value);
+        chips.push({
+          key: `${field}-${value}`,
+          label: `${labelByField[field]}: ${found?.name || value}`,
+          field,
+          value,
+        });
+      });
+    });
+
+    return chips;
+  }, [homePageQuery, foodDicts]);
+
+  const resultsText = useMemo(() => {
+    if (status === "success") return `Найдено: ${total}`;
+    if (status === "error") return "Не удалось загрузить товары";
+    return "Загрузка товаров...";
+  }, [status, total]);
+
   const content = useMemo(() => {
     if (status === "loading") {
       return (
@@ -101,7 +206,20 @@ export default function Products() {
     }
     if (status === "success" && total === 0) {
       return (
-        <Alert severity="info">По заданным фильтрам товаров не найдено</Alert>
+        <Paper
+          variant="outlined"
+          sx={{ borderRadius: 3, p: 3, textAlign: "center", mt: 2 }}
+        >
+          <Typography variant="h6" mb={1}>
+            Ничего не найдено
+          </Typography>
+          <Typography variant="body2" color="text.secondary" mb={2}>
+            Попробуйте изменить параметры поиска или очистить фильтры.
+          </Typography>
+          <Button variant="contained" onClick={resetFilters}>
+            Сбросить фильтры
+          </Button>
+        </Paper>
       );
     }
     return (
@@ -139,12 +257,42 @@ export default function Products() {
     pageSize,
     homePageQuery.page,
     handlePageChange,
+    resetFilters,
   ]);
 
   return (
-    <Grid2 container spacing={3}>
-      <Grid2 size={{ xs: 12, sm: 6, md: 9 }} />
+    <>
+      <Paper variant="outlined" sx={{ p: 2, borderRadius: 3, mb: 2 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          gap={2}
+          flexWrap="wrap"
+        >
+          <Typography sx={{ fontWeight: 700 }}>{resultsText}</Typography>
+          <ProductSort />
+        </Stack>
+
+        {activeFilters.length > 0 && (
+          <Stack direction="row" gap={1} flexWrap="wrap" sx={{ mt: 1.5 }}>
+            {activeFilters.map((filter) => (
+              <Chip
+                key={filter.key}
+                size="small"
+                label={filter.label}
+                onDelete={() =>
+                  removeFilterValue(filter.field, filter.value)
+                }
+              />
+            ))}
+            <Button size="small" color="inherit" onClick={resetFilters}>
+              Сбросить
+            </Button>
+          </Stack>
+        )}
+      </Paper>
       {content}
-    </Grid2>
+    </>
   );
 }

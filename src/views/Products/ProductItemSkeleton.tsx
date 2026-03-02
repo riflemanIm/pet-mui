@@ -28,16 +28,17 @@ export default function ProductItemSkeleton({ index }: Props) {
           display: "flex",
           flexDirection: "column",
           height: "100%",
+          overflow: "hidden",
         }}
       >
-        <Skeleton
-          variant="rectangular"
-          width="100%"
+        <MKBox
           sx={{
-            height: { xs: 200, sm: 280, md: 240 },
-            borderRadius: borderRadius.lg,
+            height: { xs: 240, sm: 250, md: 250 },
+            bgcolor: "grey.100",
           }}
-        />
+        >
+          <Skeleton variant="rectangular" width="100%" height="100%" />
+        </MKBox>
 
         <MKBox p={2} sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
           <Skeleton variant="text" height={28} />

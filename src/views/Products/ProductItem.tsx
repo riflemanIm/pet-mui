@@ -1,12 +1,11 @@
 // ProductItem.tsx
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import { Card, Chip, IconButton } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
-import Icon from "@mui/material/Icon";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import { useSnackbar } from "notistack";
 import { useCallback } from "react";
-import { Card } from "@mui/material";
 import HandCounter from "components/HandCounter";
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
@@ -16,7 +15,7 @@ import borders from "theme/base/borders";
 import boxShadows from "theme/base/boxShadows";
 import type { FoodProps } from "types";
 const { borderRadius } = borders;
-const { xxl, colored } = boxShadows;
+const { colored } = boxShadows;
 
 type Props = { item: FoodProps; index: number };
 
@@ -77,18 +76,24 @@ export default function ProductItem({ item, index }: Props) {
           flexDirection: "column",
           height: "100%",
           cursor: "pointer",
+          overflow: "hidden",
         }}
       >
-        <MKBox position="relative">
+        <MKBox
+          position="relative"
+          sx={{
+            height: { xs: 240, sm: 250, md: 250 },
+            bgcolor: "grey.100",
+            flexShrink: 0,
+          }}
+        >
           <MKBox
             component="img"
             src={mainImg}
             alt={item.title || ""}
             width="100%"
             sx={{
-              height: { xs: 200, sm: 280, md: 240 },
-              borderRadius: borderRadius.lg,
-              boxShadow: xxl,
+              height: "100%",
               objectFit: "cover",
             }}
           />
@@ -103,13 +108,18 @@ export default function ProductItem({ item, index }: Props) {
                 "linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%)",
             }}
           />
-          <MKBox component="span" position="absolute" top={8} right={8}>
-            <Icon
-              component={FavoriteBorderIcon}
-              fontSize="small"
-              sx={{ color: "white" }}
-            />
-          </MKBox>
+          <IconButton
+            size="small"
+            sx={{
+              position: "absolute",
+              top: 10,
+              right: 10,
+              bgcolor: "rgba(255,255,255,0.86)",
+              "&:hover": { bgcolor: "rgba(255,255,255,0.96)" },
+            }}
+          >
+            <FavoriteBorderIcon fontSize="small" />
+          </IconButton>
         </MKBox>
 
         <MKBox
@@ -119,7 +129,7 @@ export default function ProductItem({ item, index }: Props) {
             display: "flex",
             flexDirection: "column",
             flexGrow: 1,
-            minHeight: 132,
+            minHeight: 152,
           }}
         >
           <MKTypography
@@ -135,7 +145,8 @@ export default function ProductItem({ item, index }: Props) {
               WebkitLineClamp: 2,
               WebkitBoxOrient: "vertical",
               overflow: "hidden",
-              minHeight: "3.5rem",
+              minHeight: 52,
+              fontWeight: 700,
             }}
           >
             {item.title || "Без названия"}
@@ -145,37 +156,37 @@ export default function ProductItem({ item, index }: Props) {
             display="flex"
             justifyContent="space-between"
             alignItems="center"
-            mt="auto"
-            pt={1}
+            mt={1.5}
             gap={1}
             onClick={(e) => e.stopPropagation()}
           >
-            <MKTypography variant="subtitle2" color="primary">
+            <MKTypography variant="h6" color="text.primary" fontWeight={800}>
               {price}₽
             </MKTypography>
+            <Chip
+              size="small"
+              label={item.stock > 0 ? "В наличии" : "Нет в наличии"}
+              color={item.stock > 0 ? "success" : "default"}
+              variant="outlined"
+            />
+          </MKBox>
 
-            {item.stock > 0 ? (
-              inCart ? (
+          {item.stock > 0 && (
+            <MKBox mt="auto" pt={1} onClick={(e) => e.stopPropagation()}>
+              {inCart ? (
                 <HandCounter id={item.id} />
               ) : (
                 <MKButton
                   variant="gradient"
                   size="small"
+                  fullWidth
                   onClick={handleAddToCart}
                 >
                   В корзину
                 </MKButton>
-              )
-            ) : (
-              <MKTypography
-                variant="caption"
-                color="text"
-                sx={{ color: "text.secondary" }}
-              >
-                Нет в наличии
-              </MKTypography>
-            )}
-          </MKBox>
+              )}
+            </MKBox>
+          )}
         </MKBox>
       </Card>
     </Grid2>

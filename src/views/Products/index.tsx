@@ -1,10 +1,10 @@
 // IndexProducts.tsx
-import Card from "@mui/material/Card";
 import Container from "components/Container";
 import DefaultFooter from "components/Footers/DefaultFooter";
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
+import Card from "@mui/material/Card";
 
 import footerRoutes from "assets/footer.routes";
 import bgImage from "assets/images/2149392632.jpg";
@@ -19,7 +19,6 @@ import { useCallback, useState } from "react";
 import ProductFilter from "./ProductFilter";
 import ProductFilterSidebar from "./ProductFilterSidebar";
 import Products from "./Products";
-import ProductSort from "./ProductSort";
 
 export default function IndexProducts() {
   const [openFiltersBar, setOpenFiltersBar] = useState(false);
@@ -33,31 +32,36 @@ export default function IndexProducts() {
       <DefaultNavbar routes={routes} transparent light />
 
       <MKBox
-        minHeight={{ xs: "55vh", sm: "55vh", md: "55vh", lg: "55vh" }}
+        minHeight={{ xs: 240, md: 300 }}
         width="100%"
         sx={(theme) => ({
-          backgroundImage: `${(theme as any).functions.linearGradient(
-            (theme as any).functions.rgba(
-              (theme as any).palette.gradients.dark.main,
-              0.6,
-            ),
-            (theme as any).functions.rgba(
-              (theme as any).palette.gradients.dark.state,
-              0.6,
-            ),
-          )}, url(${bgImage.src})`,
+          position: "relative",
+          overflow: "hidden",
+          backgroundImage: `url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
+          display: "flex",
+          alignItems: "center",
+          color: theme.palette.common.white,
         })}
       >
+        <MKBox
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(90deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.32) 58%, rgba(0,0,0,0.16) 100%)",
+          }}
+        />
         <Container
           sx={{
+            position: "relative",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: { xs: "flex-start", md: "flex-start" },
             justifyContent: "center",
+            pt: { xs: 13, md: 15 },
+            pb: { xs: 5, md: 6 },
           }}
         >
           <MKTypography
@@ -65,8 +69,9 @@ export default function IndexProducts() {
             color="white"
             sx={({ breakpoints, typography: { size } }: any) => ({
               [breakpoints.down("md")]: { fontSize: size["3xl"] },
+              fontWeight: 800,
+              letterSpacing: 0.2,
             })}
-            mt={{ xs: 10, sm: 0, md: -10, lg: -20 }}
           >
             Каталог продуктов
           </MKTypography>
@@ -74,45 +79,47 @@ export default function IndexProducts() {
           <MKTypography
             variant="body1"
             color="white"
-            opacity={0.8}
+            opacity={0.9}
             mt={1}
-            mb={2}
+            mb={0}
+            maxWidth={560}
           >
             100% натуральный продукт. Мы заботимся о здоровье ваших питомцев
             вместе.
           </MKTypography>
-          {!isMobile && <ProductSort />}
-        </Container>
 
-        {isMobile && (
-          <Stack direction="row" spacing={2} mt={{ xs: -30, sm: -50 }}>
-            <MKButton
-              onClick={handleToggleFilters}
-              variant="contained"
-              sx={{ borderRadius: 2, minWidth: "auto", p: 1 }}
-              startIcon={<FilterAltIcon />}
-            >
-              Фильтры
-            </MKButton>
-            <ProductSort />
-            <ProductFilterSidebar
-              open={openFiltersBar}
-              onClose={handleToggleFilters}
-              variant="temporary"
-            />
-          </Stack>
-        )}
+          {isMobile && (
+            <Stack direction="row" spacing={2} mt={3}>
+              <MKButton
+                onClick={handleToggleFilters}
+                variant="contained"
+                sx={{ borderRadius: 2, minWidth: "auto", p: 1 }}
+                startIcon={<FilterAltIcon />}
+              >
+                Фильтры
+              </MKButton>
+              <ProductFilterSidebar
+                open={openFiltersBar}
+                onClose={handleToggleFilters}
+                variant="temporary"
+              />
+            </Stack>
+          )}
+        </Container>
       </MKBox>
 
       <Card
         sx={(theme) => ({
           mx: { xs: 2, lg: 3 },
-          mt: { xs: -20, sm: -30 },
+          mt: { xs: -4, md: -6 },
           mb: 4,
-          boxShadow: (theme as any).boxShadows.xxl,
+          borderRadius: 3,
+          boxShadow: (theme as any).boxShadows.xl,
+          position: "relative",
+          zIndex: 2,
         })}
       >
-        <Container>
+        <Container sx={{ py: 3 }}>
           {!isMobile && (
             <Grid2 container spacing={2}>
               <Grid2

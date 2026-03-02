@@ -36,15 +36,17 @@ const ImageView = ({ imgs, title }) => {
       {current && (
         <Box
           sx={{
-            px: 2,
+            px: 1,
             pb: 2,
             width: 1,
-            height: "auto",
+            aspectRatio: { xs: "4 / 3", md: "1 / 1" },
+            bgcolor: "grey.50",
+            borderRadius: 2,
+            overflow: "hidden",
             "& img": {
               width: 1,
               height: 1,
-              objectFit: "cover",
-              borderRadius: 2,
+              objectFit: "contain",
             },
           }}
         >
@@ -95,13 +97,14 @@ const ImageView = ({ imgs, title }) => {
                 onClick={() => setCurrent(item)}
                 sx={{
                   width: 65,
-                  height: "auto",
+                  height: 65,
                   cursor: "pointer",
+                  borderRadius: 1.5,
+                  overflow: "hidden",
                   "& img": {
                     width: 1,
                     height: 1,
                     objectFit: "cover",
-                    borderRadius: 2,
                   },
                 }}
               >

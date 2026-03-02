@@ -25,6 +25,7 @@ const Details = ({ item }) => {
     addCartItem(item, enqueueSnackbar);
   };
   const shoppingCartItem = shoppingCart.find((it) => it.id === item.id);
+  const descriptionHtml = item.annotation || item.anatation || "";
   const SetCart = () => {
     return isEmpty(shoppingCartItem) ? (
       <Button
@@ -69,13 +70,15 @@ const Details = ({ item }) => {
       </Typography> */}
       <Box marginY={3}>
         <Box display={"flex"}>
-          <Typography
-            variant={"h5"}
-            color={"text.secondary"}
-            sx={{ textDecoration: "line-through", marginRight: 1 }}
-          >
-            {item.priceDiscount}₽
-          </Typography>
+          {!!item.priceDiscount && (
+            <Typography
+              variant={"h5"}
+              color={"text.secondary"}
+              sx={{ textDecoration: "line-through", marginRight: 1 }}
+            >
+              {item.priceDiscount}₽
+            </Typography>
+          )}
           <Typography variant={"h5"} fontWeight={700}>
             {item.price}₽
           </Typography>
@@ -101,12 +104,21 @@ const Details = ({ item }) => {
               </Box>
             ))}
           </Box>
-          <Typography marginLeft={1}>8 reviews</Typography>
+          <Typography marginLeft={1} color={"text.secondary"}>
+            8 отзывов
+          </Typography>
         </Box>
       </Box>
-      <Typography variant={"subtitle2"} color={"text.secondary"}>
-        {item.anatation}
-      </Typography>
+      <Typography
+        variant={"subtitle2"}
+        color={"text.secondary"}
+        lineHeight={1.6}
+        component="div"
+        sx={{
+          "& p": { margin: 0, marginBottom: 1.25 },
+        }}
+        dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      />
 
       {/* <Box>
           <Typography>
@@ -200,7 +212,7 @@ const Details = ({ item }) => {
           <SetCart />
         ) : (
           <Alert severity="warning" sx={{ width: "100%" }}>
-            нет в наличии
+            Нет в наличии
           </Alert>
         )}
       </Stack>

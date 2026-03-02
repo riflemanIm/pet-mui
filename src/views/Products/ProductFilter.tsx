@@ -1,10 +1,16 @@
 // ProductFilter.tsx
 import ClearIcon from "@mui/icons-material/Clear";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Box,
+  Button,
   Card,
   Chip,
   CircularProgress,
+  Divider,
   FormControl,
   FormControlLabel,
   FormLabel,
@@ -15,6 +21,7 @@ import {
   Radio,
   RadioGroup,
   Select,
+  Typography,
 } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useSnackbar } from "notistack";
@@ -22,7 +29,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { fetchFoodDicts } from "actions/food";
 import type { FoodType } from "types";
 import { useAppState } from "context/AppStateContext";
-import theme from "theme";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING = 8;
@@ -84,6 +90,22 @@ export default function ProductFilter() {
     },
     [setHomePageQuery],
   );
+
+  const handleResetAll = useCallback(() => {
+    setHomePageQuery((prev) => ({
+      ...prev,
+      page: 1,
+      type: "",
+      ages: "",
+      taste: "",
+      designedFor: "",
+      ingredient: "",
+      hardness: "",
+      packages: "",
+      petSizes: "",
+      specialNeeds: "",
+    }));
+  }, [setHomePageQuery]);
 
   const filters = useMemo(
     () => [
@@ -152,15 +174,20 @@ export default function ProductFilter() {
       sx={(theme) => ({
         borderRadius: 3,
         boxShadow: theme.shadows[1],
-        p: 1,
+        p: 2,
         background: theme.palette.grey[100],
         maxHeight: "calc(100vh - 112px)",
         overflowY: "auto",
       })}
     >
+      <Typography variant="h6" sx={{ fontWeight: 800, mb: 1 }}>
+        Фильтры
+      </Typography>
+      <Divider sx={{ mb: 1.5 }} />
+
       <Grid2
         container
-        spacing={3}
+        spacing={1.5}
         data-aos="fade-up"
         data-aos-delay={100}
         data-aos-offset={100}
@@ -168,98 +195,116 @@ export default function ProductFilter() {
       >
         {filters.map(({ name, label, type, options, dynamic, chipColor }) => (
           <Grid2 key={name} size={12}>
-            {type === "radio" ? (
-              <FormControl fullWidth>
-                <FormLabel sx={{ fontSize: 13, color: "secondary" }}>
+            <Accordion disableGutters elevation={0} sx={{ bgcolor: "transparent" }}>
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                sx={{ px: 0.5, minHeight: 44 }}
+              >
+                <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 0 }}>
                   {label}
                 </FormLabel>
-                <RadioGroup
-                  row
-                  value={(homePageQuery as any)[name] || ""}
-                  onChange={handleRadioChange(name)}
-                >
-                  {(dynamic ? (foodDicts as any)[name] : options).map(
-                    (opt: any) => (
-                      <FormControlLabel
-                        key={opt.id}
-                        value={opt.id}
-                        control={<Radio />}
-                        label={opt.label || opt.name}
-                      />
-                    ),
-                  )}
-                </RadioGroup>
-              </FormControl>
-            ) : (
-              <FormControl fullWidth>
-                <FormLabel sx={{ fontSize: 13, color: "secondary", mb: 1 }}>
-                  {label}
-                </FormLabel>
-                <Select
-                  multiple
-                  value={
-                    (homePageQuery as any)[name]
-                      ? String((homePageQuery as any)[name]).split(",")
-                      : []
-                  }
-                  onChange={handleMultiChange(name)}
-                  input={
-                    <OutlinedInput
-                      endAdornment={
-                        (homePageQuery as any)[name]?.length > 0 && (
-                          <InputAdornment position="end" sx={{ mr: 1 }}>
-                            <IconButton
-                              size="small"
-                              onClick={handleClear(name)}
-                              aria-label="Очистить"
-                            >
-                              <ClearIcon fontSize="small" />
-                            </IconButton>
-                          </InputAdornment>
-                        )
-                      }
-                    />
-                  }
-                  renderValue={(selected) => (
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
-                      {(selected as string[]).map((val) => {
-                        const item = (foodDicts as any)[name].find(
-                          (i: any) => String(i.id) === val,
-                        );
-                        return (
-                          <Chip
-                            key={val}
-                            label={item?.name}
-                            color={chipColor as any}
-                            size="small"
-                          />
-                        );
-                      })}
-                    </Box>
-                  )}
-                  MenuProps={menuProps}
-                >
-                  {(foodDicts as any)[name].map((item: any) => (
-                    <MenuItem
-                      key={item.id}
-                      value={String(item.id)}
-                      sx={{
-                        fontWeight: (homePageQuery as any)[name]
-                          ?.split(",")
-                          .includes(String(item.id))
-                          ? 600
-                          : 400,
-                      }}
+              </AccordionSummary>
+              <AccordionDetails sx={{ px: 0.5, pt: 1, pb: 1.5 }}>
+                {type === "radio" ? (
+                  <FormControl fullWidth>
+                    <RadioGroup
+                      value={(homePageQuery as any)[name] || ""}
+                      onChange={handleRadioChange(name)}
                     >
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            )}
+                      {(dynamic ? (foodDicts as any)[name] : options).map(
+                        (opt: any) => (
+                          <FormControlLabel
+                            key={opt.id}
+                            value={opt.id}
+                            control={<Radio size="small" />}
+                            label={opt.label || opt.name}
+                          />
+                        ),
+                      )}
+                    </RadioGroup>
+                  </FormControl>
+                ) : (
+                  <FormControl fullWidth>
+                    <Select
+                      multiple
+                      size="small"
+                      sx={{
+                        "& .MuiSelect-select": {
+                          py: 1,
+                        },
+                      }}
+                      value={
+                        (homePageQuery as any)[name]
+                          ? String((homePageQuery as any)[name]).split(",")
+                          : []
+                      }
+                      onChange={handleMultiChange(name)}
+                      input={
+                        <OutlinedInput
+                          endAdornment={
+                            (homePageQuery as any)[name]?.length > 0 && (
+                              <InputAdornment position="end" sx={{ mr: 1 }}>
+                                <IconButton
+                                  size="small"
+                                  onClick={handleClear(name)}
+                                  aria-label="Очистить"
+                                >
+                                  <ClearIcon fontSize="small" />
+                                </IconButton>
+                              </InputAdornment>
+                            )
+                          }
+                        />
+                      }
+                      renderValue={(selected) => (
+                        <Box
+                          sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}
+                        >
+                          {(selected as string[]).map((val) => {
+                            const item = (foodDicts as any)[name].find(
+                              (i: any) => String(i.id) === val,
+                            );
+                            return (
+                              <Chip
+                                key={val}
+                                label={item?.name}
+                                color={chipColor as any}
+                                size="small"
+                              />
+                            );
+                          })}
+                        </Box>
+                      )}
+                      MenuProps={menuProps}
+                    >
+                      {(foodDicts as any)[name].map((item: any) => (
+                        <MenuItem
+                          key={item.id}
+                          value={String(item.id)}
+                          sx={{
+                            fontWeight: (homePageQuery as any)[name]
+                              ?.split(",")
+                              .includes(String(item.id))
+                              ? 600
+                              : 400,
+                          }}
+                        >
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
+              </AccordionDetails>
+            </Accordion>
           </Grid2>
         ))}
       </Grid2>
+
+      <Divider sx={{ my: 2 }} />
+      <Button fullWidth size="small" color="inherit" onClick={handleResetAll}>
+        Сбросить фильтры
+      </Button>
     </Card>
   );
 }

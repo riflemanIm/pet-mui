@@ -48,36 +48,49 @@ export default function IndexProducts() {
 
       {/* Hero Section */}
       <MKBox
-        minHeight={{ xs: "55vh", sm: "55vh", md: "55vh", lg: "55vh" }}
+        minHeight={{ xs: 280, md: 340 }}
         width="100%"
         sx={(theme) => ({
-          backgroundImage: `${theme.functions.linearGradient(
-            theme.functions.rgba(theme.palette.gradients.dark.main, 0.6),
-            theme.functions.rgba(theme.palette.gradients.dark.state, 0.6),
-          )}, url(${bgImage.src})`,
+          position: "relative",
+          overflow: "hidden",
+          backgroundImage: `url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          display: "grid",
-          placeItems: "center",
+          display: "flex",
+          alignItems: "center",
+          color: theme.palette.common.white,
         })}
       >
+        <MKBox
+          sx={{
+            position: "absolute",
+            inset: 0,
+            background:
+              "linear-gradient(90deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.32) 58%, rgba(0,0,0,0.16) 100%)",
+          }}
+        />
         <Container
           sx={{
+            position: "relative",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
+            alignItems: "flex-start",
             justifyContent: "center",
+            pt: { xs: 15, md: 17 },
+            pb: { xs: 5, md: 6 },
           }}
         >
           <MKTypography
-            variant="h1"
+            variant="h2"
             color="white"
             sx={({ breakpoints, typography: { size } }) => ({
               [breakpoints.down("md")]: {
                 fontSize: size["3xl"],
               },
+              fontWeight: 800,
+              letterSpacing: 0.2,
+              maxWidth: 980,
             })}
-            mt={{ xs: 10, sm: 10, md: -5, lg: -10 }}
           >
             {detailsTitle || "Каталог продуктов"}
           </MKTypography>
@@ -85,9 +98,10 @@ export default function IndexProducts() {
           <MKTypography
             variant="body1"
             color="white"
-            opacity={0.8}
+            opacity={0.9}
             mt={1}
             mb={2}
+            maxWidth={620}
           >
             100% натуральный продукт. Мы заботимся о здоровье ваших питомцев
             вместе.
@@ -99,9 +113,16 @@ export default function IndexProducts() {
             sx={() => ({
               borderRadius: 2,
               minWidth: "auto",
-              p: 1,
+              px: 2,
+              py: 1,
               zIndex: 100,
+              bgcolor: "rgba(255,255,255,0.92)",
+              color: "text.primary",
+              "&:hover": {
+                bgcolor: "rgba(255,255,255,1)",
+              },
             })}
+            mb={{ xs: 2, md: 2.5 }}
             startIcon={<ArrowBackIcon />}
           >
             Вернуться в Каталог
@@ -112,14 +133,16 @@ export default function IndexProducts() {
       {/* Products Section */}
       <Card
         sx={(theme) => ({
-          p: 2,
           mx: { xs: 2, lg: 3 },
-          mt: -20,
+          mt: { xs: -2, md: -4 },
           mb: 4,
-          boxShadow: theme.boxShadows.xxl,
+          borderRadius: 3,
+          boxShadow: theme.boxShadows.xl,
+          position: "relative",
+          zIndex: 2,
         })}
       >
-        <Container>
+        <Container sx={{ py: 3 }}>
           <CardDetails onDetailsLoaded={handleDetailsLoaded} />
         </Container>
       </Card>

@@ -1,9 +1,10 @@
-import { CircularProgress } from "@mui/material";
+import { Alert } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import React, { FC, useEffect, useState } from "react";
 import { fetchFoodDetailsById } from "actions/food";
 import { useAppState } from "context/AppStateContext";
 import type { FoodDetailProps, FoodImgAddProp } from "types";
+import CardDetailsSkeleton from "./CardDetailsSkeleton";
 import { Details, ImageView } from "./components";
 
 type Props = {
@@ -46,15 +47,21 @@ const CardDetails: FC<Props> = ({ onDetailsLoaded }) => {
   }, [foodDetailsId, onDetailsLoaded]);
 
   if (loading) {
-    return <CircularProgress />;
+    return <CardDetailsSkeleton />;
   }
 
   if (error) {
-    throw error;
+    return (
+      <Alert severity="error">
+        Не удалось загрузить карточку товара. Попробуйте обновить страницу.
+      </Alert>
+    );
   }
 
   if (!foodDetails) {
-    return null;
+    return (
+      <Alert severity="info">Товар не найден или был удален из каталога.</Alert>
+    );
   }
 
   const extraImgs =

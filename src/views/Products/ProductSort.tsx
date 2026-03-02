@@ -1,23 +1,15 @@
 // ProductSort.tsx
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { SORT_VALUE } from "types";
 import { useAppState } from "context/AppStateContext";
+import type { SxProps, Theme } from "@mui/material/styles";
 
-const useStyles = makeStyles((theme: any) => ({
-  select: {
-    color: theme.palette.white.main,
-  },
-  icon: {
-    color: theme.palette.white.main,
-  },
-  label: {
-    color: `${theme.palette.white.main} !important`,
-  },
-}));
+type Props = {
+  size?: "small" | "medium";
+  sx?: SxProps<Theme>;
+};
 
-export default function ProductSort() {
-  const classes = useStyles();
+export default function ProductSort({ size = "small", sx }: Props) {
   const { homePageQuery, setHomePageQuery } = useAppState();
 
   const handleChangeOrder = (event: any) => {
@@ -30,24 +22,21 @@ export default function ProductSort() {
 
   // Поддерживаем текущие значения + мапим на новое имя поля publishedAt
   return (
-    <FormControl size="medium" variant="outlined">
-      <InputLabel id="product-sort" className={classes.label}>
-        Сортировать по
-      </InputLabel>
+    <FormControl size={size} variant="outlined" sx={sx}>
+      <InputLabel id="product-sort">Сортировка</InputLabel>
       <Select
         labelId="product-sort"
         value={(homePageQuery as any)?.sort || "publishedAt"}
-        label="Сортировать по"
+        label="Сортировка"
         onChange={handleChangeOrder}
         variant="outlined"
-        sx={{ borderRadius: 2, width: 200 }}
-        classes={{ select: classes.select, icon: classes.icon }}
+        sx={{ borderRadius: 2, minWidth: 220 }}
       >
         {SORT_VALUE.map((sortType) => (
           <MenuItem key={sortType} value={sortType as any}>
             {String(sortType)
-              .replaceAll(`_nbsp_`, ` `)
-              .replaceAll(`_amp_`, `&`)}
+              .replace("publishedAt", "По новизне")
+              .replace("price", "По цене")}
           </MenuItem>
         ))}
       </Select>
