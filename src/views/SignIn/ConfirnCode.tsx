@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import Box from "@mui/material/Box";
@@ -9,8 +9,9 @@ import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import isEmpty from "helpers";
-import { confirmCode } from "actions/user";
 import { Alert, Fade } from "@mui/material";
+import { confirmCode } from "@admin/context/UserContext";
+import type { SignUpProps } from "types";
 
 const validationSchema = yup.object({
   code: yup
@@ -19,13 +20,23 @@ const validationSchema = yup.object({
     .required("Пожалуйста введите код подтверждения"),
 });
 
-const ConfirnCode = ({ signState, setSignState }) => {
+type Props = {
+  signState?: SignUpProps;
+  setSignState: React.Dispatch<React.SetStateAction<SignUpProps | undefined>>;
+};
+
+type ConfirmValues = {
+  code: string;
+  uuid: string;
+};
+
+const ConfirnCode = ({ signState, setSignState }: Props) => {
   const initialValues = {
     code: "",
-    uuid: signState?.uuid,
+    uuid: signState?.uuid || "",
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = (values: ConfirmValues) => {
     confirmCode(values, setSignState);
   };
   //console.log("signState", signState);

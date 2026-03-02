@@ -112,7 +112,7 @@ async function insertNewCode(newUser: NewUserType, res: NextApiResponse) {
         // console.log("info: ", info);
         //res.status(200).json({ sent: "ok", info });
       } else if (error != null) {
-        throw new Error("Error send mail");
+        console.error("Error send mail", error);
       }
     });
     res.status(200).json({

@@ -19,7 +19,7 @@ import AnimateButton from "@admin/components/@extended/AnimateButton";
 
 // assets
 import config from "@admin/config";
-import { loginUser, useUserDispatch } from "@admin/context/UserContext";
+import { loginAdminUser, useUserDispatch } from "@admin/context/UserContext";
 import useForm from "@admin/hooks/useForm";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -64,7 +64,7 @@ export default function AuthLogin({ redirectPath }: AuthLoginProps) {
   const login = () => {
     const loginValue = values.login ?? "";
     const passwordValue = values.password ?? "";
-    loginUser(
+    loginAdminUser(
       userDispatch,
       loginValue,
       passwordValue,

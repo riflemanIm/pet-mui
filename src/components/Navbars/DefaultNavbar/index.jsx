@@ -105,7 +105,7 @@ function DefaultNavbar({
         onMouseLeave={() => collapse && setDropdown(null)}
         light={light}
       />
-    )
+    ),
   );
 
   // Render the routes on the dropdown menu
@@ -285,7 +285,7 @@ function DefaultNavbar({
       }
 
       return template;
-    }
+    },
   );
 
   // Routes dropdown menu
@@ -418,7 +418,7 @@ function DefaultNavbar({
 
           return template;
         })
-      : null
+      : null,
   );
 
   // Dropdown menu for the nested dropdowns
@@ -521,8 +521,8 @@ function DefaultNavbar({
             ? /* new color when scrolled past 655px */
               scrolledBg
             : transparent
-            ? transparentColor.main
-            : rgba(white.main, 0.8),
+              ? transparentColor.main
+              : rgba(white.main, 0.8),
           backdropFilter: transparent ? "none" : `saturate(200%) blur(30px)`,
         })}
       >
@@ -536,10 +536,27 @@ function DefaultNavbar({
               component="img"
               src={!light ? logo.src : logo_light.src}
               alt="logo"
-              width="62%"
               opacity={1}
               sx={{
                 mt: 0.8,
+                width: {
+                  xs: 113,
+                  sm: 127,
+                  md: 173,
+                  lg: 147,
+                  xl: 160,
+                },
+                minWidth: {
+                  xs: 113,
+                  sm: 127,
+                  md: 173,
+                  lg: 147,
+                  xl: 160,
+                },
+                maxWidth: "100%",
+                height: "auto",
+                display: "block",
+                flexShrink: 0,
               }}
             />
           </NextMuiLink>

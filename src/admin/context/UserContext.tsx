@@ -4,7 +4,12 @@ import axios, { AxiosError } from 'axios';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { NavigateFunction } from 'react-router-dom';
 import config from '@admin/config';
-import type { Role, TokenData } from 'types';
+import type {
+  ConfirmCodeProps,
+  Role,
+  SignUpProps,
+  TokenData
+} from 'types';
 
 const ADMIN_BASE_PATH = (process.env.NEXT_PUBLIC_ADMIN_BASE_PATH || '/admin').replace(/\/$/, '');
 
@@ -20,6 +25,8 @@ export interface AuthResponseDto {
 export interface RefreshResponseDto {
   accessToken: string;
 }
+
+export type SignRequest = { email: string; name?: string };
 
 type UserAction = 'LOGIN_SUCCESS' | 'REFRESH_TOKEN_SUCCESS' | 'SIGN_OUT_SUCCESS' | 'AUTH_FAILURE';
 
@@ -105,7 +112,26 @@ export const useUserState = (): UserState => React.useContext(UserContext).state
 export const useUserDispatch = (): UserDispatch => React.useContext(UserContext).dispatch;
 
 /** ===== AUTH API (login / refresh / logout) ===== */
-export async function loginUser(
+export async function loginSiteUser(
+  values: SignRequest,
+  setSignState: React.Dispatch<React.SetStateAction<SignUpProps | undefined>>
+): Promise<void | { error: unknown }> {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/auth/sign`,
+      values
+    );
+    if (res.status !== 200) {
+      throw new Error(`${res.status} - ${res.data}`);
+    }
+    setSignState(res.data as SignUpProps);
+    return;
+  } catch (error) {
+    return { error };
+  }
+}
+
+export async function loginAdminUser(
   dispatch: UserDispatch,
   email: string,
   password: string,
@@ -142,6 +168,25 @@ export async function loginUser(
     } else {
       setError((err as any)?.response?.data?.message ?? 'Ошибка сервера');
     }
+  }
+}
+
+export async function confirmCode(
+  values: ConfirmCodeProps,
+  setSignState: React.Dispatch<React.SetStateAction<SignUpProps | undefined>>
+): Promise<void | { error: unknown }> {
+  try {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/confirm`,
+      values
+    );
+    if (res.status !== 200) {
+      throw new Error(`${res.status} - ${res.data}`);
+    }
+    setSignState(res.data as SignUpProps);
+    return;
+  } catch (error) {
+    return { error };
   }
 }
 

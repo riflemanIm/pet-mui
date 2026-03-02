@@ -3,8 +3,7 @@ import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 import { ShoppingCartItemProps } from "types";
 import { currencyFormat } from "helpers/utils";
-import { Divider, Grid, IconButton, Typography } from "@mui/material";
-//import { buyBook } from "lib/http";
+import { Card, Chip, Grid2, IconButton, Typography } from "@mui/material";
 import HandCounter from "components/HandCounter";
 import { useAppState } from "context/AppStateContext";
 
@@ -19,123 +18,58 @@ export default function ShoppingCartListItem(props: ShoppingCartItemProps) {
   } = props;
 
   const { removeCartItem } = useAppState();
+  const imgSrc = img ? `/images/catalog/${img}` : "/images/no-image.png";
+  const itemType = type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`);
+  const itemPrice =
+    (typeof price === "number" ? price : parseFloat(price)) * quantityInCart;
 
   return (
-    <>
-      <Grid item xs={2} textAlign="center">
-        <Image
-          src={`/images/catalog/${img ?? ""}`}
-          alt={title ?? "Товар"}
-          width={120}
-          height={120}
-          style={{ borderRadius: 3 }}
-        />
-      </Grid>
-      <Grid item xs={5}>
-        <Typography variant="subtitle1">{title}</Typography>
-        <Typography variant="subtitle2" color="text.secondary">
-          Type: {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
-        </Typography>
-      </Grid>
-      <Grid item xs={2}>
-        <HandCounter id={id} />
-      </Grid>
-      <Grid item xs={2}>
-        <Typography variant="body1" fontWeight="bold" mt={2}>
-          {currencyFormat((typeof price === "number" ? price : parseFloat(price)) * quantityInCart)}₽
-        </Typography>
-      </Grid>
-      <Grid item xs={1}>
-        <IconButton
-          aria-label="delete"
-          color="primary"
-          onClick={() => removeCartItem(id)}
-        >
-          <DeleteOutlineIcon />
-        </IconButton>
-      </Grid>
-      <Divider />
+    <Grid2 size={12}>
+      <Card sx={{ p: { xs: 1.25, sm: 1.5 }, borderRadius: 2 }}>
+        <Grid2 container spacing={1.5} alignItems="center">
+          <Grid2 size={{ xs: 12, sm: 3, md: 2 }} textAlign="center">
+            <Image
+              src={imgSrc}
+              alt={title ?? "Товар"}
+              width={120}
+              height={120}
+              style={{ borderRadius: 8, objectFit: "cover" }}
+            />
+          </Grid2>
 
-      {/* <div className="card card-side bg-base-100 shadow-xl">
-        <figure>
-          <Image
-            src={`https://picsum.photos/seed/${id}/200/300`}
-            alt={title}
-            width={150}
-            height={225}
-          />
-        </figure>
-        <div className="card-body">
-          <div className="flex flex-col gap-1">
-            <p>
-              <span className="text-lg font-bold pr-4">Title:</span>
-              {title}
-            </p>
-            <p>
-              <span className="text-lg font-bold pr-4">Type:</span>
-              {type.replaceAll(`_nbsp_`, ` `).replaceAll(`_amp_`, `&`)}
-            </p>
-            <p>
-              <span className="text-lg font-bold pr-4">Publication date:</span>
-              {new Date(createdAt).toLocaleDateString()}
-            </p>
-            <p>
-              <span className="text-lg font-bold pr-4">Price:</span>
-              {`$ ${currencyFormat(price)}`}
-            </p>
-            <p>
-              <span className="text-lg font-bold pr-4">In stock:</span>
-              {stock}
-            </p>
-            <div className="flex justify-between">
-              <div className="join">
-                <button
-                  className="btn btn-sm join-item"
-                  disabled={quantityInCart >= stock}
-                  onClick={handleAddQty}
-                >
-                  <AddIcon />
-                </button>
-                <input
-                  className="input input-sm input-bordered join-item w-12"
-                  value={quantityInCart}
-                  disabled
-                />
-                <button
-                  className="btn btn-sm join-item"
-                  disabled={quantityInCart <= 1}
-                  onClick={handleRemoveQty}
-                >
-                  <RemoveIcon />
-                </button>
-              </div>
-              <div className="flex justify-end gap-4">
-                <div className="font-bold">
-                  <span className="pr-1">
-                    {quantityInCart === 1
-                      ? `(${quantityInCart} item) $`
-                      : `(${quantityInCart} items) $`}
-                  </span>
-                  {calcCartItemTotalPrice([props])}
-                </div>
-              </div>
-            </div>
-            <div className="flex justify-end gap-4">
-              <button className="btn btn-sm btn-error" onClick={deleteItem}>
-                Delete
-              </button>
-              <button
-                className="btn btn-sm btn-info"
-                onClick={handleBuyClick}
-                disabled={loading}
-              >
-                {loading && <span className="loading loading-spinner" />}
-                Proceed to Purchase
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
-    </>
+          <Grid2 size={{ xs: 12, sm: 5, md: 5 }}>
+            <Typography variant="subtitle1" fontWeight={600}>
+              {title || "Без названия"}
+            </Typography>
+            <Chip
+              size="small"
+              label={itemType}
+              sx={{ mt: 0.5 }}
+              variant="outlined"
+            />
+          </Grid2>
+
+          <Grid2 size={{ xs: 12, sm: 4, md: 2 }}>
+            <HandCounter id={id} />
+          </Grid2>
+
+          <Grid2 size={{ xs: 10, sm: 10, md: 2 }}>
+            <Typography variant="body1" fontWeight={700}>
+              {currencyFormat(itemPrice)}₽
+            </Typography>
+          </Grid2>
+
+          <Grid2 size={{ xs: 2, sm: 2, md: 1 }} textAlign="right">
+            <IconButton
+              aria-label="Удалить товар"
+              color="primary"
+              onClick={() => removeCartItem(id)}
+            >
+              <DeleteOutlineIcon />
+            </IconButton>
+          </Grid2>
+        </Grid2>
+      </Card>
+    </Grid2>
   );
 }

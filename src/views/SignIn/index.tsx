@@ -16,16 +16,18 @@ import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
 import DefaultNavbar from "components/Navbars/DefaultNavbar";
 import { useAppState } from "context/AppStateContext";
-import ConfirnCode from "./components/ConfirnCode";
-import FormSignUp from "./components/FormSignUp";
+import type { SignUpProps } from "types";
+import ConfirnCode from "./ConfirnCode";
+import Form from "./Form";
 
-const SignUp = () => {
+const SignIn = () => {
   const theme = useTheme();
   const isMd = useMediaQuery(theme.breakpoints.up("md"), {
     defaultMatches: true,
   });
+
   const { setCurrentUser } = useAppState();
-  const [signState, setSignState] = useState();
+  const [signState, setSignState] = useState<SignUpProps | undefined>();
 
   useEffect(() => {
     if (signState?.response === "USER_AUTH" && signState.user) {
@@ -34,27 +36,28 @@ const SignUp = () => {
     }
   }, [signState, setCurrentUser]);
 
-  //console.log("signState", signState);
   return (
     <>
       <DefaultNavbar routes={routes} transparent light />
       <MKBox
         minHeight="35vh"
         width="100%"
-        sx={{
-          backgroundImage: ({
-            functions: { linearGradient, rgba },
-            palette: { gradients },
-          }) =>
-            `${linearGradient(
-              rgba(gradients.dark.main, 0.6),
-              rgba(gradients.dark.state, 0.6)
-            )}, url(${bgImage.src})`,
+        sx={(theme) => ({
+          backgroundImage: `${(theme as any).functions.linearGradient(
+            (theme as any).functions.rgba(
+              (theme as any).palette.gradients.dark.main,
+              0.6,
+            ),
+            (theme as any).functions.rgba(
+              (theme as any).palette.gradients.dark.state,
+              0.6,
+            ),
+          )}, url(${bgImage.src})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           display: "grid",
           placeItems: "center",
-        }}
+        })}
       >
         <Container>
           <Grid2
@@ -68,13 +71,13 @@ const SignUp = () => {
             <MKTypography
               variant="h1"
               color="white"
-              sx={({ breakpoints, typography: { size } }) => ({
+              sx={({ breakpoints, typography: { size } }: any) => ({
                 [breakpoints.down("md")]: {
                   fontSize: size["3xl"],
                 },
               })}
             >
-              Создайте аккаунт
+              Добро пожаловать
             </MKTypography>
             <MKTypography
               variant="body1"
@@ -91,37 +94,21 @@ const SignUp = () => {
         </Container>
       </MKBox>
       <Card
-        sx={{
+        sx={(theme) => ({
           p: 12,
           mx: { xs: 2, lg: 3 },
           mt: -8,
           mb: 4,
 
-          boxShadow: ({ boxShadows: { xxl } }) => xxl,
-        }}
+          boxShadow: (theme as any).boxShadows.xxl,
+        })}
       >
         <Container>
           <Grid2 container spacing={6}>
-            <Grid2
-              container
-              alignItems={"center"}
-              justifyContent={"center"}
-              size={{ xs: 12, md: 6 }}
-            >
-              {signState?.response === "CODE_SENT" ||
-              signState?.response === "DOSNT_EXISTS_CODE" ? (
-                <ConfirnCode
-                  signState={signState}
-                  setSignState={setSignState}
-                />
-              ) : (
-                <FormSignUp signState={signState} setSignState={setSignState} />
-              )}
-            </Grid2>
-
             {isMd ? (
               <Grid2
                 container
+                alignItems={"center"}
                 justifyContent={"center"}
                 size={{ xs: 12, md: 6 }}
               >
@@ -139,10 +126,25 @@ const SignUp = () => {
                 </Box>
               </Grid2>
             ) : null}
+            <Grid2
+              container
+              alignItems={"center"}
+              justifyContent={"center"}
+              size={{ xs: 12, md: 6 }}
+            >
+              {signState?.response === "CODE_SENT" ||
+              signState?.response === "DOSNT_EXISTS_CODE" ? (
+                <ConfirnCode
+                  signState={signState}
+                  setSignState={setSignState}
+                />
+              ) : (
+                <Form signState={signState} setSignState={setSignState} />
+              )}
+            </Grid2>
           </Grid2>
         </Container>
       </Card>
-
       {/* Footer */}
       <MKBox pt={6} px={1} mt={6}>
         <DefaultFooter content={footerRoutes} />
@@ -151,4 +153,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default SignIn;

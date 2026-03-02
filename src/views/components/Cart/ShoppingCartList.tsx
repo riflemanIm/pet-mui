@@ -3,37 +3,33 @@ import { useRouter } from "next/navigation";
 import RemoveShoppingCartIcon from "@mui/icons-material/RemoveShoppingCart";
 import { useSnackbar } from "notistack";
 
-import {
-  calcCartItemSum,
-  calcCartItemTotalPrice,
-  currencyFormat,
-} from "helpers/utils";
+import { calcCartItemSum, calcCartItemTotalPrice } from "helpers/utils";
 import ShoppingCartListItem from "./ShoppingCartListItem";
-import {
-  Alert,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Alert, Button, Grid2, Typography } from "@mui/material";
 import { buyFood } from "actions/food";
 import { useAppState } from "context/AppStateContext";
+import SubTotal from "./SubTotal";
 
 export default function ShoppingCartList() {
   const { shoppingCart, currentUser, clearCart } = useAppState();
-  const [buy, setBuy] = React.useState<{
-    loading: boolean;
-    responseText: string | null;
-  }>({ loading: false, responseText: null });
+  const [buy, setBuy] = React.useState<{ loading: boolean }>({
+    loading: false,
+  });
+  const [orderAlert, setOrderAlert] = React.useState<{
+    severity: "success" | "error";
+    message: string;
+  } | null>(null);
 
   const { enqueueSnackbar } = useSnackbar();
 
   const router = useRouter();
+  const hasItems = shoppingCart.length > 0;
+
   const handleBuyClick = async () => {
     if (currentUser?.id == null) {
-      enqueueSnackbar("Пожалуйста авторизуйтесь", { variant: "error" });
+      const message = "Пожалуйста, авторизуйтесь перед оформлением заказа.";
+      enqueueSnackbar(message, { variant: "error" });
+      setOrderAlert({ severity: "error", message });
       router.push("/signin");
       return;
     }
@@ -44,25 +40,33 @@ export default function ShoppingCartList() {
     }));
 
     const params = { token: currentUser.token, data };
-    setBuy({ loading: true, responseText: null });
+    setBuy({ loading: true });
+    setOrderAlert(null);
 
     const response = await buyFood(params);
-    //console.log("response", response);
     if (response.error) {
       enqueueSnackbar(response.error, {
         variant: "error",
       });
-      setBuy({ loading: false, responseText: response.error });
+      setBuy({ loading: false });
+      setOrderAlert({
+        severity: "error",
+        message:
+          "Не удалось оформить заказ. Проверьте данные корзины и попробуйте снова.",
+      });
       return;
     }
-    enqueueSnackbar(response.content?.message, {
+    const successMessage =
+      "Ваш заказ успешно оформлен. Спасибо, что выбрали Shepherd. Мы уже передали заказ в обработку и скоро свяжемся с вами для подтверждения деталей.";
+    enqueueSnackbar(successMessage, {
       variant: "success",
     });
-    setBuy({
-      loading: false,
-      responseText: response.content?.message ?? null,
+    setOrderAlert({
+      severity: "success",
+      message: successMessage,
     });
-    //handleSetEmptyCart();
+    setBuy({ loading: false });
+    clearCart();
   };
 
   function handleSetEmptyCart() {
@@ -71,112 +75,51 @@ export default function ShoppingCartList() {
 
   return (
     <>
-      <Typography
-        variant="h4"
-        data-aos={"fade-up"}
-        gutterBottom
-        sx={{
-          fontWeight: 700,
-        }}
-        mb={3}
-      >
-        Корзина
-      </Typography>
-      <Grid container spacing={0}>
-        <Grid item md={9} sm={12}>
-          {!!shoppingCart.length && (
-            <Grid container spacing={2}>
+      {orderAlert && (
+        <Alert severity={orderAlert.severity} sx={{ mb: 2 }}>
+          <Typography variant="subtitle2">{orderAlert.message}</Typography>
+        </Alert>
+      )}
+      <Grid2 container spacing={2}>
+        <Grid2 size={{ xs: 12, md: 9 }}>
+          {hasItems && (
+            <Grid2 container spacing={1.5}>
               {shoppingCart.map((cartItem) => (
                 <ShoppingCartListItem key={cartItem.id} {...cartItem} />
               ))}
-            </Grid>
+            </Grid2>
           )}
-          <Grid item xs={12} textAlign="center" mb={3}>
-            {!!shoppingCart.length && (
+          <Grid2 size={12} textAlign="center" mt={2} mb={1}>
+            {hasItems && (
               <Button
                 size="large"
                 variant="outlined"
                 startIcon={<RemoveShoppingCartIcon />}
                 onClick={handleSetEmptyCart}
+                disabled={buy.loading}
               >
                 Очистить корзину
               </Button>
             )}
-            {!shoppingCart.length && buy.responseText == null && (
+            {!hasItems && orderAlert == null && (
               <Alert severity="info">
                 <Typography variant="subtitle1">Ваша корзина пуста</Typography>
               </Alert>
             )}
-            {!shoppingCart.length && buy.responseText != null && (
-              <Alert severity="success">
-                <Typography variant="subtitle1">{buy.responseText}</Typography>
-              </Alert>
-            )}
-          </Grid>
-        </Grid>
+          </Grid2>
+        </Grid2>
 
-        {!!shoppingCart.length && (
-          <Grid item md={3} sm={12}>
+        {hasItems && (
+          <Grid2 size={{ xs: 12, md: 3 }}>
             <SubTotal
               sum={calcCartItemSum(shoppingCart)}
               price={calcCartItemTotalPrice(shoppingCart)}
+              loading={buy.loading}
               handleBuyClick={handleBuyClick}
             />
-          </Grid>
+          </Grid2>
         )}
-      </Grid>
+      </Grid2>
     </>
   );
 }
-
-const SubTotal = (props: {
-  sum: number;
-  price: number;
-  handleBuyClick: () => void;
-}) => {
-  const { sum, price, handleBuyClick } = props;
-
-  return (
-    <Card sx={{ p: 2 }}>
-      <CardContent>
-        <Typography
-          variant="subtitle1"
-          color="text.secondary"
-          sx={{ width: "100%" }}
-        >
-          Всего товаров:
-          <Typography
-            variant="subtitle1"
-            color="text.primary"
-            fontWeight="bold"
-            component="span"
-          >
-            {sum}
-          </Typography>
-        </Typography>
-
-        <Typography variant="subtitle1" color="text.secondary">
-          Общая стоимость:{" "}
-        </Typography>
-        <Typography
-          sx={{ width: 15 }}
-          variant="h6"
-          fontWeight="bold"
-          color="secondary"
-        >
-          {currencyFormat(price)}₽
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          size="large"
-          variant="contained"
-          sx={{ width: "100%" }}
-          onClick={handleBuyClick}
-        >
-          Оформить заказ
-        </Button>
-      </CardActions>
-    </Card>
-  );
-};
