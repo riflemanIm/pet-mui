@@ -1,11 +1,5 @@
 // Products.tsx
-import {
-  Alert,
-  Box,
-  CircularProgress,
-  Pagination,
-  Typography,
-} from "@mui/material";
+import { Alert, Pagination, Typography } from "@mui/material";
 import Grid2 from "@mui/material/Grid2";
 import { useCallback, useEffect, useMemo } from "react";
 import { useState } from "react";
@@ -13,6 +7,7 @@ import { fetchFoods } from "actions/food";
 import { useAppState } from "context/AppStateContext";
 import type { FoodType } from "types";
 import ProductItem from "./ProductItem";
+import ProductItemSkeleton from "./ProductItemSkeleton";
 
 export default function Products() {
   const { homePageQuery, setHomePageQuery } = useAppState();
@@ -94,9 +89,11 @@ export default function Products() {
   const content = useMemo(() => {
     if (status === "loading") {
       return (
-        <Box display="flex" justifyContent="center" p={4}>
-          <CircularProgress />
-        </Box>
+        <Grid2 container spacing={3}>
+          {Array.from({ length: 6 }).map((_, idx) => (
+            <ProductItemSkeleton key={`product-skeleton-${idx}`} index={idx} />
+          ))}
+        </Grid2>
       );
     }
     if (status === "error") {
