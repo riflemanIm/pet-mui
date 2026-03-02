@@ -115,6 +115,7 @@ export default function IndexProducts() {
               minWidth: "auto",
               px: 2,
               py: 1,
+              alignSelf: "flex-end",
               zIndex: 100,
               bgcolor: "rgba(255,255,255,0.92)",
               color: "text.primary",
